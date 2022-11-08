@@ -1,6 +1,6 @@
 ﻿namespace BloodBankLibrary.Core.Model
 {
-    internal enum Gender
+    public enum Gender
     {
         MALE,
         FEMALE,

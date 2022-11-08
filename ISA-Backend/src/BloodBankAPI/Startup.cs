@@ -32,8 +32,10 @@ namespace BloodBankAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GraphicalEditor", Version = "v1" });
             });
 
-            services.AddScoped<IRoomService, RoomService>();
-            services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IBloodCenterService, BloodCenterService>();
+            services.AddScoped<IBloodCenterRepository, BloodCenterRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

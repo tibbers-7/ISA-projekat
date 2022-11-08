@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BloodBankLibrary.Core.Model
 {
-    class User
+    public class User
     {
         UserType userType;
         int idOfCenter;

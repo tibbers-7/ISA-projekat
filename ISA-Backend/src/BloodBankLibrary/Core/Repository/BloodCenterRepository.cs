@@ -6,34 +6,34 @@ using System.Linq;
 
 namespace BloodBankLibrary.Core.Repository
 {
-    public class RoomRepository : IRoomRepository
+    public class BloodCenterRepository : IBloodCenterRepository
     {
         private readonly BloodBankDbContext _context;
 
-        public RoomRepository(BloodBankDbContext context)
+        public BloodCenterRepository(BloodBankDbContext context)
         {
             _context = context;
         }
 
-        public IEnumerable<Room> GetAll()
+        public IEnumerable<BloodCenter> GetAll()
         {
-            return _context.Rooms.ToList();
+            return _context.BloodCenters.ToList();
         }
 
-        public Room GetById(int id)
+        public BloodCenter GetById(int id)
         {
-            return _context.Rooms.Find(id);
+            return _context.BloodCenters.Find(id);
         }
 
-        public void Create(Room room)
+        public void Create(BloodCenter bloodCenter)
         {
-            _context.Rooms.Add(room);
+            _context.BloodCenters.Add(bloodCenter);
             _context.SaveChanges();
         }
 
-        public void Update(Room room)
+        public void Update(BloodCenter bloodCenter)
         {
-            _context.Entry(room).State = EntityState.Modified;
+            _context.Entry(bloodCenter).State = EntityState.Modified;
 
             try
             {
@@ -45,9 +45,9 @@ namespace BloodBankLibrary.Core.Repository
             }
         }
 
-        public void Delete(Room room)
+        public void Delete(BloodCenter bloodCenter)
         {
-            _context.Rooms.Remove(room);
+            _context.BloodCenters.Remove(bloodCenter);
             _context.SaveChanges();
         }
     }

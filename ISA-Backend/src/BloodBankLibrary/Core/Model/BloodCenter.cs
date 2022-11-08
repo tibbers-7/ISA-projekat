@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BloodBankLibrary.Core.Model
 {
-    class BloodCenter
+    public class BloodCenter
     {
         string name;
         int id;

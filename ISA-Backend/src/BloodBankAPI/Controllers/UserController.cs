@@ -6,85 +6,85 @@ namespace BloodBankAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoomsController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly IRoomService _roomService;
+        private readonly IUserService _userService;
 
-        public RoomsController(IRoomService roomService)
+        public UserController(IUserService userService)
         {
-            _roomService = roomService;
+            _userService = userService;
         }
 
-        // GET: api/rooms
+        // GET: api/users
         [HttpGet]
         public ActionResult GetAll()
         {
-            return Ok(_roomService.GetAll());
+            return Ok(_userService.GetAll());
         }
 
-        // GET api/rooms/2
+        // GET api/users/2
         [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
-            var room = _roomService.GetById(id);
-            if (room == null)
+            var user = _userService.GetById(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return Ok(room);
+            return Ok(user);
         }
 
-        // POST api/rooms
+        // POST api/users
         [HttpPost]
-        public ActionResult Create(Room room)
+        public ActionResult Create(User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _roomService.Create(room);
-            return CreatedAtAction("GetById", new { id = room.Id }, room);
+            _userService.Create(user);
+            return CreatedAtAction("GetById", new { id = user.Id }, user);
         }
 
-        // PUT api/rooms/2
+        // PUT api/users/2
         [HttpPut("{id}")]
-        public ActionResult Update(int id, Room room)
+        public ActionResult Update(int id, User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != room.Id)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
 
             try
             {
-                _roomService.Update(room);
+                _userService.Update(user);
             }
             catch
             {
                 return BadRequest();
             }
 
-            return Ok(room);
+            return Ok(user);
         }
 
-        // DELETE api/rooms/2
+        // DELETE api/users/2
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var room = _roomService.GetById(id);
-            if (room == null)
+            var user = _userService.GetById(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            _roomService.Delete(room);
+            _userService.Delete(user);
             return NoContent();
         }
     }

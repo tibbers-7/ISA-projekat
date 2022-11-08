@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BloodBankLibrary.Core.Model
 {
-    enum UserType
+    public enum UserType
     {
         DONOR,
         STAFF,

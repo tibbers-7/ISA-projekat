@@ -2,7 +2,7 @@
 
 namespace BloodBankLibrary.Core.Model
 {
-    internal class Appointment
+    public class Appointment
     {
         int staffId;
         DateTime date;
