@@ -1,0 +1,14 @@
+<table class="fl-table" cellspacing="0">
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Description</th>
+      <th>Average score</th>
+    </tr>
+    <tr *ngFor="let center of centers">
+      <td>{{center.name}}</td>
+      <td>{{center.adress}}</td>
+      <td>{{center.description}}</td>
+      <td>{{center.avgScore}}</td>
+    </tr>
+  </table>

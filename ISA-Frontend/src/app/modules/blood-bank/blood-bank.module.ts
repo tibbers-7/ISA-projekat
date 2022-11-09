@@ -6,16 +6,19 @@ import { MaterialModule } from "src/app/material/material.module";
 import { BloodCenterProfileComponent } from "./blood-center-profile/blood-center-profile.component";
 
 import { RegistrationComponent } from './registration/registration/registration.component';
+import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
 
 const routes: Routes = [
-  { path: 'blood-centers/k', component: BloodCenterProfileComponent}
+  { path: 'blood-centers/k', component: BloodCenterProfileComponent},
+  {path:'register',component:RegistrationComponent}
   
 ];
 
 @NgModule({
   declarations: [
     BloodCenterProfileComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    CentersListComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +29,8 @@ const routes: Routes = [
   ],
   exports: [ 
     RouterModule,
-    RegistrationComponent
+    RegistrationComponent,
+    CentersListComponent
    ]
 })
 
