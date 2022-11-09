@@ -349,6 +349,5 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 ISA-Frontend/.angular/cache/14.2.3/babel-webpack/038e1163ec64fc8649ee7074b5be2737.json
-*.json
 *.pack
 *.old
