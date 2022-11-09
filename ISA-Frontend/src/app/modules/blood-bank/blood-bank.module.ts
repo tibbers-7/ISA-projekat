@@ -8,8 +8,7 @@ import { BloodCenterProfileComponent } from "./blood-center-profile/blood-center
 import { RegistrationComponent } from './registration/registration/registration.component';
 
 const routes: Routes = [
-  { path: 'blood-centers/:id', component: BloodCenterProfileComponent},
-  
+  { path: 'blood-centers/k', component: BloodCenterProfileComponent}
   
 ];
 
