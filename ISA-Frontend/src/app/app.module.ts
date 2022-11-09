@@ -7,6 +7,7 @@ import { MaterialModule } from "./material/material.module";
 import { BloodBankModule } from "./modules/blood-bank/blood-bank.module";
 import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     MaterialModule,
     PagesModule,
-    BloodBankModule
+    BloodBankModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

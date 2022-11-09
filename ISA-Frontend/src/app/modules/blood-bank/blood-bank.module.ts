@@ -8,13 +8,15 @@ import { BloodCenterProfileComponent } from "./blood-center-profile/blood-center
 import { RegistrationComponent } from './registration/registration/registration.component';
 
 const routes: Routes = [
-  { path: 'blood-centers/:id', component: BloodCenterProfileComponent}
+  { path: 'blood-centers/:id', component: BloodCenterProfileComponent},
+  
   
 ];
 
 @NgModule({
   declarations: [
-    BloodCenterProfileComponent
+    BloodCenterProfileComponent,
+    RegistrationComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,10 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  exports: [ RouterModule ]
+  exports: [ 
+    RouterModule,
+    RegistrationComponent
+   ]
 })
 
 export class BloodBankModule { }

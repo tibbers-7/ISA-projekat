@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/modules/blood-bank/model/user.model';
+import { UserService } from 'src/app/modules/blood-bank/services/user.service';
+
 
 @Component({
-  selector: 'app-registration',
+  selector: 'registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor() { }
+  public user=new User();
+
+  constructor(private userService:UserService) { }
 
   ngOnInit(): void {
+
   }
 
 }
