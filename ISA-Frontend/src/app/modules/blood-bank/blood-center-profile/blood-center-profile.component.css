@@ -14,7 +14,6 @@
 
 p {
     margin: 40px 20px 20px 20px;
-   
 }
 
 .mat-card {
@@ -24,6 +23,7 @@ p {
   margin-bottom: 20px;
   padding: 40px;
   background-color: lightgoldenrodyellow;
+  border: #DCD6CC 1px solid;
 }
 
 .container {

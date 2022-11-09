@@ -9,7 +9,7 @@ import { BloodCenterService } from 'src/app/modules/blood-bank/services/blood-ce
   styleUrls: ['./blood-center-profile.component.css']
 })
 export class BloodCenterProfileComponent {
-
+  
   public center: BloodCenter | undefined;
 
   constructor(private bloodCenterService: BloodCenterService, private route: ActivatedRoute) { }
