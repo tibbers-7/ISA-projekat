@@ -5,6 +5,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { MaterialModule } from "src/app/material/material.module";
 import { BloodCenterProfileComponent } from "./blood-center-profile/blood-center-profile.component";
 
+import { RegistrationComponent } from './registration/registration/registration.component';
 
 const routes: Routes = [
   { path: 'blood-centers/:id', component: BloodCenterProfileComponent}
