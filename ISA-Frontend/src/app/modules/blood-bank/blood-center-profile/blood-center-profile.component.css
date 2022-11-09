@@ -1,18 +1,32 @@
 .mat-card-title{
-    font-size: 40px;
-    padding: 10px 10px 10px 10px;
+    font-size: 60px;
+    padding-top: 30px;
+    padding-bottom:30px;
 }
 
-.mat-card-content{
-    font-size: 20px;
+.mat-card-content {
+  font-size: 25px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+
 }
 
-.mat-card{
-    margin:auto;
-    padding: 20px 20px 20px 20px;
+p {
+    margin: 40px 20px 20px 20px;
+   
+}
+
+.mat-card {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  padding: 40px;
+  background-color: lightgoldenrodyellow;
 }
 
 .container {
   display: flex;
-  padding: 20px 20px 20px 20px;
+  
 }
