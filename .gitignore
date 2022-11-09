@@ -353,3 +353,5 @@ ISA-Frontend/.angular/cache/14.2.3/babel-webpack/038e1163ec64fc8649ee7074b5be273
 *.old
 
 /.angular/cache
+.angular/cached/
+.angular/cache/
