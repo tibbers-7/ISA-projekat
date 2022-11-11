@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/modules/blood-bank/model/user.model';
-import { UserService } from 'src/app/modules/blood-bank/services/user.service';
+import { User } from '../../model/user.model';
+import { UserService } from '../../services/user.service';
 
 
 @Component({

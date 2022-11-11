@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { BloodCenter } from 'src/app/modules/blood-bank/model/blood-center.model';
-import { BloodCenterService } from 'src/app/modules/blood-bank/services/blood-center.service';
-
+import { BloodCenter } from '../model/blood-center.model';
+import { BloodCenterService } from '../services/blood-center.service';
 @Component({
   selector: 'app-blood-center-profile',
   templateUrl: './blood-center-profile.component.html',
@@ -20,5 +19,7 @@ export class BloodCenterProfileComponent {
         this.center = res;
       })
     });
+
+    
   }
 }

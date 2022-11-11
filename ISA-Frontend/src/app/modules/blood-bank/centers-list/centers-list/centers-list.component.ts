@@ -22,7 +22,7 @@ export class CentersListComponent implements OnInit {
     });
 
     const centersCopy = [...this.centers]; 
-    this.centers.sort((a, b) => (
+    this.centers.sort((b,a) => (
     // your sort logic
     a.avgScore - b.avgScore // example : order by id
 
