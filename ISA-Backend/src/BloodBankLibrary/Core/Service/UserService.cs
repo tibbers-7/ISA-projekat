@@ -22,6 +22,13 @@ namespace BloodBankLibrary.Core.Service
         {
             return _userRepository.GetById(id);
         }
+        public User GetByEmail(string email)
+        {
+            foreach(User u in _userRepository.GetAll())
+                if (u.Email == email)
+                    return u;
+             return null;
+        }
 
         public void Create(User user)
         {
