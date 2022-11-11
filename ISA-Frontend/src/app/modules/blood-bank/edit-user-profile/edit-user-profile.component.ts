@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute, Params } from '@angular/router';
-import { User } from 'src/app/modules/blood-bank/model/user.model';
-import { UserService } from 'src/app/modules/blood-bank/services/user.service';
+import { User } from '../model/user.model';
+import { UserService } from '../services/user.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -24,7 +24,8 @@ export class EditUserProfileComponent {
     });
   }
   edit(): void {
-    this.userService.updateUser(this.user);
-    this.router.navigate(['/user-profile/{id}', { id: this.route.snapshot.paramMap.get('id') }]);
+    this.userService.updateUser(this.user).subscribe(res => {
+      this.router.navigate(['/user-profile/{id}', { id: this.route.snapshot.paramMap.get('id') }]);
+    });
   }
 }
