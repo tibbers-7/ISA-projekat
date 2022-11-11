@@ -6,6 +6,7 @@ import { MaterialModule } from "src/app/material/material.module";
 import { BloodCenterProfileComponent } from "./blood-center-profile/blood-center-profile.component";
 import { RegistrationComponent } from './registration/registration/registration.component';
 import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
+import { BloodDonorFormComponent } from './bloodDonor-form/blood-donor-form/blood-donor-form.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
@@ -24,6 +25,8 @@ const routes: Routes = [
     RegistrationComponent,
     CentersListComponent,
     UserProfileComponent
+    CentersListComponent,
+    BloodDonorFormComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +40,8 @@ const routes: Routes = [
     RegistrationComponent,
     CentersListComponent,
     UserProfileComponent
+    CentersListComponent,
+    BloodDonorFormComponent
    ]
 })
 
