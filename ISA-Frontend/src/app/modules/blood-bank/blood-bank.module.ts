@@ -6,11 +6,13 @@ import { MaterialModule } from "src/app/material/material.module";
 import { BloodCenterProfileComponent } from "./blood-center-profile/blood-center-profile.component";
 import { RegistrationComponent } from './registration/registration/registration.component';
 import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
 
   { path: 'blood-centers/k', component: BloodCenterProfileComponent},
-  {path:'register',component:RegistrationComponent}
+  { path: 'register', component: RegistrationComponent },
+  { path: 'user-profile/k', component: UserProfileComponent }
 
   
   
@@ -20,7 +22,8 @@ const routes: Routes = [
   declarations: [
     BloodCenterProfileComponent,
     RegistrationComponent,
-    CentersListComponent
+    CentersListComponent,
+    UserProfileComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +35,8 @@ const routes: Routes = [
   exports: [ 
     RouterModule,
     RegistrationComponent,
-    CentersListComponent
+    CentersListComponent,
+    UserProfileComponent
    ]
 })
 
