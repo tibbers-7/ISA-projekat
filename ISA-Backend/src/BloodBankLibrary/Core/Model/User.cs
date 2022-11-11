@@ -8,6 +8,7 @@ namespace BloodBankLibrary.Core.Model
 {
     public class User
     {
+
         UserType userType;
         int idOfCenter;
         int id;
@@ -124,6 +125,10 @@ namespace BloodBankLibrary.Core.Model
             this.gender = builder.gender;
             this.profession = builder.profession;
             this.workplace = builder.workplace;
+        }
+
+        public User()
+        {
         }
 
         public int IdOfCenter { get => idOfCenter; set => idOfCenter = value; }
