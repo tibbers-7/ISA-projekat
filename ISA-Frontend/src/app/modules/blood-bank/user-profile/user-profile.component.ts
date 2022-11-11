@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
 import { User } from 'src/app/modules/blood-bank/model/user.model';
 import { UserService } from 'src/app/modules/blood-bank/services/user.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -12,7 +12,7 @@ export class UserProfileComponent {
   
   public user: User | undefined;
 
-  constructor(private userService: UserService, private route: ActivatedRoute) { }
+  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -20,5 +20,8 @@ export class UserProfileComponent {
         this.user = res;
       })
     });
+  }
+  goToEditPage() {
+    this.router.navigate(['/edit-user-profile/{id}', { id: this.route.snapshot.paramMap.get('id')}]);
   }
 }
