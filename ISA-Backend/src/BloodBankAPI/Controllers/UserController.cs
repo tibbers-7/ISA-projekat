@@ -1,13 +1,16 @@
 ﻿using BloodBankLibrary.Core.Model;
 using BloodBankLibrary.Core.Service;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.Eventing.Reader;
 
 namespace BloodBankAPI.Controllers
 {
+    IHttpSessionState session;
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
+
         private readonly IUserService _userService;
 
         public UserController(IUserService userService)
@@ -32,6 +35,19 @@ namespace BloodBankAPI.Controllers
                 return NotFound();
             }
 
+            return Ok(user);
+        }
+        
+        // POST api/users/2
+        [HttpPost("{email}")]
+        public ActionResult Login(User user)
+        {
+            var loggedUser = _userService.GetByEmail(user.Email);
+            if (loggedUser == null)
+                return NotFound();
+            if(user.Password!=loggedUser.Password)
+                return Unauthorized();
+            Session("loggedUser") = loggedUser;
             return Ok(user);
         }
 
