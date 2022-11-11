@@ -11,16 +11,23 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class CentersListComponent implements OnInit {
 
-  public dataSource = new MatTableDataSource<BloodCenter>();
-
+  
   public centers: BloodCenter[] = [];
 
   constructor(private bloodService:BloodCenterService) { }
 
   ngOnInit(): void {
     this.bloodService.getCenters().subscribe(res => {
-      this.dataSource.data = this.centers;
+      this.centers = res;
     });
+
+    const centersCopy = [...this.centers]; 
+    this.centers.sort((a, b) => (
+    // your sort logic
+    a.avgScore - b.avgScore // example : order by id
+
+  ));
   }
+  
 
 }

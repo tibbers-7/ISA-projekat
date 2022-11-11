@@ -14,11 +14,11 @@ export class BloodCenterService {
   constructor(private http: HttpClient) { }
 
   getCenters(): Observable<BloodCenter[]> {
-    return this.http.get<BloodCenter[]>(this.apiHost + 'api/bloodCenters', { headers: this.headers });
+    return this.http.get<BloodCenter[]>(this.apiHost + 'api/BloodCenter', { headers: this.headers });
   }
 
   getCenter(id: number): Observable<BloodCenter> {
-    return this.http.get<BloodCenter>(this.apiHost + 'api/bloodCenters/' + id, { headers: this.headers });
+    return this.http.get<BloodCenter>(this.apiHost + 'api/BloodCenter/' + id, { headers: this.headers });
   }
 
 
