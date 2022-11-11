@@ -9,11 +9,14 @@ import { CentersListComponent } from './centers-list/centers-list/centers-list.c
 import { BloodDonorFormComponent } from './bloodDonor-form/blood-donor-form/blood-donor-form.component';
 import { CenterRegisterComponent } from './center-register/center-register/center-register.component';
 import { UserProfileComponent } from "./user-profile/user-profile.component";
+import { EditUserProfileComponent } from './edit-user-profile/edit-user-profile.component';
+
 const routes: Routes = [
 
   { path: 'blood-centers/k', component: BloodCenterProfileComponent},
   { path: 'register', component: RegistrationComponent },
-  { path: 'user-profile/k', component: UserProfileComponent }
+  { path: 'user-profile/:id', component: UserProfileComponent },
+  { path: 'edit-user-profile/:id', component: EditUserProfileComponent }
 
   
   
@@ -26,7 +29,8 @@ const routes: Routes = [
     CentersListComponent,
     UserProfileComponent,
     BloodDonorFormComponent,
-    CenterRegisterComponent
+    CenterRegisterComponent,
+    EditUserProfileComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +44,8 @@ const routes: Routes = [
     RegistrationComponent,
     CentersListComponent,
     UserProfileComponent,
-    BloodDonorFormComponent
+    BloodDonorFormComponent,
+    EditUserProfileComponent
    ]
 })
 
