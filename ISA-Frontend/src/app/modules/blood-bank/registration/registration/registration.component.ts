@@ -18,4 +18,23 @@ export class RegistrationComponent implements OnInit {
 
   }
 
+  post()  {
+    if (!this.checkValidity()) {
+      console.log("Missing parameters!");
+      return;
+    }
+
+    this.userService.createUser(this.user).subscribe(res => {
+      // dodati toast
+    });
+  }
+
+  checkValidity(){
+    if(this.user.email==='' || this.user.adress==='' || this.user.gender==='' 
+      || this.user.jmbg==='' || this.user.name==='' || this.user.password===''
+      || this.user.phoneNumber==='' || this.user.workplace==='') 
+      return false;
+
+    return true;
+  }
 }

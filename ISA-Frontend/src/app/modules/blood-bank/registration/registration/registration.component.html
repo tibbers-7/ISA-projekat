@@ -37,6 +37,14 @@
         <tr>
           <td align="center">
             <div class="row">
+              <p class="block">Workplace:</p>
+              <input type="text" name="adress" class="block" [(ngModel)]="user.workplace">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <div class="row">
               <p class="block">Phone number:</p>
               <input type="text" name="number" class="block" [(ngModel)]="user.phoneNumber">
             </div>
@@ -56,7 +64,7 @@
   
         <tr>
           <td align="center">
-            <button class="btn" >Create account</button>
+            <button class="btn" (click)="post()" >Create account</button>
           </td>
         </tr>
       </table>
