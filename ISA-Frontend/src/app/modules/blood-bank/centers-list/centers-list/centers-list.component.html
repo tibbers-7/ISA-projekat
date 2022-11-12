@@ -1,5 +1,15 @@
 
- 
+ <label style="font-size: large; background-color: whitesmoke; margin-left: 20%;"> Minimalna ocena: </label>  
+  <select [(ngModel)]="filterScore" class="select-filter" (change)="filterByScore($event)">
+      <option value="1" (change)="filterByScore($event)">1</option>
+      <option value="2" (change)="filterByScore($event)">2</option>
+      <option value="3" (change)="filterByScore($event)">3</option>
+      <option value="4" (change)="filterByScore($event)">4</option>
+  </select>
+  <label style="font-size: large; background-color: whitesmoke; margin-left: 20%;"> Grad: </label>  
+  <select [(ngModel)]="filterCity" class="select-filter" (click)="loadCities($event)"(change)="filterByCity($event)">
+    <option *ngFor="let city of cities">{{city}}</option>
+  </select>
  <input type="text" class="input-search" placeholder="Search" [(ngModel)]="searchText" (keyup)="applySearch($event)">
 
 

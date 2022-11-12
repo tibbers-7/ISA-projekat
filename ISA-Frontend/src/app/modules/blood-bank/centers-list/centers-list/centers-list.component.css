@@ -119,6 +119,19 @@
     padding-right: 40px;
     color:#4a4a4a;
   }
+  .select-filter{
+    margin-top:2%;
+    margin-right:50%;
+    height: 20px;
+    width: 200px;
+    border-style: none;
+    font-size: 15px;
+    outline: none;
+    border-radius: 25px;
+    transition: all .5s ease-in-out;
+    background-color: #dcdcdc;
+    color:#4a4a4a;
+  }
   .input-search::placeholder{
     color:#979797;
     font-size: 15px;
