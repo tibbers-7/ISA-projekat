@@ -10,11 +10,11 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="cell-user"> Address </th>
         <td mat-cell *matCellDef="let user" class="cell-center">{{user.adress}}</td>
     </ng-container>
-    <ng-container matColumnDef="description">
+    <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="cell-user"> Description </th>
       <td mat-cell *matCellDef="let user" class="cell-center">{{user.email}}</td>
    </ng-container>
-   <ng-container matColumnDef="avgScore">
+   <ng-container matColumnDef="phoneNumber">
     <th mat-header-cell *matHeaderCellDef mat-sort-header class="cell-user"> Average score </th>
     <td mat-cell *matCellDef="let user" class="cell-center">{{user.phoneNumber}}</td>
   </ng-container>
