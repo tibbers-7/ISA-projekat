@@ -10,6 +10,7 @@ import { BloodDonorFormComponent } from './bloodDonor-form/blood-donor-form/bloo
 import { CenterRegisterComponent } from './center-register/center-register/center-register.component';
 import { UserProfileComponent } from "./user-profile/user-profile.component";
 import { EditUserProfileComponent } from './edit-user-profile/edit-user-profile.component';
+import { UserListComponent } from './user-list/user-list.component';
 import {MatSortModule} from '@angular/material/sort';
 
 const routes: Routes = [
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'blood-centers/k', component: BloodCenterProfileComponent},
   { path: 'register', component: RegistrationComponent },
   { path: 'user-profile/:id', component: UserProfileComponent },
-  { path: 'edit-user-profile/:id', component: EditUserProfileComponent }
+  { path: 'edit-user-profile/:id', component: EditUserProfileComponent },
+  { path: 'user-list', component: UserListComponent }
 
   
   
@@ -31,7 +33,8 @@ const routes: Routes = [
     UserProfileComponent,
     BloodDonorFormComponent,
     CenterRegisterComponent,
-    EditUserProfileComponent
+    EditUserProfileComponent,
+    UserListComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +50,8 @@ const routes: Routes = [
     CentersListComponent,
     UserProfileComponent,
     BloodDonorFormComponent,
-    EditUserProfileComponent
+    EditUserProfileComponent,
+    UserListComponent
    ]
 })
 
