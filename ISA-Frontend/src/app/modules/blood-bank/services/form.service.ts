@@ -6,7 +6,7 @@ import { Form } from '../model/form.model';
 @Injectable({
   providedIn: 'root'
 })
-export class QuestionService {
+export class FormService {
 
   apiHost: string = 'http://localhost:16177/';
   headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -24,7 +24,7 @@ export class QuestionService {
     return this.http.post<any>(this.apiHost + 'api/Form', form, { headers: this.headers });
   }
 
-  updateUser(form: any): Observable<any> {
+  updateForm(form: any): Observable<any> {
     
     return this.http.put<any>(this.apiHost + 'api/Form/' + form.donorId, form, { headers: this.headers });
   }
