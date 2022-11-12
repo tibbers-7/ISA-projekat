@@ -52,7 +52,8 @@ const routes: Routes = [
     BloodDonorFormComponent,
     EditUserProfileComponent,
     UserListComponent,
-    BloodDonorFormComponent
+    BloodDonorFormComponent,
+    CenterRegisterComponent
    ]
 })
 

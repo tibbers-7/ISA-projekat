@@ -1,6 +1,6 @@
 
 <body>
-    <h3>Registration</h3>
+    <h3>Register center</h3>
       <form id="formlogin">
         <table class="login_container">
           <tr>
@@ -27,9 +27,20 @@
               </div>
             </td>
           </tr>
+        
+        <tr>
+          <td align="center">
+            <div class="row">
+              <p class="block">Admin:</p>
+              <select >
+                <option *ngFor="let admin of admins">{{admin.name}}</option>
+              </select>
+            </div>
+          </td>
+        </tr>
          <tr>
             <td align="center">
-              <button class="btn" (click)="post()" >Create account</button>
+              <button class="btn" (click)="post()" >Register center</button>
             </td>
           </tr>
         </table>

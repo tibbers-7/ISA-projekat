@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { BloodBankModule } from '../blood-bank/blood-bank.module';
 import { RouterModule, Routes } from "@angular/router";
 import { DonorFormComponent } from './donor-form/donor-form/donor-form.component';
+import { AdminNewCenterComponent } from './admin-new-center/admin-new-center/admin-new-center.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
   declarations: [
     HomeComponent,
     DonorFormComponent,
+    AdminNewCenterComponent,
   ],
   imports: [
     CommonModule,

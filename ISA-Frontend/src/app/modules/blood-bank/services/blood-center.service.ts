@@ -20,6 +20,9 @@ export class BloodCenterService {
   getCenter(id: number): Observable<BloodCenter> {
     return this.http.get<BloodCenter>(this.apiHost + 'api/BloodCenter/' + id, { headers: this.headers });
   }
+  createCenter(bloodCenter: any): Observable<any> {
+    return this.http.post<any>(this.apiHost + 'api/BloodCenter', bloodCenter, { headers: this.headers });
+  }
 
 
 }
