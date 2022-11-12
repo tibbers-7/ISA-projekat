@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BloodBankLibrary.Core.Repository
 {
-    internal class FormRepository : IFormRepository
+    public class FormRepository : IFormRepository
     {
         private readonly BloodBankDbContext _context;
         public FormRepository(BloodBankDbContext context)
@@ -21,6 +21,7 @@ namespace BloodBankLibrary.Core.Repository
             _context.Forms.Add(form);
             _context.SaveChanges();
         }
+
 
         public IEnumerable<Form> GetAll()
         {

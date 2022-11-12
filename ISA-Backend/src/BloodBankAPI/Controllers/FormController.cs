@@ -45,7 +45,7 @@ namespace BloodBankAPI.Controllers
             }
 
             _formService.Create(form);
-            return CreatedAtAction("GetById", new { id = form.DonorId }, form);
+            return CreatedAtAction("GetById", new { id = form.Id }, form);
         }
 
         // PUT api/bloodCenters/2
@@ -57,7 +57,7 @@ namespace BloodBankAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != form.DonorId)
+            if (id != form.Id)
             {
                 return BadRequest();
             }

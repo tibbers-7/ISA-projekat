@@ -27,25 +27,26 @@ export class BloodDonorFormComponent implements OnInit {
     this.form.donorId=this.donorId;
     this.questions.forEach(element => {
       this.form.questionIds.push(element.id);
-      this.form.answers.push(element.checked);
+      if(element.checked===undefined) this.form.answers.push(false);
+      else this.form.answers.push(element.checked);
     });
 
-    this.formService.getForm(this.form.donorId).subscribe(res=>{
-      if (res===null){
-        this.formService.createForm(this.form).subscribe(res => {
-          console.log('created form!');
-        });
-      }
-      else {
-        this.formService.updateForm(this.form).subscribe(res => {
-          console.log('updated form!');
-        });
-      }
-    })
+    console.log(this.form.questionIds,this.form.answers);
 
     
-
-    
+   this.formService.getForm(this.form.donorId).subscribe(res=>{
+      this.form.id=res.id;
+      this.formService.updateForm(this.form).subscribe(res => {
+        console.log('updated form!');
+      });
+    },
+    error=>{
+      this.formService.createForm(this.form).subscribe(res => {
+        console.log('created form!');
+      });
+    });
+     
   }
 
 }
+

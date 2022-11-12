@@ -4,14 +4,17 @@ import { AppRoutingModule } from 'app/app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { BloodBankModule } from '../blood-bank/blood-bank.module';
 import { RouterModule, Routes } from "@angular/router";
+import { DonorFormComponent } from './donor-form/donor-form/donor-form.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent }
+  { path: '', component: HomeComponent },
+  {path:'form', component:DonorFormComponent}
 ];
 @NgModule({
   declarations: [
     HomeComponent,
+    DonorFormComponent,
   ],
   imports: [
     CommonModule,

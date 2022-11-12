@@ -26,7 +26,7 @@ export class FormService {
 
   updateForm(form: any): Observable<any> {
     
-    return this.http.put<any>(this.apiHost + 'api/Form/' + form.donorId, form, { headers: this.headers });
+    return this.http.put<any>(this.apiHost + 'api/Form/' + form.id, form, { headers: this.headers });
   }
 
 }
