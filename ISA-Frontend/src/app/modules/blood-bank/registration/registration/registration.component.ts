@@ -25,7 +25,7 @@ export class RegistrationComponent implements OnInit {
     }
 
     this.userService.createUser(this.user).subscribe(res => {
-      // dodati toast
+      console.log("created user!");
     });
   }
 

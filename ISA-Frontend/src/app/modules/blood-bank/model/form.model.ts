@@ -1,7 +1,7 @@
 export class Form {
     donorId:number=0;
-    questionIds: string[] = [];
-    answers: string[]=[];
+    questionIds: number[] = [];
+    answers: boolean[]=[];
   
     public constructor(obj?: any) {
       if (obj) {
