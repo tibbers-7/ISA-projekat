@@ -5,7 +5,8 @@
     font-weight: normal;
     border: none;
     border-collapse: collapse;
-    width: 100%;
+    width: 70%;
+    margin-left:15%;
     max-width: 100%;
     white-space: nowrap;
     background-color: white;

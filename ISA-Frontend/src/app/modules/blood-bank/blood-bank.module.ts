@@ -10,6 +10,7 @@ import { BloodDonorFormComponent } from './bloodDonor-form/blood-donor-form/bloo
 import { CenterRegisterComponent } from './center-register/center-register/center-register.component';
 import { UserProfileComponent } from "./user-profile/user-profile.component";
 import { EditUserProfileComponent } from './edit-user-profile/edit-user-profile.component';
+import {MatSortModule} from '@angular/material/sort';
 
 const routes: Routes = [
 
@@ -37,7 +38,8 @@ const routes: Routes = [
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    MatSortModule
   ],
   exports: [ 
     RouterModule,
