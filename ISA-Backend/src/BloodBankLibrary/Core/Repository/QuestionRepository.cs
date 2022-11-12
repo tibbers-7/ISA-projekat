@@ -17,17 +17,6 @@ namespace BloodBankLibrary.Core.Repository
         {
             _context = context;
         }
-        public void Create(Question question)
-        {
-            _context.Questions.Add(question);
-            _context.SaveChanges();
-        }
-
-        public void Delete(Question question)
-        {
-            _context.Questions.Remove(question);
-            _context.SaveChanges();
-        }
 
         public IEnumerable<Question> GetAll()
         {
@@ -39,18 +28,5 @@ namespace BloodBankLibrary.Core.Repository
             return _context.Questions.Find(id);
         }
 
-        public void Update(Question question)
-        {
-            _context.Entry(question).State = EntityState.Modified;
-
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
-            }
-        }
     }
 }
