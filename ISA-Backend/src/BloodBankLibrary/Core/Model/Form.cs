@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BloodBankLibrary.Core.Model
+{
+    public class Form
+    {
+        private int donorId;
+        private int[] questionIds;
+        private bool[] answers;
+
+        public int DonorId { get { return donorId; } set { donorId = value; } }
+        public bool[] Answers { get { return answers; } set { answers = value; } }
+        public int[] QuestionIds { get { return questionIds; } set { questionIds = value; } }
+
+        public Form()
+        {
+
+        }
+
+        public Form(int donorId,int[] questionIds,bool[] answers)
+        {
+            this.donorId = donorId;
+            this.questionIds = questionIds;
+            this.answers = answers;
+        }
+    }
+}

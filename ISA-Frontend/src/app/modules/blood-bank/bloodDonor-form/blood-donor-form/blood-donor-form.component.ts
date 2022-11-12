@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Question } from '../../model/question.model';
+import {QuestionService} from '../../services/question.service'
 
 @Component({
   selector: 'blood-donor-form',
@@ -7,17 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BloodDonorFormComponent implements OnInit {
 
-  public questions=[
-    {text:"Have you ever volountarily donated blood or blood components?", checked:false},
-    {text:"Have you ever been rejected as a blood donor?", checked:false},
-    {text:"Do you currently feel healthy and rested enough to donate blood?", checked:false},
-    {text:"Have you eaten anything prior to your arrival to donate blood?", checked:false},
+  public questions: Question[]=[];
 
-
-  ]
-  constructor() { }
+  constructor(private questionService:QuestionService) { }
 
   ngOnInit(): void {
+    this.questionService.getQuestions().subscribe(res => {
+      this.questions = res;
+    });
   }
 
   sendForm(){
