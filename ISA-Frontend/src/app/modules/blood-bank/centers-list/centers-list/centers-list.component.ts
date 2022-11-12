@@ -26,14 +26,6 @@ export class CentersListComponent implements OnInit {
       this.dataSource.data = this.centers;
       this.dataSource.sort = this.empTbSort;
     });
-
-
-    const centersCopy = [...this.centers]; 
-    this.centers.sort((b,a) => (
-    // your sort logic
-    a.avgScore - b.avgScore // example : order by id
-
-  ));
   }
   
 
