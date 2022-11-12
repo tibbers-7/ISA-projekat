@@ -14,9 +14,10 @@ export class CentersListComponent implements OnInit {
 
   @ViewChild('empTbSort') empTbSort = new MatSort();
   public centers: BloodCenter[] = [];
-
+  public searchText: any= "";
   public dataSource = new MatTableDataSource<BloodCenter>();
   public displayedColumns = ['name','adress','description','avgScore'];
+  
 
   constructor(private bloodService:BloodCenterService) { }
 
@@ -25,6 +26,9 @@ export class CentersListComponent implements OnInit {
       this.centers = res;
       this.dataSource.data = this.centers;
       this.dataSource.sort = this.empTbSort;
+      this.dataSource.filterPredicate = function (centers,filter) {
+        return centers.name.toLocaleLowerCase() == filter.toLocaleLowerCase() ||  centers.adress.toLocaleLowerCase() == filter.toLocaleLowerCase();
+      }
     });
 
 
@@ -32,8 +36,13 @@ export class CentersListComponent implements OnInit {
     this.centers.sort((b,a) => (
     // your sort logic
     a.avgScore - b.avgScore // example : order by id
-
+    
   ));
+  
+  }
+  applySearch(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   
 
