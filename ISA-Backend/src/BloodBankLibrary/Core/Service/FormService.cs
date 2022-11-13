@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BloodBankLibrary.Core.Service
 {
-    internal class FormService : IFormService
+    public class FormService : IFormService
     {
         private readonly IFormRepository _formRepository;
         public FormService(IFormRepository formRepository)

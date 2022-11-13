@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace BloodBankLibrary.Core.Model
 {
     public class Form
     {
+        [Key]
         private int id;
         private int donorId;
         private int[] questionIds;

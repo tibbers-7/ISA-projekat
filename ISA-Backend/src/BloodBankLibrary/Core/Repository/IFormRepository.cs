@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BloodBankLibrary.Core.Repository
 {
-    internal interface IFormRepository
+    public interface IFormRepository
     {
         IEnumerable<Form> GetAll();
         Form GetById(int id);

@@ -36,6 +36,10 @@ namespace BloodBankAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBloodCenterService, BloodCenterService>();
             services.AddScoped<IBloodCenterRepository, BloodCenterRepository>();
+            services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IFormService, FormService>();
+            services.AddScoped<IFormRepository, FormRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

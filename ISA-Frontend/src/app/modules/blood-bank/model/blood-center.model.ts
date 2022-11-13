@@ -6,7 +6,6 @@ export class BloodCenter {
   adress: string = '';
   description: string = ' ';
   avgScore: number = 0;
-  listOfStaff: Staff[] = [];
 
   public constructor(obj?: any) {
     if (obj) {
