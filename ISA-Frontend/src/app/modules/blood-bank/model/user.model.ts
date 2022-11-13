@@ -6,7 +6,10 @@ export class User {
     phoneNumber:string='';
     gender:string='';
     jmbg:string='';
+    profession:string='';
     workplace:string='';
+    userType:string='';
+    idOfCenter:number=0;
 
 
   
@@ -21,7 +24,9 @@ export class User {
         this.gender = obj.gender;
         this.jmbg = obj.jmbg;
         this.workplace = obj.workplace;
-
+        this.idOfCenter = obj.idOfCenter;
+        this.profession = obj.profession;
+        this.userType = obj.userType;
       }
     }
   }
