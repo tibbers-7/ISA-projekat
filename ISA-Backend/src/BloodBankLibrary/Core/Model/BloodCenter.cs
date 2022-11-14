@@ -13,8 +13,7 @@ namespace BloodBankLibrary.Core.Model
         string adress;
         string description;
         float avgScore;
-        List<Appointment> appointments;
-
+       
         public BloodCenter()
         {
         }
@@ -26,7 +25,7 @@ namespace BloodBankLibrary.Core.Model
             this.adress = adress;
             this.description = description;
             this.avgScore = avgScore;
-            this.appointments = appointments;
+            
         }
 
         public string Name { get => name; set => name = value; }
@@ -34,6 +33,5 @@ namespace BloodBankLibrary.Core.Model
         public string Adress { get => adress; set => adress = value; }
         public string Description { get => description; set => description = value; }
         public float AvgScore { get => avgScore; set => avgScore = value; }
-        public List<Appointment> Appointments { get => appointments; set => appointments = value; }
     }
 }

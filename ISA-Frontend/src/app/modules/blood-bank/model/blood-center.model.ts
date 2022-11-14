@@ -1,4 +1,5 @@
 import { Staff } from "./staff.model";
+import { Appointment } from "./appointment.model";
 
 export class BloodCenter {
   name: string = '';
@@ -6,6 +7,9 @@ export class BloodCenter {
   adress: string = '';
   description: string = ' ';
   avgScore: number = 0;
+  appointments: Appointment[] = [];
+  staff: Staff[] = [];
+
 
   public constructor(obj?: any) {
     if (obj) {

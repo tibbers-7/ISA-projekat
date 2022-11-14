@@ -14,10 +14,7 @@ export class StaffProfileComponent {
   constructor(private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.userService.getStaffById(params['id']).subscribe(res => {
-        this.staff = res;
-      })
+   
     });
 
 
