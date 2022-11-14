@@ -30,6 +30,22 @@ namespace BloodBankLibrary.Core.Service
              return null;
         }
 
+        public ICollection<User> GetStaffByCenterId(int id)
+        {
+            IEnumerable<User> users = _userRepository.GetAll();
+            List<User> staff = new List<User>();
+            foreach(User u in users)
+            {
+                if(u.UserType == UserType.STAFF && u.IdOfCenter == id)
+                {
+                    staff.Add(u);
+                }
+            }
+
+            return staff;
+
+        }
+
         public void Create(User user)
         {
             _userRepository.Create(user);
