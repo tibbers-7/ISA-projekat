@@ -33,4 +33,8 @@ export class UserService {
     return this.http.put<any>(this.apiHost + 'api/User/' + user.id, user, { headers: this.headers });
   }
 
+  getStaffByCenter(centerId: number): Observable<User[]> {
+    return this.http.get<User[]>(this.apiHost + 'api/User/center-' + centerId + '-staff', { headers: this.headers });
+  }
+
 }

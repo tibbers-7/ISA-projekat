@@ -87,7 +87,8 @@ namespace BloodBankAPI.Controllers
             return NoContent();
         }
 
-        [HttpGet("{center-id}")]
+
+        [HttpGet("center-{center-id}")]
         public ActionResult GetByCenterId (int centerId)
         {
             var appointments = _appointmentService.GetByCenterId(centerId);
@@ -98,7 +99,7 @@ namespace BloodBankAPI.Controllers
             return Ok(appointments);
         }
 
-        [HttpGet("{staff-id}")]
+        [HttpGet("staff-{staff-id}")]
         public ActionResult GetByStaffId(int staffId)
         {
             var appointments = _appointmentService.GetByStaffId(staffId);
