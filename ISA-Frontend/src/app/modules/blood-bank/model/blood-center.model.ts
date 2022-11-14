@@ -1,5 +1,5 @@
-import { Staff } from "./staff.model";
 import { Appointment } from "./appointment.model";
+import { User } from "./user.model";
 
 export class BloodCenter {
   name: string = '';
@@ -8,7 +8,7 @@ export class BloodCenter {
   description: string = ' ';
   avgScore: number = 0;
   appointments: Appointment[] = [];
-  staff: Staff[] = [];
+  staff: User[] = [];
 
 
   public constructor(obj?: any) {

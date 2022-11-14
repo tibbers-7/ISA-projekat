@@ -12,16 +12,19 @@ import { UserProfileComponent } from "./user-profile/user-profile.component";
 import { EditUserProfileComponent } from './edit-user-profile/edit-user-profile.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { StaffRegistrationComponent } from './staff-registration/staff-registration.component';
-import {MatSortModule} from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
+import { StaffProfileComponent } from './staff-profile/staff-profile.component';
+import { EditStaffProfileComponent } from "./edit-staff-profile/edit-staff-profile.component";
 
 const routes: Routes = [
-
-  { path: 'blood-centers/k', component: BloodCenterProfileComponent},
   { path: 'register', component: RegistrationComponent },
   { path: 'user-profile/:id', component: UserProfileComponent },
   { path: 'edit-user-profile/:id', component: EditUserProfileComponent },
   { path: 'user-list', component: UserListComponent },
   { path: 'staff-register', component: StaffRegistrationComponent },
+  { path: 'staff/:id/profile', component: StaffProfileComponent },
+  { path: 'staff/:id/center', component: BloodCenterProfileComponent },
+  { path: 'staff/:id/edit-profile', component: EditStaffProfileComponent }
 
   
   
@@ -37,7 +40,9 @@ const routes: Routes = [
     CenterRegisterComponent,
     EditUserProfileComponent,
     UserListComponent,
-    StaffRegistrationComponent
+    StaffRegistrationComponent,
+    StaffProfileComponent,
+    EditStaffProfileComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +62,9 @@ const routes: Routes = [
     UserListComponent,
     BloodDonorFormComponent,
     CenterRegisterComponent,
-    StaffRegistrationComponent
+    StaffRegistrationComponent,
+    StaffProfileComponent,
+    EditStaffProfileComponent
    ]
 })
 

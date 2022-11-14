@@ -7,8 +7,8 @@ import { AdminNewCenterComponent } from "./modules/pages/admin-new-center/admin-
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {path:'form', component:DonorFormComponent},
-  {path:'admin-register', component:AdminNewCenterComponent}
-
+  { path: 'admin-register', component: AdminNewCenterComponent }
+  
 ];
 
 @NgModule({

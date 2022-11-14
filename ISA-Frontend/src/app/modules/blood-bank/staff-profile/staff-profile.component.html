@@ -3,8 +3,17 @@
     <mat-card-title>Staff info: {{staff?.name}}</mat-card-title>
     <mat-card-content>
       <p> Name: {{staff?.name}}</p>
+      <p> Password: {{staff?.password}}</p>
       <p> Email: {{staff?.email}}</p>
       <p> Adress: {{staff?.adress}}</p>
+      <p> phoneNumber: {{staff?.phoneNumber}}</p>
     </mat-card-content>
   </mat-card>
+
+  <button class="edit-button" mat-raised-button (click)="editStaffProfile()">
+    Edit information
+  </button>
 </div>
+
+  
+   
