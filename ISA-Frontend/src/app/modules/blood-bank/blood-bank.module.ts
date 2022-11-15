@@ -15,6 +15,7 @@ import { StaffRegistrationComponent } from './staff-registration/staff-registrat
 import { MatSortModule } from '@angular/material/sort';
 import { StaffProfileComponent } from './staff-profile/staff-profile.component';
 import { EditStaffProfileComponent } from "./edit-staff-profile/edit-staff-profile.component";
+import { BloodCenterEditComponent } from "./blood-center-edit/blood-center-edit.component";
 
 const routes: Routes = [
   { path: 'register', component: RegistrationComponent },
@@ -24,7 +25,8 @@ const routes: Routes = [
   { path: 'staff-register', component: StaffRegistrationComponent },
   { path: 'staff/:id/profile', component: StaffProfileComponent },
   { path: 'staff/:id/center', component: BloodCenterProfileComponent },
-  { path: 'staff/:id/edit-profile', component: EditStaffProfileComponent }
+  { path: 'staff/:id/edit-profile', component: EditStaffProfileComponent },
+  { path: 'staff/:id/edit-center', component: BloodCenterEditComponent }
 
   
   
@@ -42,7 +44,8 @@ const routes: Routes = [
     UserListComponent,
     StaffRegistrationComponent,
     StaffProfileComponent,
-    EditStaffProfileComponent
+    EditStaffProfileComponent,
+    BloodCenterEditComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +67,8 @@ const routes: Routes = [
     CenterRegisterComponent,
     StaffRegistrationComponent,
     StaffProfileComponent,
-    EditStaffProfileComponent
+    EditStaffProfileComponent,
+    BloodCenterEditComponent
    ]
 })
 
