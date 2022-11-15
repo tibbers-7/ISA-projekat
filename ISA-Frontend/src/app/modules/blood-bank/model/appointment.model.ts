@@ -15,5 +15,7 @@ export class Appointment {
       this.duration = obj.duration;
       this.date = obj.date;
     }
+
+
   }
 }

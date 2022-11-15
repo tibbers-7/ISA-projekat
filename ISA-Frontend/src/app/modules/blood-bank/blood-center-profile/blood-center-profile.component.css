@@ -5,7 +5,7 @@
 }
 
 .mat-card-content {
-  font-size: 25px;
+  font-size: 20px;
   padding-top: 30px;
   padding-bottom: 30px;
 
@@ -19,14 +19,57 @@ p {
 .mat-card {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 50px;
   margin-bottom: 20px;
-  padding: 40px;
   background-color: lightgoldenrodyellow;
   border: #DCD6CC 1px solid;
 }
 
 .container {
   display: flex;
-  
+  margin-left: 20%;
+  margin-right: 20%;
 }
+
+.personal-info{
+    margin-left: auto;
+    margin-right:auto;
+}
+
+.edit-button {
+  padding: 10px 10px 10px 10px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  border: 20px;
+  font-size: 18px;
+  border-radius: 8px;
+}
+.tables {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+th {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.cell-center {
+  text-align: center;
+  font-size: 22 px;
+}
+
+.table-title {
+  padding-bottom: 20px;
+  padding-top: 30px;
+  padding-left: 20px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  background-color: lightgray;
+}
+

@@ -7,6 +7,7 @@ import { UserService } from '../services/user.service';
 import { AppointmentService } from '../services/appointment.service';
 import { Appointment } from '../model/appointment.model';
 import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-blood-center-profile',
@@ -14,7 +15,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./blood-center-profile.component.css']
 })
 export class BloodCenterProfileComponent {
-  
+
+  public dataSourceStaff = new MatTableDataSource<User>();
+  public displayedColumnsStaff = ['name', 'email', 'adress','phoneNumber'];
+  public dataSourceAppointments = new MatTableDataSource<Appointment>();
+  public displayedColumnsAppointments = ['date', 'duration'];
   public center: BloodCenter | undefined;
   public staff: User | undefined;
   public allStaff: User[] = [];
@@ -39,7 +44,12 @@ export class BloodCenterProfileComponent {
         this.allAppointments = res;
         this.center!.appointments = this.allAppointments;
       });
+
+      //ubaciti ime staff u svaki appointment
     });
+
+    this.dataSourceAppointments.data = this.center!.appointments;
+    this.dataSourceStaff.data = this.center!.staff;
 
   }
   editBloodCenter() {
