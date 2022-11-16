@@ -17,10 +17,8 @@ export class BloodCenterEditComponent implements OnInit {
 
   public center: BloodCenter | undefined;
   public staff: User | undefined;
-  public allStaff: User[] = [];
-  public allAppointments: Appointment[] = [];
-
-  constructor(private userService: UserService, private appointmentService: AppointmentService, private bloodCenterService: BloodCenterService, private route: ActivatedRoute, private router: Router) { }
+ 
+  constructor(private userService: UserService, private bloodCenterService: BloodCenterService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -31,14 +29,7 @@ export class BloodCenterEditComponent implements OnInit {
       this.bloodCenterService.getCenter(this.staff!.idOfCenter).subscribe(res => {
         this.center = res;
       });
-      this.userService.getStaffByCenter(this.center!.id).subscribe(res => {
-        this.allStaff = res;
-        this.center!.staff = this.allStaff;
-      });
-      this.appointmentService.getByCenter(this.center!.id).subscribe(res => {
-        this.allAppointments = res;
-        this.center!.appointments = this.allAppointments;
-      });
+      
     });
 
   }
