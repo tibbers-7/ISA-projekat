@@ -1,5 +1,6 @@
 ﻿using BloodBankLibrary.Core.Model;
 using BloodBankLibrary.Core.Repository;
+using System;
 using System.Collections.Generic;
 
 namespace BloodBankLibrary.Core.Service
@@ -36,10 +37,12 @@ namespace BloodBankLibrary.Core.Service
             List<User> staff = new List<User>();
             foreach(User u in users)
             {
-                if(u.UserType == UserType.STAFF && u.IdOfCenter == id)
+
+                if (u.IdOfCenter == id)
                 {
                     staff.Add(u);
                 }
+                
             }
 
             return staff;

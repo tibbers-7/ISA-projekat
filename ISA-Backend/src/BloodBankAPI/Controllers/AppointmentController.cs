@@ -9,6 +9,7 @@ namespace BloodBankAPI.Controllers
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;
+
         public AppointmentController(IAppointmentService appointmentService)
         {
             _appointmentService = appointmentService;
@@ -88,7 +89,7 @@ namespace BloodBankAPI.Controllers
         }
 
 
-        [HttpGet("center-{center-id}")]
+        [HttpGet("center-{centerId}")]
         public ActionResult GetByCenterId (int centerId)
         {
             var appointments = _appointmentService.GetByCenterId(centerId);
@@ -99,7 +100,7 @@ namespace BloodBankAPI.Controllers
             return Ok(appointments);
         }
 
-        [HttpGet("staff-{staff-id}")]
+        [HttpGet("staff-{staffId}")]
         public ActionResult GetByStaffId(int staffId)
         {
             var appointments = _appointmentService.GetByStaffId(staffId);

@@ -6,7 +6,7 @@ namespace BloodBankLibrary.Core.Service
     public interface IUserService
     {
         IEnumerable<User> GetAll();
-        ICollection<User> GetStaffByCenterId(int id);
+        ICollection<User> GetStaffByCenterId(int centerId);
         User GetById(int id);
         void Create(User user);
         void Update(User user);

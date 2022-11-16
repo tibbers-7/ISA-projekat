@@ -25,11 +25,11 @@ export class BloodCenterEditComponent implements OnInit {
 
       this.userService.getUser(params['id']).subscribe(res => {
         this.staff = res;
+        this.bloodCenterService.getCenter(res.idOfCenter).subscribe(res1 => {
+          this.center = res1;
+        });
       });
-      this.bloodCenterService.getCenter(this.staff!.idOfCenter).subscribe(res => {
-        this.center = res;
-      });
-      
+
     });
 
   }
@@ -37,7 +37,7 @@ export class BloodCenterEditComponent implements OnInit {
   public updateCenter(): void {
     if (!this.isValidInput()) return;
     this.bloodCenterService.updateCenter(this.center).subscribe(res => {
-      this.router.navigate(['staff/{id}/center']);
+      this.router.navigate(['staff/{id}/center', { id: this.staff?.id }]);
     });
   }
 

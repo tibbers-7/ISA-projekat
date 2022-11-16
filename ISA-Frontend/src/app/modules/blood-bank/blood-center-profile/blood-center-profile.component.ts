@@ -16,43 +16,40 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class BloodCenterProfileComponent {
 
-  public dataSourceStaff = new MatTableDataSource<User>();
-  public displayedColumnsStaff = ['name', 'email', 'adress','phoneNumber'];
-  public dataSourceAppointments = new MatTableDataSource<Appointment>();
-  public displayedColumnsAppointments = ['date', 'duration'];
   public center: BloodCenter | undefined;
   public staff: User | undefined;
   public allStaff: User[] = [];
   public allAppointments: Appointment[] = [];
+  public dataSourceStaff = new MatTableDataSource<User>();
+  public displayedColumnsStaff = ['name', 'email', 'adress', 'phoneNumber'];
+  public dataSourceAppointments = new MatTableDataSource<Appointment>();
+  public displayedColumnsAppointments = ['date', 'duration'];
+
 
   constructor(private bloodCenterService: BloodCenterService, private userService: UserService, private appointmentService: AppointmentService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-
       this.userService.getUser(params['id']).subscribe(res => {
         this.staff = res;
+        this.bloodCenterService.getCenter(res.idOfCenter).subscribe(res1 => {
+          this.center = res1;
+          this.userService.getStaffByCenter(res1.id).subscribe(res2 => {
+            this.allStaff = res2;
+            console.log(res2);
+            this.dataSourceStaff.data = this.allStaff;
+          });
+          this.appointmentService.getByCenter(res1.id).subscribe(res3 => {
+            this.allAppointments = res3;
+            this.dataSourceAppointments.data = this.allAppointments;
+          });
+        });
       });
-      this.bloodCenterService.getCenter(this.staff!.idOfCenter).subscribe(res => {
-        this.center = res;
-      });
-      this.userService.getStaffByCenter(this.center!.id).subscribe(res => {
-        this.allStaff = res;
-        this.center!.staff = this.allStaff;
-      });
-      this.appointmentService.getByCenter(this.center!.id).subscribe(res => {
-        this.allAppointments = res;
-        this.center!.appointments = this.allAppointments;
-      });
-
-      //ubaciti ime staff u svaki appointment
+     
     });
-
-    this.dataSourceAppointments.data = this.center!.appointments;
-    this.dataSourceStaff.data = this.center!.staff;
 
   }
   editBloodCenter() {
-    this.router.navigate(['staff/{id}/edit-center', { id: this.route.snapshot.paramMap.get('id') }]);
+    this.router.navigate(['staff/{id}/edit-center', { id: this.staff?.id }]);
   }
 }

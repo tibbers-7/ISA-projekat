@@ -38,7 +38,7 @@ namespace BloodBankAPI.Controllers
         }
         
         // GET api/users/center-3-staff
-        [HttpGet("center-{center-id}-staff")]
+        [HttpGet("center-{centerId}-staff")]
         public ActionResult GetStaffByCenterId(int centerId)
         {
             var staff = _userService.GetStaffByCenterId(centerId);

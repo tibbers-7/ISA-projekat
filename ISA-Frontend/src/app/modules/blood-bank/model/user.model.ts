@@ -1,4 +1,5 @@
 export class User {
+    id: number = 0;
     email: string = '';
     password:string='';
     name:string='';
@@ -17,7 +18,7 @@ export class User {
       if (obj) {
         this.email = obj.email;
         this.password = obj.password;
-
+        this.id = obj.id;
         this.name = obj.name;
         this.adress = obj.adress;
         this.phoneNumber = obj.phoneNumber;
@@ -30,4 +31,3 @@ export class User {
       }
     }
   }
-  

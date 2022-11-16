@@ -26,7 +26,7 @@ export class EditStaffProfileComponent implements OnInit {
   public updateStaff(): void {
     if (!this.isValidInput()) return;
     this.userService.updateUser(this.staff).subscribe(res => {
-      this.router.navigate(['staff/{id}/profile']);
+      this.router.navigate(['staff/{id}/profile', { id: this.staff?.id }]);
     });
   }
 
