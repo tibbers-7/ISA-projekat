@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,11 @@ namespace BloodBankLibrary.Core.Model
 {
     public class User
     {
-
+        [Key]
+        int id;
         UserType userType;
         int idOfCenter;
-        int id;
+        
         string email;
         string password;
         string name;
