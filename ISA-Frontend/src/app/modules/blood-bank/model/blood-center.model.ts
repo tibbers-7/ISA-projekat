@@ -1,5 +1,3 @@
-import { Appointment } from "./appointment.model";
-import { User } from "./user.model";
 
 export class BloodCenter {
   name: string = '';
@@ -7,9 +5,7 @@ export class BloodCenter {
   adress: string = '';
   description: string = ' ';
   avgScore: number = 0;
-  appointments: Appointment[] = [];
-  staff: User[] = [];
-
+  
 
   public constructor(obj?: any) {
     if (obj) {

@@ -30,7 +30,7 @@ export class StaffRegistrationComponent implements OnInit {
       return;
     }
     this.user.userType='STAFF';
-    this.user.profession='staff';
+    this.user.profession='STAFF';
     this.userService.createUser(this.user).subscribe(res => {
       console.log("created user!");
     });

@@ -26,7 +26,10 @@ const routes: Routes = [
   { path: 'staff/:id/profile', component: StaffProfileComponent },
   { path: 'staff/:id/center', component: BloodCenterProfileComponent },
   { path: 'staff/:id/edit-profile', component: EditStaffProfileComponent },
-  { path: 'staff/:id/edit-center', component: BloodCenterEditComponent }
+  { path: 'staff/:id/edit-center', component: BloodCenterEditComponent },
+  { path: 'center-register', component: CenterRegisterComponent },
+  { path: 'center-list', component: CentersListComponent }
+
 
   
   
@@ -55,7 +58,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatSortModule
   ],
-  exports: [ 
+  exports: [
+    BloodCenterProfileComponent,
     RouterModule,
     RegistrationComponent,
     CentersListComponent,

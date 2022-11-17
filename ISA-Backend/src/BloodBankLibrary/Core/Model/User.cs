@@ -20,23 +20,26 @@ namespace BloodBankLibrary.Core.Model
         string adress;
         string phoneNumber;
         string jmbg;
-        Gender gender;
         string profession;
         string workplace;
+        string userType;
+        string gender;
+
         public class UserBuilder
         {
-            public UserType userType;
+            
             public int id;
+            public int idOfCenter;
             public string email;
             public string password;
             public string name;
             public string adress;
             public string phoneNumber;
             public string jmbg;
-            public Gender gender;
             public string profession;
             public string workplace;
-            public int idOfCenter;
+            public string userType;
+            public string gender;
 
             public UserBuilder IDOfCenter(int idOfCenter)
             {
@@ -56,7 +59,7 @@ namespace BloodBankLibrary.Core.Model
                 return this;
             }
 
-            public UserBuilder Gender(Gender gender)
+            public UserBuilder Gender(string gender)
             {
                 this.gender = gender;
                 return this;
@@ -80,7 +83,15 @@ namespace BloodBankLibrary.Core.Model
                 return this;
             }
 
-            public UserBuilder UserTemplate(UserType userType, int id, string email, string password, string name)
+            public UserBuilder UserType(string userType)
+            {
+                this.userType = userType;
+                return this;
+            }
+
+            
+
+            public UserBuilder UserTemplate(string userType, int id, string email, string password, string name)
             {
                 this.userType = userType;
                 this.id = id;
@@ -96,9 +107,9 @@ namespace BloodBankLibrary.Core.Model
                 return user;
             }
         }
-        public User(UserType userType, int idOfCenter, int id, string email,
+        public User(string userType, int idOfCenter, int id, string email,
             string password, string name, string adress, string phoneNumber, 
-            string jmbg, Gender gender, string profession, string workplace)
+            string jmbg, string gender, string profession, string workplace)
         {
             this.userType = userType;
             this.idOfCenter = idOfCenter;
@@ -133,8 +144,8 @@ namespace BloodBankLibrary.Core.Model
         {
         }
 
-        public int IdOfCenter { get => idOfCenter; set => idOfCenter = value; }
         public int Id { get => id; set => id = value; }
+        public int IdOfCenter { get => idOfCenter; set => idOfCenter = value; }
         public string Email { get => email; set => email = value; }
         public string Password { get => password; set => password = value; }
         public string Name { get => name; set => name = value; }
@@ -143,7 +154,7 @@ namespace BloodBankLibrary.Core.Model
         public string Jmbg { get => jmbg; set => jmbg = value; }
         public string Profession { get => profession; set => profession = value; }
         public string Workplace { get => workplace; set => workplace = value; }
-        internal UserType UserType { get => userType; set => userType = value; }
-        internal Gender Gender { get => gender; set => gender = value; }
+        public string UserType { get => userType; set => userType = value; }
+        public string Gender { get => gender; set => gender = value; }
     }
 }
