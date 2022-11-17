@@ -9,18 +9,20 @@ import { BloodCenterService } from '../../services/blood-center.service';
 })
 export class CenterRegisterComponent implements OnInit {
 
-  public bloodCenter=new BloodCenter();
+  public bloodCenter =new BloodCenter();
   public admins=[
     {name:'admin1'},
     {name:'admin2'},
-    {name:'admin3'}
+    {name: 'admin3'}
   ]
   constructor(private bloodCenterService:BloodCenterService) { }
 
   ngOnInit(): void {
   }
 
-  post(){
+  post() {
+
+    this.bloodCenter.avgScore = 0.0;
     this.bloodCenterService.createCenter(this.bloodCenter).subscribe(res => {
       console.log("created center!");
     });

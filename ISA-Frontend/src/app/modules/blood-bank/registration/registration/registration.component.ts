@@ -23,7 +23,7 @@ export class RegistrationComponent implements OnInit {
       console.log("Missing parameters!");
       return;
     }
-
+    this.user.userType = "DONOR";
     this.userService.createUser(this.user).subscribe(res => {
       console.log("created user!");
     });

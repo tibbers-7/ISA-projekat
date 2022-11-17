@@ -38,7 +38,7 @@ namespace BloodBankLibrary.Core.Service
             foreach(User u in users)
             {
 
-                if (u.IdOfCenter == id)
+                if (u.IdOfCenter == id && u.UserType.Equals("STAFF"))
                 {
                     staff.Add(u);
                 }
