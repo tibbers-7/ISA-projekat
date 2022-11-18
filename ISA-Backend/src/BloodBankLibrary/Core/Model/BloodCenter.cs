@@ -18,7 +18,7 @@ namespace BloodBankLibrary.Core.Model
         {
         }
 
-        public BloodCenter(string name, int id, string adressString, string description, float avgScore, List<Appointment> appointments)
+        public BloodCenter(string name, int id, string addressString, string description, float avgScore, List<Appointment> appointments)
         {
             this.name = name;
             this.id = id;
