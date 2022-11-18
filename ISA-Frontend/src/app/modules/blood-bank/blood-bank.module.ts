@@ -2,18 +2,34 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
-import { MaterialModule } from "src/app/material/material.module";
+import { MaterialModule } from "app/material/material.module";
 import { BloodCenterProfileComponent } from "./blood-center-profile/blood-center-profile.component";
 import { RegistrationComponent } from './registration/registration/registration.component';
 import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
 import { BloodDonorFormComponent } from './bloodDonor-form/blood-donor-form/blood-donor-form.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import { CenterRegisterComponent } from './center-register/center-register/center-register.component';
+import { UserProfileComponent } from "./user-profile/user-profile.component";
+import { EditUserProfileComponent } from './edit-user-profile/edit-user-profile.component';
+import { UserListComponent } from './user-list/user-list.component';
+import { StaffRegistrationComponent } from './staff-registration/staff-registration.component';
+import { MatSortModule } from '@angular/material/sort';
+import { StaffProfileComponent } from './staff-profile/staff-profile.component';
+import { EditStaffProfileComponent } from "./edit-staff-profile/edit-staff-profile.component";
+import { BloodCenterEditComponent } from "./blood-center-edit/blood-center-edit.component";
 
 const routes: Routes = [
-
-  { path: 'blood-centers/k', component: BloodCenterProfileComponent},
   { path: 'register', component: RegistrationComponent },
-  { path: 'user-profile/k', component: UserProfileComponent }
+  { path: 'user-profile/:id', component: UserProfileComponent },
+  { path: 'edit-user-profile/:id', component: EditUserProfileComponent },
+  { path: 'user-list', component: UserListComponent },
+  { path: 'staff-register', component: StaffRegistrationComponent },
+  { path: 'staff/:id/profile', component: StaffProfileComponent },
+  { path: 'staff/:id/center', component: BloodCenterProfileComponent },
+  { path: 'staff/:id/edit-profile', component: EditStaffProfileComponent },
+  { path: 'staff/:id/edit-center', component: BloodCenterEditComponent },
+  { path: 'center-register', component: CenterRegisterComponent },
+  { path: 'center-list', component: CentersListComponent }
+
 
   
   
@@ -25,22 +41,38 @@ const routes: Routes = [
     RegistrationComponent,
     CentersListComponent,
     UserProfileComponent,
-    BloodDonorFormComponent
+    BloodDonorFormComponent,
+    CenterRegisterComponent,
+    EditUserProfileComponent,
+    UserListComponent,
+    StaffRegistrationComponent,
+    StaffProfileComponent,
+    EditStaffProfileComponent,
+    BloodCenterEditComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    MatSortModule
   ],
-  exports: [ 
+  exports: [
+    BloodCenterProfileComponent,
     RouterModule,
     RegistrationComponent,
     CentersListComponent,
-    UserProfileComponent
-    CentersListComponent,
-    BloodDonorFormComponent
+    UserProfileComponent,
+    BloodDonorFormComponent,
+    EditUserProfileComponent,
+    UserListComponent,
+    BloodDonorFormComponent,
+    CenterRegisterComponent,
+    StaffRegistrationComponent,
+    StaffProfileComponent,
+    EditStaffProfileComponent,
+    BloodCenterEditComponent
    ]
 })
 

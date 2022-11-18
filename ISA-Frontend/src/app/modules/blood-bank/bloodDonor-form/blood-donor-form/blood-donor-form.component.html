@@ -1,10 +1,12 @@
+<p>Donor id:</p>
+<input type="number" [(ngModel)]="donorId">
 <table class="fl-table" style="width: 70%; margin-left:15%">
     <tr>
-        <th colspan="2">Allergy</th>
+        <th colspan="2">Form questions</th>
       </tr>
       <tr *ngFor="let question of questions">
         <td>{{question.text}}</td>
-        <td><input type="checkbox" value="{{question.text}}" [(ngModel)]="question.checked"></td>
+        <td><input type="checkbox" value="{{question.id}}" [(ngModel)]="question.checked"></td>
         
       </tr>
       <tr >

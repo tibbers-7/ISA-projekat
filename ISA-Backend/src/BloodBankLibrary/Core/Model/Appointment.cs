@@ -4,13 +4,15 @@ namespace BloodBankLibrary.Core.Model
 {
     public class Appointment
     {
+        int id;
         int staffId;
         DateTime date;
         int duration;
         int centerId;
 
-        public Appointment(int staffId, DateTime date, int duration, int centerId)
+        public Appointment(int id, int staffId, DateTime date, int duration, int centerId)
         {
+            this.id = id;
             this.staffId = staffId;
             this.date = date;
             this.duration = duration;
@@ -21,5 +23,6 @@ namespace BloodBankLibrary.Core.Model
         public DateTime Date { get => date; set => date = value; }
         public int Duration { get => duration; set => duration = value; }
         public int CenterId { get => centerId; set => centerId = value; }
+        public int Id { get => id; set => id = value; }
     }
 }

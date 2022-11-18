@@ -1,12 +1,65 @@
 <div class="container">
-<mat-card>
-  <mat-card-title>Blood Center {{center?.name}}</mat-card-title>
-  <mat-card-content>
-    <p> Name: {{center?.name}}</p>
-    <p> Adress: {{center?.adress}}</p>
-    <p> Description: {{center?.description}}</p>
-    <p> Average score: {{center?.avgScore}}</p>
-    <p> List of staff: {{center?.listOfStaff}}</p>
-  </mat-card-content>
-</mat-card>
+  <div class="personal-info">
+  <mat-card>
+    <mat-card-title>Blood Center {{center?.name}}</mat-card-title>
+    <mat-card-content>
+      <p> Name: {{center?.name}}</p>
+      <p> Adress: {{center?.adress}}</p>
+      <p> Description: {{center?.description}}</p>
+      <p> Average score: {{center?.avgScore}}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="button-div">
+    <button class="edit-button" mat-raised-button (click)="editBloodCenter()">
+      Edit information
+    </button>
+  </div>
+  </div>
+
+  <div class="tables">
+
+    <div class="table-header">
+      <p class="table-title">Blood center staff</p>
+    </div>
+    <table mat-table [dataSource]="dataSourceStaff">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="cell-center"> Name </th>
+        <td mat-cell *matCellDef="let staff" class="cell-center">{{staff?.name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef class="cell-center"> E-mail </th>
+        <td mat-cell *matCellDef="let staff" class="cell-center">{{staff?.email}}</td>
+      </ng-container>
+      <ng-container matColumnDef="adress">
+        <th mat-header-cell *matHeaderCellDef class="cell-center"> Adress </th>
+        <td mat-cell *matCellDef="let staff" class="cell-center">{{staff?.adress}}</td>
+      </ng-container>
+      <ng-container matColumnDef="phoneNumber">
+        <th mat-header-cell *matHeaderCellDef class="cell-center"> Phone number </th>
+        <td mat-cell *matCellDef="let staff" class="cell-center">{{staff?.phoneNumber}}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsStaff; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsStaff;"></tr>
+    </table>
+  
+    <div class="table-header">
+      <p class="table-title">Blood center appointments</p>
+    </div>
+    <table mat-table [dataSource]="dataSourceAppointments">
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef class="cell-center"> Date and time </th>
+        <td mat-cell *matCellDef="let appointment" class="cell-center">{{appointment?.date}}</td>
+      </ng-container>
+      <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef class="cell-center"> Duration </th>
+        <td mat-cell *matCellDef="let appointment" class="cell-center">{{appointment?.duration}}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsAppointments; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsAppointments;"></tr>
+    </table>
+  </div>
+
 </div>
+
+

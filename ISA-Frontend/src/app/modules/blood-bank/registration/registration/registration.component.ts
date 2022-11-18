@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/modules/blood-bank/model/user.model';
-import { UserService } from 'src/app/modules/blood-bank/services/user.service';
+import { User } from '../../model/user.model';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -23,9 +23,9 @@ export class RegistrationComponent implements OnInit {
       console.log("Missing parameters!");
       return;
     }
-
+    this.user.userType = "DONOR";
     this.userService.createUser(this.user).subscribe(res => {
-      // dodati toast
+      console.log("created user!");
     });
   }
 

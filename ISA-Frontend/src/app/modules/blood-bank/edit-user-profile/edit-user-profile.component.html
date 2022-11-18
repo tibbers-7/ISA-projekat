@@ -1,0 +1,62 @@
+<body>
+  <h3>Profile info</h3>
+  <form id="formlogin">
+    <table class="login_container">
+      <tr>
+        <td align="center">
+          <div class="row">
+            <p class="block">Email:</p>
+            <input name="email" class="block" type="text" placeholder="{{user?.email}}" [(ngModel)]="user.email"/>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <div class="row">
+            <p class="block">Password:</p>
+            <input name="password" class="block" type="text" placeholder="{{user?.password}}" [(ngModel)]="user.password"/>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <div class="row">
+            <p class="block">Full name:</p>
+            <input name="name" class="block" type="text" placeholder="{{user?.name}}" [(ngModel)]="user.name"/>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <div class="row">
+            <p class="block">Address:</p>
+            <input name="address" class="block" type="text" placeholder="{{user?.adress}}" [(ngModel)]="user.adress"/>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <div class="row">
+            <p class="block">Workplace:</p>
+            <input name="workplace" class="block" type="text" placeholder="{{user?.workplace}}" [(ngModel)]="user.workplace"/>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <div class="row">
+            <p class="block">Phone number:</p>
+            <input name="phoneNumber" class="block" type="text" placeholder="{{user?.phoneNumber}}" [(ngModel)]="user.phoneNumber"/>
+          </div>
+        </td>
+      </tr>
+     
+
+      <tr>
+        <td align="center">
+          <button class="btn" (click)="edit()" >Apply</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</body>

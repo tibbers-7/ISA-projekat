@@ -13,14 +13,19 @@ namespace BloodBankLibrary.Core.Model
         Address adress;
         string description;
         float avgScore;
+       
+        public BloodCenter()
+        {
+        }
 
-        public BloodCenter(string name, int id, string addressString, string description, float avgScore)
+        public BloodCenter(string name, int id, string adressString, string description, float avgScore, List<Appointment> appointments)
         {
             this.name = name;
             this.id = id;
             this.adress = new Address(addressString);
             this.description = description;
             this.avgScore = avgScore;
+            
         }
 
         public string Name { get => name; set => name = value; }

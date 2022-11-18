@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BloodCenter } from '../../model/blood-center.model';
 import { BloodCenterService } from '../../services/blood-center.service';
 import { MatTableDataSource } from '@angular/material/table';
+import {MatSort, Sort} from '@angular/material/sort';
 
 
 @Component({
@@ -11,23 +12,63 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class CentersListComponent implements OnInit {
 
-  
+  @ViewChild('empTbSort') empTbSort = new MatSort();
   public centers: BloodCenter[] = [];
+  public searchText: any= "";
+  public filterScore: any= "";
+  public filterCity: any="";
+  public dataSource = new MatTableDataSource<BloodCenter>();
+  public cities: string[]=[];
+  public displayedColumns = ['name','adress','description','avgScore'];
+  
 
   constructor(private bloodService:BloodCenterService) { }
 
   ngOnInit(): void {
     this.bloodService.getCenters().subscribe(res => {
       this.centers = res;
+      this.dataSource.data = this.centers;
+      this.dataSource.sort = this.empTbSort;
+      
     });
-
     const centersCopy = [...this.centers]; 
-    this.centers.sort((a, b) => (
+    this.centers.sort((b,a) => (
     // your sort logic
-    a.avgScore - b.avgScore // example : order by id
+    a.avgScore - b.avgScore // example : order by id    
+    ));
 
-  ));
   }
-  
+  loadCities(event: Event)
+  {
+    this.cities=[];
+    this.centers.forEach(element => 
+      {
+        const address=element.adress;
+        const city=address.slice(0,address.indexOf(","));
+        this.cities.push(city);
+      }
+      );
+  }
+  applySearch(event: Event) {
+    this.dataSource.filterPredicate = function (centers,filter) {
+      return centers.name.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase()) ||  centers.adress.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
+    }
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  filterByScore(event: Event) {
+    this.dataSource.filterPredicate = function (centers,filter) {
+      return centers.avgScore > parseFloat(filter);
+    }
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  filterByCity(event: Event) {
+    this.dataSource.filterPredicate = function (centers,filter) {
+      return centers.adress.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase());
+    }
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
 }

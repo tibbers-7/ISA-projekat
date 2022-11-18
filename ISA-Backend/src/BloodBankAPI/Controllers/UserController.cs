@@ -37,6 +37,20 @@ namespace BloodBankAPI.Controllers
             return Ok(user);
         }
         
+        // GET api/users/center-3-staff
+        [HttpGet("center-{centerId}-staff")]
+        public ActionResult GetStaffByCenterId(int centerId)
+        {
+            var staff = _userService.GetStaffByCenterId(centerId);
+            if (staff == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(staff);
+        } 
+
+
         // POST api/users/2
         [HttpPost("{email}")]
         public ActionResult Login(User user)

@@ -1,5 +1,5 @@
 <body>
-  <h3>Login</h3>
+  <h3>Profile info</h3>
   <form id="formlogin">
     <table class="login_container">
       <tr>
@@ -50,18 +50,10 @@
           </div>
         </td>
       </tr>
-      <tr>
-        <td align="center">
-          <div class="row">
-            <p class="block">Gender:</p>
-            <p name="email" class="block">{{user?.gender}}</p>
-          </div>
-        </td>
-      </tr>
 
       <tr>
         <td align="center">
-          <button class="btn" >Edit</button>
+          <button class="btn" (click)="goToEditPage()" >Edit</button>
         </td>
       </tr>
     </table>

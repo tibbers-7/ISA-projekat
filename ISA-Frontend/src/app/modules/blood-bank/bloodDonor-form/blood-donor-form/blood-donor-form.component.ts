@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Form } from '../../model/form.model';
+import { Question } from '../../model/question.model';
+import {QuestionService} from '../../services/question.service'
+import { FormService } from '../../services/form.service';
 
 @Component({
   selector: 'blood-donor-form',
@@ -7,21 +11,42 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BloodDonorFormComponent implements OnInit {
 
-  public questions=[
-    {text:"Have you ever volountarily donated blood or blood components?", checked:false},
-    {text:"Have you ever been rejected as a blood donor?", checked:false},
-    {text:"Do you currently feel healthy and rested enough to donate blood?", checked:false},
-    {text:"Have you eaten anything prior to your arrival to donate blood?", checked:false},
+  public questions: Question[]=[];
+  public form=new Form();
+  public donorId:number=0;
 
-
-  ]
-  constructor() { }
+  constructor(private questionService:QuestionService,private formService:FormService) { }
 
   ngOnInit(): void {
+    this.questionService.getQuestions().subscribe(res => {
+      this.questions = res;
+    });
   }
 
   sendForm(){
+    this.form.donorId=this.donorId;
+    this.questions.forEach(element => {
+      this.form.questionIds.push(element.id);
+      if(element.checked===undefined) this.form.answers.push(false);
+      else this.form.answers.push(element.checked);
+    });
 
+    console.log(this.form.questionIds,this.form.answers);
+
+    
+   this.formService.getForm(this.form.donorId).subscribe(res=>{
+      this.form.id=res.id;
+      this.formService.updateForm(this.form).subscribe(res => {
+        console.log('updated form!');
+      });
+    },
+    error=>{
+      this.formService.createForm(this.form).subscribe(res => {
+        console.log('created form!');
+      });
+    });
+     
   }
 
 }
+

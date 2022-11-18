@@ -1,0 +1,29 @@
+<div class="container" *ngIf="staff">
+  <div class="fields">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="staff.name">
+    </mat-form-field><br>
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput [(ngModel)]="staff.password">
+    </mat-form-field><br>
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="staff.email">
+    </mat-form-field><br>
+    <mat-form-field appearance="fill">
+      <mat-label>Adress</mat-label>
+      <input matInput [(ngModel)]="staff.adress">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Phone number</mat-label>
+      <input matInput [(ngModel)]="staff.phoneNumber">
+    </mat-form-field>
+    <button mat-stroked-button (click)="updateStaff()">
+      Submit
+    </button>
+  </div>
+</div>
+
+

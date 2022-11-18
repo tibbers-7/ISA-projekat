@@ -1,0 +1,39 @@
+.mat-card-title {
+  font-size: 40px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.mat-card-content {
+  font-size: 18px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+p {
+  margin: 40px 20px 20px 20px;
+}
+
+.mat-card {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  padding: 40px;
+  background-color: lightgoldenrodyellow;
+  border: #DCD6CC 1px solid;
+}
+
+.container {
+  display: flex;
+ 
+}
+
+.edit-button{
+    display:flex;
+    margin-left:auto;
+    margin-right:auto;
+    font-size: 18px;
+}
+
+

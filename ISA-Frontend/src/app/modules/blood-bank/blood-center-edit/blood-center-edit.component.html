@@ -1,0 +1,25 @@
+<div class="container" *ngIf="center">
+  <div class="fields">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="center.name">
+    </mat-form-field><br>
+    <mat-form-field appearance="fill">
+      <mat-label>Adress</mat-label>
+      <input matInput [(ngModel)]="center.adress">
+    </mat-form-field><br>
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <input matInput [(ngModel)]="center.description">
+    </mat-form-field><br>
+    <mat-form-field appearance="fill">
+      <mat-label>Average score</mat-label>
+      <input matInput [(ngModel)]="center.avgScore">
+    </mat-form-field>
+    
+    <button mat-stroked-button (click)="updateCenter()">
+      Submit
+    </button>
+  </div>
+</div>
+

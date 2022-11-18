@@ -1,5 +1,6 @@
 ﻿using BloodBankLibrary.Core.Model;
 using BloodBankLibrary.Core.Repository;
+using System;
 using System.Collections.Generic;
 
 namespace BloodBankLibrary.Core.Service
@@ -28,6 +29,24 @@ namespace BloodBankLibrary.Core.Service
                 if (u.Email == email)
                     return u;
              return null;
+        }
+
+        public ICollection<User> GetStaffByCenterId(int id)
+        {
+            IEnumerable<User> users = _userRepository.GetAll();
+            List<User> staff = new List<User>();
+            foreach(User u in users)
+            {
+
+                if (u.IdOfCenter == id && u.UserType.Equals("STAFF"))
+                {
+                    staff.Add(u);
+                }
+                
+            }
+
+            return staff;
+
         }
 
         public void Create(User user)
