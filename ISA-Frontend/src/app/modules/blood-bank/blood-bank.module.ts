@@ -24,8 +24,7 @@ const routes: Routes = [
     BloodCenterProfileComponent,
     RegistrationComponent,
     CentersListComponent,
-    UserProfileComponent
-    CentersListComponent,
+    UserProfileComponent,
     BloodDonorFormComponent
   ],
   imports: [

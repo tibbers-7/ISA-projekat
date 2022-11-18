@@ -10,22 +10,22 @@ namespace BloodBankLibrary.Core.Model
     {
         string name;
         int id;
-        string adress;
+        Address adress;
         string description;
         float avgScore;
 
-        public BloodCenter(string name, int id, string adress, string description, float avgScore)
+        public BloodCenter(string name, int id, string addressString, string description, float avgScore)
         {
             this.name = name;
             this.id = id;
-            this.adress = adress;
+            this.adress = new Address(addressString);
             this.description = description;
             this.avgScore = avgScore;
         }
 
         public string Name { get => name; set => name = value; }
         public int Id { get => id; set => id = value; }
-        public string Adress { get => adress; set => adress = value; }
+        public string Adress { get => adress.ToString(); set => adress = new Address(value); }
         public string Description { get => description; set => description = value; }
         public float AvgScore { get => avgScore; set => avgScore = value; }
     }

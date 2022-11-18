@@ -5,7 +5,6 @@ using System.Diagnostics.Eventing.Reader;
 
 namespace BloodBankAPI.Controllers
 {
-    IHttpSessionState session;
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -47,7 +46,6 @@ namespace BloodBankAPI.Controllers
                 return NotFound();
             if(user.Password!=loggedUser.Password)
                 return Unauthorized();
-            Session("loggedUser") = loggedUser;
             return Ok(user);
         }
 
