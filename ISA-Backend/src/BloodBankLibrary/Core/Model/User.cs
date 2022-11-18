@@ -11,7 +11,6 @@ namespace BloodBankLibrary.Core.Model
     {
         [Key]
         int id;
-        UserType userType;
         int idOfCenter;
         
         string email;
