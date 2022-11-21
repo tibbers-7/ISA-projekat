@@ -19,7 +19,7 @@ export class CentersListComponent implements OnInit {
   public filterCity: any="";
   public dataSource = new MatTableDataSource<BloodCenter>();
   public cities: string[]=[];
-  public displayedColumns = ['name','adress','description','avgScore'];
+  public displayedColumns = ['name','adress','description','avgScore','openHours'];
   
 
   constructor(private bloodService:BloodCenterService) { }
@@ -59,6 +59,13 @@ export class CentersListComponent implements OnInit {
   filterByScore(event: Event) {
     this.dataSource.filterPredicate = function (centers,filter) {
       return centers.avgScore > parseFloat(filter);
+    }
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  filterOpen(event: Event) {
+    this.dataSource.filterPredicate = function (centers,filter) {
+      return parseFloat(centers.openHours.substring(0,2)) > parseFloat(filter) && parseFloat(centers.openHours.substring(6,8)) < parseFloat(filter);
     }
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

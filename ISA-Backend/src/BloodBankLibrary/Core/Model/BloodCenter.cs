@@ -13,6 +13,7 @@ namespace BloodBankLibrary.Core.Model
         Address adress;
         string description;
         float avgScore;
+        string openHours;
        
         public BloodCenter()
         {
@@ -33,5 +34,6 @@ namespace BloodBankLibrary.Core.Model
         public string Adress { get => adress.ToString(); set => adress = new Address(value); }
         public string Description { get => description; set => description = value; }
         public float AvgScore { get => avgScore; set => avgScore = value; }
+        public string OpenHours { get => openHours; set => openHours = value; }
     }
 }
