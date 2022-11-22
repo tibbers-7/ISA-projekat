@@ -36,7 +36,6 @@ export class BloodCenterProfileComponent {
           this.center = res1;
           this.userService.getStaffByCenter(res1.id).subscribe(res2 => {
             this.allStaff = res2;
-            console.log(res2);
             this.dataSourceStaff.data = this.allStaff;
           });
           this.appointmentService.getByCenter(res1.id).subscribe(res3 => {

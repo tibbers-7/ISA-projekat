@@ -62,6 +62,9 @@ namespace BloodBankLibrary.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<string>("OpenHours")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("BloodCenters");
@@ -110,14 +113,17 @@ namespace BloodBankLibrary.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("IdOfCenter")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Adress")
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("text");
+
+                    b.Property<int>("IdOfCenter")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Jmbg")
                         .HasColumnType("text");
@@ -134,13 +140,10 @@ namespace BloodBankLibrary.Migrations
                     b.Property<string>("Profession")
                         .HasColumnType("text");
 
-                    b.Property<string>("Workplace")
-                        .HasColumnType("text");
-
                     b.Property<string>("UserType")
                         .HasColumnType("text");
 
-                    b.Property<string>("Gender")
+                    b.Property<string>("Workplace")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

@@ -12,6 +12,8 @@ namespace BloodBankLibrary.Core.Service
         void Update(User user);
         void Delete(User user);
         User GetByEmail(string email);
+        ICollection<User> GetAllStaff();
+
 
     }
 }

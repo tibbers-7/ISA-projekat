@@ -2,6 +2,7 @@
 using BloodBankLibrary.Core.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BloodBankLibrary.Core.Service
 {
@@ -33,18 +34,8 @@ namespace BloodBankLibrary.Core.Service
 
         public ICollection<User> GetStaffByCenterId(int id)
         {
-            IEnumerable<User> users = _userRepository.GetAll();
-            List<User> staff = new List<User>();
-            foreach(User u in users)
-            {
-
-                if (u.IdOfCenter == id && u.UserType.Equals("STAFF"))
-                {
-                    staff.Add(u);
-                }
-                
-            }
-
+            List<User> staff = GetAllStaff().ToList();
+            staff.RemoveAll(s => s.UserType != "STAFF");
             return staff;
 
         }
@@ -62,6 +53,22 @@ namespace BloodBankLibrary.Core.Service
         public void Delete(User user)
         {
             _userRepository.Delete(user);
+        }
+
+        public ICollection<User> GetAllStaff()
+        {
+            IEnumerable<User> users = _userRepository.GetAll();
+            List<User> staff = new List<User>();
+            foreach (User u in users)
+            {
+                if (u.UserType.Equals("STAFF"))
+                {
+                    staff.Add(u);
+                }
+            }
+
+            return staff;
+
         }
     }
 }

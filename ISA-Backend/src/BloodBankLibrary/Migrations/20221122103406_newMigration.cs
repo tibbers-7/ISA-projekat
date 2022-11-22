@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BloodBankLibrary.Migrations
 {
-    public partial class probna : Migration
+    public partial class newMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,7 +33,8 @@ namespace BloodBankLibrary.Migrations
                     Name = table.Column<string>(type: "text", nullable: true),
                     Adress = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    AvgScore = table.Column<float>(type: "real", nullable: false)
+                    AvgScore = table.Column<float>(type: "real", nullable: false),
+                    OpenHours = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,8 +84,8 @@ namespace BloodBankLibrary.Migrations
                     Jmbg = table.Column<string>(type: "text", nullable: true),
                     Profession = table.Column<string>(type: "text", nullable: true),
                     Workplace = table.Column<string>(type: "text", nullable: true),
-                    UserType = table.Column<string>(type: "text", nullable: true),  
-                    Gender = table.Column<string>(type:"text", nullable:true)
+                    UserType = table.Column<string>(type: "text", nullable: true),
+                    Gender = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -37,4 +37,8 @@ export class UserService {
     return this.http.get<User[]>(this.apiHost + 'api/User/center-' + centerId + '-staff', { headers: this.headers });
   }
 
+  getStaff(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiHost + 'api/User', { headers: this.headers });
+  }
+
 }

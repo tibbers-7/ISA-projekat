@@ -115,5 +115,18 @@ namespace BloodBankAPI.Controllers
             _userService.Delete(user);
             return NoContent();
         }
+
+        [HttpGet("staff")]
+        public ActionResult GetAllStaff()
+        {
+            var staff = _userService.GetAllStaff();
+            if (staff == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(staff);
+        }
+
     }
 }
