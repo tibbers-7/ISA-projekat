@@ -17,6 +17,7 @@ export class CentersListComponent implements OnInit {
   public searchText: any= "";
   public filterScore: any= "";
   public filterCity: any="";
+  public open: any="";
   public dataSource = new MatTableDataSource<BloodCenter>();
   public cities: string[]=[];
   public displayedColumns = ['name','adress','description','avgScore','openHours'];
@@ -44,7 +45,7 @@ export class CentersListComponent implements OnInit {
     this.centers.forEach(element => 
       {
         const address=element.adress;
-        const city=address.slice(0,address.indexOf(","));
+        const city=address.slice(0,address.indexOf(" "));
         this.cities.push(city);
       }
       );
@@ -65,9 +66,13 @@ export class CentersListComponent implements OnInit {
   }
   filterOpen(event: Event) {
     this.dataSource.filterPredicate = function (centers,filter) {
-      return parseFloat(centers.openHours.substring(0,2)) > parseFloat(filter) && parseFloat(centers.openHours.substring(6,8)) < parseFloat(filter);
+      if((event.target as HTMLInputElement).value == 'open')
+        return parseFloat(centers.openHours.substring(0,2)) > parseFloat(filter) && parseFloat(centers.openHours.substring(6,8)) < parseFloat(filter);
+      else
+        return !(parseFloat(centers.openHours.substring(0,2)) > parseFloat(filter) && parseFloat(centers.openHours.substring(6,8)) < parseFloat(filter));
     }
-    const filterValue = (event.target as HTMLInputElement).value;
+    let dateTime = new Date()
+    const filterValue = dateTime.getHours.toString();
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   filterByCity(event: Event) {
