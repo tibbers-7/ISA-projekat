@@ -14,6 +14,8 @@ namespace BloodBankLibrary.Core.Service
         IEnumerable<Appointment> GetCompleted();
         ICollection<Appointment> GetByStaffId(int id);
         ICollection<Appointment> GetByCenterId(int id);
+
+        IEnumerable<BloodCenter> GetCentersForDateTime(string DateTime);
         void Create(Appointment appointment);
         void Update(Appointment appointment);
         void Delete(Appointment appointment);

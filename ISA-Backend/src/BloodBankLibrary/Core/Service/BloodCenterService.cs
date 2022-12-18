@@ -37,5 +37,6 @@ namespace BloodBankLibrary.Core.Service
         {
             _bloodCenterRepository.Delete(bloodCenter);
         }
+
     }
 }

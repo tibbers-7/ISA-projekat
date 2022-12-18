@@ -88,5 +88,7 @@ namespace BloodBankAPI.Controllers
             _bloodCenterService.Delete(bloodCenter);
             return NoContent();
         }
+
+      
     }
 }

@@ -21,8 +21,6 @@ namespace BloodBankLibrary.Core.Model
 
         public UserType UserType { get; set; }
 
-        public StaffCalendar Calendar { get; set;}
-
         public Staff() { }
     }
 }

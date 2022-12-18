@@ -37,14 +37,14 @@ namespace BloodBankAPI.Controllers
 
         
         [HttpPost]
-        public ActionResult Create(AppointmentDTO appointmentDTO)
+        public ActionResult Create(Appointment appointment)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _appointmentService.Create(new Appointment(appointmentDTO));
+            //_appointmentService.Create(new Appointment(appointmentDTO));
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
@@ -86,6 +86,18 @@ namespace BloodBankAPI.Controllers
 
             _appointmentService.Delete(appointment);
             return NoContent();
+        }
+
+
+        [HttpGet("/{dateTime}")]
+        public ActionResult GetCentersForDateTime(string dateTime)
+        {
+            var bloodCenters = _appointmentService.GetCentersForDateTime(dateTime);
+            if (bloodCenters == null)
+            {
+                return NotFound();
+            }
+            return Ok(bloodCenters);
         }
 
 
