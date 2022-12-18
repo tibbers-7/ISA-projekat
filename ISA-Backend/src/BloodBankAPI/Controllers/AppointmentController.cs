@@ -15,14 +15,14 @@ namespace BloodBankAPI.Controllers
             _appointmentService = appointmentService;
         }
 
-        // GET: api/appointments
+       
         [HttpGet]
         public ActionResult GetAll()
         {
             return Ok(_appointmentService.GetAll());
         }
 
-        // GET api/appointments/2
+        
         [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
@@ -35,16 +35,16 @@ namespace BloodBankAPI.Controllers
             return Ok(appointment);
         }
 
-        // POST api/appointment
+        
         [HttpPost]
-        public ActionResult Create(Appointment appointment)
+        public ActionResult Create(AppointmentDTO appointmentDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _appointmentService.Create(appointment);
+            _appointmentService.Create(new Appointment(appointmentDTO));
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
@@ -89,28 +89,7 @@ namespace BloodBankAPI.Controllers
         }
 
 
-        [HttpGet("center-{centerId}")]
-        public ActionResult GetByCenterId (int centerId)
-        {
-            var appointments = _appointmentService.GetByCenterId(centerId);
-            if(appointments == null)
-            {
-                return NotFound();
-            }
-            return Ok(appointments);
-        }
-
-        [HttpGet("staff-{staffId}")]
-        public ActionResult GetByStaffId(int staffId)
-        {
-            var appointments = _appointmentService.GetByStaffId(staffId);
-            if (appointments == null)
-            {
-                return NotFound();
-            }
-            return Ok(appointments);
-        }
-
+       
 
     }
 }

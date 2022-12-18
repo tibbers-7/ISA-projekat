@@ -7,98 +7,99 @@ namespace BloodBankAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class StaffController : ControllerBase
     {
 
-        private readonly IUserService _userService;
+        private readonly IStaffService _staffService;
 
-        public UserController(IUserService userService)
+        public StaffController(IStaffService staffService)
         {
-            _userService = userService;
+            _staffService = staffService;
         }
 
-        // GET: api/users
+        
         [HttpGet]
         public ActionResult GetAll()
         {
-            return Ok(_userService.GetAll());
+            return Ok(_staffService.GetAll());
         }
 
-        // GET api/users/2
+       
         [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
-            var user = _userService.GetById(id);
-            if (user == null)
+            var staff = _staffService.GetById(id);
+            if (staff == null)
             {
                 return NotFound();
             }
 
-            return Ok(user);
-        }
-      
-        // POST api/users/2
-        [HttpPost("{email}")]
-        public ActionResult Login(User user)
-        {
-            var loggedUser = _userService.GetByEmail(user.Email);
-            if (loggedUser == null)
-                return NotFound();
-            if(user.Password!=loggedUser.Password)
-                return Unauthorized();
-            return Ok(user);
+            return Ok(staff);
         }
 
-        // POST api/users
+        
+        [HttpGet("{centerId}/staff")]
+        public ActionResult GetByCenterId(int centerId)
+        {
+            var staff = _staffService.GetByCenterId(centerId);
+            if (staff == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(staff);
+        }
+
+       
         [HttpPost]
-        public ActionResult Create(User user)
+        public ActionResult Create(Staff staff)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _userService.Create(user);
-            return CreatedAtAction("GetById", new { id = user.Id }, user);
+            _staffService.Create(staff);
+            return CreatedAtAction("GetById", new { id = staff.Id }, staff);
         }
 
         // PUT api/users/2
         [HttpPut("{id}")]
-        public ActionResult Update(int id, User user)
+        public ActionResult Update(int id, Staff staff)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != user.Id)
+            if (id != staff.Id)
             {
                 return BadRequest();
             }
 
             try
             {
-                _userService.Update(user);
+                _staffService.Update(staff);
             }
             catch
             {
                 return BadRequest();
             }
 
-            return Ok(user);
+            return Ok(staff);
         }
 
         // DELETE api/users/2
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var user = _userService.GetById(id);
-            if (user == null)
+            var staff = _staffService.GetById(id);
+            if (staff == null)
             {
                 return NotFound();
             }
 
-            _userService.Delete(user);
+            _staffService.Delete(staff);
             return NoContent();
         }
 

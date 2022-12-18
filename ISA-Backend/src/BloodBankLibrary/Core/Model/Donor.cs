@@ -24,6 +24,10 @@ namespace BloodBankLibrary.Core.Model
 
         public UserType userType { get; set; }
 
+
+        //broj penala - nepojavljivanje na pregledu
+        public int Strikes { get; set; }
+
         public Donor() { }
     }
 }
