@@ -32,14 +32,6 @@ namespace BloodBankLibrary.Core.Service
              return null;
         }
 
-        public ICollection<User> GetStaffByCenterId(int id)
-        {
-            List<User> staff = GetAllStaff().ToList();
-            staff.RemoveAll(s => s.UserType != "STAFF");
-            return staff;
-
-        }
-
         public void Create(User user)
         {
             _userRepository.Create(user);
@@ -55,20 +47,5 @@ namespace BloodBankLibrary.Core.Service
             _userRepository.Delete(user);
         }
 
-        public ICollection<User> GetAllStaff()
-        {
-            IEnumerable<User> users = _userRepository.GetAll();
-            List<User> staff = new List<User>();
-            foreach (User u in users)
-            {
-                if (u.UserType.Equals("STAFF"))
-                {
-                    staff.Add(u);
-                }
-            }
-
-            return staff;
-
-        }
     }
 }

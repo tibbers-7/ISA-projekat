@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BloodBankLibrary.Core.Model
+namespace BloodBankLibrary.Core.Model.Enums
 {
     public enum UserType
     {

@@ -1,4 +1,5 @@
 ﻿using BloodBankLibrary.Core.Model;
+using BloodBankLibrary.Core.Model.Enums;
 using BloodBankLibrary.Core.Repository;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,43 @@ namespace BloodBankLibrary.Core.Service
         public IEnumerable<Appointment> GetAll()
         {
             return _appointmentRepository.GetAll();
+        }
+
+        public IEnumerable<Appointment> GetAvailable()
+        {
+            IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
+            //svi koji su available i u buducnosti, mada mozda i neko brisnanje da se napravi za available al ne mora
+            return allAppointments.Where<Appointment>(a => a.Status == AppointmentStatus.AVAILABLE && DateTime.Compare(a.StartDate, DateTime.Now) > 0);
+           
+        }
+
+        public IEnumerable<Appointment> GetScheduled()
+        {
+            IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
+            //svi scheduled koji su u buducnosti ili nsiu jos zavrseni
+            return allAppointments.Where<Appointment>(a => a.Status == AppointmentStatus.SCHEDULED && DateTime.Compare(a.StartDate.AddMinutes(a.Duration), DateTime.Now) >= 0);
+           
+        }
+
+        public IEnumerable<Appointment> GetCancelled()
+        {
+            IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
+            return allAppointments.Where<Appointment>(a => a.Status == AppointmentStatus.CANCELLED);
+          
+        }
+
+        public IEnumerable<Appointment> GetCompleted()
+        {
+            IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
+            
+           return allAppointments.Where<Appointment>(a => a.Status == AppointmentStatus.COMPLETED);
+          
+        }
+
+        public IEnumerable<Appointment> GetScheduledByDonor(int donorId)
+        {
+            IEnumerable<Appointment> allScheduled = GetScheduled();
+            return allScheduled.Where<Appointment>(a => a.DonorId == donorId);
         }
 
         public ICollection<Appointment> GetByCenterId(int id)

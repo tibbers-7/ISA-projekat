@@ -1,4 +1,4 @@
-﻿namespace BloodBankLibrary.Core.Model
+﻿namespace BloodBankLibrary.Core.Model.Enums
 {
     public enum Gender
     {

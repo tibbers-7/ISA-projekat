@@ -7,12 +7,12 @@ using System.Xml.Linq;
 
 namespace BloodBankLibrary.Core.Model
 {
-    internal class Address
+    public class Address
     {
-        String city;
-        String country;
-        String number;
-        String street;
+        private string city;
+        private string country;
+        private string number;
+        private string street;
 
         public Address(string city, string country, string number, string street)
         {
@@ -24,9 +24,9 @@ namespace BloodBankLibrary.Core.Model
         public Address(string addressString)
         {
             String[] strings=addressString.Split(' ');
-            this.city = strings[0];
-            this.street = strings[1];
-            this.number = strings[2];
+            this.city = strings[2];
+            this.street = strings[0];
+            this.number = strings[1];
             this.country = strings[3];
         }
 
@@ -36,7 +36,7 @@ namespace BloodBankLibrary.Core.Model
         public string Street { get => street; set => street = value; }
         public override string ToString()
         {
-            return City + " " + Street + " " + Number + " " + Country;
+            return Street + " " + Number + " " + City + " " + Country;
         }
     }
 }

@@ -7,6 +7,11 @@ namespace BloodBankLibrary.Core.Service
     {
         IEnumerable<Appointment> GetAll();
         Appointment GetById(int id);
+        IEnumerable<Appointment> GetScheduled();
+        IEnumerable<Appointment> GetScheduledByDonor(int donorId);
+        IEnumerable<Appointment> GetAvailable();
+        IEnumerable<Appointment> GetCancelled();
+        IEnumerable<Appointment> GetCompleted();
         ICollection<Appointment> GetByStaffId(int id);
         ICollection<Appointment> GetByCenterId(int id);
         void Create(Appointment appointment);
