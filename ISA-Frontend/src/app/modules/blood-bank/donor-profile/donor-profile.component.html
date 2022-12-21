@@ -6,7 +6,7 @@
         <td align="center">
           <div class="row">
             <p class="block">Email:</p>
-            <input name="email" class="block" type="text" placeholder="{{user?.email}}" [(ngModel)]="user.email"/>
+            <p name="email" class="block">{{donor.email}}</p>
           </div>
         </td>
       </tr>
@@ -14,7 +14,7 @@
         <td align="center">
           <div class="row">
             <p class="block">Password:</p>
-            <input name="password" class="block" type="text" placeholder="{{user?.password}}" [(ngModel)]="user.password"/>
+            <p name="password" class="block">{{donor.password}}</p>
           </div>
         </td>
       </tr>
@@ -22,7 +22,7 @@
         <td align="center">
           <div class="row">
             <p class="block">Full name:</p>
-            <input name="name" class="block" type="text" placeholder="{{user?.name}}" [(ngModel)]="user.name"/>
+            <p name="name" class="block">{{donor.name}}</p>
           </div>
         </td>
       </tr>
@@ -30,7 +30,7 @@
         <td align="center">
           <div class="row">
             <p class="block">Address:</p>
-            <input name="address" class="block" type="text" placeholder="{{user?.adress}}" [(ngModel)]="user.adress"/>
+            <p name="address" class="block">{{donor.adress}}</p>
           </div>
         </td>
       </tr>
@@ -38,7 +38,7 @@
         <td align="center">
           <div class="row">
             <p class="block">Workplace:</p>
-            <input name="workplace" class="block" type="text" placeholder="{{user?.workplace}}" [(ngModel)]="user.workplace"/>
+            <p name="workplace" class="block">{{donor.workplace}}</p>
           </div>
         </td>
       </tr>
@@ -46,15 +46,14 @@
         <td align="center">
           <div class="row">
             <p class="block">Phone number:</p>
-            <input name="phoneNumber" class="block" type="text" placeholder="{{user?.phoneNumber}}" [(ngModel)]="user.phoneNumber"/>
+            <p name="phoneNumber" class="block">{{donor.phoneNumber}}</p>
           </div>
         </td>
       </tr>
-     
 
       <tr>
         <td align="center">
-          <button class="btn" (click)="edit()" >Apply</button>
+          <button class="btn" (click)="goToEditPage()" >Edit</button>
         </td>
       </tr>
     </table>

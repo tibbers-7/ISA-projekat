@@ -1,7 +1,7 @@
 export class Appointment {
   id: number = 0;
   staffId: number = 0;
-  staffName: string = '';
+  donorId: number = 0;
   centerId: number = 0;
   date: Date = new Date();
   duration: number = 0;
@@ -12,6 +12,7 @@ export class Appointment {
       this.id = obj.id;
       this.staffId = obj.staffId;
       this.centerId = obj.centerId;
+      this.donorId = obj.donorId;
       this.duration = obj.duration;
       this.date = obj.date;
     }

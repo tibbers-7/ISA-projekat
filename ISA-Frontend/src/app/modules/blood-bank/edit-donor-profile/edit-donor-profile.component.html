@@ -6,7 +6,7 @@
         <td align="center">
           <div class="row">
             <p class="block">Email:</p>
-            <p name="email" class="block">{{user?.email}}</p>
+            <input name="email" class="block" type="text" placeholder="{{donor.email}}" [(ngModel)]="donor.email"/>
           </div>
         </td>
       </tr>
@@ -14,7 +14,7 @@
         <td align="center">
           <div class="row">
             <p class="block">Password:</p>
-            <p name="password" class="block">{{user?.password}}</p>
+            <input name="password" class="block" type="text" placeholder="{{donor.password}}" [(ngModel)]="donor.password"/>
           </div>
         </td>
       </tr>
@@ -22,7 +22,7 @@
         <td align="center">
           <div class="row">
             <p class="block">Full name:</p>
-            <p name="name" class="block">{{user?.name}}</p>
+            <input name="name" class="block" type="text" placeholder="{{donor.name}}" [(ngModel)]="donor.name"/>
           </div>
         </td>
       </tr>
@@ -30,7 +30,7 @@
         <td align="center">
           <div class="row">
             <p class="block">Address:</p>
-            <p name="address" class="block">{{user?.adress}}</p>
+            <input name="address" class="block" type="text" placeholder="{{donor.adress}}" [(ngModel)]="donor.adress"/>
           </div>
         </td>
       </tr>
@@ -38,7 +38,7 @@
         <td align="center">
           <div class="row">
             <p class="block">Workplace:</p>
-            <p name="workplace" class="block">{{user?.workplace}}</p>
+            <input name="workplace" class="block" type="text" placeholder="{{donor.workplace}}" [(ngModel)]="donor.workplace"/>
           </div>
         </td>
       </tr>
@@ -46,14 +46,15 @@
         <td align="center">
           <div class="row">
             <p class="block">Phone number:</p>
-            <p name="phoneNumber" class="block">{{user?.phoneNumber}}</p>
+            <input name="phoneNumber" class="block" type="text" placeholder="{{donor.phoneNumber}}" [(ngModel)]="donor.phoneNumber"/>
           </div>
         </td>
       </tr>
+     
 
       <tr>
         <td align="center">
-          <button class="btn" (click)="goToEditPage()" >Edit</button>
+          <button class="btn" (click)="edit()" >Apply</button>
         </td>
       </tr>
     </table>

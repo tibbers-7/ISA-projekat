@@ -85,10 +85,16 @@ namespace BloodBankLibrary.Core.Service
             return allScheduled.Where<Appointment>(a => a.DonorId == donorId);
         }
 
-        public IEnumerable<Appointment> GetScheduledByCenterId(int id)
+        public IEnumerable<Appointment> GetScheduledByCenter(int id)
         {
             IEnumerable<Appointment> allScheduled = GetScheduled();
             return allScheduled.Where<Appointment>(a => a.CenterId == id);
+        }
+
+        public IEnumerable<Appointment> GetAvailableByCenter(int id)
+        {
+            IEnumerable<Appointment> allAvailable = GetAvailable();
+            return allAvailable.Where<Appointment>(a => a.CenterId == id);
         }
 
         public ICollection<Appointment> GetByStaffId(int id)
@@ -125,7 +131,7 @@ namespace BloodBankLibrary.Core.Service
 
         public bool CheckIfCenterAvailable(int centerId, DateTime dateTime)
         {
-            IEnumerable<Appointment> allCenterApps = GetScheduledByCenterId(centerId);
+            IEnumerable<Appointment> allCenterApps = GetScheduledByCenter(centerId);
             foreach (Appointment app in allCenterApps)
             {
                 //ako ima preklapanja centar nije slobodan izlazimo iz petlje

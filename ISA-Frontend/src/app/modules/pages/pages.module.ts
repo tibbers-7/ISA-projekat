@@ -12,16 +12,18 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   {path:'form', component:DonorFormComponent}
 ];
+
 @NgModule({
   declarations: [
     HomeComponent,
     DonorFormComponent,
-    AdminNewCenterComponent,
+    AdminNewCenterComponent
   ],
   imports: [
     CommonModule,
     AppRoutingModule,
-    BloodBankModule
+    BloodBankModule,
+    RouterModule.forChild(routes)
   ]
 })
 export class PagesModule { }

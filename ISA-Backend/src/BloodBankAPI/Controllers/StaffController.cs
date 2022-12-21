@@ -38,7 +38,7 @@ namespace BloodBankAPI.Controllers
         }
 
         
-        [HttpGet("{centerId}/staff")]
+        [HttpGet("center/{centerId}")]
         public ActionResult GetByCenterId(int centerId)
         {
             var staff = _staffService.GetByCenterId(centerId);

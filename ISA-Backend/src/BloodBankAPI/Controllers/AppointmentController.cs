@@ -43,8 +43,6 @@ namespace BloodBankAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            //_appointmentService.Create(new Appointment(appointmentDTO));
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
@@ -98,6 +96,18 @@ namespace BloodBankAPI.Controllers
                 return NotFound();
             }
             return Ok(bloodCenters);
+        }
+
+        [HttpGet("/available/center/{centerId}")]
+        public ActionResult GetAvailableForCenter(int centerId)
+        {
+            var appointments = _appointmentService.GetAvailableByCenter(centerId);
+            if(appointments == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointments);
+
         }
 
 

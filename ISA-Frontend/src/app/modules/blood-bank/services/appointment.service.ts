@@ -29,13 +29,10 @@ export class AppointmentService {
     return this.http.delete<any>(this.apiHost + 'api/Appointment/' + id, { headers: this.headers });
   }
 
-  getByCenter(centerId : number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/center-' + centerId, { headers: this.headers });
+  getAvailableByCenter(centerId : number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/available/center/' + centerId, { headers: this.headers });
   }
-  getByStaff(staffId: number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/staff-' + staffId, { headers: this.headers });
-  }
- 
+  
 
 
 }

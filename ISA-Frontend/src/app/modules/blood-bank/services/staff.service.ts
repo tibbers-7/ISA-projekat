@@ -20,4 +20,9 @@ export class StaffService {
   updateStaff(staff: any): Observable<any> {
     return this.http.put<any>(this.apiHost + 'api/Staff/' + staff.id, staff, { headers: this.headers });
   }
+
+  getStaffByCenter(centerId: number): Observable<Staff[]> {
+    return this.http.get<Staff[]>(this.apiHost + 'api/Staff/center/' + centerId, { headers: this.headers });
+  }
+ 
 }

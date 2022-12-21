@@ -13,8 +13,8 @@ namespace BloodBankLibrary.Core.Service
         IEnumerable<Appointment> GetCancelled();
         IEnumerable<Appointment> GetCompleted();
         ICollection<Appointment> GetByStaffId(int id);
-        ICollection<Appointment> GetByCenterId(int id);
-
+        IEnumerable<Appointment> GetScheduledByCenter(int centerId);
+        IEnumerable<Appointment> GetAvailableByCenter(int centerId);
         IEnumerable<BloodCenter> GetCentersForDateTime(string DateTime);
         void Create(Appointment appointment);
         void Update(Appointment appointment);

@@ -8,8 +8,8 @@ import { RegistrationComponent } from './registration/registration/registration.
 import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
 import { BloodDonorFormComponent } from './bloodDonor-form/blood-donor-form/blood-donor-form.component';
 import { CenterRegisterComponent } from './center-register/center-register/center-register.component';
-import { UserProfileComponent } from "./user-profile/user-profile.component";
-import { EditUserProfileComponent } from './edit-user-profile/edit-user-profile.component';
+import { DonorProfileComponent } from "./donor-profile/donor-profile.component";
+import { EditDonorProfileComponent } from './edit-donor-profile/edit-donor-profile.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { StaffRegistrationComponent } from './staff-registration/staff-registration.component';
 import { MatSortModule } from '@angular/material/sort';
@@ -19,14 +19,14 @@ import { BloodCenterEditComponent } from "./blood-center-edit/blood-center-edit.
 
 const routes: Routes = [
   { path: 'register', component: RegistrationComponent },
-  { path: 'user-profile/:id', component: UserProfileComponent },
-  { path: 'edit-user-profile/:id', component: EditUserProfileComponent },
+  { path: 'donor-profile', component: DonorProfileComponent },
+  { path: 'edit-donor-profile', component: EditDonorProfileComponent },
   { path: 'user-list', component: UserListComponent },
   { path: 'staff-register', component: StaffRegistrationComponent },
-  { path: 'staff/:id/profile', component: StaffProfileComponent },
-  { path: 'staff/:id/center', component: BloodCenterProfileComponent },
-  { path: 'staff/:id/edit-profile', component: EditStaffProfileComponent },
-  { path: 'staff/:id/edit-center', component: BloodCenterEditComponent },
+  { path: 'staff/profile', component: StaffProfileComponent },
+  { path: 'staff/center', component: BloodCenterProfileComponent },
+  { path: 'staff/edit-profile', component: EditStaffProfileComponent },
+  { path: 'staff/edit-center', component: BloodCenterEditComponent },
   { path: 'center-register', component: CenterRegisterComponent },
   { path: 'center-list', component: CentersListComponent }
 
@@ -40,10 +40,10 @@ const routes: Routes = [
     BloodCenterProfileComponent,
     RegistrationComponent,
     CentersListComponent,
-    UserProfileComponent,
+    DonorProfileComponent,
     BloodDonorFormComponent,
     CenterRegisterComponent,
-    EditUserProfileComponent,
+    EditDonorProfileComponent,
     UserListComponent,
     StaffRegistrationComponent,
     StaffProfileComponent,
@@ -58,22 +58,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatSortModule
   ],
-  exports: [
-    BloodCenterProfileComponent,
-    RouterModule,
-    RegistrationComponent,
+  exports: [RouterModule,
     CentersListComponent,
-    UserProfileComponent,
-    BloodDonorFormComponent,
-    EditUserProfileComponent,
-    UserListComponent,
-    BloodDonorFormComponent,
     CenterRegisterComponent,
-    StaffRegistrationComponent,
-    StaffProfileComponent,
-    EditStaffProfileComponent,
-    BloodCenterEditComponent
-   ]
+    BloodDonorFormComponent]
 })
 
 export class BloodBankModule { }

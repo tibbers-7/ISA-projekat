@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params} from '@angular/router';
-import { User } from '../model/user.model';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { Staff } from '../model/staff.model';
+import { StaffService } from '../services/staff.service';
 
 @Component({
   selector: 'app-staff-profile',
@@ -11,19 +12,18 @@ import { Router } from '@angular/router';
 })
 export class StaffProfileComponent {
 
-  public staff: User | undefined;
+  public staff: Staff | undefined;
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private staffService: StaffService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.userService.getUser(params['id']).subscribe(res => {
-        this.staff = res;
-      })
+    //promeniti kad dodje localstorage
+    this.staffService.getStaff(1).subscribe(res => {
+      this.staff = res;
     });
   }
   editStaffProfile() {
-    this.router.navigate(['staff/{id}/edit-profile', { id: this.route.snapshot.paramMap.get('id') }]);
+    this.router.navigate(['staff/edit-profile']);
   }
 }
 
