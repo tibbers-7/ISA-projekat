@@ -13,12 +13,14 @@ namespace HospitalLibrary.Core.User
         private string name;
         private string surname;
         private string address;
+        private string city;
+        private string state;
+        private string phoneNum;
         private string gender;
         private string jmbg;
         private string bloodType;
-        private string[] allergies;
-        private string doctorID;
-        private int age;
+        private string workplace;
+        private string employmentInfo;
 
         public string Email { get { return email; } set { email = value; } }
         public string Password { get { return password; } set { password = value; } }
@@ -28,9 +30,11 @@ namespace HospitalLibrary.Core.User
         public string Gender { get { return gender; } set { gender = value; } }
         public string Jmbg { get { return jmbg; } set { jmbg = value;} }
         public string BloodType { get { return bloodType; } set { bloodType = value; } }
-        public string[] Allergies { get { return allergies; } set { allergies = value; } }
-        public string DoctorId { get { return doctorID; } set { doctorID = value; } }
-        public int Age { get { return age; } set { age = value; } }
+        public string Workplace { get { return workplace; } set { workplace = value; } }
+        public string EmploymentInfo { get { return employmentInfo; } set { employmentInfo = value; } }
+        public string City { get { return city; } set { city = value; } }
+        public string State { get { return state; } set { state = value; } }
+        public string PhoneNum { get { return phoneNum; } set { phoneNum = value; } }
 
     }
 }

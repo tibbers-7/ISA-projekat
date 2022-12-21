@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-using UserModel = HospitalLibrary.Core.User.User; // added alias, namespace shouldn't be the same name as the class but too late to fix now
+using UserModel = BloodBankLibrary.Core.Model.User; // added alias, namespace shouldn't be the same name as the class but too late to fix now
 
 namespace HospitalLibrary.Core.PasswordHasher
 {
