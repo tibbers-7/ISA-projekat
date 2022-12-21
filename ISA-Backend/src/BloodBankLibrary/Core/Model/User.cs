@@ -18,6 +18,9 @@ namespace BloodBankLibrary.Core.Model
         private string name;
         private string surname;
         private UserType userType;
+        private string token;
+        private bool active;
+        private int idByRole;
 
         public User(int id, int idByType, string email, string password, string name, string surname, UserType userType)
         {
@@ -42,6 +45,10 @@ namespace BloodBankLibrary.Core.Model
         public string Surname { get => surname; set => surname = value; }
 
         public UserType UserType { get => userType; set => userType = value; }
+        public string Token { get => token; set => token = value; }
+        public bool Active { get => active; set => active = value; }
+
+        public int IdByRole { get => idByRole; set => idByRole = value; }
 
     }
 
