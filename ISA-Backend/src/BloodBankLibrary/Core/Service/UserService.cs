@@ -40,7 +40,7 @@ namespace BloodBankLibrary.Core.Service
         }
         public UserModel GetByEmail(string email)
         {
-            foreach(User u in _userRepository.GetAll())
+            foreach(UserModel u in _userRepository.GetAll())
                 if (u.Email == email)
                     return u;
              return null;
@@ -103,7 +103,7 @@ namespace BloodBankLibrary.Core.Service
         //Save activation token before sending an email
         public bool SaveTokenToDatabase(string email, string token)
         {
-            User user = GetByEmail(email);
+            UserModel user = GetByEmail(email);
             if (user == null) return false; // ovo ne bi trebalo da se desi al ipak proveri
 
             user.Token = token;

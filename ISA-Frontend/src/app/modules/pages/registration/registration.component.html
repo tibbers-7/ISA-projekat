@@ -26,6 +26,14 @@
           <tr>
             <td align="center">
               <div class="row">
+                <p class="block">Confirm password:</p>
+                <input type="password" name="pasword" class="block" [(ngModel)]="passwordConfirm">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+              <div class="row">
                 <p class="block">Name:</p>
                 <input type="text" name="name" class="block" [(ngModel)]="user.name">
               </div>
@@ -54,15 +62,6 @@
                 <input type="text" name="jmbg" class="block" [(ngModel)]="user.jmbg">
               </div>
             </td>
-          </tr>
-            <tr>
-              <td align="center">
-                <div class="row">
-                  <p class="block">Age:</p>
-                  <input type="number" name="adress" class="block" [(ngModel)]="user.age">
-                </div>
-              </td>
-            </tr>
 
           <tr>
             <td align="center">
@@ -76,17 +75,7 @@
             </td>
           </tr>
 
-          <tr>
-            <td align="center">
-              <div class="row">
-                <p class="block">Do you have allergies?</p>
-                <input type="radio" name="allergies" id="yes" value="YES" (click)="showAllergies()">
-                <label for="yes">Yes</label>
-                <input type="radio" name="allergies" id="no" value="NO" (click)="hideAllergies()">
-                <label for="no">No</label>
-              </div>
-            </td>
-          </tr>
+          
           <tr>
             <td align="center">
               <div class="row">
@@ -98,16 +87,6 @@
             </td>
           </tr>
 
-          <tr>
-            <td align="center">
-              <div class="row">
-                <p class="block">Choose a doctor:</p>
-                <select [(ngModel)]="user.doctorId" name="doctorId" >
-                  <option  *ngFor="let doctor of doctors">{{doctor.name}} {{doctor.surname}}</option>
-                </select>
-              </div>
-            </td>
-          </tr>
 
     
           <tr>
@@ -119,30 +98,7 @@
       </form>
     </div>
 
-    <div class="element">
-      <div id="allergyTable_render" *ngIf="displayAllergies" style="margin-left:-10%;" >
-        <div class="header-box" >
-          <h3 class="header"style="margin-left:0; font-size: 200%; width:40%" >Select your allergies:</h3>
-        </div>
-        <table class="fl-table"  style="margin-left:0%;width:40%;">
-          <tr>
-            <th colspan="2">Allergy</th>
-          </tr>
-          <tr *ngFor="let allergy of allergies">
-            <td>{{allergy.name}}</td>
-            <td><input type="checkbox" value="{{allergy.name}}" [(ngModel)]="allergy.checked"></td>
-            
-          </tr>
-          <tr >
-            <td colspan="2">
-            <button class="btn" (click)="addAllergies()">Add allergies</button>
-          </td>
-          </tr>
-        </table>
-        
-
-      </div>
-    </div>
+   
 
     </div>
     </body>

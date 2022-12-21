@@ -24,7 +24,7 @@ export class AuthService {
     }
 
 
-  public setSession(token) {
+  public setSession(token:any) {
     //localStorage.setItem('currentUser', JSON.stringify(token));
     localStorage.setItem('role', token.claims[5].value);
     localStorage.setItem('userId', token.claims[0].value);
@@ -39,7 +39,7 @@ export class AuthService {
 
     public isLoggedIn() {
       var currentDateTime = new Date().toISOString();
-      return currentDateTime < this.getExpiration();
+      return currentDateTime < this.getExpiration()!;
     }
 
     isLoggedOut() {

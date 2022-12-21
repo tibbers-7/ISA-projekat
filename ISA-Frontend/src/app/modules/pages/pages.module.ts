@@ -6,24 +6,29 @@ import { BloodBankModule } from '../blood-bank/blood-bank.module';
 import { RouterModule, Routes } from "@angular/router";
 import { DonorFormComponent } from './donor-form/donor-form/donor-form.component';
 import { AdminNewCenterComponent } from './admin-new-center/admin-new-center/admin-new-center.component';
-
+import { RegistrationComponent } from './registration/registration.component';
+import { FormsModule } from '@angular/forms';
+import { Form } from '../blood-bank/model/form.model';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  {path:'form', component:DonorFormComponent}
+  {path:'form', component:DonorFormComponent},
+  {path:'register',component:RegistrationComponent}
 ];
 
 @NgModule({
   declarations: [
     HomeComponent,
     DonorFormComponent,
-    AdminNewCenterComponent
+    AdminNewCenterComponent,
+    RegistrationComponent
   ],
   imports: [
     CommonModule,
     AppRoutingModule,
     BloodBankModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    FormsModule
   ]
 })
 export class PagesModule { }
