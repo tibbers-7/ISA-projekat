@@ -2,7 +2,7 @@
   <div class="row">
     <div class="element">
       <div class="header-box">
-        <h3 class="header" style="width:40%;margin-left:27%">Registration</h3>
+        <h3 class="header" style="width:40%;margin-left:30%">Registration</h3>
       </div>
 
       <form id="formlogin">
@@ -26,7 +26,7 @@
           <tr>
             <td align="center">
               <div class="row">
-                <p class="block">Confirm password:</p>
+                <p class="block" style="margin-right:2%">Confirm password:</p>
                 <input type="password" name="pasword" class="block" [(ngModel)]="passwordConfirm">
               </div>
             </td>
@@ -50,19 +50,57 @@
           <tr>
             <td align="center">
               <div class="row">
-                <p class="block">Address:</p>
-                <input type="text" name="adress" class="block" [(ngModel)]="user.address">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td align="center">
-              <div class="row">
                 <p class="block">Jmbg:</p>
                 <input type="text" name="jmbg" class="block" [(ngModel)]="user.jmbg">
               </div>
             </td>
+          </tr>
 
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block">Workplace:</p>
+                <input type="text" name="adress" class="block" [(ngModel)]="user.workplace">
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block">Profession:</p>
+                <input type="text" name="adress" class="block" [(ngModel)]="user.employmentInfo">
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block">Phone number:</p>
+                <input type="text" name="number" class="block" [(ngModel)]="user.phoneNum">
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" >
+              <div class="row" style="display: flex;justify-content: space-between;">
+                <p class="block" style="width:20%;margin-left:10%;" >Address:</p>
+                <p class="block" style="width:20%;" >City:</p>
+                <p class="block" style="width:20%;margin-right:10%;" >State:</p>
+              </div>
+              <div class="row" style="display: flex;justify-content: space-between;" >
+                
+                <input type="text" name="adress" class="block" style="width:20%;margin-left:10%;"  [(ngModel)]="user.address">
+                <input type="text" name="city" class="block" style="width:20%" [(ngModel)]="user.city">
+                <input type="text" name="state" class="block" style="width:20%; margin-right:10%" [(ngModel)]="user.state">
+
+              </div>
+
+            </td>
+          </tr>
+          
           <tr>
             <td align="center">
               <div class="row">
@@ -75,20 +113,6 @@
             </td>
           </tr>
 
-          
-          <tr>
-            <td align="center">
-              <div class="row">
-                <p class="block">Blood Type:</p>
-                <select [(ngModel)]="user.bloodType" name="bloodType">
-                  <option *ngFor="let type of bloodTypes">{{type}}</option>
-                </select>
-              </div>
-            </td>
-          </tr>
-
-
-    
           <tr>
             <td align="center">
               <button class="btn" (click)="post()">Create account</button>

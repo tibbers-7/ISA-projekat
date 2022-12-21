@@ -18,7 +18,7 @@ import { EditStaffProfileComponent } from "./edit-staff-profile/edit-staff-profi
 import { BloodCenterEditComponent } from "./blood-center-edit/blood-center-edit.component";
 
 const routes: Routes = [
-  { path: 'register', component: RegistrationComponent },
+  
   { path: 'donor-profile', component: DonorProfileComponent },
   { path: 'edit-donor-profile', component: EditDonorProfileComponent },
   { path: 'user-list', component: UserListComponent },

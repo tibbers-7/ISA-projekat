@@ -14,9 +14,6 @@ export class RegistrationComponent implements OnInit {
   
   public user=new RegDTO();
   public passwordConfirm:string='';
-  public bloodTypes=['A','B','AB','O'];
-  
-  public selectedAllergies:any[]=[];
 
   constructor(private toast: NgToastService, private authService: AuthService, private donorService:DonorService) {
   }
@@ -26,7 +23,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   post()  {
-    this.user.allergies=this.selectedAllergies;
     
     if(!this.checkValidity()) return;
     console.log("validno je");

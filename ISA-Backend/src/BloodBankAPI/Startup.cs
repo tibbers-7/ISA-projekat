@@ -58,6 +58,9 @@ namespace BloodBankAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GraphicalEditor", Version = "v1" });
             });
 
+            services.AddScoped<IDonorRepository, DonorRepository>();
+            services.AddScoped<IDonorService, DonorService>();
+
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IEmailSendService, EmailSendService>();

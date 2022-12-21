@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace HospitalAPI.Controllers
+namespace BloodBankAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]

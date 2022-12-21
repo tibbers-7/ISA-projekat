@@ -6,11 +6,11 @@ export class RegDTO {
     address:string='';
     gender:string='';
     jmbg:string='';
-    bloodType:string='';
-    doctorId='';
-    allergies:string[]=[];
-    age:number=0;
-
+    workplace:string='';
+    employmentInfo:string='';
+    city:string='';
+    state:string='';
+    phoneNum:string='';
   
     public constructor(obj?: any) {
       if (obj) {
@@ -21,10 +21,14 @@ export class RegDTO {
         this.surname=obj.surname;
 
         this.address = obj.adress;
+        this.city=obj.city;
+        this.state=obj.state;
+
         this.gender = obj.gender;
         this.jmbg = obj.jmbg;
 
-        this.bloodType=obj.bloodType;
+        this.workplace=obj.workplace;
+        this.employmentInfo=obj.employmentInfo;
 
       }
     }
