@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HospitalLibrary.Core.User
+namespace BloodBankLibrary.Core.User
 {
     public class RegisterDTO
     {

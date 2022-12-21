@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HospitalLibrary.Core.EmailSender
+namespace BloodBankLibrary.Core.EmailSender
 {
     public class Message
     {

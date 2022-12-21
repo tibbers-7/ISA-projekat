@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
-using HospitalLibrary.Core.User;
 
 
-namespace HospitalLibrary.Core.EmailSender
+namespace BloodBankLibrary.Core.EmailSender
 {
 
     public class EmailSendService : IEmailSendService
@@ -29,7 +28,7 @@ namespace HospitalLibrary.Core.EmailSender
         private MimeMessage CreateEmailMessage(Message message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Hospital", _emailConfig.From));
+            emailMessage.From.Add(new MailboxAddress("BloodBank", _emailConfig.From));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content };

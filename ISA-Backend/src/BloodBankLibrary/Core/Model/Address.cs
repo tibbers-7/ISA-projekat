@@ -14,6 +14,11 @@ namespace BloodBankLibrary.Core.Model
         private string number;
         private string street;
 
+        public Address()
+        {
+
+        }
+
         public Address(string city, string country, string number, string street)
         {
             this.city = city;

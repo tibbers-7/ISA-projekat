@@ -1,22 +1,23 @@
 ﻿using BloodBankLibrary.Core.Model;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
+using UserModel = BloodBankLibrary.Core.Model.User;
 
 namespace BloodBankLibrary.Core.Service
 {
     public interface IUserService
     {
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        void Create(User user);
-        void Update(User user);
-        void Delete(User user);
-        User GetByEmail(string email);
+        IEnumerable<UserModel> GetAll();
+        UserModel GetById(int id);
+        void Create(UserModel user);
+        void Update(UserModel user);
+        void Delete(UserModel user);
+        UserModel GetByEmail(string email);
         bool Activate(string email, string token);
         bool SaveTokenToDatabase(string email, string token);
 
-        public User Authenticate(User user);
-        public SecurityToken GenerateFullToken(User user);
+        public UserModel Authenticate(UserModel user);
+        public SecurityToken GenerateFullToken(UserModel user);
         public string GenerateActivationToken(string email);
 
 

@@ -1,7 +1,6 @@
 ﻿using BloodBankLibrary.Core.Model;
 using BloodBankLibrary.Core.Repository;
-using HospitalLibrary.Core.EmailSender;
-using HospitalLibrary.Core.PasswordHasher;
+using BloodBankLibrary.Core.PasswordHasher;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -10,6 +9,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using BloodBankLibrary.Core.EmailSender;
+using UserModel = BloodBankLibrary.Core.Model.User;
+
 
 namespace BloodBankLibrary.Core.Service
 {
@@ -27,16 +29,16 @@ namespace BloodBankLibrary.Core.Service
             _passwordHasher = passwordHasher;
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<UserModel> GetAll()
         {
             return _userRepository.GetAll();
         }
 
-        public User GetById(int id)
+        public UserModel GetById(int id)
         {
             return _userRepository.GetById(id);
         }
-        public User GetByEmail(string email)
+        public UserModel GetByEmail(string email)
         {
             foreach(User u in _userRepository.GetAll())
                 if (u.Email == email)
@@ -44,24 +46,24 @@ namespace BloodBankLibrary.Core.Service
              return null;
         }
 
-        public void Create(User user)
+        public void Create(UserModel user)
         {
             _userRepository.Create(user);
         }
 
-        public void Update(User user)
+        public void Update(UserModel user)
         {
             _userRepository.Update(user);
         }
 
-        public void Delete(User user)
+        public void Delete(UserModel user)
         {
             _userRepository.Delete(user);
         }
 
         public bool Activate(string email, string token)
         {
-            User user = GetByEmail(email);
+            UserModel user = GetByEmail(email);
             if (TokenValidity(user, token))
             {
 
@@ -81,7 +83,7 @@ namespace BloodBankLibrary.Core.Service
             return false;
 
         }
-        private bool TokenValidity(User user, string token)
+        private bool TokenValidity(UserModel user, string token)
         {
             if (!user.Token.Equals(token)) return false;
             SecurityToken _token = new JwtSecurityTokenHandler().ReadToken(token);
@@ -117,7 +119,7 @@ namespace BloodBankLibrary.Core.Service
         }
 
         //Check if the user is who he claims to be
-        public User Authenticate(User user)
+        public UserModel Authenticate(UserModel user)
         {
             // UserConstraints -> baza
             var users = _userRepository.GetAll();
@@ -129,7 +131,7 @@ namespace BloodBankLibrary.Core.Service
             return null;
         }
 
-        public SecurityToken GenerateFullToken(User user)
+        public SecurityToken GenerateFullToken(UserModel user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -139,7 +141,7 @@ namespace BloodBankLibrary.Core.Service
             var claims = new[] //a way to store the data so that you don't have to always access the db
 			{ //these are set-in-stone claims (NameIdentifier, Email, GivenName)
 				new Claim(ClaimTypes.Sid, user.Id.ToString()),
-                new Claim(ClaimTypes.PrimaryGroupSid, user.IdByRole.ToString()),
+                new Claim(ClaimTypes.PrimaryGroupSid, user.IdByType.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.GivenName, user.Name),
                 new Claim(ClaimTypes.Surname, user.Surname),
@@ -159,7 +161,7 @@ namespace BloodBankLibrary.Core.Service
         // It only needs an expiration time
         public string GenerateActivationToken(string email)
         {
-            User user = GetByEmail(email);
+            UserModel user = GetByEmail(email);
             if (user == null) return null;
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

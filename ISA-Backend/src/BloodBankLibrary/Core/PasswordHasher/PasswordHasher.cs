@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using UserModel = BloodBankLibrary.Core.Model.User; // added alias, namespace shouldn't be the same name as the class but too late to fix now
 
-namespace HospitalLibrary.Core.PasswordHasher
+namespace BloodBankLibrary.Core.PasswordHasher
 {
     public class PasswordHasher : IPasswordHasher
     {

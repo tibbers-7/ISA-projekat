@@ -1,7 +1,7 @@
-﻿using BloodBankLibrary.Core.Model;
+﻿using BloodBankLibrary.Core.EmailSender;
+using BloodBankLibrary.Core.Model;
 using BloodBankLibrary.Core.Service;
-using HospitalLibrary.Core.EmailSender;
-using HospitalLibrary.Core.User;
+using BloodBankLibrary.Core.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,13 +19,14 @@ namespace HospitalAPI.Controllers
 		private IUserService _userService;
 		private JwtSecurityTokenHandler tokenHandler;
 		private IEmailSendService _emailSendService;
-
-		public CredentialsController(IUserService userService, IEmailSendService emailSendService)
+		private IDonorService _donorService;
+		public CredentialsController(IUserService userService, IEmailSendService emailSendService,IDonorService donorService)
 		{
 			
 			_userService = userService;
 			tokenHandler=new JwtSecurityTokenHandler();
 			_emailSendService = emailSendService;
+			_donorService = donorService;
 		}
 
 		[AllowAnonymous] //prevent the auth process to happen when calling
@@ -44,7 +45,56 @@ namespace HospitalAPI.Controllers
 			return Unauthorized();
 		}
 
-		
+
+		[AllowAnonymous]
+		[HttpPost("register")]
+		public ActionResult Register(RegisterDTO regDTO)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			Donor donor = new Donor(regDTO);
+
+			if (_userService.GetByEmail(donor.Email) != null) return BadRequest("Exists");
+
+			_donorService.Register(donor);
+
+			Donor createdDonor = _donorService.GetByEmail(donor.Email);
+
+			if (createdDonor != null)
+			{
+				User newUser = new User(regDTO, createdDonor.Id);
+				_userService.Create(newUser);
+			}
+
+			if (!SendActivationEmail(createdDonor.Email)) return BadRequest("Email");
+
+			return CreatedAtAction("GetById", new { id = donor.Id }, donor);
+		}
+
+
+		private bool SendActivationEmail(string email)
+		{
+
+			var token = _userService.GenerateActivationToken(email);
+
+			if (token != null)
+			{
+				_userService.SaveTokenToDatabase(email, token);
+
+				var lnkHref = Url.Action("Activate", "Credentials", new { email = email, code = token }, "http");
+				string subject = "HealthcareMD Activation Link";
+				string body = "Your activation link: " + lnkHref;
+				_emailSendService.SendEmail(new Message(new string[] { email, "tibbers707@gmail.com" }, subject, body));
+				return true;
+			}
+
+			return false;
+		}
+
+
 
 		[AllowAnonymous]
 		[HttpPost("send-activation")]

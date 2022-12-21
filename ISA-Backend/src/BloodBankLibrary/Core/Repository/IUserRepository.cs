@@ -1,14 +1,15 @@
 ﻿using BloodBankLibrary.Core.Model;
 using System.Collections.Generic;
+using UserModel = BloodBankLibrary.Core.Model.User;
 
 namespace BloodBankLibrary.Core.Repository
 {
     public interface IUserRepository
     {
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        void Create(User user);
-        void Update(User user);
-        void Delete(User user);
+        IEnumerable<UserModel> GetAll();
+        UserModel GetById(int id);
+        void Create(UserModel user);
+        void Update(UserModel user);
+        void Delete(UserModel user);
     }
 }

@@ -8,10 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using HospitalLibrary.Core.EmailSender;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BloodBankLibrary.Core.PasswordHasher;
+using BloodBankLibrary.Core.EmailSender;
 
 namespace BloodBankAPI
 {
@@ -57,8 +58,11 @@ namespace BloodBankAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GraphicalEditor", Version = "v1" });
             });
 
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IEmailSendService, EmailSendService>();
+            services.AddScoped<IUserService, UserService>();
+            
             services.AddScoped<IBloodCenterService, BloodCenterService>();
             services.AddScoped<IBloodCenterRepository, BloodCenterRepository>();
             services.AddScoped<IQuestionService, QuestionService>();
