@@ -23,6 +23,7 @@ export class AppointmentDialogComponent implements OnInit {
     constructor(private dialogRef: MatDialogRef <AppointmentDialogComponent>, private staffService: StaffService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
+//ovo ispraviti kad proradi log in
 
     for (let i = 15; i <= 60; i++){ this.numbers.push(i); }
     this.staffService.getAll().subscribe(res => {
@@ -40,5 +41,7 @@ export class AppointmentDialogComponent implements OnInit {
     this.dialogRef.close(this.form?.value);
   }
 
-  public close() {}
+  public close() {
+    this.dialogRef.close();
+  }
 }

@@ -54,9 +54,30 @@ export class BloodCenterProfileComponent {
   }
 
   addAppointment() {
-    //const dialogConfig = new MatDialogConfig();
     
-    this.dialog.open(AppointmentDialogComponent, { height: '800px', width: '800px'});
+    const dialogRef = this.dialog.open(AppointmentDialogComponent, { height: '600px', width: '400px' });
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+
+        let appointment = new Appointment();
+        appointment.staffId = data.staff.id;
+        appointment.centerId = data.staff.centerId;
+        appointment.date = data.dateTime.toDate();
+        appointment.duration = data.duration;
+        this.appointmentService.addAvailable(appointment).subscribe(
+          response => {
+            console.log(response);
+            alert("Uspesno dodavanje")
+          },
+          error => {
+            console.log(error);
+            alert("Neuspesno dodavanje");
+          }
+        )
+      }
+      
+    );
     
   }
 }
