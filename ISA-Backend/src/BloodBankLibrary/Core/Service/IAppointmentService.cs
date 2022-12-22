@@ -1,4 +1,5 @@
 ﻿using BloodBankLibrary.Core.Model;
+using System;
 using System.Collections.Generic;
 
 namespace BloodBankLibrary.Core.Service
@@ -18,6 +19,8 @@ namespace BloodBankLibrary.Core.Service
         IEnumerable<BloodCenter> GetCentersForDateTime(string DateTime);
         void Create(Appointment appointment);
         void Update(Appointment appointment);
-        void Delete(Appointment appointment);
+
+        bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration);
+       
     }
 }
