@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { Staff } from '../model/staff.model';
 import { StaffService } from '../services/staff.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AppointmentDialogComponent } from '../staff-appointment/appointment-dialog.component';
 
 @Component({
   selector: 'app-blood-center-profile',
@@ -26,7 +28,7 @@ export class BloodCenterProfileComponent {
   public displayedColumnsAppointments = ['date', 'duration'];
 
 
-  constructor(private bloodCenterService: BloodCenterService, private staffService: StaffService, private appointmentService: AppointmentService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private bloodCenterService: BloodCenterService, private staffService: StaffService, private appointmentService: AppointmentService, private dialog: MatDialog, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
       //ovo promeniti kad dodje localstorage
@@ -48,10 +50,13 @@ export class BloodCenterProfileComponent {
 }
 
   editBloodCenter() {
-    this.router.navigate(['staff/{id}/edit-center', { id: this.staff?.id }]);
+    this.router.navigate(['staff/edit-center']);
   }
 
   addAppointment() {
-
+    //const dialogConfig = new MatDialogConfig();
+    
+    this.dialog.open(AppointmentDialogComponent, { height: '800px', width: '800px'});
+    
   }
 }

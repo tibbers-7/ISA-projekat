@@ -13,6 +13,10 @@ export class StaffService {
 
   constructor(private http: HttpClient) { }
 
+  getAll(): Observable<Staff[]> {
+    return this.http.get<Staff[]>(this.apiHost + 'api/Staff', { headers: this.headers });
+  }
+
   getStaff(id: number): Observable<Staff> {
     return this.http.get<Staff>(this.apiHost + 'api/Staff/' + id, { headers: this.headers });
   }

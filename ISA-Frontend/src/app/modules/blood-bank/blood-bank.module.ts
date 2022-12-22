@@ -16,6 +16,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { StaffProfileComponent } from './staff-profile/staff-profile.component';
 import { EditStaffProfileComponent } from "./edit-staff-profile/edit-staff-profile.component";
 import { BloodCenterEditComponent } from "./blood-center-edit/blood-center-edit.component";
+import { AppointmentDialogComponent } from "./staff-appointment/appointment-dialog.component";
 
 const routes: Routes = [
   
@@ -30,14 +31,12 @@ const routes: Routes = [
   { path: 'center-register', component: CenterRegisterComponent },
   { path: 'center-list', component: CentersListComponent }
 
-
-  
-  
 ];
 
 @NgModule({
   declarations: [
     BloodCenterProfileComponent,
+    AppointmentDialogComponent,
     RegistrationComponent,
     CentersListComponent,
     DonorProfileComponent,
@@ -61,7 +60,8 @@ const routes: Routes = [
   exports: [RouterModule,
     CentersListComponent,
     CenterRegisterComponent,
-    BloodDonorFormComponent]
+    BloodDonorFormComponent],
+  entryComponents: [AppointmentDialogComponent]
 })
 
 export class BloodBankModule { }
