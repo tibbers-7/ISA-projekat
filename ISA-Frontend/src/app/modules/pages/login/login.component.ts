@@ -30,15 +30,15 @@ export class LoginComponent implements OnInit {
         let role = this.authService.getRole();
         switch(role){
           case('DONOR' || 'donor'):{
-            this.router.navigate(['/donor-homepage']);
+            this.router.navigate(['/donor/homepage']);
             break;
           }
           case('ADMIN' || 'admin'):{
-            this.router.navigate(['/admin-homepage']);
+            this.router.navigate(['/admin/homepage']);
             break;
           }
           case('STAFF' || 'staff'):{
-            this.router.navigate(['/staff-homepage']);
+            this.router.navigate(['/staff/homepage']);
             break;
           }
           default:{

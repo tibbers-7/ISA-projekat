@@ -1,16 +1,16 @@
 
- <label style="font-size: large; background-color: whitesmoke; margin-left: 20%;"> Minimum score: </label>  
+ <label class="labels"> Minimum score: </label>  
   <select [(ngModel)]="filterScore" class="select-filter" (change)="filterByScore($event)">
       <option value="1" (change)="filterByScore($event)">1</option>
       <option value="2" (change)="filterByScore($event)">2</option>
       <option value="3" (change)="filterByScore($event)">3</option>
       <option value="4" (change)="filterByScore($event)">4</option>
   </select>
-  <label style="font-size: large; background-color: whitesmoke; margin-left: 20%;"> City: </label>  
+  <label class="labels"> City: </label>  
   <select [(ngModel)]="filterCity" class="select-filter" (click)="loadCities($event)"(change)="filterByCity($event)">
     <option *ngFor="let city of cities">{{city}}</option>
   </select>
-  <label style="font-size: large; background-color: whitesmoke; margin-left: 20%;"> Open: </label>  
+  <label class="labels"> Open: </label>  
   <select [(ngModel)]="filterScore" class="select-filter" (change)="filterOpen($event)">
     <option value="open" (change)="filterOpen($event)">open</option>
     <option value="closed" (change)="filterOpen($event)">closed</option>

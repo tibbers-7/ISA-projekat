@@ -29,6 +29,7 @@ export class RegDTO {
 
         this.workplace=obj.workplace;
         this.employmentInfo=obj.employmentInfo;
+        this.phoneNum=obj.phoneNum;
 
       }
     }

@@ -138,3 +138,9 @@
     letter-spacing: 1px;
     font-weight: 100;
   }
+
+  .labels{
+    font-size: large; 
+    color:whitesmoke;
+    margin-left: 20%;
+  }

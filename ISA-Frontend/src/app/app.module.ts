@@ -12,15 +12,13 @@ import {NgToastModule} from 'ng-angular-popup'
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "./auth/auth.interceptor";
 import { RoleGuardService } from "./auth/role-guard.service";
-import { DatePipe } from "@angular/common";
-
-
+import { DatePipe } from "@angular/common"
+import {MatToolbarModule} from '@angular/material/toolbar'; 
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-   
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +29,8 @@ import { DatePipe } from "@angular/common";
     PagesModule,
     BloodBankModule,
     FormsModule,
-    NgToastModule
+    NgToastModule,
+    MatToolbarModule
   ],
   providers: [
     {

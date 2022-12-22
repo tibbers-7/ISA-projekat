@@ -17,20 +17,39 @@ import { EditStaffProfileComponent } from "./edit-staff-profile/edit-staff-profi
 import { BloodCenterEditComponent } from "./blood-center-edit/blood-center-edit.component";
 import { AppointmentDialogComponent } from "./staff-appointment/appointment-dialog.component";
 import { DonorHomepageComponent } from './donor-homepage/donor-homepage/donor-homepage.component';
+import { AdminNewCenterComponent } from "./admin-new-center/admin-new-center/admin-new-center.component";
+import { DonorFormComponent } from "./donor-form/donor-form/donor-form.component";
+import { DonorToolbarComponent } from "./donor-toolbar/donor-toolbar.component";
+import { StaffToolbarComponent } from "./staff-toolbar/staff-toolbar.component";
+import { AdminToolbarComponent } from "./admin-toolbar/admin-toolbar.component";
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { AdminHomepageComponent } from './admin-homepage/admin-homepage.component';
+import { StaffHomepageComponent } from './staff-homepage/staff-homepage/staff-homepage.component'; 
 
 const routes: Routes = [
   
-  { path: 'donor-profile', component: DonorProfileComponent },
-  { path: 'edit-donor-profile', component: EditDonorProfileComponent },
-  { path: 'user-list', component: UserListComponent },
-  { path: 'staff-register', component: StaffRegistrationComponent },
+  { path: 'donor/homepage', component: DonorHomepageComponent},
+  { path: 'donor/profile', component: DonorProfileComponent },
+  { path: 'donor/edit-profile', component: EditDonorProfileComponent },
+  {path: 'donor/form', component:DonorFormComponent},
+
+
+  { path: 'admin/homepage', component:AdminHomepageComponent},
+  { path: 'admin/user-list', component: UserListComponent },
+  { path: 'admin/center-register', component: CenterRegisterComponent },
+  {path: 'admin/new-center', component:AdminNewCenterComponent},
+  { path: 'admin/staff-register', component: StaffRegistrationComponent },
+
+  { path: 'staff/homepage', component:StaffHomepageComponent},
   { path: 'staff/profile', component: StaffProfileComponent },
   { path: 'staff/center', component: BloodCenterProfileComponent },
   { path: 'staff/edit-profile', component: EditStaffProfileComponent },
   { path: 'staff/edit-center', component: BloodCenterEditComponent },
-  { path: 'center-register', component: CenterRegisterComponent },
+  
   { path: 'center-list', component: CentersListComponent },
-  { path: 'donor-homepage', component: DonorHomepageComponent}
+  
+  
+  
 
 ];
 
@@ -48,7 +67,14 @@ const routes: Routes = [
     StaffProfileComponent,
     EditStaffProfileComponent,
     BloodCenterEditComponent,
-    DonorHomepageComponent
+    DonorHomepageComponent,
+    DonorFormComponent,
+    AdminNewCenterComponent,
+    DonorToolbarComponent,
+    StaffToolbarComponent,
+    AdminToolbarComponent,
+    AdminHomepageComponent,
+    StaffHomepageComponent
   ],
   imports: [
     CommonModule,
@@ -56,12 +82,17 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    MatSortModule
+    MatSortModule,
+    MatToolbarModule
   ],
   exports: [RouterModule,
     CentersListComponent,
     CenterRegisterComponent,
-    BloodDonorFormComponent],
+    BloodDonorFormComponent,
+    StaffToolbarComponent,
+    DonorToolbarComponent,
+    AdminToolbarComponent
+  ],
   entryComponents: [AppointmentDialogComponent]
 })
 

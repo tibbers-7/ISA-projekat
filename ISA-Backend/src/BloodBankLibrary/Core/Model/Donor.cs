@@ -34,6 +34,7 @@ namespace BloodBankLibrary.Core.Model
             // BloodType.TryParse(regDTO.BloodType, out this.bloodType);
             this.Profession = regDTO.EmploymentInfo;
             this.Workplace = regDTO.Workplace;
+            this.PhoneNumber = regDTO.PhoneNum;
         }
 
         public Donor() { }

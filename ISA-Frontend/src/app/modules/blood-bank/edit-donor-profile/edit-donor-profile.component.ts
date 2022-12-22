@@ -26,7 +26,7 @@ export class EditDonorProfileComponent {
   }
   edit(): void {
     this.donorService.updateDonor(this.donor).subscribe(res => {
-      this.router.navigate(['/donor-profile']);
+      this.router.navigate(['donor/profile']);
     });
   }
 }
