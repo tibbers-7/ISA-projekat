@@ -24,7 +24,8 @@ import { StaffToolbarComponent } from "./staff-toolbar/staff-toolbar.component";
 import { AdminToolbarComponent } from "./admin-toolbar/admin-toolbar.component";
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { AdminHomepageComponent } from './admin-homepage/admin-homepage.component';
-import { StaffHomepageComponent } from './staff-homepage/staff-homepage/staff-homepage.component'; 
+import { StaffHomepageComponent } from './staff-homepage/staff-homepage/staff-homepage.component';
+import { DonorAppointmentScheduleComponent } from './donor-appointment-schedule/donor-appointment-schedule/donor-appointment-schedule.component'; 
 
 const routes: Routes = [
   
@@ -32,7 +33,7 @@ const routes: Routes = [
   { path: 'donor/profile', component: DonorProfileComponent },
   { path: 'donor/edit-profile', component: EditDonorProfileComponent },
   {path: 'donor/form', component:DonorFormComponent},
-
+  { path: 'donor/schedule-appt', component:DonorAppointmentScheduleComponent},
 
   { path: 'admin/homepage', component:AdminHomepageComponent},
   { path: 'admin/user-list', component: UserListComponent },
@@ -74,7 +75,8 @@ const routes: Routes = [
     StaffToolbarComponent,
     AdminToolbarComponent,
     AdminHomepageComponent,
-    StaffHomepageComponent
+    StaffHomepageComponent,
+    DonorAppointmentScheduleComponent
   ],
   imports: [
     CommonModule,
@@ -83,7 +85,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MatSortModule,
-    MatToolbarModule
+    MatToolbarModule,
   ],
   exports: [RouterModule,
     CentersListComponent,

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table'
+import { Appointment } from '../../model/appointment.model';
 
 @Component({
   selector: 'app-donor-appointment-schedule',
@@ -7,6 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DonorAppointmentScheduleComponent implements OnInit {
 
+  public dataSource = new MatTableDataSource<Appointment>();
+  public cities: string[]=[];
+  public displayedColumns = ['staffId','centerId','date','duration'];
   constructor() { }
 
   ngOnInit(): void {

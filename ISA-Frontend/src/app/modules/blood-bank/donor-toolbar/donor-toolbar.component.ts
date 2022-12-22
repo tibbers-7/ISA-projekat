@@ -28,6 +28,13 @@ export class DonorToolbarComponent implements OnInit {
     this.router.navigate(['/donor/profile']);
   }
 
+  ScheduleClick(){
+    this.router.navigate(['/donor/schedule-appt']);
+  }
+
+  ApptsClick(){
+
+  }
   
   LogOutClick(){
     this.authService.logout();

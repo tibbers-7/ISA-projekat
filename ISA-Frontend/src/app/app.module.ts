@@ -14,6 +14,7 @@ import { AuthInterceptor } from "./auth/auth.interceptor";
 import { RoleGuardService } from "./auth/role-guard.service";
 import { DatePipe } from "@angular/common"
 import {MatToolbarModule} from '@angular/material/toolbar'; 
+import {MatTableModule} from '@angular/material/table'
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     BloodBankModule,
     FormsModule,
     NgToastModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTableModule
   ],
   providers: [
     {
