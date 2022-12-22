@@ -6,8 +6,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatDialogModule} from '@angular/material/dialog'
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 
 @NgModule({
   declarations: [],
@@ -20,7 +24,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatIconModule,
     MatTooltipModule,
     MatFormFieldModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDatepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    MatSelectModule,
+    NgxMatMomentModule
+    
+   
   ],
   exports: [
     CommonModule,
@@ -31,7 +42,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatIconModule,
     MatTooltipModule,
     MatFormFieldModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDatepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    MatSelectModule,
+    NgxMatMomentModule
+
   ]
 })
 export class MaterialModule {}

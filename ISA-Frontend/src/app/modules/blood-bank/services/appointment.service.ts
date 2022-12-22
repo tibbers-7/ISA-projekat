@@ -17,16 +17,8 @@ export class AppointmentService {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment', { headers: this.headers });
   }
 
-  createAppointment(appointment: any): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/Appointment', appointment, { headers: this.headers });
-  }
-
   getAppointment(id: number): Observable<Appointment> {
     return this.http.get<Appointment>(this.apiHost + 'api/Appointment/' + id, { headers: this.headers });
-  }
-
-  deleteAppointment(id: any): Observable<any> {
-    return this.http.delete<any>(this.apiHost + 'api/Appointment/' + id, { headers: this.headers });
   }
 
   getAvailableByCenter(centerId : number): Observable<Appointment[]> {
