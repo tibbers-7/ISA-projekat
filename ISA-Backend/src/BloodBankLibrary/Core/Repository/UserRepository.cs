@@ -1,8 +1,8 @@
-﻿using BloodBankLibrary.Core.Model;
-using BloodBankLibrary.Settings;
+﻿using BloodBankLibrary.Settings;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using UserModel = BloodBankLibrary.Core.Model.User;
 
 namespace BloodBankLibrary.Core.Repository
 {
@@ -15,23 +15,23 @@ namespace BloodBankLibrary.Core.Repository
             _context = context;
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<UserModel> GetAll()
         {
             return _context.Users.ToList();
         }
 
-        public User GetById(int id)
+        public UserModel GetById(int id)
         {
             return _context.Users.Find(id);
         }
 
-        public void Create(User user)
+        public void Create(UserModel user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();
         }
 
-        public void Update(User user)
+        public void Update(UserModel user)
         {
             _context.Entry(user).State = EntityState.Modified;
 
@@ -45,7 +45,7 @@ namespace BloodBankLibrary.Core.Repository
             }
         }
 
-        public void Delete(User user)
+        public void Delete(UserModel user)
         {
             _context.Users.Remove(user);
             _context.SaveChanges();

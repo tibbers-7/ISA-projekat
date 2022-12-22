@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
 import { MaterialModule } from "app/material/material.module";
 import { BloodCenterProfileComponent } from "./blood-center-profile/blood-center-profile.component";
-import { RegistrationComponent } from './registration/registration/registration.component';
 import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
 import { BloodDonorFormComponent } from './bloodDonor-form/blood-donor-form/blood-donor-form.component';
 import { CenterRegisterComponent } from './center-register/center-register/center-register.component';
@@ -17,9 +16,10 @@ import { StaffProfileComponent } from './staff-profile/staff-profile.component';
 import { EditStaffProfileComponent } from "./edit-staff-profile/edit-staff-profile.component";
 import { BloodCenterEditComponent } from "./blood-center-edit/blood-center-edit.component";
 import { AppointmentDialogComponent } from "./staff-appointment/appointment-dialog.component";
+import { DonorHomepageComponent } from './donor-homepage/donor-homepage/donor-homepage.component';
 
 const routes: Routes = [
-  { path: 'register', component: RegistrationComponent },
+  
   { path: 'donor-profile', component: DonorProfileComponent },
   { path: 'edit-donor-profile', component: EditDonorProfileComponent },
   { path: 'user-list', component: UserListComponent },
@@ -29,7 +29,8 @@ const routes: Routes = [
   { path: 'staff/edit-profile', component: EditStaffProfileComponent },
   { path: 'staff/edit-center', component: BloodCenterEditComponent },
   { path: 'center-register', component: CenterRegisterComponent },
-  { path: 'center-list', component: CentersListComponent }
+  { path: 'center-list', component: CentersListComponent },
+  { path: 'donor-homepage', component: DonorHomepageComponent}
 
 ];
 
@@ -37,7 +38,6 @@ const routes: Routes = [
   declarations: [
     BloodCenterProfileComponent,
     AppointmentDialogComponent,
-    RegistrationComponent,
     CentersListComponent,
     DonorProfileComponent,
     BloodDonorFormComponent,
@@ -47,7 +47,8 @@ const routes: Routes = [
     StaffRegistrationComponent,
     StaffProfileComponent,
     EditStaffProfileComponent,
-    BloodCenterEditComponent
+    BloodCenterEditComponent,
+    DonorHomepageComponent
   ],
   imports: [
     CommonModule,

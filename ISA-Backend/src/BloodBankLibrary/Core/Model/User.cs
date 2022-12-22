@@ -1,10 +1,6 @@
 ﻿using BloodBankLibrary.Core.Model.Enums;
-using System;
-using System.Collections.Generic;
+using BloodBankLibrary.Core.User;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BloodBankLibrary.Core.Model
 {
@@ -18,6 +14,8 @@ namespace BloodBankLibrary.Core.Model
         private string name;
         private string surname;
         private UserType userType;
+        private string token;
+        private bool active;
 
         public User(int id, int idByType, string email, string password, string name, string surname, UserType userType)
         {
@@ -28,6 +26,16 @@ namespace BloodBankLibrary.Core.Model
             this.name = name;
             this.surname = surname;
             this.userType = userType;
+        }
+
+        public User(RegisterDTO regDTO, int roleID) //samo pacijent moze da se registruje
+        {
+            this.UserType = UserType.DONOR;
+            this.idByType = roleID;
+            this.name = regDTO.Name;
+            this.surname = regDTO.Surname;
+            this.email = regDTO.Email;
+            this.password = regDTO.Password;
         }
 
 
@@ -42,6 +50,9 @@ namespace BloodBankLibrary.Core.Model
         public string Surname { get => surname; set => surname = value; }
 
         public UserType UserType { get => userType; set => userType = value; }
+        public string Token { get => token; set => token = value; }
+        public bool Active { get => active; set => active = value; }
+
 
     }
 

@@ -1,11 +1,6 @@
 ﻿using BloodBankLibrary.Core.Model;
 using BloodBankLibrary.Core.Repository;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BloodBankLibrary.Core.Service
 {
@@ -28,10 +23,12 @@ namespace BloodBankLibrary.Core.Service
             return _donorRepository.GetById(id);
         }
 
-        public void Create(Donor donor)
+
+        public void Register(Donor donor)
         {
             _donorRepository.Create(donor);
         }
+
 
         public void Update(Donor donor)
         {
@@ -41,6 +38,16 @@ namespace BloodBankLibrary.Core.Service
         public void Delete(Donor donor)
         {
             _donorRepository.Delete(donor);
+        }
+
+        public Donor GetByEmail(string email)
+        {
+            foreach (Donor d in GetAll())
+            {
+                if (d.Email.Equals(email)) return d;
+            }
+            return null;
+
         }
     }
 }

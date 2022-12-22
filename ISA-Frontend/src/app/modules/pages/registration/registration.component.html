@@ -1,0 +1,128 @@
+<body>
+  <div class="row">
+    <div class="element">
+      <div class="header-box">
+        <h3 class="header" style="width:40%;margin-left:30%">Registration</h3>
+      </div>
+
+      <form id="formlogin">
+        <table class="login_container">
+          <tr>
+            <td align="center">
+              <div class="row">
+                  <p class="block">Email:</p>
+                  <input type="text" name="email" class="block" [(ngModel)]="user.email">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block">Password:</p>
+                <input type="password" name="pasword" class="block" [(ngModel)]="user.password">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block" style="margin-right:2%">Confirm password:</p>
+                <input type="password" name="pasword" class="block" [(ngModel)]="passwordConfirm">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block">Name:</p>
+                <input type="text" name="name" class="block" [(ngModel)]="user.name">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block">Surname:</p>
+                <input type="text" name="name" class="block" [(ngModel)]="user.surname">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block">Jmbg:</p>
+                <input type="text" name="jmbg" class="block" [(ngModel)]="user.jmbg">
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block">Workplace:</p>
+                <input type="text" name="adress" class="block" [(ngModel)]="user.workplace">
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block">Profession:</p>
+                <input type="text" name="adress" class="block" [(ngModel)]="user.employmentInfo">
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block">Phone number:</p>
+                <input type="text" name="number" class="block" [(ngModel)]="user.phoneNum">
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" >
+              <div class="row" style="display: flex;justify-content: space-between;">
+                <p class="block" style="width:20%;margin-left:10%;" >Address:</p>
+                <p class="block" style="width:20%;" >City:</p>
+                <p class="block" style="width:20%;margin-right:10%;" >State:</p>
+              </div>
+              <div class="row" style="display: flex;justify-content: space-between;" >
+                
+                <input type="text" name="adress" class="block" style="width:20%;margin-left:10%;"  [(ngModel)]="user.address">
+                <input type="text" name="city" class="block" style="width:20%" [(ngModel)]="user.city">
+                <input type="text" name="state" class="block" style="width:20%; margin-right:10%" [(ngModel)]="user.state">
+
+              </div>
+
+            </td>
+          </tr>
+          
+          <tr>
+            <td align="center">
+              <div class="row">
+                <p class="block">Gender:</p>
+                <input type="radio" name="gender" id="male" value="MALE" [(ngModel)]="user.gender">
+                <label for="male">Male</label>
+                <input type="radio" name="gender" id="female" value="FEMALE" [(ngModel)]="user.gender">
+                <label for="female">Female</label>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center">
+              <button class="btn" (click)="post()">Create account</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+
+   
+
+    </div>
+    </body>

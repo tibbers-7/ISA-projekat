@@ -8,6 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using BloodBankLibrary.Core.PasswordHasher;
+using BloodBankLibrary.Core.EmailSender;
 
 namespace BloodBankAPI
 {
@@ -26,14 +31,41 @@ namespace BloodBankAPI
             services.AddDbContext<BloodBankDbContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("BloodBankDb")));
 
-            services.AddControllers();
+            var emailConfig = Configuration
+            .GetSection("EmailConfiguration")
+            .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audence"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration
+                                ["Jwt:Key"]))
+                    };
+                });
+
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GraphicalEditor", Version = "v1" });
             });
 
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDonorRepository, DonorRepository>();
+            services.AddScoped<IDonorService, DonorService>();
+
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IEmailSendService, EmailSendService>();
+            services.AddScoped<IUserService, UserService>();
+            
             services.AddScoped<IBloodCenterService, BloodCenterService>();
             services.AddScoped<IBloodCenterRepository, BloodCenterRepository>();
             services.AddScoped<IQuestionService, QuestionService>();
@@ -42,6 +74,9 @@ namespace BloodBankAPI
             services.AddScoped<IFormRepository, FormRepository>();
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IAppointmentService, AppointmentService>();
+
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +100,8 @@ namespace BloodBankAPI
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
+
 
             app.UseEndpoints(endpoints =>
             {

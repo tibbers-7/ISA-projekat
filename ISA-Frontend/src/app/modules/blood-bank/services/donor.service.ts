@@ -26,7 +26,7 @@ export class DonorService {
   }
 
   createDonor(donor: any): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/Donor', donor, { headers: this.headers });
+    return this.http.post<any>(this.apiHost + 'api/Credentials/register', donor, { headers: this.headers });
   }
 
   updateDonor(donor: any): Observable<any> {
