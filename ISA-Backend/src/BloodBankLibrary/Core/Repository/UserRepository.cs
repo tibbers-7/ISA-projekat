@@ -1,5 +1,4 @@
-﻿using BloodBankLibrary.Core.Model;
-using BloodBankLibrary.Settings;
+﻿using BloodBankLibrary.Settings;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;

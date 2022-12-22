@@ -1,5 +1,4 @@
-﻿using BloodBankLibrary.Core.Model;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using UserModel = BloodBankLibrary.Core.Model.User;
 

@@ -1,5 +1,4 @@
-﻿using BloodBankLibrary.Core.Model;
-using BloodBankLibrary.Core.Repository;
+﻿using BloodBankLibrary.Core.Repository;
 using BloodBankLibrary.Core.PasswordHasher;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

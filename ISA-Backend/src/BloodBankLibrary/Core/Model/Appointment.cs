@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using BloodBankLibrary.Core.Model.Enums;
 
 namespace BloodBankLibrary.Core.Model

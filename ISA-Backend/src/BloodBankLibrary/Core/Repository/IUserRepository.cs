@@ -1,5 +1,4 @@
-﻿using BloodBankLibrary.Core.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UserModel = BloodBankLibrary.Core.Model.User;
 
 namespace BloodBankLibrary.Core.Repository

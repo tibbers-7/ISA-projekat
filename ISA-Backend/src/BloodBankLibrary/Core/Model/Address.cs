@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace BloodBankLibrary.Core.Model
 {
@@ -11,37 +6,33 @@ namespace BloodBankLibrary.Core.Model
     {
         private string city;
         private string country;
-        private string number;
-        private string street;
+        private string streetAddr;
 
         public Address()
         {
 
         }
 
-        public Address(string city, string country, string number, string street)
+        public Address(string city, string country, string streetAddr)
         {
             this.city = city;
             this.country = country;
-            this.number = number;
-            this.street = street;
+            this.streetAddr = streetAddr;
         }
         public Address(string addressString)
         {
             String[] strings=addressString.Split(' ');
-            this.city = strings[2];
-            this.street = strings[0];
-            this.number = strings[1];
-            this.country = strings[3];
+            this.city = strings[1];
+            this.streetAddr = strings[0];
+            this.country = strings[2];
         }
 
         public string City { get => city; set => city = value; }
         public string Country { get => country; set => country = value; }
-        public string Number { get => number; set => number = value; }
-        public string Street { get => street; set => street = value; }
+        public string StreetAddr { get => streetAddr; set => streetAddr = value; }
         public override string ToString()
         {
-            return Street + " " + Number + " " + City + " " + Country;
+            return StreetAddr + " " + City + " " + Country;
         }
     }
 }

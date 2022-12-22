@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using MimeKit;
-using System;
+﻿using MimeKit;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BloodBankLibrary.Core.EmailSender
 {
