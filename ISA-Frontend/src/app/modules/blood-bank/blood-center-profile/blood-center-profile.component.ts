@@ -5,10 +5,10 @@ import { BloodCenterService } from '../services/blood-center.service';
 import { AppointmentService } from '../services/appointment.service';
 import { Appointment } from '../model/appointment.model';
 import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { Staff } from '../model/staff.model';
 import { StaffService } from '../services/staff.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { AppointmentDialogComponent } from '../staff-appointment/appointment-dialog.component';
 
 @Component({
@@ -54,9 +54,30 @@ export class BloodCenterProfileComponent {
   }
 
   addAppointment() {
-    //const dialogConfig = new MatDialogConfig();
     
-    this.dialog.open(AppointmentDialogComponent, { height: '800px', width: '800px'});
+    const dialogRef = this.dialog.open(AppointmentDialogComponent, { height: '600px', width: '400px' });
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+
+        let appointment = new Appointment();
+        appointment.staffId = data.staff.id;
+        appointment.centerId = data.staff.centerId;
+        appointment.date = data.dateTime.toDate();
+        appointment.duration = data.duration;
+        this.appointmentService.addAvailable(appointment).subscribe(
+          response => {
+            console.log(response);
+            alert("Uspesno dodavanje")
+          },
+          error => {
+            console.log(error);
+            alert("Neuspesno dodavanje");
+          }
+        )
+      }
+      
+    );
     
   }
 }

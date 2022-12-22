@@ -25,10 +25,6 @@ namespace BloodBankLibrary.Core.Service
             _appointmentRepository.Create(appointment);
         }
 
-        public void Delete(Appointment appointment)
-        {
-            _appointmentRepository.Delete(appointment);
-        }
 
         public IEnumerable<Appointment> GetAll()
         {
@@ -73,7 +69,6 @@ namespace BloodBankLibrary.Core.Service
             IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
             
            return allAppointments.Where<Appointment>(a => a.Status == AppointmentStatus.COMPLETED);
-          
         }
 
         public IEnumerable<Appointment> GetScheduledByDonor(int donorId)
@@ -94,6 +89,7 @@ namespace BloodBankLibrary.Core.Service
             return allAvailable.Where<Appointment>(a => a.CenterId == id);
         }
 
+        //ovo popraviti da bude buducnost ako treba
         public ICollection<Appointment> GetByStaffId(int id)
         {
             IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
@@ -118,7 +114,7 @@ namespace BloodBankLibrary.Core.Service
            
             foreach(BloodCenter center in bloodCenters)
             {
-               if(CheckIfCenterAvailable(center.Id, parsedDateTime))
+               if(CheckIfCenterAvailable(center.Id, parsedDateTime, 30))
                 {
                     availableCenters.Add(center);
                 }
@@ -126,13 +122,14 @@ namespace BloodBankLibrary.Core.Service
             return availableCenters;
         }
 
-        public bool CheckIfCenterAvailable(int centerId, DateTime dateTime)
+        public bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration)
         {
-            IEnumerable<Appointment> allCenterApps = GetScheduledByCenter(centerId);
+            List<Appointment> allCenterApps = (List<Appointment>)GetScheduledByCenter(centerId);
+            allCenterApps.AddRange(GetAvailableByCenter(centerId));
             foreach (Appointment app in allCenterApps)
             {
                 //ako ima preklapanja centar nije slobodan izlazimo iz petlje
-                if (Overlaps(app.StartDate, app.StartDate.AddMinutes(app.Duration), dateTime, dateTime.AddMinutes(30)))
+                if (Overlaps(app.StartDate, app.StartDate.AddMinutes(app.Duration), dateTime, dateTime.AddMinutes(duration)))
                 {
                     return false;
                 }
