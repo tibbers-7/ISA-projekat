@@ -30,11 +30,10 @@ namespace BloodBankAPI.Controllers
 		}
 
 		[AllowAnonymous] //prevent the auth process to happen when calling
-
 		[HttpPost("login")]
-		public IActionResult Login([FromBody] User user)
+		public IActionResult Login(RegisterDTO regDTO)
 		{
-
+			User user = new User() { Email = regDTO.Email, Password = regDTO.Password };
 			var _user = _userService.Authenticate(user);
 			if (_user != null)
 			{

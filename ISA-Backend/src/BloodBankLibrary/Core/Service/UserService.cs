@@ -47,6 +47,8 @@ namespace BloodBankLibrary.Core.Service
 
         public void Create(UserModel user)
         {
+            string newPass = _passwordHasher.HashPassword(user.Password);
+            user.Password = newPass;
             _userRepository.Create(user);
         }
 

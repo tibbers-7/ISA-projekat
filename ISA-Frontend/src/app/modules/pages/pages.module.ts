@@ -8,12 +8,14 @@ import { DonorFormComponent } from './donor-form/donor-form/donor-form.component
 import { AdminNewCenterComponent } from './admin-new-center/admin-new-center/admin-new-center.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule } from '@angular/forms';
-import { Form } from '../blood-bank/model/form.model';
 import { NgToastModule } from 'ng-angular-popup';
+import { LoginComponent } from './login/login.component';
+
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {path:'form', component:DonorFormComponent},
-  {path:'register',component:RegistrationComponent}
+  {path:'register',component:RegistrationComponent},
+  {path:'login',component:LoginComponent}
 ];
 
 @NgModule({
@@ -21,7 +23,8 @@ const routes: Routes = [
     HomeComponent,
     DonorFormComponent,
     AdminNewCenterComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

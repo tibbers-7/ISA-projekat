@@ -4,7 +4,7 @@ import { RegDTO } from 'app/modules/blood-bank/model/regDTO.model';
 import { User } from 'app/modules/blood-bank/model/user.model';
 import { AuthService } from 'app/modules/blood-bank/services/auth.service';
 import { DonorService } from 'app/modules/blood-bank/services/donor.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -15,7 +15,7 @@ export class RegistrationComponent implements OnInit {
   public user=new RegDTO();
   public passwordConfirm:string='';
 
-  constructor(private toast: NgToastService, private authService: AuthService, private donorService:DonorService) {
+  constructor(private toast: NgToastService, private authService: AuthService, private donorService:DonorService,private router: Router) {
   }
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class RegistrationComponent implements OnInit {
     this.authService.register(this.user)
       .subscribe(res => {
         console.log("uspelo jeej");
-        this.toast.success({detail:"Added patient to db!",summary:'',duration:5000});
+        this.toast.success({detail:"Sent activation link!",summary:'Check your email.',duration:5000});
     }, error=>{
       console.log(error.message);
     });
@@ -44,7 +44,7 @@ export class RegistrationComponent implements OnInit {
     }
 
     if (this.user.password != this.passwordConfirm){
-      this.toast.error({detail:'Passwords don\'t match',summary:"Please complete the form.",duration:5000});
+      this.toast.error({detail:'Passwords don\'t match',summary:"Please retype the password.",duration:5000});
       return false;
     }
 
