@@ -13,18 +13,18 @@ namespace BloodBankAPI.Controllers
 	[Route("api/[controller]")]
 	[ApiController]
 	public class CredentialsController : ControllerBase
-    {
+	{
 
 
 		private IUserService _userService;
 		private JwtSecurityTokenHandler tokenHandler;
 		private IEmailSendService _emailSendService;
 		private IDonorService _donorService;
-		public CredentialsController(IUserService userService, IEmailSendService emailSendService,IDonorService donorService)
+		public CredentialsController(IUserService userService, IEmailSendService emailSendService, IDonorService donorService)
 		{
-			
+
 			_userService = userService;
-			tokenHandler=new JwtSecurityTokenHandler();
+			tokenHandler = new JwtSecurityTokenHandler();
 			_emailSendService = emailSendService;
 			_donorService = donorService;
 		}
@@ -34,7 +34,7 @@ namespace BloodBankAPI.Controllers
 		[HttpPost("login")]
 		public IActionResult Login([FromBody] User user)
 		{
-			
+
 			var _user = _userService.Authenticate(user);
 			if (_user != null)
 			{
@@ -105,8 +105,8 @@ namespace BloodBankAPI.Controllers
 
 			string email = regDTO.Email;
 			var token = _userService.GenerateActivationToken(email);
-			
-			if (token!=null)
+
+			if (token != null)
 			{
 				_userService.SaveTokenToDatabase(email, token);
 
@@ -120,7 +120,7 @@ namespace BloodBankAPI.Controllers
 			return NotFound();
 		}
 
-        [HttpGet("activate-account")]
+		[HttpGet("activate-account")]
 		public ActionResult Activate()
 		{
 			string email = Request.Query["email"];
@@ -128,26 +128,26 @@ namespace BloodBankAPI.Controllers
 
 
 			if (ModelState.IsValid)
-            {
-                bool response = _userService.Activate(email,token);
-				
-                if (response)
-                {
+			{
+				bool response = _userService.Activate(email, token);
+
+				if (response)
+				{
 					return Redirect("http://localhost:4200/login");
-                }
-                else
-                {
+				}
+				else
+				{
 					return NotFound("Something went wrong!");
-                }
-            }
+				}
+			}
 			return BadRequest();
-        }
+		}
 
 
 		private string Generate(User user)
 		{
-			var token=_userService.GenerateFullToken(user);
+			var token = _userService.GenerateFullToken(user);
 			return new JwtSecurityTokenHandler().WriteToken(token);
 		}
-    }
+	}
 }

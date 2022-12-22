@@ -28,6 +28,7 @@ export class RegistrationComponent implements OnInit {
     console.log("validno je");
     this.authService.register(this.user)
       .subscribe(res => {
+        console.log("uspelo jeej");
         this.toast.success({detail:"Added patient to db!",summary:'',duration:5000});
     }, error=>{
       console.log(error.message);

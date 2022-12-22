@@ -20,7 +20,7 @@ export class AuthService {
     }
    
     register(user:RegDTO): Observable<any> {
-        return this.http.post<any>(this.apiHost + 'api/Credentials/send-activation', user, { headers: this.headers });
+        return this.http.post<any>(this.apiHost + 'api/Credentials/register', user, { headers: this.headers });
     }
 
 

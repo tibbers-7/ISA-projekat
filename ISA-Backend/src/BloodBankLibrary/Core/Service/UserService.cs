@@ -40,7 +40,7 @@ namespace BloodBankLibrary.Core.Service
         public UserModel GetByEmail(string email)
         {
             foreach(UserModel u in _userRepository.GetAll())
-                if (u.Email == email)
+                if (u.Email.Equals(email))
                     return u;
              return null;
         }
