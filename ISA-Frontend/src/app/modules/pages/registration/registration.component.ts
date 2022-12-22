@@ -38,8 +38,13 @@ export class RegistrationComponent implements OnInit {
 
 
   checkValidity(){
-    if (this.user.email === '' || this.user.address==='' || this.user.gender==='' || this.user.jmbg==='' || this.user.name==='' || this.user.password==='') {
+    if (this.user.email === '' || this.user.address==='' || this.user.gender==='' || this.user.jmbg==='' || this.user.name==='' || this.user.password==='' || this.user.workplace==='' || this.user.city==='' || this.user.state==='' || this.user.employmentInfo==='') {
       this.toast.error({detail:'Required fields are empty!',summary:"Please complete the form.",duration:5000});
+      return false;
+    }
+
+    if (this.user.password != this.passwordConfirm){
+      this.toast.error({detail:'Passwords don\'t match',summary:"Please complete the form.",duration:5000});
       return false;
     }
 

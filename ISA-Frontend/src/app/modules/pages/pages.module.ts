@@ -9,7 +9,7 @@ import { AdminNewCenterComponent } from './admin-new-center/admin-new-center/adm
 import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule } from '@angular/forms';
 import { Form } from '../blood-bank/model/form.model';
-
+import { NgToastModule } from 'ng-angular-popup';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {path:'form', component:DonorFormComponent},
@@ -28,7 +28,8 @@ const routes: Routes = [
     AppRoutingModule,
     BloodBankModule,
     RouterModule.forChild(routes),
-    FormsModule
+    FormsModule,
+    NgToastModule
   ]
 })
 export class PagesModule { }
