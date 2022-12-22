@@ -9,5 +9,7 @@ namespace BloodBankLibrary.Core.Service
         Form GetById(int id);
         void Create(Form form);
         void Update(Form form);
+        bool IsDonorEligible(Form form);
+        object GetByDonorId(int id);
     }
 }

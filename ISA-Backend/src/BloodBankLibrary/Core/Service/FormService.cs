@@ -22,9 +22,23 @@ namespace BloodBankLibrary.Core.Service
             return _formRepository.GetAll();
         }
 
+        public object GetByDonorId(int id)
+        {
+            foreach (Form form in GetAll())
+            {
+                if (form.DonorId == id) return form;
+            }
+            return null;
+        }
+
         public Form GetById(int id)
         {
             return _formRepository.GetById(id);
+        }
+
+        public bool IsDonorEligible(Form form)
+        {
+            return !form.Answers[0];
         }
 
         public void Update(Form form)

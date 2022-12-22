@@ -35,6 +35,18 @@ namespace BloodBankAPI.Controllers
             return Ok(form);
         }
 
+        // GET api/bloodCenters/2
+        [HttpGet("donor/{id}")]
+        public ActionResult IsEligible(int id)
+        {
+            var form = _formService.GetByDonorId(id);
+            if (form == null)
+            {
+                return NotFound();
+            }
+            if(!_formService.IsDonorEligible((Form)form)) return NotFound();
+            return Ok(form);
+        }
         // POST api/bloodCenters
         [HttpPost]
         public ActionResult Create(Form form)

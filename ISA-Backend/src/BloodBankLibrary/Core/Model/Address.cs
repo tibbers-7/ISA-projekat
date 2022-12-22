@@ -21,7 +21,7 @@ namespace BloodBankLibrary.Core.Model
         }
         public Address(string addressString)
         {
-            String[] strings=addressString.Split(' ');
+            String[] strings=addressString.Split(',');
             this.city = strings[1];
             this.streetAddr = strings[0];
             this.country = strings[2];

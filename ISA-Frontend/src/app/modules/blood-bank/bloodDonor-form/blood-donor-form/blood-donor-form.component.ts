@@ -3,6 +3,7 @@ import { Form } from '../../model/form.model';
 import { Question } from '../../model/question.model';
 import {QuestionService} from '../../services/question.service'
 import { FormService } from '../../services/form.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'blood-donor-form',
@@ -15,15 +16,17 @@ export class BloodDonorFormComponent implements OnInit {
   public form=new Form();
   public donorId:number=0;
 
-  constructor(private questionService:QuestionService,private formService:FormService) { }
+  constructor(private questionService:QuestionService,private formService:FormService,private authService:AuthService) { }
 
   ngOnInit(): void {
+    this.donorId=Number(this.authService.getIdByRole());
     this.questionService.getQuestions().subscribe(res => {
       this.questions = res;
     });
   }
 
   sendForm(){
+    
     this.form.donorId=this.donorId;
     this.questions.forEach(element => {
       this.form.questionIds.push(element.id);
