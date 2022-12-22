@@ -71,7 +71,7 @@ namespace BloodBankAPI.Controllers
 
 			if (!SendActivationEmail(createdDonor.Email)) return BadRequest("Email");
 
-			return CreatedAtAction("GetById", new { id = donor.Id }, donor);
+			return Ok();
 		}
 
 
