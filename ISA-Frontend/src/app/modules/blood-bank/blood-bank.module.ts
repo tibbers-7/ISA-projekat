@@ -78,7 +78,7 @@ const routes: Routes = [
     StaffToolbarComponent,
     AdminToolbarComponent,
     AdminHomepageComponent,
-   // StaffHomepageComponent,
+    StaffHomepageComponent,
     DonorAppointmentScheduleComponent
   ],
   imports: [
