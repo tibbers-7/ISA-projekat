@@ -1,7 +1,8 @@
-
+<body>
+  <app-donor-toolbar></app-donor-toolbar>
 <div class="search">
-  <mat-form-field>
-    <mat-label>Pick a date and time:</mat-label>
+  <mat-form-field style="color:whitesmoke">
+    <mat-label style="color:whitesmoke">Pick a date and time:</mat-label>
     <input matInput [ngxMatDatetimePicker]="picker1" placeholder="Choose a date and time" [formControl]="dateTime" [min]="minDate">
     <mat-datepicker-toggle matSuffix [for]="$any(picker1)"></mat-datepicker-toggle>
     <ngx-mat-datetime-picker #picker1 [enableMeridian]="true"></ngx-mat-datetime-picker>
@@ -42,3 +43,4 @@
 </div>
 
 
+</body>

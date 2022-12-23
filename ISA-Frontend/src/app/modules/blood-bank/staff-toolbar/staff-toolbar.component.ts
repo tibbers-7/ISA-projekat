@@ -28,10 +28,12 @@ export class StaffToolbarComponent implements OnInit {
     this.router.navigate(['/staff/profile']);
   }
 
-  ApptClick(){
+  CenterProfileClick(){
 
-    this.router.navigate(['/staff/appointments']);
+    this.router.navigate(['/staff/center']);
   }
+
+ 
 
   LogOutClick(){
     this.authService.logout();

@@ -23,6 +23,7 @@ export class BloodCenterProfileComponent {
   public staff: Staff | undefined;
   public allStaff: Staff[] = [];
   public availableAppointments: Appointment[] = [];
+  public scheduledAppointments: Appointment[]=[];
   public dataSourceStaff = new MatTableDataSource<Staff>();
   public displayedColumnsStaff = ['name', 'email', 'adress', 'phoneNumber'];
   public dataSourceAppointments = new MatTableDataSource<Appointment>();
@@ -47,11 +48,16 @@ export class BloodCenterProfileComponent {
           });
          this.appointmentService.getAvailableByCenter(res.centerId).subscribe(res1 => {
             this.availableAppointments = res1;
+            
+          });
+          this.appointmentService.getScheduledByCenter(res.centerId).subscribe(res1=> {
+            this.scheduledAppointments = res1;
+            this.availableAppointments.concat(this.scheduledAppointments);
             this.dataSourceAppointments.data = this.availableAppointments;
           });
         
       });
-}
+    }
 
   editBloodCenter() {
     this.router.navigate(['staff/edit-center']);

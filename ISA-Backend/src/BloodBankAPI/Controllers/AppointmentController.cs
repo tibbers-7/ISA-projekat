@@ -146,6 +146,18 @@ namespace BloodBankAPI.Controllers
 
         }
 
+        [HttpGet("scheduled/{centerId}")]
+        public ActionResult GetScheduledForCenter(int centerId)
+        {
+            var appointments = _appointmentService.GetScheduledByCenter(centerId);
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointments);
+
+        }
+
         [HttpGet("donor/scheduled/{id}")]
         public ActionResult GetScheduledForDonor(int id)
         {

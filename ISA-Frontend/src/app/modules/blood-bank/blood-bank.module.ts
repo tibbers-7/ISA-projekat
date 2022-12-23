@@ -26,35 +26,53 @@ import { StaffHomepageComponent } from './staff-homepage/staff-homepage/staff-ho
 import { DonorAppointmentsComponent } from './donor-appointments/donor-appointments/donor-appointments.component'; 
 import { DonorAppointmentScheduleComponent } from './donor-appointment-schedule/donor-appointment-schedule/donor-appointment-schedule.component'; 
 import { DonorMadeAppointmentComponent } from "./donor-made-appointment/donor-made-appointment.component";
+import { RoleGuardService } from '../../auth/role-guard.service';
 
 const routes: Routes = [
   
-  { path: 'donor/homepage', component: DonorHomepageComponent},
-  { path: 'donor/profile', component: DonorProfileComponent },
-  { path: 'donor/edit-profile', component: EditDonorProfileComponent },
-  {path: 'donor/form', component:DonorFormComponent},
-  { path: 'donor/schedule-appt', component:DonorAppointmentScheduleComponent},
-  { path: 'donor/appointments', component:DonorAppointmentsComponent},
+  { path: 'donor/homepage', component: DonorHomepageComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' } },
+  { path: 'donor/profile', component: DonorProfileComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' } },
+  { path: 'donor/edit-profile', component: EditDonorProfileComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' } },
+  {path: 'donor/form', component:DonorFormComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' }},
+  { path: 'donor/schedule-appt', component:DonorAppointmentScheduleComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' }},
+  { path: 'donor/appointments', component:DonorAppointmentsComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' }},
+  { path: 'donor-homepage', component: DonorHomepageComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' } },
+  { path: 'donor/make-appointment', component: DonorMadeAppointmentComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' } },
 
-  { path: 'admin/homepage', component:AdminHomepageComponent},
-  { path: 'admin/user-list', component: UserListComponent },
-  { path: 'admin/center-register', component: CenterRegisterComponent },
-  {path: 'admin/new-center', component:AdminNewCenterComponent},
-  { path: 'admin/staff-register', component: StaffRegistrationComponent },
+  { path: 'admin/homepage', component:AdminHomepageComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' }},
+  { path: 'admin/user-list', component: UserListComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' } },
+  { path: 'admin/center-register', component: CenterRegisterComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' } },
+  {path: 'admin/new-center', component:AdminNewCenterComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' }},
+  { path: 'admin/staff-register', component: StaffRegistrationComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' } },
 
-  { path: 'staff/homepage', component:StaffHomepageComponent},
-  //{ path: 'staff/homepage', component:StaffHomepageComponent},
-  { path: 'staff/profile', component: StaffProfileComponent },
-  { path: 'staff/center', component: BloodCenterProfileComponent },
-  { path: 'staff/edit-profile', component: EditStaffProfileComponent },
-  { path: 'staff/edit-center', component: BloodCenterEditComponent },
+  { path: 'staff/homepage', component:StaffHomepageComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' }},
+  { path: 'staff/profile', component: StaffProfileComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
+  { path: 'staff/center', component: BloodCenterProfileComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
+  { path: 'staff/edit-profile', component: EditStaffProfileComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
+  { path: 'staff/edit-center', component: BloodCenterEditComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
   
   { path: 'center-list', component: CentersListComponent },
   
   
   
-  { path: 'donor-homepage', component: DonorHomepageComponent },
-  { path: 'donor/make-appointment', component: DonorMadeAppointmentComponent }
 
 ];
 

@@ -6,6 +6,9 @@ import { AppointmentService } from "../services/appointment.service";
 import { BloodCenterService } from "../services/blood-center.service";
 import { User } from "../model/user.model";
 import { UserService } from "../services/user.service";
+import { StaffService } from "../services/staff.service";
+import { AuthService } from "../services/auth.service";
+import { Staff } from "../model/staff.model";
 
 @Component({
   selector: 'app-blood-center-edit',
@@ -16,28 +19,28 @@ import { UserService } from "../services/user.service";
 export class BloodCenterEditComponent implements OnInit {
 
   public center: BloodCenter | undefined;
-  public staff: User | undefined;
+  public staff: Staff | undefined;
  
-  constructor(private userService: UserService, private bloodCenterService: BloodCenterService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private staffService: StaffService, private authService: AuthService, private bloodCenterService: BloodCenterService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-
-      this.userService.getUser(params['id']).subscribe(res => {
+   
+      const id = Number(this.authService.getIdByRole());
+      this.staffService.getStaff(id).subscribe(res => {
         this.staff = res;
-        this.bloodCenterService.getCenter(res.idOfCenter).subscribe(res1 => {
+        this.bloodCenterService.getCenter(this.staff.centerId).subscribe(res1 => {
           this.center = res1;
         });
       });
 
-    });
+   
 
   }
 
   public updateCenter(): void {
     if (!this.isValidInput()) return;
     this.bloodCenterService.updateCenter(this.center).subscribe(res => {
-      this.router.navigate(['staff/{id}/center', { id: this.staff?.id }]);
+      this.router.navigate(['staff/center']);
     });
   }
 
