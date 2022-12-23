@@ -30,7 +30,7 @@ export class FormService {
   }
 
   isEligible(id: number): Observable<any> {
-    return this.http.get<any>(this.apiHost + 'api/Form/' + id, { headers: this.headers });
+    return this.http.get<any>(this.apiHost + 'api/Form/donor/' + id, { headers: this.headers });
   }
 
 }

@@ -5,6 +5,7 @@ import { BloodCenter } from '../../model/blood-center.model';
 import { BloodCenterService } from '../../services/blood-center.service';
 import { AppointmentService } from '../../services/appointment.service';
 import { NgToastService } from 'ng-angular-popup';
+import { FormService } from '../../services/form.service';
 
 @Component({
   selector: 'app-donor-appointment-schedule',
@@ -23,7 +24,7 @@ export class DonorAppointmentScheduleComponent implements OnInit {
 
   public selectedAppt:Appointment=new Appointment;
   private idNum:number=0;
-  constructor(private centerService:BloodCenterService,private apptService:AppointmentService, private toast:NgToastService) { }
+  constructor(private centerService:BloodCenterService,private apptService:AppointmentService, private toast:NgToastService, private formService:FormService) { }
 
   ngOnInit(): void {
     this.centerService.getCenters().subscribe(res => {
@@ -50,14 +51,19 @@ export class DonorAppointmentScheduleComponent implements OnInit {
 
   schedule(){
     this.selectedAppt.donorId=Number(localStorage.getItem('idByRole'));
-    this.apptService.scheduleAppt(this.selectedAppt).subscribe(res => {
+    this.formService.isEligible(this.selectedAppt.donorId).subscribe(res =>{
+      this.apptService.scheduleAppt(this.selectedAppt).subscribe(res => {
 
-      this.toast.success({detail:"Appointment scheduled!",summary:'',duration:3000});
-
+        this.toast.success({detail:"Appointment scheduled!",summary:'',duration:3000});
+  
+      }, error=>{
+        this.toast.error({detail:'Something went wrong!',summary:"",duration:3000});
+  
+      });
     }, error=>{
-      this.toast.error({detail:'Something went wrong!',summary:"",duration:3000});
-
+      this.toast.error({detail:'You haven\'t filled the form or you already gave blood recently!',summary:"",duration:3000});
     });
+    
   }
 
 }
