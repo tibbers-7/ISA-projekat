@@ -37,9 +37,9 @@ namespace BloodBankAPI.Controllers
             return Ok(appointment);
         }
 
-
-        [HttpPost("available/add/")]
-        public ActionResult AddAvailable(AppointmentDTO dto)
+        //ista fja za dodavanje available i schedule pa sam spojila
+        [HttpPost("new")]
+        public ActionResult NewAppointment(AppointmentDTO dto)
         {
             if (!ModelState.IsValid)
             {
@@ -51,7 +51,6 @@ namespace BloodBankAPI.Controllers
             {
                 return NotFound();
             }
-            appointment.Status = BloodBankLibrary.Core.Model.Enums.AppointmentStatus.AVAILABLE;
             _appointmentService.Create(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
@@ -69,18 +68,6 @@ namespace BloodBankAPI.Controllers
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
-        [HttpPost("schedule-donorMade")]
-        public ActionResult AddScheduledDonorMade(Appointment appointment)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            appointment.Status = BloodBankLibrary.Core.Model.Enums.AppointmentStatus.SCHEDULED;
-            _appointmentService.Create(appointment);
-
-            return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
-        }
 
         [HttpPost("cancel")]
         public ActionResult Cancel(Appointment appointment)
@@ -146,7 +133,7 @@ namespace BloodBankAPI.Controllers
 
         }
 
-        [HttpGet("scheduled/{centerId}")]
+        [HttpGet("center/scheduled/{centerId}")]
         public ActionResult GetScheduledForCenter(int centerId)
         {
             var appointments = _appointmentService.GetScheduledByCenter(centerId);

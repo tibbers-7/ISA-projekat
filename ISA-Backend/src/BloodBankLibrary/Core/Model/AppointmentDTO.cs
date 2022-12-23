@@ -15,9 +15,10 @@ namespace BloodBankLibrary.Core.Model
         private string date;
         private int duration;
         private int centerId;
+        private string status;
 
       
-        public AppointmentDTO(int id, int duration, int staffId, int donorId, string date, int centerId)
+        public AppointmentDTO(int id, int duration, int staffId, int donorId, string date, int centerId, string status)
         {
             this.id = id;
             this.staffId = staffId;
@@ -25,6 +26,7 @@ namespace BloodBankLibrary.Core.Model
             this.date = date;
             this.duration = duration;
             this.centerId = centerId;
+            this.status = status;
             
         }
 
@@ -34,5 +36,6 @@ namespace BloodBankLibrary.Core.Model
         public int DonorId { get => donorId; set => donorId = value; }
         public int CenterId { get => centerId; set => centerId = value; }
         public int Id { get => id; set => id = value; }
+        public string Status { get => status; set => status = value; }
     }
 }

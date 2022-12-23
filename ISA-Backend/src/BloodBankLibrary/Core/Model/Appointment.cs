@@ -15,7 +15,7 @@ namespace BloodBankLibrary.Core.Model
         
         public Appointment() { }
 
-        //kad staff pravi
+        
         public Appointment(AppointmentDTO dto)
         {
             this.centerId = dto.CenterId;
@@ -23,6 +23,7 @@ namespace BloodBankLibrary.Core.Model
             this.startDate = DateTime.Parse(dto.Date);
             this.duration = dto.Duration;
             this.donorId = dto.DonorId;
+            this.status = Enum.Parse<AppointmentStatus>(dto.Status);
         }
 
       
