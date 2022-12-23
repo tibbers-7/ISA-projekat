@@ -48,9 +48,10 @@ namespace BloodBankLibrary.Core.Service
             List<Appointment> available = new List<Appointment>();
             foreach(Appointment appointment in allAppointments)
             {
-                if(appointment.Status == AppointmentStatus.AVAILABLE && DateTime.Compare(appointment.StartDate, DateTime.Now) > 0)
+                if(appointment.Status == AppointmentStatus.AVAILABLE || appointment.Status == AppointmentStatus.CANCELLED)
                 {
-                    available.Add(appointment);
+                    if (DateTime.Compare(appointment.StartDate, DateTime.Now) > 0) available.Add(appointment);
+                  
                 }
             }
             return available;

@@ -65,7 +65,7 @@ export class BloodCenterProfileComponent {
       data => {
 
         let appointment = new Appointment();
-        appointment.staffId = data.staff.id;
+        appointment.staffId = this.staff!.id;
         appointment.centerId = this.center!.id;
         appointment.date = data.dateTime.format('YYYY-MM-DD HH:mm:ss');
         appointment.duration = data.duration;

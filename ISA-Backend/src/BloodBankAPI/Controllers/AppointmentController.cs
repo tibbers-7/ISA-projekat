@@ -69,6 +69,19 @@ namespace BloodBankAPI.Controllers
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
+        [HttpPost("schedule-donorMade")]
+        public ActionResult AddScheduledDonorMade(Appointment appointment)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            appointment.Status = BloodBankLibrary.Core.Model.Enums.AppointmentStatus.SCHEDULED;
+            _appointmentService.Create(appointment);
+
+            return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
+        }
+
         [HttpPost("cancel")]
         public ActionResult Cancel(Appointment appointment)
         {

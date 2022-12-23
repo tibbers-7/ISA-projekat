@@ -48,7 +48,7 @@ export class AppointmentService {
   }
 
   makeDonorAppointment(appointment: any): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/Appointment/schedule', appointment, { headers: this.headers });
+    return this.http.post<any>(this.apiHost + 'api/Appointment/schedule-donorMade', appointment, { headers: this.headers });
   }
 
 }

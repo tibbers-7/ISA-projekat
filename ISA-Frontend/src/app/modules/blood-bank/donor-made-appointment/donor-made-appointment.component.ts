@@ -5,6 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MatSort, Sort } from '@angular/material/sort';
 import * as moment from 'moment';
+import { NgToastService } from 'ng-angular-popup';
 import { Appointment } from '../model/appointment.model';
 import { BloodCenter } from '../model/blood-center.model';
 import { Donor } from '../model/donor.model';
@@ -23,21 +24,23 @@ export class DonorMadeAppointmentComponent implements OnInit {
 
   public centers: BloodCenter[] = [];
   public dataSource = new MatTableDataSource<BloodCenter>();
-  public selectedRow = new SelectionModel<BloodCenter>(false, []);
+  public selectedRow: BloodCenter=new BloodCenter;
   public selectedIndex = 0;
   public displayedColumns = ['name', 'adress', 'avgScore'];
   public minDate = new Date();
   public dateTime = new FormControl(moment(new Date()));
   public chosenDate = '';
   public showForm: boolean = false;
+  public donorId: number = 0;
   public donor!: Donor;
   public center!: BloodCenter;
 
-  constructor(private appointmentService: AppointmentService, private donorService:DonorService, private authService: AuthService, private formService: FormService) { }
+  constructor(private appointmentService: AppointmentService, private donorService:DonorService, private authService: AuthService, private formService: FormService,private toast:NgToastService) { }
 
   ngOnInit(): void {
-    let id = Number(this.authService.getIdByRole());
-    this.donorService.getDonor(id).subscribe(res => {
+    this.donorId = Number(this.authService.getIdByRole());
+    console.log(this.donorId);
+    this.donorService.getDonor(this.donorId).subscribe(res => {
       this.donor = res;
     })
   }
@@ -47,6 +50,7 @@ export class DonorMadeAppointmentComponent implements OnInit {
     if (this.dateTime.value != null) {
 
      this.chosenDate = this.dateTime.value.format('YYYY-MM-DD HH:mm:ss');
+     console.log(this.chosenDate);
       this.appointmentService.getCentersForDateTime(this.chosenDate).subscribe(res => {
         this.centers = res.sort((a, b) => b.avgScore - a.avgScore);
         this.dataSource.data = this.centers;
@@ -58,30 +62,33 @@ export class DonorMadeAppointmentComponent implements OnInit {
 
   chooseCenter() {
     //check if popunjen upitnik ako ne redirect ili nesto
-    this.formService.isEligible(this.donor?.id).subscribe(response => {
+    console.log(this.donorId);
+    console.log(this.selectedRow);
+    this.formService.isEligible(this.donorId).subscribe(response => {
       //popunjen je
-      if (this.selectedRow.selected.length != 0) {
-        this.center = this.selectedRow.selected[0];
         this.makeAppointment();
-      }
+        this.toast.success({detail:"Appointment scheduled!",summary:'',duration:3000});
+      
     },
       error => {
-
-        this.showForm = true;
+        this.toast.error({detail:'You haven\'t filled the form or you already gave blood recently!',summary:"",duration:3000});
       });
 
   //neka provera da li je popunjena?
-    if (this.selectedRow.selected.length != 0) {
-      this.center = this.selectedRow.selected[0];
-      this.makeAppointment();
-    }
+  
+    
+  }
+
+  selectAppointment(appt:any){
+    this.selectedRow=appt;
+    console.log(appt);
   }
 
   makeAppointment() {
   var appointment = new Appointment();
   appointment.date = this.chosenDate;
-  appointment.centerId = this.center?.id;
-  appointment.donorId = this.donor?.id;
+  appointment.centerId = this.selectedRow.id;
+  appointment.donorId = this.donorId;
     appointment.duration = 30;
     this.appointmentService.makeDonorAppointment(appointment).subscribe(res => {
 
