@@ -1,5 +1,6 @@
 ﻿using BloodBankLibrary.Core.Model;
 using BloodBankLibrary.Core.Model.Enums;
+using BloodBankLibrary.Core.User;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
@@ -31,6 +32,7 @@ namespace BloodBankLibrary.Settings
 
 
             modelBuilder.Entity<Donor>().Property(d => d.Address).HasColumnType("jsonb");
+            modelBuilder.Entity<BloodCenter>().Property(b => b.Address).HasColumnType("jsonb");
 
             Question[] questions= new Question[] { new Question(1, "Have you donated blood in the last 6 months?"), 
                                                     new Question(2, "Have you ever been rejected as a blood donor?"),
@@ -43,14 +45,14 @@ namespace BloodBankLibrary.Settings
                                                   };
             modelBuilder.Entity<Question>().HasData(questions);
 
-            BloodCenter bc1 = new BloodCenter { Id = 1, Address = "Futoska 62 Novi Sad", AvgScore = 8, Description = "Blood transfusion center.", Name = "Center 1", WorkTimeStart=8, WorkTimeEnd=18 };
-            BloodCenter bc2 = new BloodCenter { Id = 2, Address = "Bulevar Oslobodjenja 111 Novi Sad", AvgScore = 9, Description = "Blood transfusion center.", Name = "Center 2", WorkTimeStart = 7, WorkTimeEnd = 14 };
-            BloodCenter bc3 = new BloodCenter { Id = 3, Address = "Strazilovska 18 Novi Sad", AvgScore = 7, Description = "Blood transfusion center.", Name = "Center 3", WorkTimeStart = 9, WorkTimeEnd = 16 };
-            BloodCenter bc4 = new BloodCenter { Id = 4, Address = "Vere Petrovic 1 Novi Sad", AvgScore = 6, Description = "Blood transfusion center.", Name = "Center 4", WorkTimeStart = 9, WorkTimeEnd = 17 };
+            BloodCenter bc1 = new BloodCenter("Center 1", 1, "Futoska 62,Novi Sad,Srbija", "Blood transfusion center.", 8, 8, 18 );
+            BloodCenter bc2 = new BloodCenter ( "Center 2", 2, "Bulevar Oslobodjenja 111,Novi Sad,Srbija", "Blood transfusion center.", 9, 7, 14 );
+            BloodCenter bc3 = new BloodCenter ("Center 3", 3, "Strazilovska 18,Novi Sad,Srbija", "Blood transfusion center.", 7, 9, 16 );
+            BloodCenter bc4 = new BloodCenter ("Center 4", 4, "Vere Petrovic 1,Novi Sad,Srbija", "Blood transfusion center.", 6, 9, 17 );
             modelBuilder.Entity<BloodCenter>().HasData(bc1,bc2,bc3,bc4);
 
-            modelBuilder.Entity<Donor>().HasData(new Donor { Id = 1, Name = "Anja", Surname = "Medic", Address = new Address("Novi Sad", "Srbija", "Bore Prodanovica 11"), Email = "anjaamedic@gmail.com", Gender = Gender.FEMALE, Jmbg = "1207997905465", PhoneNumber = "064865268", Profession = "Data scientist", Strikes = 0, Workplace = "MIT" });
-            modelBuilder.Entity<Admin>().HasData(new Admin { Email = "admin", Id = 1, Name = "Admy", Surname = "Adminini" });
+            modelBuilder.Entity<Donor>().HasData(new Donor(1, "Anja", "Medic", new Address("Novi Sad", "Srbija", "Bore Prodanovica 11"), "anjaamedic@gmail.com", Gender.FEMALE, "1207997905465", "064865268",  "Data scientist",  0,  "MIT"));
+            modelBuilder.Entity<Admin>().HasData(new Admin (1, "admin", "Admy", "Adminini" ));
 
             Staff s1 = new Staff { Id = 1, Email = "staff1", Name = "Milan", Surname = "Miric", CenterId = 1 };
             Staff s2 = new Staff { Id = 2, Email = "staff2", Name = "Ivana", Surname = "Negovanovic", CenterId = 1 };
