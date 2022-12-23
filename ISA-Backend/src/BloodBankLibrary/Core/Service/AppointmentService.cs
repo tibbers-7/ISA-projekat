@@ -53,8 +53,18 @@ namespace BloodBankLibrary.Core.Service
         {
             IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
             //svi scheduled koji su u buducnosti ili nsiu jos zavrseni
-            return allAppointments.Where<Appointment>(a => a.Status == AppointmentStatus.SCHEDULED && DateTime.Compare(a.StartDate.AddMinutes(a.Duration), DateTime.Now) >= 0);
-           
+            List<Appointment> res = new List<Appointment>();
+           // return allAppointments.Where<Appointment>(a => a.Status == AppointmentStatus.SCHEDULED && DateTime.Compare(a.StartDate.AddMinutes(a.Duration), DateTime.Now) >= 0);
+           foreach(Appointment appointment in allAppointments)
+            {
+                if (appointment.Status==AppointmentStatus.SCHEDULED) {
+                    if (DateTime.Compare(appointment.StartDate.AddMinutes(appointment.Duration), DateTime.Now) >= 0)
+                    {
+                        res.Add(appointment);
+                    }
+                }
+            }
+            return res;
         }
 
         public IEnumerable<Appointment> GetCancelled()
@@ -74,7 +84,13 @@ namespace BloodBankLibrary.Core.Service
         public IEnumerable<Appointment> GetScheduledByDonor(int donorId)
         {
             IEnumerable<Appointment> allScheduled = GetScheduled();
-            return allScheduled.Where<Appointment>(a => a.DonorId == donorId);
+            List<Appointment> res = new List<Appointment>();
+            foreach(Appointment appointment in allScheduled)
+            {
+                if (appointment.DonorId == donorId) res.Add(appointment);
+            }
+            return res;
+            //return allScheduled.Where<Appointment>(a => a.DonorId == donorId);
         }
 
         public IEnumerable<Appointment> GetScheduledByCenter(int id)
@@ -158,8 +174,14 @@ namespace BloodBankLibrary.Core.Service
 
         }
 
+        public Appointment CancelAppt(int apptId)
+        {
+            
+            Appointment appt=GetById(apptId);
+            DateTime cancelBy = appt.StartDate.AddDays(1);
+            if (DateTime.Compare(cancelBy, DateTime.Now) < 0) return appt;
+            return null;
 
-       
-       
+        }
     }
 }

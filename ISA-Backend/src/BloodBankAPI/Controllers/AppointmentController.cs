@@ -78,7 +78,7 @@ namespace BloodBankAPI.Controllers
             return Ok(appointment);
         }
 
-        [HttpGet("/centers/{dateTime}")]
+        [HttpGet("centers/{dateTime}")]
         public ActionResult GetCentersForDateTime(string dateTime)
         {
             var bloodCenters = _appointmentService.GetCentersForDateTime(dateTime);
@@ -89,7 +89,7 @@ namespace BloodBankAPI.Controllers
             return Ok(bloodCenters);
         }
 
-        [HttpGet("/available/center/{centerId}")]
+        [HttpGet("available/{centerId}")]
         public ActionResult GetAvailableForCenter(int centerId)
         {
             var appointments = _appointmentService.GetAvailableByCenter(centerId);
@@ -101,6 +101,28 @@ namespace BloodBankAPI.Controllers
 
         }
 
+        [HttpGet("donor/scheduled/{id}")]
+        public ActionResult GetScheduledForDonor(int donorId)
+        {
+            var appointments = _appointmentService.GetScheduledByDonor(donorId);
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointments);
+
+        }
+
+        [HttpGet("donor/cancel/{id}")]
+        public ActionResult DonorCancel(int apptId)
+        {
+            var appointment = _appointmentService.CancelAppt(apptId);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointment);
+        }
 
        
 

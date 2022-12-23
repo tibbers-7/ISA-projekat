@@ -21,6 +21,6 @@ namespace BloodBankLibrary.Core.Service
         void Update(Appointment appointment);
 
         bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration);
-       
+        Appointment CancelAppt(int apptId);
     }
 }
