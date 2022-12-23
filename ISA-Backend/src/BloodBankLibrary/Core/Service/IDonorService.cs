@@ -11,6 +11,6 @@ namespace BloodBankLibrary.Core.Service
         void Update(Donor donor);
         void Delete(Donor donor);
         Donor GetByEmail(string email);
-        
+        void AddStrike(int donorId);
     }
 }

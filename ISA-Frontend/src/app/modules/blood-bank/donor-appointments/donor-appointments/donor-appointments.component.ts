@@ -19,11 +19,12 @@ export class DonorAppointmentsComponent {
   public selectedAppt:Appointment=new Appointment;
   public donorId:any;
 
+  public apptId:number=0;
   constructor(private apptService:AppointmentService, private toast:NgToastService,private authService:AuthService) { }
 
   ngOnInit(): void {
-    console.log(localStorage.getItem('idByRole'));
-    this.donorId=this.authService.getIdByRole;
+    this.donorId=Number(this.authService.getIdByRole());
+    console.log(this.donorId);
     this.apptService.getScheduledForDonor(this.donorId).subscribe(res => {
       this.appointments=res;
       this.dataSource.data=this.appointments;
@@ -33,5 +34,12 @@ export class DonorAppointmentsComponent {
   selectAppointment(appt:any){
     this.selectedAppt=appt;
     console.log(appt);
+  }
+
+  cancelAppointment(){
+    this.apptService.cancelAppt(this.selectedAppt).subscribe(res => {
+      this.appointments=res;
+      this.dataSource.data=this.appointments;
+    });
   }
 }

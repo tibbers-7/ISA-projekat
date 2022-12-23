@@ -18,6 +18,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"  (click)="selectAppointment(row)"></tr>
   </table>
+  <button class="btn" (click)="cancelAppointment()">Cancel appointment</button>
 
   </body>
   

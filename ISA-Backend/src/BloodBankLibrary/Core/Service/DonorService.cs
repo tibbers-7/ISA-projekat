@@ -49,5 +49,12 @@ namespace BloodBankLibrary.Core.Service
             return null;
 
         }
+
+        public void AddStrike(int donorId)
+        {
+            Donor d=GetById(donorId);
+            d.Strikes++;
+            Update(d);
+        }
     }
 }

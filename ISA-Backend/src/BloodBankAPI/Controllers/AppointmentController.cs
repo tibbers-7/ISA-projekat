@@ -9,10 +9,12 @@ namespace BloodBankAPI.Controllers
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;
+        private readonly IDonorService _donorService;
 
-        public AppointmentController(IAppointmentService appointmentService)
+        public AppointmentController(IAppointmentService appointmentService, IDonorService donorService)
         {
             _appointmentService = appointmentService;
+            _donorService = donorService;
         }
 
        
@@ -67,18 +69,20 @@ namespace BloodBankAPI.Controllers
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
-        [HttpPost("schedule")]
-        public ActionResult AddScheduled(Appointment appointment)
+        [HttpPost("cancel")]
+        public ActionResult Cancel(Appointment appointment)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            appointment.Status = BloodBankLibrary.Core.Model.Enums.AppointmentStatus.SCHEDULED;
+            appointment.Status = BloodBankLibrary.Core.Model.Enums.AppointmentStatus.CANCELLED;
+            _donorService.AddStrike(appointment.DonorId);
             _appointmentService.Update(appointment);
 
-            return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
+            return Ok(appointment);
         }
+
 
         // PUT api/appointments/2
         [HttpPut("{id}")]
@@ -130,9 +134,9 @@ namespace BloodBankAPI.Controllers
         }
 
         [HttpGet("donor/scheduled/{id}")]
-        public ActionResult GetScheduledForDonor(int donorId)
+        public ActionResult GetScheduledForDonor(int id)
         {
-            var appointments = _appointmentService.GetScheduledByDonor(donorId);
+            var appointments = _appointmentService.GetScheduledByDonor(id);
             if (appointments == null)
             {
                 return NotFound();
