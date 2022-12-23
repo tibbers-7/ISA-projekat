@@ -49,6 +49,7 @@ namespace BloodBankAPI.Controllers
             {
                 return NotFound();
             }
+            appointment.Status = BloodBankLibrary.Core.Model.Enums.AppointmentStatus.AVAILABLE;
             _appointmentService.Create(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
@@ -91,7 +92,6 @@ namespace BloodBankAPI.Controllers
         }
 
         [HttpGet("available/{centerId}")]
-        [HttpGet("available/center/{centerId}")]
         public ActionResult GetAvailableForCenter(int centerId)
         {
             var appointments = _appointmentService.GetAvailableByCenter(centerId);
@@ -138,6 +138,7 @@ namespace BloodBankAPI.Controllers
             {
                 return NotFound();
             }
+            appointment.Status = BloodBankLibrary.Core.Model.Enums.AppointmentStatus.SCHEDULED;
             _appointmentService.Create(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }

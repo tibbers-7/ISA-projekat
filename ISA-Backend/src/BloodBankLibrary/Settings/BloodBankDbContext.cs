@@ -44,7 +44,7 @@ namespace BloodBankLibrary.Settings
                                                     new Question(8,"Have you ever had unsafe sexual intercourse with a person suffering from HIV?")
                                                   };
             modelBuilder.Entity<Question>().HasData(questions);
-
+/*
             BloodCenter bc1 = new BloodCenter("Center 1", 1, "Futoska 62,Novi Sad,Srbija", "Blood transfusion center.", 8, 8, 18 );
             BloodCenter bc2 = new BloodCenter ( "Center 2", 2, "Bulevar Oslobodjenja 111,Novi Sad,Srbija", "Blood transfusion center.", 9, 7, 14 );
             BloodCenter bc3 = new BloodCenter ("Center 3", 3, "Strazilovska 18,Novi Sad,Srbija", "Blood transfusion center.", 7, 9, 16 );
@@ -69,7 +69,7 @@ namespace BloodBankLibrary.Settings
             User u6 = new User { Id = 6, IdByType = 4, Email = "staff4", Name = "Ena", Surname = "Popov", Active = true, Token = null, UserType = UserType.STAFF, Password = "AMnI1Ks4LwHaa8litjbGOhpvrAV/2e0IZsv6EXpkTMORSQ1GQ1nwiiSE7yEIKjdM9g=="};
             User u7 = new User { Id = 7, IdByType = 5, Email = "staff5", Name = "Goga", Surname = "Sekulic", Active = true, Token = null, UserType = UserType.STAFF, Password = "AMnI1Ks4LwHaa8litjbGOhpvrAV/2e0IZsv6EXpkTMORSQ1GQ1nwiiSE7yEIKjdM9g=="};
             modelBuilder.Entity<User>().HasData(u1, u2, u3, u4, u5);
-
+*/
             base.OnModelCreating(modelBuilder);
         }
     }

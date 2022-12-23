@@ -45,7 +45,15 @@ namespace BloodBankLibrary.Core.Service
         {
             IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
             //svi koji su available i u buducnosti, mada mozda i neko brisnanje da se napravi za available al ne mora
-            return allAppointments.Where<Appointment>(a => a.Status == AppointmentStatus.AVAILABLE && DateTime.Compare(a.StartDate, DateTime.Now) > 0);
+            List<Appointment> available = new List<Appointment>();
+            foreach(Appointment appointment in allAppointments)
+            {
+                if(appointment.Status == AppointmentStatus.AVAILABLE && DateTime.Compare(appointment.StartDate, DateTime.Now) > 0)
+                {
+                    available.Add(appointment);
+                }
+            }
+            return available;
            
         }
 
@@ -67,19 +75,7 @@ namespace BloodBankLibrary.Core.Service
             return res;
         }
 
-        public IEnumerable<Appointment> GetCancelled()
-        {
-            IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
-            return allAppointments.Where<Appointment>(a => a.Status == AppointmentStatus.CANCELLED);
-          
-        }
 
-        public IEnumerable<Appointment> GetCompleted()
-        {
-            IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
-            
-           return allAppointments.Where<Appointment>(a => a.Status == AppointmentStatus.COMPLETED);
-        }
 
         public IEnumerable<Appointment> GetScheduledByDonor(int donorId)
         {
@@ -96,13 +92,23 @@ namespace BloodBankLibrary.Core.Service
         public IEnumerable<Appointment> GetScheduledByCenter(int id)
         {
             IEnumerable<Appointment> allScheduled = GetScheduled();
-            return allScheduled.Where<Appointment>(a => a.CenterId == id);
+            List<Appointment> res = new List<Appointment>();
+           foreach(Appointment appointment in allScheduled)
+            {
+                if(appointment.CenterId == id) res.Add(appointment) ;
+            }
+            return res;
         }
 
         public IEnumerable<Appointment> GetAvailableByCenter(int id)
         {
             IEnumerable<Appointment> allAvailable = GetAvailable();
-            return allAvailable.Where<Appointment>(a => a.CenterId == id);
+            List<Appointment> res = new List<Appointment>();
+            foreach (Appointment appointment in allAvailable)
+            {
+                if (appointment.CenterId == id) res.Add(appointment);
+            }
+            return res;
         }
 
         //ovo popraviti da bude buducnost ako treba
@@ -142,9 +148,11 @@ namespace BloodBankLibrary.Core.Service
         {
             List<Appointment> allCenterApps = (List<Appointment>)GetScheduledByCenter(centerId);
             allCenterApps.AddRange(GetAvailableByCenter(centerId));
+            BloodCenter bloodCenter = _bloodCenterRepository.GetById(centerId);
+            if (dateTime.Hour < bloodCenter.WorkTimeStart || dateTime.Hour > bloodCenter.WorkTimeEnd) return false;
             foreach (Appointment app in allCenterApps)
             {
-                //ako ima preklapanja centar nije slobodan izlazimo iz petlje
+                
                 if (Overlaps(app.StartDate, app.StartDate.AddMinutes(app.Duration), dateTime, dateTime.AddMinutes(duration)))
                 {
                     return false;

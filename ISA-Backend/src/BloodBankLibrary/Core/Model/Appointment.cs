@@ -19,23 +19,12 @@ namespace BloodBankLibrary.Core.Model
         {
             this.centerId = dto.CenterId;
             this.staffId = dto.StaffId;
-            this.startDate = DateTime.Parse(dto.StartDate);
+            this.startDate = DateTime.Parse(dto.Date);
             this.duration = dto.Duration;
-            this.status = AppointmentStatus.AVAILABLE;
-            donorId = -1;
+            this.donorId = dto.DonorId;
         }
 
-        //kad pravi korisnik
-        public Appointment(int id, int duration, int staffId, int donorId, DateTime startDate, int centerId)
-        {
-            this.id = id;
-            this.staffId = staffId;
-            this.donorId = donorId;
-            this.startDate = startDate;
-            this.duration = duration;
-            this.centerId = centerId;
-            this.status = AppointmentStatus.SCHEDULED;
-        }
+      
 
         public int StaffId { get => staffId; set => staffId = value; }
         public DateTime StartDate { get => startDate; set => startDate = value; }
