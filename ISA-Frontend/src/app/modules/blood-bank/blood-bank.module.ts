@@ -26,6 +26,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { AdminHomepageComponent } from './admin-homepage/admin-homepage.component';
 import { StaffHomepageComponent } from './staff-homepage/staff-homepage/staff-homepage.component';
 import { DonorAppointmentScheduleComponent } from './donor-appointment-schedule/donor-appointment-schedule/donor-appointment-schedule.component'; 
+import { DonorMadeAppointmentComponent } from "./donor-made-appointment/donor-made-appointment.component";
 
 const routes: Routes = [
   
@@ -51,6 +52,8 @@ const routes: Routes = [
   
   
   
+  { path: 'donor-homepage', component: DonorHomepageComponent },
+  { path: 'donor/make-appointment', component: DonorMadeAppointmentComponent }
 
 ];
 
@@ -60,6 +63,7 @@ const routes: Routes = [
     AppointmentDialogComponent,
     CentersListComponent,
     DonorProfileComponent,
+    DonorMadeAppointmentComponent,
     BloodDonorFormComponent,
     CenterRegisterComponent,
     EditDonorProfileComponent,

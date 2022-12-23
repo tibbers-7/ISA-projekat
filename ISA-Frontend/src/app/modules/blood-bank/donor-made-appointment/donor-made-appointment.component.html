@@ -1,38 +1,40 @@
-<h2 mat-dialog-title>Add new appointment</h2>
-<mat-dialog-content [formGroup]="form">
 
-  <div class="field">
-    <mat-form-field>
-      <mat-label>Date and time:</mat-label>
-      <input matInput [ngxMatDatetimePicker]="picker1" placeholder="Choose a date" formControlName="dateTime" [min]="minDate">
-      <mat-datepicker-toggle matSuffix [for]="$any(picker1)"></mat-datepicker-toggle>
-      <ngx-mat-datetime-picker #picker1 [enableMeridian]="true"></ngx-mat-datetime-picker>
-    </mat-form-field>
+<div class="search">
+  <mat-form-field>
+    <mat-label>Pick a date and time:</mat-label>
+    <input matInput [ngxMatDatetimePicker]="picker1" placeholder="Choose a date and time" [formControl]="dateTime" [min]="minDate">
+    <mat-datepicker-toggle matSuffix [for]="$any(picker1)"></mat-datepicker-toggle>
+    <ngx-mat-datetime-picker #picker1 [enableMeridian]="true"></ngx-mat-datetime-picker>
+  </mat-form-field>
+
+  <button class="search-button" mat-raised-button (click)="applyDateTime()">
+    Find centers
+  </button>
+
+
+
+  <div class="container">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="column-header"> Name </th>
+        <td mat-cell *matCellDef="let center" class="cell-style">{{center.name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="adress">
+        <th mat-header-cell *matHeaderCellDef class="column-header"> Address </th>
+        <td mat-cell *matCellDef="let center" class="cell-style">{{center.adress}}</td>
+      </ng-container>
+      <ng-container matColumnDef="avgScore">
+        <th mat-header-cell *matHeaderCellDef class="column-header"> Average score </th>
+        <td mat-cell *matCellDef="let center" class="cell-style">{{center.avgScore}}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectedRow.toggle(row);"></tr>
+    </table>
   </div>
 
-  <div class="field">
-    <mat-form-field>
-      <mat-label>Duration(in minutes):</mat-label>
-      <mat-select formControlName="duration">
-        <mat-option *ngFor="let num of numbers" [value]="num">
-          {{num}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="field">
-    <mat-form-field>
-      <mat-label>Staff:</mat-label>
-      <mat-select formControlName="staff">
-        <mat-option *ngFor="let staff of allStaff" [value]="staff.id">
-          {{staff.name}} {{staff.surname}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+  <button class="some-button" mat-raised-button (click)="chooseCenter()">
+    Select
+  </button>
+</div>
 
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
-  <button class="mat-raised-button" (click)="close()">Close</button>
-</mat-dialog-actions>
+

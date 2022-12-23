@@ -6,7 +6,7 @@ import { BloodBankModule } from '../blood-bank/blood-bank.module';
 import { RouterModule, Routes } from "@angular/router";
 import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule } from '@angular/forms';
-import { NgToastModule } from 'ng-angular-popup';
+//import { NgToastModule } from 'ng-angular-popup';
 import { LoginComponent } from './login/login.component';
 
 
@@ -28,7 +28,7 @@ const routes: Routes = [
     BloodBankModule,
     RouterModule.forChild(routes),
     FormsModule,
-    NgToastModule,
-  ],
+   // NgToastModule
+  ]
 })
 export class PagesModule { }

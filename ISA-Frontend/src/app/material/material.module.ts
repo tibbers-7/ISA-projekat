@@ -29,7 +29,7 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     MatSelectModule,
-    
+    NgxMatMomentModule
    
   ],
   exports: [
@@ -46,7 +46,7 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     MatSelectModule,
-
+    NgxMatMomentModule
   ]
 })
 export class MaterialModule {}
