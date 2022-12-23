@@ -14,7 +14,6 @@ import { NgToastService } from 'ng-angular-popup';
 export class DonorAppointmentScheduleComponent implements OnInit {
 
   public dataSource = new MatTableDataSource<Appointment>();
-  public cities: string[]=[];
   public appointments:Appointment[]=[];
   public displayedColumns = ['staffId','date','duration'];
   public tableShow:boolean=false;

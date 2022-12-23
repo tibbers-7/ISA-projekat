@@ -2,14 +2,6 @@
 
     <app-donor-toolbar></app-donor-toolbar>
   
-    <div class="row">
-      <p class="block">Choose a center:</p>
-      <select [(ngModel)]="centerId" name="centerId" id="centerId"  on-click="getCenters()">
-        <option selected disabled hidden>Choose a center</option>
-        <option  *ngFor="let center of centers" [ngValue]="center.id">{{center.name}}</option>
-      </select>
-    </div>
-    <div  *ngIf="tableShow" >
       <table mat-table [dataSource]="dataSource"  class="fl-table">
         <ng-container matColumnDef="staffId">
             <th mat-header-cell *matHeaderCellDef  class="cell-center"> Staff </th>
@@ -27,8 +19,5 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"  (click)="selectAppointment(row)"></tr>
   </table>
 
-      <button class="btn" (click)="schedule()">Schedule appointment</button>
-    
-</div>
   </body>
   

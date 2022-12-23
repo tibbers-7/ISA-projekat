@@ -3,7 +3,7 @@ export class Appointment {
   staffId: number = 0;
   donorId: number = 0;
   centerId: number = 0;
-  date: Date = new Date();
+  date: string='';
   duration: number = 0;
   
   public constructor(obj?: any) {

@@ -33,7 +33,7 @@ export class DonorToolbarComponent implements OnInit {
   }
 
   ApptsClick(){
-
+    this.router.navigate(['/donor/appointments']);
   }
   
   LogOutClick(){

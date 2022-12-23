@@ -26,6 +26,10 @@ export class AppointmentService {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/available/center/' + centerId, { headers: this.headers });
   }
 
+  getScheduledForDonor(donorId : number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/scheduled/' + donorId, { headers: this.headers });
+  }
+
   addAvailable(appointment: Appointment): Observable<any> {
     return this.http.post<any>(this.apiHost + 'api/Appointment/available/add', appointment, { headers: this.headers });
   }

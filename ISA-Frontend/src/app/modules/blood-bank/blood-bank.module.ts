@@ -25,7 +25,8 @@ import { AdminToolbarComponent } from "./admin-toolbar/admin-toolbar.component";
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { AdminHomepageComponent } from './admin-homepage/admin-homepage.component';
 import { StaffHomepageComponent } from './staff-homepage/staff-homepage/staff-homepage.component';
-import { DonorAppointmentScheduleComponent } from './donor-appointment-schedule/donor-appointment-schedule/donor-appointment-schedule.component'; 
+import { DonorAppointmentScheduleComponent } from './donor-appointment-schedule/donor-appointment-schedule/donor-appointment-schedule.component';
+import { DonorAppointmentsComponent } from './donor-appointments/donor-appointments/donor-appointments.component'; 
 
 const routes: Routes = [
   
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'donor/edit-profile', component: EditDonorProfileComponent },
   {path: 'donor/form', component:DonorFormComponent},
   { path: 'donor/schedule-appt', component:DonorAppointmentScheduleComponent},
+  { path: 'donor/appointments', component:DonorAppointmentsComponent},
 
   { path: 'admin/homepage', component:AdminHomepageComponent},
   { path: 'admin/user-list', component: UserListComponent },
@@ -76,7 +78,8 @@ const routes: Routes = [
     AdminToolbarComponent,
     AdminHomepageComponent,
     StaffHomepageComponent,
-    DonorAppointmentScheduleComponent
+    DonorAppointmentScheduleComponent,
+    DonorAppointmentsComponent
   ],
   imports: [
     CommonModule,
