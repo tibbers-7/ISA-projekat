@@ -28,8 +28,12 @@ export class DonorToolbarComponent implements OnInit {
     this.router.navigate(['/donor/profile']);
   }
 
-  ScheduleClick(){
+  ScheduleSuggestionsClick(){
     this.router.navigate(['/donor/schedule-appt']);
+  }
+
+  ScheduleRegularClick(){
+    this.router.navigate(['/donor/make-appointment']);
   }
 
   ApptsClick(){

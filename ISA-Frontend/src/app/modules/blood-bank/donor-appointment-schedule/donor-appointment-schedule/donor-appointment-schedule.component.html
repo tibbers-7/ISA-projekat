@@ -2,8 +2,8 @@
 
     <app-donor-toolbar></app-donor-toolbar>
   
-    <div class="row">
-      <p class="block">Choose a center:</p>
+    <div class="row" style="margin-left:45%; margin-top:2%;">
+      <p class="block" style="color:whitesmoke;" >Choose a center:</p>
       <select [(ngModel)]="centerId" name="centerId" id="centerId"  on-click="getCenters()">
         <option selected disabled hidden>Choose a center</option>
         <option  *ngFor="let center of centers" [ngValue]="center.id">{{center.name}}</option>
@@ -27,7 +27,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"  (click)="selectAppointment(row)"></tr>
   </table>
 
-      <button class="btn" (click)="schedule()">Schedule appointment</button>
+      <button class="btn" style="margin-left:45%;margin-top:2%" (click)="schedule()">Schedule appointment</button>
     
 </div>
   </body>
