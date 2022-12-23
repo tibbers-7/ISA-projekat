@@ -89,6 +89,19 @@ namespace BloodBankAPI.Controllers
             return NoContent();
         }
 
+        [HttpGet("{centerId}/donors")]
+        public ActionResult GetDonorsForCenter(int centerId)
+        {
+
+            var donors = _bloodCenterService.GetDonorsByCenterId(centerId);
+            if (donors == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(donors);
+        }
+
       
     }
 }

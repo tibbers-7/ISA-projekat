@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BloodCenter } from '../model/blood-center.model';
+import { Donor } from '../model/donor.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class BloodCenterService {
 
   deleteCenter(id: any): Observable<any> {
     return this.http.delete<any>(this.apiHost + 'api/BloodCenter/' + id, { headers: this.headers });
+  }
+
+  getDonorsForCenter(id: number): Observable<Donor[]> {
+    return this.http.get<Donor[]>(this.apiHost + 'api/BloodCenter/' + id + '/donors', { headers: this.headers });
   }
 
 
