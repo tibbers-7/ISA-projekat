@@ -13,5 +13,13 @@ namespace BloodBankLibrary.Core.Model
 
 
         public Admin() { }
+
+        public Admin(int Id, string Email, string Name, string Surname)
+        {
+            this.Id = Id;
+            this.Email = Email;
+            this.Name = Name;
+            this.Surname = Surname;
+        }
     }
 }

@@ -11,7 +11,6 @@ import { DonorProfileComponent } from "./donor-profile/donor-profile.component";
 import { EditDonorProfileComponent } from './edit-donor-profile/edit-donor-profile.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { StaffRegistrationComponent } from './staff-registration/staff-registration.component';
-import { MatSortModule } from '@angular/material/sort';
 import { StaffProfileComponent } from './staff-profile/staff-profile.component';
 import { EditStaffProfileComponent } from "./edit-staff-profile/edit-staff-profile.component";
 import { BloodCenterEditComponent } from "./blood-center-edit/blood-center-edit.component";
@@ -22,11 +21,11 @@ import { DonorFormComponent } from "./donor-form/donor-form/donor-form.component
 import { DonorToolbarComponent } from "./donor-toolbar/donor-toolbar.component";
 import { StaffToolbarComponent } from "./staff-toolbar/staff-toolbar.component";
 import { AdminToolbarComponent } from "./admin-toolbar/admin-toolbar.component";
-import {MatToolbarModule} from '@angular/material/toolbar';
 import { AdminHomepageComponent } from './admin-homepage/admin-homepage.component';
 import { StaffHomepageComponent } from './staff-homepage/staff-homepage/staff-homepage.component';
-import { DonorAppointmentScheduleComponent } from './donor-appointment-schedule/donor-appointment-schedule/donor-appointment-schedule.component';
 import { DonorAppointmentsComponent } from './donor-appointments/donor-appointments/donor-appointments.component'; 
+import { DonorAppointmentScheduleComponent } from './donor-appointment-schedule/donor-appointment-schedule/donor-appointment-schedule.component'; 
+import { DonorMadeAppointmentComponent } from "./donor-made-appointment/donor-made-appointment.component";
 
 const routes: Routes = [
   
@@ -44,6 +43,7 @@ const routes: Routes = [
   { path: 'admin/staff-register', component: StaffRegistrationComponent },
 
   { path: 'staff/homepage', component:StaffHomepageComponent},
+  //{ path: 'staff/homepage', component:StaffHomepageComponent},
   { path: 'staff/profile', component: StaffProfileComponent },
   { path: 'staff/center', component: BloodCenterProfileComponent },
   { path: 'staff/edit-profile', component: EditStaffProfileComponent },
@@ -53,6 +53,8 @@ const routes: Routes = [
   
   
   
+  { path: 'donor-homepage', component: DonorHomepageComponent },
+  { path: 'donor/make-appointment', component: DonorMadeAppointmentComponent }
 
 ];
 
@@ -62,6 +64,7 @@ const routes: Routes = [
     AppointmentDialogComponent,
     CentersListComponent,
     DonorProfileComponent,
+    DonorMadeAppointmentComponent,
     BloodDonorFormComponent,
     CenterRegisterComponent,
     EditDonorProfileComponent,
@@ -87,8 +90,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    MatSortModule,
-    MatToolbarModule,
+   
   ],
   exports: [RouterModule,
     CentersListComponent,

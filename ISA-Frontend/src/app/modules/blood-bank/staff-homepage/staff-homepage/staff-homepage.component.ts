@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-staff-homepage',
   templateUrl: './staff-homepage.component.html',
   styleUrls: ['./staff-homepage.component.css']
 })
+
 export class StaffHomepageComponent implements OnInit {
 
   constructor() { }
@@ -13,3 +14,4 @@ export class StaffHomepageComponent implements OnInit {
   }
 
 }
+

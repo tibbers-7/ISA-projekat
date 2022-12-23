@@ -10,6 +10,7 @@ import { Staff } from '../model/staff.model';
 import { StaffService } from '../services/staff.service';
 import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { AppointmentDialogComponent } from '../staff-appointment/appointment-dialog.component';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-blood-center-profile',
@@ -28,11 +29,14 @@ export class BloodCenterProfileComponent {
   public displayedColumnsAppointments = ['date', 'duration'];
 
 
-  constructor(private bloodCenterService: BloodCenterService, private staffService: StaffService, private appointmentService: AppointmentService, private dialog: MatDialog, private route: ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthService, private bloodCenterService: BloodCenterService, private staffService: StaffService, private appointmentService: AppointmentService, private dialog: MatDialog, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-      //ovo promeniti kad dodje localstorage
-      this.staffService.getStaff(1).subscribe(res => {
+
+    let id = Number(this.authService.getIdByRole());
+
+    this.staffService.getStaff(id!).subscribe(res => {
+      
         this.staff = res;
         this.bloodCenterService.getCenter(res.centerId).subscribe(res1 => {
           this.center = res1;
@@ -62,8 +66,8 @@ export class BloodCenterProfileComponent {
 
         let appointment = new Appointment();
         appointment.staffId = data.staff.id;
-        appointment.centerId = data.staff.centerId;
-        appointment.date = data.dateTime.toDate();
+        appointment.centerId = this.center!.id;
+        appointment.date = data.dateTime.format('YYYY-MM-DD HH:mm:ss');
         appointment.duration = data.duration;
         this.appointmentService.addAvailable(appointment).subscribe(
           response => {

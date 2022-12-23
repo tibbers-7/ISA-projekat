@@ -26,7 +26,11 @@ export class AppointmentService {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/available/center/' + centerId, { headers: this.headers });
   }
 
+<<<<<<< HEAD
   getScheduledForDonor(donorId : number): Observable<Appointment[]> {
+=======
+  getScheduledForDonor(donorId : string): Observable<Appointment[]> {
+>>>>>>> main
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/scheduled/' + donorId, { headers: this.headers });
   }
 
@@ -40,6 +44,10 @@ export class AppointmentService {
 
   getCentersForDateTime(dateTime: string): Observable<BloodCenter[]> {
     return this.http.get<BloodCenter[]>(this.apiHost + 'api/Appointment/centers/' + dateTime, { headers: this.headers });
+  }
+
+  makeDonorAppointment(appointment: any): Observable<any> {
+    return this.http.post<any>(this.apiHost + 'api/Appointment/schedule', appointment, { headers: this.headers });
   }
 
 }

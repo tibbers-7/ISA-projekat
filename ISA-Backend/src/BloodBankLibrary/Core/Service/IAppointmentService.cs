@@ -11,8 +11,7 @@ namespace BloodBankLibrary.Core.Service
         IEnumerable<Appointment> GetScheduled();
         IEnumerable<Appointment> GetScheduledByDonor(int donorId);
         IEnumerable<Appointment> GetAvailable();
-        IEnumerable<Appointment> GetCancelled();
-        IEnumerable<Appointment> GetCompleted();
+      
         ICollection<Appointment> GetByStaffId(int id);
         IEnumerable<Appointment> GetScheduledByCenter(int centerId);
         IEnumerable<Appointment> GetAvailableByCenter(int centerId);
@@ -21,6 +20,6 @@ namespace BloodBankLibrary.Core.Service
         void Update(Appointment appointment);
 
         bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration);
-       
+        Appointment CancelAppt(int apptId);
     }
 }

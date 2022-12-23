@@ -60,6 +60,8 @@ namespace BloodBankAPI
 
             services.AddScoped<IDonorRepository, DonorRepository>();
             services.AddScoped<IDonorService, DonorService>();
+            services.AddScoped<IStaffRepository, StaffRepository>();
+            services.AddScoped<IStaffService, StaffService>();  
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();

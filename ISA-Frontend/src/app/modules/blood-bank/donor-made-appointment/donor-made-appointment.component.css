@@ -1,0 +1,108 @@
+.container {
+  width: 50%;
+  margin: 3%;
+  
+}
+
+.mat-form-field{
+    display: grid;
+    margin: 3%;
+    font-size: 24px;
+    width:10%;
+}
+
+.search{
+    display:flex;
+}
+
+table {
+  width: 100%;
+}
+
+.table-title {
+  padding-bottom: 20px;
+  padding-top: 30px;
+  padding-left: 20px;
+  font-size: 30px;
+  font-family: Verdana;
+  font-weight: bold;
+}
+
+.cell-style {
+  text-align: left;
+  font-family: Verdana;
+  font-size: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.column-header {
+  text-align: left;
+  font-family: Verdana;
+  font-size: 22px;
+}
+
+.table-header {
+  display: flex;
+  text-align: center;
+  color: dimgray;
+}
+
+p {
+  float: left;
+  margin-right: auto;
+}
+
+th {
+  color: dimgray;
+  font-family: Verdana;
+  font-weight: bold;
+  border-style: none;
+}
+
+tr.mat-row:hover {
+  background-color: lightgrey;
+}
+
+td.mat-cell {
+  border-bottom-style: none;
+  border-top: 1px ridge darkgray;
+}
+
+th.mat-header-cell {
+  border-bottom-style: none;
+}
+
+.some-button {
+  background-color: dimgray;
+  padding: 10px 10px 10px 10px;
+  margin: 3%;
+  height: 60px;
+  font-family: Verdana;
+  display: flex;
+  border: 20px;
+  font-size: 20px;
+  border-radius: 8px;
+}
+
+.search-button {
+  padding: 10px 10px 10px 10px;
+  background-color: dimgray;
+  height: 60px;
+  margin: 3%;
+  font-family: Verdana;
+  display: flex;
+  border: 20px;
+  font-size: 20px;
+  border-radius: 8px;
+}
+
+.some-button:hover {
+  background-color: darkgray;
+  color: black;
+}
+
+.search-button:hover {
+  background-color: darkgray;
+  color: black;
+}

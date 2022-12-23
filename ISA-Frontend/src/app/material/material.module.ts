@@ -12,6 +12,8 @@ import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+import { MatSortModule } from '@angular/material/sort';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [],
@@ -29,7 +31,7 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     MatSelectModule,
-    
+    NgxMatMomentModule
    
   ],
   exports: [
@@ -46,7 +48,9 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     MatSelectModule,
-
+    NgxMatMomentModule,
+    MatSortModule,
+    MatToolbarModule
   ]
 })
 export class MaterialModule {}
