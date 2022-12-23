@@ -15,13 +15,12 @@ namespace BloodBankLibrary.Core.Model
         
 
         //kad staff pravi
-        public Appointment(int id, int duration, int staffId, DateTime startDate, int centerId)
+        public Appointment(AppointmentDTO dto)
         {
-            this.id = id;
-            this.staffId = staffId;
-            this.startDate = startDate;
-            this.duration = duration;
-            this.centerId = centerId;
+            this.centerId = dto.CenterId;
+            this.staffId = dto.StaffId;
+            this.startDate = DateTime.Parse(dto.StartDate);
+            this.duration = dto.Duration;
             this.status = AppointmentStatus.AVAILABLE;
             donorId = -1;
         }

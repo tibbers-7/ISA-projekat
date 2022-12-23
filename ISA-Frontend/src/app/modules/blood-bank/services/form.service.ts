@@ -29,4 +29,8 @@ export class FormService {
     return this.http.put<any>(this.apiHost + 'api/Form/' + form.id, form, { headers: this.headers });
   }
 
+  isEligible(id: number): Observable<any> {
+    return this.http.get<any>(this.apiHost + 'api/Form/' + id, { headers: this.headers });
+  }
+
 }
