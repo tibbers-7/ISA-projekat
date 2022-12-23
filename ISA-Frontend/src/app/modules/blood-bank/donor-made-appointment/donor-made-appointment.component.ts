@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MatSort, Sort } from '@angular/material/sort';
+import * as moment from 'moment';
 import { Appointment } from '../model/appointment.model';
 import { BloodCenter } from '../model/blood-center.model';
 import { Donor } from '../model/donor.model';
@@ -26,7 +27,7 @@ export class DonorMadeAppointmentComponent implements OnInit {
   public selectedIndex = 0;
   public displayedColumns = ['name', 'adress', 'avgScore'];
   public minDate = new Date();
-  public dateTime = new FormControl(new Date(2023, 2, 2));
+  public dateTime = new FormControl(moment(new Date()));
   public chosenDate = '';
   public showForm: boolean = false;
   public donor!: Donor;
@@ -45,7 +46,7 @@ export class DonorMadeAppointmentComponent implements OnInit {
 
     if (this.dateTime.value != null) {
 
-     this.chosenDate = this.dateTime.value!.toString();
+     this.chosenDate = this.dateTime.value.format('YYYY-MM-DD HH:mm:ss');
       this.appointmentService.getCentersForDateTime(this.chosenDate).subscribe(res => {
         this.centers = res.sort((a, b) => b.avgScore - a.avgScore);
         this.dataSource.data = this.centers;

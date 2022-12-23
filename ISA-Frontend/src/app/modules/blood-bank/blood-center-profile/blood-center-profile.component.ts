@@ -34,7 +34,9 @@ export class BloodCenterProfileComponent {
   ngOnInit(): void {
 
     let id = Number(this.authService.getIdByRole());
+
     this.staffService.getStaff(id!).subscribe(res => {
+      
         this.staff = res;
         this.bloodCenterService.getCenter(res.centerId).subscribe(res1 => {
           this.center = res1;
@@ -64,10 +66,8 @@ export class BloodCenterProfileComponent {
 
         let appointment = new Appointment();
         appointment.staffId = data.staff.id;
-        appointment.centerId = data.staff.centerId;
-        console.log(data.dateTime.toString());
-        appointment.date = data.dateTime.toString();
-        console.log(appointment.date);
+        appointment.centerId = this.center!.id;
+        appointment.date = data.dateTime.format('YYYY-MM-DD HH:mm:ss');
         appointment.duration = data.duration;
         this.appointmentService.addAvailable(appointment).subscribe(
           response => {

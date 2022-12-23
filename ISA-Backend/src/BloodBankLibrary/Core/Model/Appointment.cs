@@ -13,6 +13,7 @@ namespace BloodBankLibrary.Core.Model
         private int centerId;
         private AppointmentStatus status;
         
+        public Appointment() { }
 
         //kad staff pravi
         public Appointment(AppointmentDTO dto)
