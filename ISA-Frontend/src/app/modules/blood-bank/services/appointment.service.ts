@@ -30,6 +30,10 @@ export class AppointmentService {
     return this.http.post<any>(this.apiHost + 'api/Appointment/available/add', appointment, { headers: this.headers });
   }
 
+  scheduleAppt(appointment: Appointment): Observable<any> {
+    return this.http.post<any>(this.apiHost + 'api/Appointment/schedule', appointment, { headers: this.headers });
+  }
+
   getCentersForDateTime(dateTime: string): Observable<BloodCenter[]> {
     return this.http.get<BloodCenter[]>(this.apiHost + 'api/Appointment/centers/' + dateTime, { headers: this.headers });
   }

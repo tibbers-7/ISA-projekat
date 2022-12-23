@@ -52,6 +52,19 @@ namespace BloodBankAPI.Controllers
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
+        [HttpPost("schedule")]
+        public ActionResult AddScheduled(Appointment appointment)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            appointment.Status = BloodBankLibrary.Core.Model.Enums.AppointmentStatus.SCHEDULED;
+            _appointmentService.Update(appointment);
+
+            return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
+        }
+
         // PUT api/appointments/2
         [HttpPut("{id}")]
         public ActionResult Update(int id, Appointment appointment)
@@ -78,7 +91,7 @@ namespace BloodBankAPI.Controllers
             return Ok(appointment);
         }
 
-        [HttpGet("/centers/{dateTime}")]
+        [HttpGet("centers/{dateTime}")]
         public ActionResult GetCentersForDateTime(string dateTime)
         {
             var bloodCenters = _appointmentService.GetCentersForDateTime(dateTime);
@@ -89,7 +102,7 @@ namespace BloodBankAPI.Controllers
             return Ok(bloodCenters);
         }
 
-        [HttpGet("/available/center/{centerId}")]
+        [HttpGet("available/center/{centerId}")]
         public ActionResult GetAvailableForCenter(int centerId)
         {
             var appointments = _appointmentService.GetAvailableByCenter(centerId);
