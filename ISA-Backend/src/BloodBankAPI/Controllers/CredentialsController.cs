@@ -1,7 +1,6 @@
 ﻿using BloodBankLibrary.Core.EmailSender;
-using BloodBankLibrary.Core.Model;
-using BloodBankLibrary.Core.Service;
-using BloodBankLibrary.Core.User;
+using BloodBankLibrary.Core.Users;
+using BloodBankLibrary.Core.Donors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

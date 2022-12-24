@@ -1,5 +1,3 @@
-using BloodBankLibrary.Core.Repository;
-using BloodBankLibrary.Core.Service;
 using BloodBankLibrary.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +11,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BloodBankLibrary.Core.PasswordHasher;
 using BloodBankLibrary.Core.EmailSender;
+
+using BloodBankLibrary.Core.Staffs;
+using BloodBankLibrary.Core.Forms;
+using BloodBankLibrary.Core.Users;
+using BloodBankLibrary.Core.Centers;
+using BloodBankLibrary.Core.Appointments;
+using BloodBankLibrary.Core.Donors;
+
 
 namespace BloodBankAPI
 {
