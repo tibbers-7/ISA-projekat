@@ -5,12 +5,14 @@ export class RegDTO {
     surname:string='';
     address:string='';
     gender:string='';
-    jmbg:string='';
+    jmbg:number=0;
     workplace:string='';
     employmentInfo:string='';
     city:string='';
     state:string='';
     phoneNum:string='';
+    userType:string='';
+    idOfCenter:number=0;
   
     public constructor(obj?: any) {
       if (obj) {
@@ -30,6 +32,9 @@ export class RegDTO {
         this.workplace=obj.workplace;
         this.employmentInfo=obj.employmentInfo;
         this.phoneNum=obj.phoneNum;
+
+        this.userType=obj.userType;
+        this.idOfCenter=obj.idOfCenter;
 
       }
     }

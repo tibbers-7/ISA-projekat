@@ -21,6 +21,12 @@ export class AdminToolbarComponent implements OnInit {
   UsersClick(){
     this.router.navigate(['/admin/user-list']);
   }
+  AddCenterClick(){
+    this.router.navigate(['/admin/new-center']);
+  }
+  AddStaffClick(){
+    this.router.navigate(['/admin/staff-register']);
+  }
 
   LogOutClick(){
     this.authService.logout();

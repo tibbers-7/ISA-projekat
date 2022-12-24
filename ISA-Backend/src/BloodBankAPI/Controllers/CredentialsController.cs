@@ -48,26 +48,43 @@ namespace BloodBankAPI.Controllers
 		[HttpPost("register")]
 		public ActionResult Register(RegisterDTO regDTO)
 		{
-			if (!ModelState.IsValid)
+			if (!ModelState.IsValid) return BadRequest(ModelState);
+			if (_userService.GetByEmail(regDTO.Email) != null) return BadRequest("Exists");
+
+			int idByRole = 0;
+			string email = null;
+
+			switch (regDTO.UserType)
+            {
+				case ("DONOR"):
+                    {
+						Donor donor = new Donor(regDTO);
+						_donorService.Register(donor);
+						donor = _donorService.GetByEmail(donor.Email);
+						idByRole = donor.Id;
+						email=donor.Email; // ako bude postojala provera da li je mejl dobro upisan
+						break;
+                    }
+				case ("STAFF"):
+                    {
+						break;
+                    }
+
+				default: return (BadRequest("UserType"));
+            }
+
+
+
+
+			if (idByRole != 0 && email!=null)
 			{
-				return BadRequest(ModelState);
-			}
-
-			Donor donor = new Donor(regDTO);
-
-			if (_userService.GetByEmail(donor.Email) != null) return BadRequest("Exists");
-
-			_donorService.Register(donor);
-
-			Donor createdDonor = _donorService.GetByEmail(donor.Email);
-
-			if (createdDonor != null)
-			{
-				User newUser = new User(regDTO, createdDonor.Id);
+				User newUser = new User(regDTO, idByRole);
 				_userService.Create(newUser);
+				if (!SendActivationEmail(email)) return BadRequest("Email");
 			}
+			else return BadRequest("DatabaseError");
 
-			if (!SendActivationEmail(createdDonor.Email)) return BadRequest("Email");
+			
 
 			return Ok();
 		}

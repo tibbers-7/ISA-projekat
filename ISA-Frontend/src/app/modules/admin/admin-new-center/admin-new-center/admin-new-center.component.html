@@ -1,29 +1,55 @@
 
 <body>
+  <admin-toolbar></admin-toolbar>
     <h3>Register center</h3>
     <form id="formlogin">
-      <table class="login_container">
+      <table class="form_container">
         <tr>
           <td align="center">
-            <div class="row">
-              <p class="block">Name:</p>
-              <input type="text" name="name" class="block" [(ngModel)]="bloodCenter.name">
+            <div class="flexbox">
+              <p >Name:</p>
+              <input type="text" name="name"[(ngModel)]="bloodCenter.name">
             </div>
           </td>
         </tr>
         <tr>
           <td align="center">
-            <div class="row">
-              <p class="block">Address:</p>
-              <input type="text" name="adress" class="block" [(ngModel)]="bloodCenter.adress">
+            <div class="flexbox">
+              <p>Start</p> 
+              <p>End</p>
             </div>
           </td>
         </tr>
         <tr>
           <td align="center">
+            <div class="flexbox">
+              <input type="time" [(ngModel)]="time" name="startTime" >-
+              <input type="time">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" >
+            <div class="flexbox">
+              <p>Address:</p>
+              <p>City:</p>
+              <p>Country:</p>
+            </div>
+            <div class="flexbox" style="gap:10px;">
+              
+              <input type="text" style="width: 7rem;" name="adress" [(ngModel)]="address">
+              <input type="text" style="width: 7rem;" name="city" [(ngModel)]="city">
+              <input type="text" style="width: 7rem;" name="state" [(ngModel)]="country">
+
+            </div>
+
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
             <div class="row">
-              <p class="block">Description:</p>
-              <textarea name="description" class="block" [(ngModel)]="bloodCenter.description"></textarea>
+              <p class="block" >Description:</p>
+              <textarea name="description" class="block" style="margin-top:5%" [(ngModel)]="bloodCenter.description"></textarea>
             </div>
           </td>
         </tr>

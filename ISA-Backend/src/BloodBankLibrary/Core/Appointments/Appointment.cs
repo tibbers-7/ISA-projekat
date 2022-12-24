@@ -12,6 +12,7 @@ namespace BloodBankLibrary.Core.Appointments
         private int duration;
         private int centerId;
         private AppointmentStatus status;
+        private int reportId;
         
         public Appointment() { }
 
@@ -35,5 +36,6 @@ namespace BloodBankLibrary.Core.Appointments
         public int CenterId { get => centerId; set => centerId = value; }
         public AppointmentStatus Status { get => status; set => status = value; }
         public int Id { get => id; set => id = value; }
+        public int ReportId { get => reportId; set => reportId = value; }
     }
 }
