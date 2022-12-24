@@ -1,6 +1,8 @@
-﻿using BloodBankLibrary.Core.Model;
-using BloodBankLibrary.Core.Service;
+﻿
 using Microsoft.AspNetCore.Mvc;
+using BloodBankLibrary.Core.Appointments;
+using BloodBankLibrary.Core.Donors;
+using BloodBankLibrary.Core.Materials.Enums;
 
 namespace BloodBankAPI.Controllers
 {
@@ -62,7 +64,7 @@ namespace BloodBankAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            appointment.Status = BloodBankLibrary.Core.Model.Enums.AppointmentStatus.SCHEDULED;
+            appointment.Status = AppointmentStatus.SCHEDULED;
             _appointmentService.Update(appointment);
 
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
@@ -76,7 +78,7 @@ namespace BloodBankAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            appointment.Status = BloodBankLibrary.Core.Model.Enums.AppointmentStatus.CANCELLED;
+            appointment.Status = AppointmentStatus.CANCELLED;
             _donorService.AddStrike(appointment.DonorId);
             _appointmentService.Update(appointment);
 

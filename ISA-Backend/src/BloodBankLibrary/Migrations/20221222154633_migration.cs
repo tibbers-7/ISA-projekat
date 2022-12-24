@@ -1,8 +1,8 @@
 ﻿using System;
-using BloodBankLibrary.Core.Model;
-using BloodBankLibrary.Core.Model.Enums;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using BloodBankLibrary.Core.Materials.Enums;
+using BloodBankLibrary.Core.Materials;
 
 namespace BloodBankLibrary.Migrations
 {

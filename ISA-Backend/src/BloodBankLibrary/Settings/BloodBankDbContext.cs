@@ -1,8 +1,15 @@
-﻿using BloodBankLibrary.Core.Model;
-using BloodBankLibrary.Core.Model.Enums;
-using BloodBankLibrary.Core.User;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Npgsql;
+
+using BloodBankLibrary.Core.Centers;
+using BloodBankLibrary.Core.Users;
+using BloodBankLibrary.Core.Forms;
+using BloodBankLibrary.Core.Appointments;
+using BloodBankLibrary.Core.Admins;
+using BloodBankLibrary.Core.Staffs;
+using BloodBankLibrary.Core.Donors;
+
+using BloodBankLibrary.Core.Materials.Enums;
 
 namespace BloodBankLibrary.Settings
 {

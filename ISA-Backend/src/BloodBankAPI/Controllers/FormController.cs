@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using BloodBankLibrary.Core.Model;
-using BloodBankLibrary.Core.Service;
+using BloodBankLibrary.Core.Forms;
 
 namespace BloodBankAPI.Controllers
 {
