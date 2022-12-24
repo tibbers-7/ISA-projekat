@@ -6,13 +6,13 @@ import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/materia
 import { MatSort, Sort } from '@angular/material/sort';
 import * as moment from 'moment';
 import { NgToastService } from 'ng-angular-popup';
-import { Appointment } from '../../model/appointment.model';
-import { BloodCenter } from '../../model/blood-center.model';
-import { Donor } from '../../model/donor.model';
-import { AppointmentService } from '../../services/appointment.service';
-import { AuthService } from '../../services/auth.service';
-import { DonorService } from '../../services/donor.service';
-import { FormService } from '../../services/form.service';
+import { Appointment } from '../../../model/appointment.model';
+import { BloodCenter } from '../../../model/blood-center.model';
+import { Donor } from '../../../model/donor.model';
+import { AppointmentService } from '../../../services/appointment.service';
+import { AuthService } from '../../../services/auth.service';
+import { DonorService } from '../../../services/donor.service';
+import { FormService } from '../../../services/form.service';
 
 
 @Component({

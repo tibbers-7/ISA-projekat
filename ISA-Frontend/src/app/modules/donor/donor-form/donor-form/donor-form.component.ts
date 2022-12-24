@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Form } from 'app/modules/model/form.model';
-import { Question } from 'app/modules/model/question.model';
-import { QuestionService } from 'app/modules/services/question.service';
-import { FormService } from 'app/modules/services/form.service';
-import { AuthService } from 'app/modules/services/auth.service';
+import { Form } from 'app/model/form.model';
+import { Question } from 'app/model/question.model';
+import { QuestionService } from 'app/services/question.service';
+import { FormService } from 'app/services/form.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   selector: 'app-donor-form',

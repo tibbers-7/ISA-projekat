@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BloodCenter } from 'app/modules/model/blood-center.model';
-import { BloodCenterService } from 'app/modules/services/blood-center.service';
+import { BloodCenter } from 'app/model/blood-center.model';
+import { BloodCenterService } from 'app/services/blood-center.service';
 
 @Component({
   selector: 'app-admin-new-center',

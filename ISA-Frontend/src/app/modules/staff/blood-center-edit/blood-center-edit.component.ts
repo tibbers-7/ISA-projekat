@@ -1,14 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { BloodCenter } from "../../model/blood-center.model";
-import { Appointment } from "../../model/appointment.model";
-import { AppointmentService } from "../../services/appointment.service";
-import { BloodCenterService } from "../../services/blood-center.service";
-import { User } from "../../model/user.model";
-import { UserService } from "../../services/user.service";
-import { StaffService } from "../../services/staff.service";
-import { AuthService } from "../../services/auth.service";
-import { Staff } from "../../model/staff.model";
+import { BloodCenter } from "../../../model/blood-center.model";
+import { Appointment } from "../../../model/appointment.model";
+import { AppointmentService } from "../../../services/appointment.service";
+import { BloodCenterService } from "../../../services/blood-center.service";
+import { User } from "../../../model/user.model";
+import { UserService } from "../../../services/user.service";
+import { StaffService } from "../../../services/staff.service";
+import { AuthService } from "../../../services/auth.service";
+import { Staff } from "../../../model/staff.model";
 
 @Component({
   selector: 'app-blood-center-edit',

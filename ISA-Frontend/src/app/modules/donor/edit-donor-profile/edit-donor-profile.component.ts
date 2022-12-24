@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute, Params } from '@angular/router';
-import { Donor } from '../../model/donor.model';
+import { Donor } from '../../../model/donor.model';
 import { HttpClient } from '@angular/common/http';
-import { DonorService } from '../../services/donor.service';
+import { DonorService } from '../../../services/donor.service';
 
 @Component({
   selector: 'app-edit-donor-profile',

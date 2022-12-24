@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 //import { NgToastService } from 'ng-angular-popup';
-import { User } from 'app/modules/model/user.model';
-import { AuthService } from 'app/modules/services/auth.service';
+import { User } from 'app/model/user.model';
+import { AuthService } from 'app/services/auth.service';
 import { Router } from '@angular/router';
-import { RegDTO } from 'app/modules/model/regDTO.model';
+import { RegDTO } from 'app/model/regDTO.model';
 
 @Component({
   selector: 'app-login',
