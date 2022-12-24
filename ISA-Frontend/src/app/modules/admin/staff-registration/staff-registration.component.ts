@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../model/user.model';
-import { BloodCenter } from '../model/blood-center.model';
-import { UserService } from '../services/user.service';
-import { BloodCenterService } from '../services/blood-center.service';
+import { User } from '../../blood-bank/model/user.model';
+import { BloodCenter } from '../../blood-bank/model/blood-center.model';
+import { UserService } from '../../blood-bank/services/user.service';
+import { BloodCenterService } from '../../blood-bank/services/blood-center.service';
 
 
 @Component({

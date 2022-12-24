@@ -1,0 +1,38 @@
+
+<body>
+    <h3>Register center</h3>
+    <form id="formlogin">
+      <table class="login_container">
+        <tr>
+          <td align="center">
+            <div class="row">
+              <p class="block">Name:</p>
+              <input type="text" name="name" class="block" [(ngModel)]="bloodCenter.name">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <div class="row">
+              <p class="block">Address:</p>
+              <input type="text" name="adress" class="block" [(ngModel)]="bloodCenter.adress">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <div class="row">
+              <p class="block">Description:</p>
+              <textarea name="description" class="block" [(ngModel)]="bloodCenter.description"></textarea>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <button class="btn" (click)="post()">Register center</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </body>
+  

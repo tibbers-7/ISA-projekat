@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../blood-bank/services/auth.service';
 
 @Component({
-  selector: 'app-admin-toolbar',
+  selector: 'admin-toolbar',
   templateUrl: './admin-toolbar.component.html',
   styleUrls: ['./admin-toolbar.component.css']
 })
