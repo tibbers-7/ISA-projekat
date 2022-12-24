@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { NgToastModule } from 'ng-angular-popup';
 import { LoginComponent } from './login/login.component';
 import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
-
+import { MaterialModule } from 'app/material/material.module';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,7 +28,8 @@ const routes: Routes = [
     AppRoutingModule,
     RouterModule.forChild(routes),
     FormsModule,
-    NgToastModule
+    NgToastModule,
+    MaterialModule
   ],
   exports: [
     CentersListComponent

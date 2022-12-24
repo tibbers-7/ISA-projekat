@@ -17,6 +17,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTableModule} from '@angular/material/table'
 import { AdminModule } from "./modules/admin/admin.module";
 import { DonorModule } from "./modules/donor/donor.module";
+import { StaffModule } from "./modules/staff/staff.module";
+import { MatDialogModule } from "@angular/material/dialog";
 
 
 @NgModule({
@@ -30,13 +32,14 @@ import { DonorModule } from "./modules/donor/donor.module";
     HttpClientModule,
     MaterialModule,
     PagesModule,
-    BloodBankModule,
     FormsModule,
     NgToastModule,
     MatToolbarModule,
     MatTableModule,
+    MatDialogModule,
     AdminModule,
-    DonorModule
+    DonorModule,
+    StaffModule
   ],
   providers: [
     {

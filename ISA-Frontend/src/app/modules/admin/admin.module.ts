@@ -10,7 +10,7 @@ import { RoleGuardService } from 'app/auth/role-guard.service';
 import { AdminNewCenterComponent } from './admin-new-center/admin-new-center/admin-new-center.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { StaffRegistrationComponent } from './staff-registration/staff-registration.component';
-import { BloodBankModule } from '../blood-bank/blood-bank.module';
+import { PagesModule } from '../pages/pages.module';
 
 const routes: Routes = [
 
@@ -38,7 +38,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    BloodBankModule
+    PagesModule
   ],
   exports: [
     AdminToolbarComponent

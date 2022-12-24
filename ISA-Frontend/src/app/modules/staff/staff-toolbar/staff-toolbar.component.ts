@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-staff-toolbar',
+  selector: 'staff-toolbar',
   templateUrl: './staff-toolbar.component.html',
   styleUrls: ['./staff-toolbar.component.css']
 })
