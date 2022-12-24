@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 //import { NgToastService } from 'ng-angular-popup';
-import { RegDTO } from 'app/modules/blood-bank/model/regDTO.model';
-import { User } from 'app/modules/blood-bank/model/user.model';
-import { AuthService } from 'app/modules/blood-bank/services/auth.service';
-import { DonorService } from 'app/modules/blood-bank/services/donor.service';
+import { RegDTO } from 'app/modules/model/regDTO.model';
+import { User } from 'app/modules/model/user.model';
+import { AuthService } from 'app/modules/services/auth.service';
+import { DonorService } from 'app/modules/services/donor.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-registration',

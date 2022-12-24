@@ -4,8 +4,8 @@ import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALO
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { range } from 'rxjs';
-import { Staff } from '../model/staff.model';
-import { StaffService } from '../services/staff.service';
+import { Staff } from '../../model/staff.model';
+import { StaffService } from '../../services/staff.service';
 
 
 @Component({

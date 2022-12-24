@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { User } from '../../blood-bank/model/user.model';
-import { UserService } from '../../blood-bank/services/user.service';
+import { User } from '../../model/user.model';
+import { UserService } from '../../services/user.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import {MatSort, Sort} from '@angular/material/sort';
 

@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from 'app/app-routing.module';
 import { HomeComponent } from './home/home.component';
-import { BloodBankModule } from '../blood-bank/blood-bank.module';
 import { RouterModule, Routes } from "@angular/router";
 import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule } from '@angular/forms';
-//import { NgToastModule } from 'ng-angular-popup';
+import { NgToastModule } from 'ng-angular-popup';
 import { LoginComponent } from './login/login.component';
+import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
 
 
 const routes: Routes = [
@@ -21,14 +21,17 @@ const routes: Routes = [
     HomeComponent,
     RegistrationComponent,
     LoginComponent,
+    CentersListComponent
   ],
   imports: [
     CommonModule,
     AppRoutingModule,
-    BloodBankModule,
     RouterModule.forChild(routes),
     FormsModule,
-   // NgToastModule
+    NgToastModule
+  ],
+  exports: [
+    CentersListComponent
   ]
 })
 export class PagesModule { }

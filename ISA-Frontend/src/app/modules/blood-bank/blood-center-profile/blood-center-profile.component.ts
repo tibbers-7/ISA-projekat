@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { BloodCenter } from '../model/blood-center.model';
-import { BloodCenterService } from '../services/blood-center.service';
-import { AppointmentService } from '../services/appointment.service';
-import { Appointment } from '../model/appointment.model';
+import { BloodCenter } from '../../model/blood-center.model';
+import { BloodCenterService } from '../../services/blood-center.service';
+import { AppointmentService } from '../../services/appointment.service';
+import { Appointment } from '../../model/appointment.model';
 import { Router } from '@angular/router';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { Staff } from '../model/staff.model';
-import { StaffService } from '../services/staff.service';
+import { Staff } from '../../model/staff.model';
+import { StaffService } from '../../services/staff.service';
 import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { AppointmentDialogComponent } from '../staff-appointment/appointment-dialog.component';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-blood-center-profile',

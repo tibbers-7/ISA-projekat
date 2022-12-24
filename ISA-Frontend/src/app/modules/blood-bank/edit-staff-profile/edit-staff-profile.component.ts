@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { Staff } from "../model/staff.model";
-import { User } from "../model/user.model";
-import { StaffService } from "../services/staff.service";
-import { UserService } from "../services/user.service";
+import { Staff } from "../../model/staff.model";
+import { User } from "../../model/user.model";
+import { StaffService } from "../../services/staff.service";
+import { UserService } from "../../services/user.service";
 
 @Component({
   selector: 'app-edit-staff-profile',
