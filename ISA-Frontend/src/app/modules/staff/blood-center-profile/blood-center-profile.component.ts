@@ -23,11 +23,10 @@ export class BloodCenterProfileComponent {
   public staff: Staff | undefined;
   public allStaff: Staff[] = [];
   public availableAppointments: Appointment[] = [];
-  public scheduledAppointments: Appointment[]=[];
   public dataSourceStaff = new MatTableDataSource<Staff>();
-  public displayedColumnsStaff = ['name', 'email', 'adress', 'phoneNumber'];
+  public displayedColumnsStaff = ['name', 'email', 'adress'];
   public dataSourceAppointments = new MatTableDataSource<Appointment>();
-  public displayedColumnsAppointments = ['date', 'duration'];
+  public displayedColumnsAppointments = ['date', 'duration','staff'];
 
 
   constructor(private authService: AuthService, private bloodCenterService: BloodCenterService, private staffService: StaffService, private appointmentService: AppointmentService, private dialog: MatDialog, private route: ActivatedRoute, private router: Router) { }
@@ -48,13 +47,9 @@ export class BloodCenterProfileComponent {
           });
          this.appointmentService.getAvailableByCenter(res.centerId).subscribe(res1 => {
             this.availableAppointments = res1;
-            
-          });
-          this.appointmentService.getScheduledByCenter(res.centerId).subscribe(res1=> {
-            this.scheduledAppointments = res1;
-            this.availableAppointments.concat(this.scheduledAppointments);
             this.dataSourceAppointments.data = this.availableAppointments;
           });
+         
         
       });
     }
@@ -69,15 +64,16 @@ export class BloodCenterProfileComponent {
 
     dialogRef.afterClosed().subscribe(
       data => {
-
         let appointment = new Appointment();
         appointment.staffId = this.staff!.id;
         appointment.centerId = this.center!.id;
+        appointment.donorId = 0;
         appointment.date = data.dateTime.format('YYYY-MM-DD HH:mm:ss');
         appointment.duration = data.duration;
-        this.appointmentService.addAvailable(appointment).subscribe(
+        appointment.status = "AVAILABLE";
+
+        this.appointmentService.newAppointment(appointment).subscribe(
           response => {
-            console.log(response);
             alert("Uspesno dodavanje")
           },
           error => {

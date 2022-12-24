@@ -28,6 +28,18 @@ export class StaffToolbarComponent implements OnInit {
     this.router.navigate(['/staff/profile']);
   }
 
+  DonorsClick() {
+   
+  }
+
+  CalendarClick() {
+
+  }
+
+  BloodClick() {
+
+  }
+
   CenterProfileClick(){
 
     this.router.navigate(['/staff/center']);

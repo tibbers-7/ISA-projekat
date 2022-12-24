@@ -35,7 +35,7 @@ namespace BloodBankAPI.Controllers
 		{
 			User user = new User() { Email = regDTO.Email, Password = regDTO.Password };
 			var _user = _userService.Authenticate(user);
-			if (_user != null)
+			if (_user != null )
 			{
 				var token = Generate(_user);
 				return Ok(tokenHandler.ReadToken(token));

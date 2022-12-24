@@ -5,6 +5,7 @@ export class Appointment {
   centerId: number = 0;
   date: string = '';
   duration: number = 0;
+  status: string = '';
   
   public constructor(obj?: any) {
     if (obj) {
@@ -15,6 +16,7 @@ export class Appointment {
       this.donorId = obj.donorId;
       this.duration = obj.duration;
       this.date = obj.date;
+      this.status = obj.status;
     }
 
 

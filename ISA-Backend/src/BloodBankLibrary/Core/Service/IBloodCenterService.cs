@@ -10,5 +10,7 @@ namespace BloodBankLibrary.Core.Service
         void Create(BloodCenter bloodCenter);
         void Update(BloodCenter bloodCenter);
         void Delete(BloodCenter bloodCenter);
+        IEnumerable<Donor> GetDonorsByCenterId(int centerId);
+       
     }
 }

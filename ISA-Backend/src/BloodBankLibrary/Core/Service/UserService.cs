@@ -126,7 +126,7 @@ namespace BloodBankLibrary.Core.Service
             var users = _userRepository.GetAll();
             var currentUser = users.FirstOrDefault(o => o.Email.ToLower() ==
                 user.Email.ToLower());
-            if (currentUser == null) return null;
+            if (currentUser == null || !currentUser.Active) return null;
             if (_passwordHasher.VerifyHashedPassword(currentUser.Password, user.Password)) return currentUser;
 
             return null;

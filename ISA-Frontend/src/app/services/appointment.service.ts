@@ -22,20 +22,8 @@ export class AppointmentService {
     return this.http.get<Appointment>(this.apiHost + 'api/Appointment/' + id, { headers: this.headers });
   }
 
-  getAvailableByCenter(centerId : number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/available/' + centerId, { headers: this.headers });
-  }
-
-  getScheduledByCenter(centerId : number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/scheduled/' + centerId, { headers: this.headers });
-  }
-  getScheduledForDonor(donorId : number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/scheduled/' + donorId, { headers: this.headers });
-  }
-
-
-  addAvailable(appointment: Appointment): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/Appointment/available/add', appointment, { headers: this.headers });
+  newAppointment(appointment: Appointment): Observable<any> {
+    return this.http.post<any>(this.apiHost + 'api/Appointment/new', appointment, { headers: this.headers });
   }
 
   scheduleAppt(appointment: Appointment): Observable<any> {
@@ -50,8 +38,21 @@ export class AppointmentService {
     return this.http.get<BloodCenter[]>(this.apiHost + 'api/Appointment/centers/' + dateTime, { headers: this.headers });
   }
 
-  makeDonorAppointment(appointment: any): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/Appointment/schedule-donorMade', appointment, { headers: this.headers });
+  getAvailableByCenter(centerId : number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/available/' + centerId, { headers: this.headers });
   }
+
+  getScheduledByCenter(centerId : number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/center/scheduled/' + centerId, { headers: this.headers });
+  }
+  getScheduledForDonor(donorId : number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/scheduled/' + donorId, { headers: this.headers });
+  }
+  
+
+
+  
+
+ 
 
 }
