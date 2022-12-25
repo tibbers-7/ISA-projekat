@@ -40,7 +40,7 @@ export class RegistrationComponent implements OnInit {
 
 
   checkValidity(){
-    if (this.user.email === '' || this.user.address==='' || this.user.gender==='' || this.user.jmbg===0 || this.user.name==='' || this.user.password==='' || this.user.workplace==='' || this.user.city==='' || this.user.state==='' || this.user.employmentInfo==='') {
+    if (this.user.email === '' || this.user.address==='' || this.user.gender==='' || this.user.jmbg===0 || this.user.name==='' || this.user.password==='' || this.user.workplace==='' || this.user.city==='' || this.user.state==='' || this.user.employmentInfo==='', this.user.phoneNum===0) {
       this.toast.error({detail:'Required fields are empty!',summary:"Please complete the form.",duration:5000});
       return false;
     }

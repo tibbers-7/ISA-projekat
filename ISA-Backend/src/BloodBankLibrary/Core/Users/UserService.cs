@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using BloodBankLibrary.Core.EmailSender;
+using System.Web;
 
 
 namespace BloodBankLibrary.Core.Users
@@ -43,12 +44,20 @@ namespace BloodBankLibrary.Core.Users
              return null;
         }
 
-        public void Create(User user)
+        public string Create(User user)
         {
+            string tempPass = null;
+            if (user.Password.Equals("") || user.Password == null)
+            {
+                user.Password = GeneratePassword(7);
+                tempPass=user.Password;
+            }
             string newPass = _passwordHasher.HashPassword(user.Password);
             user.Password = newPass;
             _userRepository.Create(user);
+            return tempPass;
         }
+
 
         public void Update(User user)
         {
@@ -183,6 +192,22 @@ namespace BloodBankLibrary.Core.Users
 
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public string GeneratePassword(int length)
+        {
+            StringBuilder password = new StringBuilder();
+            Random random = new Random();
+
+            while (password.Length < length)
+            {
+                char c = (char)random.Next(32, 126);
+
+                if (char.IsLetterOrDigit(c)) password.Append(c);
+
+            }
+
+            return password.ToString();
         }
 
     }

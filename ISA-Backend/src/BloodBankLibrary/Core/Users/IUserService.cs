@@ -7,7 +7,7 @@ namespace BloodBankLibrary.Core.Users
     {
         IEnumerable<User> GetAll();
         User GetById(int id);
-        void Create(User user);
+        string Create(User user);
         void Update(User user);
         void Delete(User user);
         User GetByEmail(string email);

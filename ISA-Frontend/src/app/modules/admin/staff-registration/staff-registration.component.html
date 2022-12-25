@@ -12,16 +12,13 @@
         </tr>
         <tr>
           <td align="center">
-            <div class="flexbox">
-              <p>Password:</p>
-              <input name="pasword" class="block" [(ngModel)]="user.password">
-            </div>
+            <p >Name & Surname:</p>
           </td>
         </tr>
         <tr>
           <td align="center">
             <div class="flexbox">
-              <p >Name & Surname:</p>
+              
               <input type="text" name="name" [(ngModel)]="user.name">
               <input type="text" name="surname" [(ngModel)]="user.surname">
             </div>
@@ -56,7 +53,7 @@
           <td align="center">
             <div class="flexbox">
               <p>Phone number:</p>
-              <input type="text" name="number" [(ngModel)]="user.phoneNum">
+              <input type="number" name="number" [(ngModel)]="user.phoneNum">
             </div>
           </td>
         </tr>

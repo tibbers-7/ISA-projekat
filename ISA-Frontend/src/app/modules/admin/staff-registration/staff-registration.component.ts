@@ -50,9 +50,8 @@ export class StaffRegistrationComponent implements OnInit {
     this.user.employmentInfo=this.selectedCenter.name;
   }
   checkValidity(){
-    if(this.user.email==='' || this.user.address==='' || this.user.gender==='' 
-      || this.user.jmbg===0 || this.user.name==='' || this.user.password===''
-      || this.user.phoneNum==='') 
+    if(this.user.email==='' || this.user.address==='' || this.user.city==='' || this.user.state==='' || this.user.gender==='' 
+      || this.user.jmbg===0 || this.user.name==='' || this.user.surname==='' || this.user.phoneNum===0) 
       return false;
 
     return true;

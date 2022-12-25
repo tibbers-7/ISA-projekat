@@ -44,6 +44,7 @@ namespace BloodBankLibrary.Core.Staffs
             this.Address = new Address() { City = regDTO.City, Country = regDTO.State, StreetAddr = regDTO.Address };
             this.AddressJson = JsonSerializer.Serialize(this.Address);
             this.Jmbg = regDTO.Jmbg;
+            this.CenterId = regDTO.IdOfCenter;
             Gender g;
             Gender.TryParse(regDTO.Gender, out g);
             this.Gender = g;

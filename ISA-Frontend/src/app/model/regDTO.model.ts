@@ -10,7 +10,7 @@ export class RegDTO {
     employmentInfo:string='';
     city:string='';
     state:string='';
-    phoneNum:string='';
+    phoneNum:number=0;
     userType:string='';
     idOfCenter:number=0;
   

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using System.IdentityModel.Tokens.Jwt;
+using BloodBankLibrary.Core.Staffs;
 
 namespace BloodBankAPI.Controllers
 {
@@ -19,13 +20,15 @@ namespace BloodBankAPI.Controllers
 		private JwtSecurityTokenHandler tokenHandler;
 		private IEmailSendService _emailSendService;
 		private IDonorService _donorService;
-		public CredentialsController(IUserService userService, IEmailSendService emailSendService, IDonorService donorService)
+		private IStaffService _staffService;
+		public CredentialsController(IUserService userService, IEmailSendService emailSendService, IDonorService donorService,IStaffService staffService)
 		{
 
 			_userService = userService;
 			tokenHandler = new JwtSecurityTokenHandler();
 			_emailSendService = emailSendService;
 			_donorService = donorService;
+			_staffService = staffService;
 		}
 
 		[AllowAnonymous] //prevent the auth process to happen when calling
@@ -67,6 +70,10 @@ namespace BloodBankAPI.Controllers
                     }
 				case ("STAFF"):
                     {
+						Staff staff=new Staff(regDTO);
+						_staffService.Create(staff);
+						idByRole=staff.Id;
+						email=staff.Email;
 						break;
                     }
 
@@ -79,8 +86,8 @@ namespace BloodBankAPI.Controllers
 			if (idByRole != 0 && email!=null)
 			{
 				User newUser = new User(regDTO, idByRole);
-				_userService.Create(newUser);
-				if (!SendActivationEmail(email)) return BadRequest("Email");
+				string tempPass=_userService.Create(newUser);
+				if (!SendActivationEmail(email,tempPass)) return BadRequest("Email");
 			}
 			else return BadRequest("DatabaseError");
 
@@ -90,7 +97,7 @@ namespace BloodBankAPI.Controllers
 		}
 
 
-		private bool SendActivationEmail(string email)
+		private bool SendActivationEmail(string email,string temp)
 		{
 
 			var token = _userService.GenerateActivationToken(email);
@@ -100,8 +107,13 @@ namespace BloodBankAPI.Controllers
 				_userService.SaveTokenToDatabase(email, token);
 
 				var lnkHref = Url.Action("Activate", "Credentials", new { email = email, code = token }, "http");
-				string subject = "HealthcareMD Activation Link";
+				string subject = "BloodCenter Activation Link";
 				string body = "Your activation link: " + lnkHref;
+				if (temp != null)
+                {
+					body = body + "\nYour temporary password is: "+temp;
+					body = body + "\nPlease change your password as soon as possible!";
+                }
 				_emailSendService.SendEmail(new Message(new string[] { email, "tibbers707@gmail.com" }, subject, body));
 				return true;
 			}
