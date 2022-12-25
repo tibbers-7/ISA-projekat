@@ -9,6 +9,7 @@ import { NgToastModule } from 'ng-angular-popup';
 import { LoginComponent } from './login/login.component';
 import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
 import { MaterialModule } from 'app/material/material.module';
+import { StartToolbarComponent } from './start-toolbar/start-toolbar/start-toolbar.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,7 +22,8 @@ const routes: Routes = [
     HomeComponent,
     RegistrationComponent,
     LoginComponent,
-    CentersListComponent
+    CentersListComponent,
+    StartToolbarComponent
   ],
   imports: [
     CommonModule,

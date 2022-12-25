@@ -1,22 +1,30 @@
 
- <label class="labels"> Minimum score: </label>  
-  <select [(ngModel)]="filterScore" class="select-filter" (change)="filterByScore($event)">
-      <option value="1" (change)="filterByScore($event)">1</option>
-      <option value="2" (change)="filterByScore($event)">2</option>
-      <option value="3" (change)="filterByScore($event)">3</option>
-      <option value="4" (change)="filterByScore($event)">4</option>
-  </select>
-  <label class="labels"> City: </label>  
-  <select [(ngModel)]="filterCity" class="select-filter" (click)="loadCities($event)"(change)="filterByCity($event)">
-    <option *ngFor="let city of cities">{{city}}</option>
-  </select>
-  <label class="labels"> Open: </label>  
-  <select [(ngModel)]="filterScore" class="select-filter" (change)="filterOpen($event)">
-    <option value="open" (change)="filterOpen($event)">open</option>
-    <option value="closed" (change)="filterOpen($event)">closed</option>
-</select>
- <input type="text" class="input-search" placeholder="Search" [(ngModel)]="searchText" (keyup)="applySearch($event)">
 
+<div style="margin-top:5%">
+
+  <h3>Centers</h3>
+ 
+
+  <div class="flexbox" style="margin-top:3%;margin-left:15%;">
+    <label>Minimum score:</label>  
+      <select [(ngModel)]="filterScore" class="select-filter" (change)="filterByScore($event)" style="width:5%">
+          <option value="1" (change)="filterByScore($event)">1</option>
+          <option value="2" (change)="filterByScore($event)">2</option>
+          <option value="3" (change)="filterByScore($event)">3</option>
+          <option value="4" (change)="filterByScore($event)">4</option>
+      </select>
+      <label> City: </label>  
+      <select [(ngModel)]="filterCity" class="select-filter" (click)="loadCities($event)"(change)="filterByCity($event)">
+        <option *ngFor="let city of cities">{{city}}</option>
+      </select>
+      <label> Open: </label>  
+      <select [(ngModel)]="filterScore" class="select-filter" (change)="filterOpen($event)" style="width:5%">
+        <option value="open" (change)="filterOpen($event)">open</option>
+        <option value="closed" (change)="filterOpen($event)">closed</option>
+    </select>
+    <input type="text" class="input-search" placeholder="Search" [(ngModel)]="searchText" (keyup)="applySearch($event)" style="margin-left:10%">
+</div>
+ 
 
 <table mat-table [dataSource]="dataSource"  matSort #empTbSort="matSort" class="fl-table">
     <ng-container matColumnDef="name" >
@@ -42,3 +50,4 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+</div>

@@ -1,110 +1,62 @@
 <body>
-  <div class="row">
-    <div class="element">
-      <div class="header-box">
+  <start-toolbar ></start-toolbar>
         <h3 class="header" style="width:40%;margin-left:30%">Registration</h3>
-      </div>
-
+      
       <form id="formlogin">
-        <table class="login_container">
+        <table class="form_container">
           <tr>
-            <td align="center">
-              <div class="row">
-                  <p class="block">Email:</p>
-                  <input type="text" name="email" class="block" [(ngModel)]="user.email">
+            <div class="flexbox_row">
+              <div class="flexbox_col" style="gap:0px">
+                  <p>Email:</p>
+                  <p>Password:</p>
+                  <p>Confirm password:</p>
+                  <p>Name:</p>
+                  <p>Surname:</p>
+                  <p>Jmbg:</p>
+                  <p>Workplace:</p>
+                  <p>Profession:</p>
+                  <p>Phone number:</p>
+                  
               </div>
-            </td>
-          </tr>
-          <tr>
-            <td align="center">
-              <div class="row">
-                <p class="block">Password:</p>
-                <input type="password" name="pasword" class="block" [(ngModel)]="user.password">
+              <div class="flexbox_col" style="gap:2.3em; margin-top:5%">
+                <input type="text" name="email" [(ngModel)]="user.email">
+                <input type="password" name="pasword" [(ngModel)]="user.password">
+                <input type="password" name="pasword" [(ngModel)]="passwordConfirm">
+                <input type="text" name="name" [(ngModel)]="user.name">
+                <input type="text" name="name" [(ngModel)]="user.surname">
+                <input type="text" name="jmbg" [(ngModel)]="user.jmbg">
+                <input type="text" name="adress" [(ngModel)]="user.workplace">
+                <input type="text" name="adress" [(ngModel)]="user.employmentInfo">
+                <input type="text" name="number" [(ngModel)]="user.phoneNum">
               </div>
-            </td>
+            </div>
           </tr>
-          <tr>
-            <td align="center">
-              <div class="row">
-                <p class="block" style="margin-right:2%">Confirm password:</p>
-                <input type="password" name="pasword" class="block" [(ngModel)]="passwordConfirm">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td align="center">
-              <div class="row">
-                <p class="block">Name:</p>
-                <input type="text" name="name" class="block" [(ngModel)]="user.name">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td align="center">
-              <div class="row">
-                <p class="block">Surname:</p>
-                <input type="text" name="name" class="block" [(ngModel)]="user.surname">
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td align="center">
-              <div class="row">
-                <p class="block">Jmbg:</p>
-                <input type="number" name="jmbg" class="block" [(ngModel)]="user.jmbg">
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center">
-              <div class="row">
-                <p class="block">Workplace:</p>
-                <input type="text" name="adress" class="block" [(ngModel)]="user.workplace">
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center">
-              <div class="row">
-                <p class="block">Profession:</p>
-                <input type="text" name="adress" class="block" [(ngModel)]="user.employmentInfo">
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center">
-              <div class="row">
-                <p class="block">Phone number:</p>
-                <input type="number" name="number" class="block" [(ngModel)]="user.phoneNum">
-              </div>
-            </td>
-          </tr>
+          
 
           <tr>
             <td align="center" >
-              <div class="row" style="display: flex;justify-content: space-between;">
-                <p class="block" style="width:20%;margin-left:10%;" >Address:</p>
-                <p class="block" style="width:20%;" >City:</p>
-                <p class="block" style="width:20%;margin-right:10%;" >State:</p>
+              <div class="flexbox_row" >
+                <p style="width:20%;margin-left:10%;" >Address:</p>
+                <p style="width:20%;" >City:</p>
+                <p style="width:20%;margin-right:10%;" >State:</p>
               </div>
-              <div class="row" style="display: flex;justify-content: space-between;" >
-                
-                <input type="text" name="adress" class="block" style="width:20%;margin-left:10%;"  [(ngModel)]="user.address">
-                <input type="text" name="city" class="block" style="width:20%" [(ngModel)]="user.city">
-                <input type="text" name="state" class="block" style="width:20%; margin-right:10%" [(ngModel)]="user.state">
-
+              <div class="flexbox_row">
+                <input type="text" name="adress" style="width:20%;margin-left:10%;"  [(ngModel)]="user.address">
+                <input type="text" name="city" style="width:20%" [(ngModel)]="user.city">
+                <input type="text" name="state" style="width:20%; margin-right:10%" [(ngModel)]="user.state">
               </div>
-
             </td>
           </tr>
           
           <tr>
             <td align="center">
-              <div class="row">
-                <p class="block">Gender:</p>
+              <p>Gender:</p>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+              <div class="flexbox_row" style="width:50%">
+                
                 <input type="radio" name="gender" id="male" value="MALE" [(ngModel)]="user.gender">
                 <label for="male">Male</label>
                 <input type="radio" name="gender" id="female" value="FEMALE" [(ngModel)]="user.gender">
@@ -120,9 +72,4 @@
           </tr>
         </table>
       </form>
-    </div>
-
-   
-
-    </div>
     </body>
