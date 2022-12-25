@@ -39,9 +39,9 @@ namespace BloodBankLibrary.Settings
             modelBuilder.HasPostgresEnum<AppointmentStatus>();
 
 
-            modelBuilder.Entity<Donor>().Property(d => d.Address).HasColumnType("jsonb");
-            modelBuilder.Entity<Staff>().Property(s => s.Address).HasColumnType("jsonb");
-            modelBuilder.Entity<BloodCenter>().Property(b => b.Address).HasColumnType("jsonb");
+            modelBuilder.Entity<Donor>().Property(d => d.AddressJson).HasColumnType("jsonb");
+            modelBuilder.Entity<Staff>().Property(s => s.AddressJson).HasColumnType("jsonb");
+            modelBuilder.Entity<BloodCenter>().Property(b => b.AddressJson).HasColumnType("jsonb");
 
             Question[] questions= new Question[] { new Question(1, "Have you donated blood in the last 6 months?"), 
                                                     new Question(2, "Have you ever been rejected as a blood donor?"),
@@ -54,10 +54,10 @@ namespace BloodBankLibrary.Settings
                                                   };
             modelBuilder.Entity<Question>().HasData(questions);
 
-            BloodCenter bc1 = new BloodCenter(1,"Center 1", "Futoska 62,Novi Sad,Srbija", "Blood transfusion center.", 4.9, "12:00", "18:00" );
-            BloodCenter bc2 = new BloodCenter (2, "Center 2", "Bulevar Oslobodjenja 111,Novi Sad,Srbija", "Blood transfusion center.", 3.7, "08:00", "14:00" );
-            BloodCenter bc3 = new BloodCenter (3,"Center 3", "Strazilovska 18,Novi Sad,Srbija", "Blood transfusion center.", 5.0, "09:00", "16:00" );
-            BloodCenter bc4 = new BloodCenter (4,"Center 4", "Vere Petrovic 1,Novi Sad,Srbija", "Blood transfusion center.", 4.2, "13:00", "17:00" );
+            BloodCenter bc1 = new BloodCenter(1,"Center 1", "Futoska 62,Novi Sad,Srbija", "Blood transfusion center.", 4.9, "12:00:00", "18:00:00" );
+            BloodCenter bc2 = new BloodCenter (2, "Center 2", "Bulevar Oslobodjenja 111,Novi Sad,Srbija", "Blood transfusion center.", 3.7, "08:00:00", "14:00:00" );
+            BloodCenter bc3 = new BloodCenter (3,"Center 3", "Strazilovska 18,Novi Sad,Srbija", "Blood transfusion center.", 5.0, "09:00:00", "16:00:00" );
+            BloodCenter bc4 = new BloodCenter (4,"Center 4", "Vere Petrovic 1,Novi Sad,Srbija", "Blood transfusion center.", 4.2, "13:00:00", "17:00:00" );
             modelBuilder.Entity<BloodCenter>().HasData(bc1,bc2,bc3,bc4);
 
             Donor d = new Donor() {Id=1, Name = "Emilija", Surname = "Medic", Email = "donor", Jmbg = 34242423565, Address = new Address("Bore Prodanovica 11,Novi Sad,Srbija"), Gender = Gender.FEMALE, PhoneNumber = 381629448332, Profession = "student", Workplace = "Fakultet Tehnickih Nauka", Strikes = 0 };
@@ -67,7 +67,7 @@ namespace BloodBankLibrary.Settings
             Admin a=new Admin () {Id=1, Email="admin",Name="Marko", Surname= "Dobrosavljevic" };
             modelBuilder.Entity<Admin>().HasData(a);
 
-            Staff s = new Staff { Id = 1, Email = "staff", Name = "Milan", Surname = "Miric", CenterId = 1 };
+            Staff s = new Staff { Id = 1, Email = "staff", Name = "Milan", Surname = "Miric", Address=new Address("Bore Prodanovica 11,Novi Sad,Srbija"),Gender=Gender.MALE,Jmbg=47387297437,PhoneNumber=3816298437, CenterId = 1 };
             modelBuilder.Entity<Staff>().HasData(s);
 
             User u1 = new User { Id = 1, IdByType =1,Name = "Marko", Surname = "Dobrosavljevic", Email = "admin", Active=true, Token = null, Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==",  UserType= UserType.ADMIN };
