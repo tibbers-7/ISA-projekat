@@ -32,7 +32,7 @@ namespace BloodBankLibrary.Core.Materials
         public string StreetAddr { get => streetAddr; set => streetAddr = value; }
         public override string ToString()
         {
-            return StreetAddr + " " + City + " " + Country;
+            return StreetAddr + "," + City + "," + Country;
         }
     }
 }

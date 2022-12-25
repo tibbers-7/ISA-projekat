@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using System.IdentityModel.Tokens.Jwt;
+using BloodBankLibrary.Core.Staffs;
 
 namespace BloodBankAPI.Controllers
 {
@@ -19,13 +20,15 @@ namespace BloodBankAPI.Controllers
 		private JwtSecurityTokenHandler tokenHandler;
 		private IEmailSendService _emailSendService;
 		private IDonorService _donorService;
-		public CredentialsController(IUserService userService, IEmailSendService emailSendService, IDonorService donorService)
+		private IStaffService _staffService;
+		public CredentialsController(IUserService userService, IEmailSendService emailSendService, IDonorService donorService,IStaffService staffService)
 		{
 
 			_userService = userService;
 			tokenHandler = new JwtSecurityTokenHandler();
 			_emailSendService = emailSendService;
 			_donorService = donorService;
+			_staffService = staffService;
 		}
 
 		[AllowAnonymous] //prevent the auth process to happen when calling
@@ -48,32 +51,53 @@ namespace BloodBankAPI.Controllers
 		[HttpPost("register")]
 		public ActionResult Register(RegisterDTO regDTO)
 		{
-			if (!ModelState.IsValid)
+			if (!ModelState.IsValid) return BadRequest(ModelState);
+			if (_userService.GetByEmail(regDTO.Email) != null) return BadRequest("Exists");
+
+			int idByRole = 0;
+			string email = null;
+
+			switch (regDTO.UserType)
+            {
+				case ("DONOR"):
+                    {
+						Donor donor = new Donor(regDTO);
+						_donorService.Register(donor);
+						donor = _donorService.GetByEmail(donor.Email);
+						idByRole = donor.Id;
+						email=donor.Email; // ako bude postojala provera da li je mejl dobro upisan
+						break;
+                    }
+				case ("STAFF"):
+                    {
+						Staff staff=new Staff(regDTO);
+						_staffService.Create(staff);
+						idByRole=staff.Id;
+						email=staff.Email;
+						break;
+                    }
+
+				default: return (BadRequest("UserType"));
+            }
+
+
+
+
+			if (idByRole != 0 && email!=null)
 			{
-				return BadRequest(ModelState);
+				User newUser = new User(regDTO, idByRole);
+				string tempPass=_userService.Create(newUser);
+				if (!SendActivationEmail(email,tempPass)) return BadRequest("Email");
 			}
+			else return BadRequest("DatabaseError");
 
-			Donor donor = new Donor(regDTO);
-
-			if (_userService.GetByEmail(donor.Email) != null) return BadRequest("Exists");
-
-			_donorService.Register(donor);
-
-			Donor createdDonor = _donorService.GetByEmail(donor.Email);
-
-			if (createdDonor != null)
-			{
-				User newUser = new User(regDTO, createdDonor.Id);
-				_userService.Create(newUser);
-			}
-
-			if (!SendActivationEmail(createdDonor.Email)) return BadRequest("Email");
+			
 
 			return Ok();
 		}
 
 
-		private bool SendActivationEmail(string email)
+		private bool SendActivationEmail(string email,string temp)
 		{
 
 			var token = _userService.GenerateActivationToken(email);
@@ -83,8 +107,13 @@ namespace BloodBankAPI.Controllers
 				_userService.SaveTokenToDatabase(email, token);
 
 				var lnkHref = Url.Action("Activate", "Credentials", new { email = email, code = token }, "http");
-				string subject = "HealthcareMD Activation Link";
+				string subject = "BloodCenter Activation Link";
 				string body = "Your activation link: " + lnkHref;
+				if (temp != null)
+                {
+					body = body + "\nYour temporary password is: "+temp;
+					body = body + "\nPlease change your password as soon as possible!";
+                }
 				_emailSendService.SendEmail(new Message(new string[] { email, "tibbers707@gmail.com" }, subject, body));
 				return true;
 			}

@@ -44,7 +44,7 @@ export class CentersListComponent implements OnInit {
     this.cities=[];
     this.centers.forEach(element => 
       {
-        const address=element.adress;
+        const address=element.addressString;
         const city=address.slice(0,address.indexOf(" "));
         this.cities.push(city);
       }
@@ -52,7 +52,7 @@ export class CentersListComponent implements OnInit {
   }
   applySearch(event: Event) {
     this.dataSource.filterPredicate = function (centers,filter) {
-      return centers.name.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase()) ||  centers.adress.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
+      return centers.name.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase()) ||  centers.addressString.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
     }
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -77,7 +77,7 @@ export class CentersListComponent implements OnInit {
   }
   filterByCity(event: Event) {
     this.dataSource.filterPredicate = function (centers,filter) {
-      return centers.adress.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase());
+      return centers.addressString.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase());
     }
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

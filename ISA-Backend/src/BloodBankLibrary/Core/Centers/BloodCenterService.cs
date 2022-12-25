@@ -29,6 +29,7 @@ namespace BloodBankLibrary.Core.Centers
 
         public void Create(BloodCenter bloodCenter)
         {
+            bloodCenter.Address = new Materials.Address(bloodCenter.AddressString);
             _bloodCenterRepository.Create(bloodCenter);
         }
 

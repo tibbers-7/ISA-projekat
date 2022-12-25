@@ -148,7 +148,7 @@ namespace BloodBankLibrary.Core.Appointments
             List<Appointment> allCenterApps = (List<Appointment>)GetScheduledByCenter(centerId);
             allCenterApps.AddRange(GetAvailableByCenter(centerId));
             BloodCenter bloodCenter = _bloodCenterRepository.GetById(centerId);
-            if (dateTime.Hour < bloodCenter.WorkTimeStart || dateTime.Hour > bloodCenter.WorkTimeEnd) return false;
+            if (dateTime.Hour < bloodCenter.WorkTimeStart.Hour || dateTime.Hour > bloodCenter.WorkTimeEnd.Hour) return false;
             foreach (Appointment app in allCenterApps)
             {
                 

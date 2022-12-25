@@ -2,7 +2,7 @@
 export class BloodCenter {
   name: string = '';
   id: number = 0;
-  adress: string = '';
+  addressString: string = '';
   description: string = ' ';
   openHours: string = ' ';
   avgScore: number = 0;
@@ -13,7 +13,7 @@ export class BloodCenter {
       this.id = obj.id;
       this.name = obj.name;
       this.openHours = obj.openHours;
-      this.adress = obj.adress;
+      this.addressString = obj.addressString;
       this.description = obj.description;
       this.avgScore = obj.avgScore;
     }

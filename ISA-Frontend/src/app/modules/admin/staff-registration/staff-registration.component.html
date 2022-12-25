@@ -1,59 +1,66 @@
 <body>
   <h3>Staff registration</h3>
     <form id="formlogin">
-      <table class="login_container">
+      <table class="form_container">
         <tr>
           <td align="center">
-            <div class="row">
-                <p class="block">Email:</p>
-                <input type="text" name="email" class="block" [(ngModel)]="user.email">
+            <div class="flexbox">
+                <p>Email:</p>
+                <input type="text" name="email" [(ngModel)]="user.email">
             </div>
           </td>
         </tr>
         <tr>
           <td align="center">
-            <div class="row">
-              <p class="block">Password:</p>
-              <input type="password" name="pasword" class="block" [(ngModel)]="user.password">
+            <p >Name & Surname:</p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <div class="flexbox">
+              
+              <input type="text" name="name" [(ngModel)]="user.name">
+              <input type="text" name="surname" [(ngModel)]="user.surname">
             </div>
           </td>
         </tr>
         <tr>
           <td align="center">
-            <div class="row">
-              <p class="block">Full name:</p>
-              <input type="text" name="name" class="block" [(ngModel)]="user.name">
+            <div class="flexbox">
+              <p>Jmbg:</p>
+              <input type="number" name="jmbg" [(ngModel)]="user.jmbg">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" >
+            <div class="flexbox">
+              <p>Address:</p>
+              <p>City:</p>
+              <p>Country:</p>
+            </div>
+            <div class="flexbox" style="gap:10px;">
+              
+              <input type="text" style="width: 7rem;" name="adress" [(ngModel)]="user.address">
+              <input type="text" style="width: 7rem;" name="city" [(ngModel)]="user.city">
+              <input type="text" style="width: 7rem;" name="state" [(ngModel)]="user.state">
+
+            </div>
+
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <div class="flexbox">
+              <p>Phone number:</p>
+              <input type="number" name="number" [(ngModel)]="user.phoneNum">
             </div>
           </td>
         </tr>
         <tr>
           <td align="center">
-            <div class="row">
-              <p class="block">Jmbg:</p>
-              <input type="text" name="name" class="block" [(ngModel)]="user.jmbg">
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
-            <div class="row">
-              <p class="block">Address:</p>
-              <input type="text" name="adress" class="block" [(ngModel)]="user.adress">
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
-            <div class="row">
-              <p class="block">Phone number:</p>
-              <input type="text" name="number" class="block" [(ngModel)]="user.phoneNumber">
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
-            <div class="row">
-              <p class="block">Gender:</p>
+            <div >
+              <p>Gender:</p>
               <input type="radio" name="gender" id="male" value="MALE" [(ngModel)]="user.gender">
               <label for="male">Male</label>
               <input type="radio" name="gender" id="female" value="FEMALE" [(ngModel)]="user.gender">
@@ -63,10 +70,10 @@
         </tr>
         <tr>
           <td align="center">
-            <div class="row">
-              <p class="block">Blood center:</p>
-              <select class="select-filter" (change)="setCenter($event)">
-              <option *ngFor="let center of centers" (change)="setCenter($event)">{{center.name}}</option>
+            <div class="flexbox">
+              <p>Blood center:</p>
+              <select class="select-filter"  [(ngModel)]="selectedCenter" (ngModelChange)="setCenter($event)" id="centerSelect" name="centerSelect" >
+              <option *ngFor="let center of centers" [ngValue]="center">{{center.name}}</option>
               </select>
             </div>
           </td>

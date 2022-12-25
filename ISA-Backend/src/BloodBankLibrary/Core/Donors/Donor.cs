@@ -1,6 +1,8 @@
 ﻿using BloodBankLibrary.Core.Materials;
 using BloodBankLibrary.Core.Materials.Enums;
 using BloodBankLibrary.Core.Users;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 
 namespace BloodBankLibrary.Core.Donors
 {
@@ -10,9 +12,21 @@ namespace BloodBankLibrary.Core.Donors
         public string Email { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public Address Address { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Jmbg { get; set; }
+        [Column(TypeName = "jsonb")]
+        public string AddressJson { get; set;}
+        [NotMapped]
+        private Address address { get; set; }
+        [NotMapped]
+        public Address Address
+        {
+            get => address; set
+            {
+                address = value;
+                AddressJson = JsonSerializer.Serialize(address);
+            }
+        }
+        public long PhoneNumber { get; set; }
+        public long Jmbg { get; set; }
         public string Profession { get; set; }
         public string Workplace { get; set; }
         public Gender Gender { get; set; }
@@ -28,6 +42,7 @@ namespace BloodBankLibrary.Core.Donors
             this.Surname = regDTO.Surname;
             this.Email = regDTO.Email;
             this.Address = new Address() { City=regDTO.City, Country=regDTO.State,StreetAddr=regDTO.Address};
+            this.AddressJson=JsonSerializer.Serialize(this.Address);
             this.Jmbg = regDTO.Jmbg;
             Gender g;
             Gender.TryParse(regDTO.Gender, out g);

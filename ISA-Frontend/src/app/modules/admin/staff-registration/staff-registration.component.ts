@@ -3,6 +3,9 @@ import { User } from '../../../model/user.model';
 import { BloodCenter } from '../../../model/blood-center.model';
 import { UserService } from '../../../services/user.service';
 import { BloodCenterService } from '../../../services/blood-center.service';
+import { AuthService } from 'app/services/auth.service';
+import { RegDTO } from 'app/model/regDTO.model';
+import { NgToastService } from 'ng-angular-popup';
 
 
 @Component({
@@ -12,9 +15,10 @@ import { BloodCenterService } from '../../../services/blood-center.service';
 })
 export class StaffRegistrationComponent implements OnInit {
 
-  public user=new User();
+  public user=new RegDTO();
   public centers : BloodCenter[]= [];
-  constructor(private userService:UserService, private bloodService:BloodCenterService) { }
+  public selectedCenter: BloodCenter=new BloodCenter;
+  constructor(private userService:UserService, private bloodService:BloodCenterService, private authService:AuthService,private toast:NgToastService) { }
 
   ngOnInit(): void {
     this.bloodService.getCenters().subscribe(res => {
@@ -30,26 +34,24 @@ export class StaffRegistrationComponent implements OnInit {
       return;
     }
     this.user.userType='STAFF';
-    this.user.profession='STAFF';
-    this.userService.createUser(this.user).subscribe(res => {
-      console.log("created user!");
+
+    this.authService.register(this.user)
+      .subscribe(res => {
+        this.toast.success({detail:"Sent activation link!",summary:'Check your email.',duration:5000});
+    }, error=>{
+      console.log(error.message);
     });
   }
 
-  setCenter(event: Event)
+  setCenter(event:any)
   {
-    this.user.workplace = (event.target as HTMLInputElement).value;
-    this.centers.forEach(element => {
-      if(element.name=this.user.workplace)
-      {
-        this.user.idOfCenter=element.id;
-      }
-    });
+    console.log(this.selectedCenter.id);
+    this.user.idOfCenter=this.selectedCenter.id;
+    this.user.employmentInfo=this.selectedCenter.name;
   }
   checkValidity(){
-    if(this.user.email==='' || this.user.adress==='' || this.user.gender==='' 
-      || this.user.jmbg==='' || this.user.name==='' || this.user.password===''
-      || this.user.phoneNumber==='') 
+    if(this.user.email==='' || this.user.address==='' || this.user.city==='' || this.user.state==='' || this.user.gender==='' 
+      || this.user.jmbg===0 || this.user.name==='' || this.user.surname==='' || this.user.phoneNum===0) 
       return false;
 
     return true;

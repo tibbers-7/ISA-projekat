@@ -18,7 +18,7 @@ using BloodBankLibrary.Core.Users;
 using BloodBankLibrary.Core.Centers;
 using BloodBankLibrary.Core.Appointments;
 using BloodBankLibrary.Core.Donors;
-
+using BloodBankLibrary.Core.Admins;
 
 namespace BloodBankAPI
 {
@@ -67,7 +67,11 @@ namespace BloodBankAPI
             services.AddScoped<IDonorRepository, DonorRepository>();
             services.AddScoped<IDonorService, DonorService>();
             services.AddScoped<IStaffRepository, StaffRepository>();
-            services.AddScoped<IStaffService, StaffService>();  
+            services.AddScoped<IStaffService, StaffService>();
+
+            services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IAdminService, AdminService>();
+
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
