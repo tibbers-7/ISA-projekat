@@ -19,6 +19,7 @@ namespace BloodBankLibrary.Core.Centers
         private double avgScore;
         private DateTime workTimeStart;
         private DateTime workTimeEnd;
+        private string addressJson;
         [NotMapped]
         private string addressString;
         [NotMapped]
@@ -54,27 +55,28 @@ namespace BloodBankLibrary.Core.Centers
         public string Name { get => name; set => name = value; }
         public int Id { get => id; set => id = value; }
         [NotMapped]
-        public Address Address
-        {
-            get => address; set
-            {
-                address = value;
-                AddressJson = JsonSerializer.Serialize(address);
-            }
-        }
+        public Address Address {get;set;}
         public string Description { get => description; set => description = value; }
         public double AvgScore { get => avgScore; set => avgScore = value; }
         public DateTime WorkTimeStart { get => workTimeStart; set => workTimeStart = value; }
         public DateTime WorkTimeEnd { get => workTimeEnd; set => workTimeEnd = value; }
         [Column(TypeName = "jsonb")]
-        public string AddressJson { get; set; }
-        [NotMapped]
+        public string AddressJson
+        {
+            get => addressJson; set
+            {
+                addressJson = value;
+                Address = JsonSerializer.Deserialize<Address>(value);
+
+            }
+        }
+       /* [NotMapped]
         public string AddressString { get => addressString; set
             {
                 Address = new Address(value);
                 addressString= value;
             }
-        }
+        }*/
 
         [NotMapped]
         public string StartString

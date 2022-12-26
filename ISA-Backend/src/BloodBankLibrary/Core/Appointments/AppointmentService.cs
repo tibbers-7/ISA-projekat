@@ -190,5 +190,16 @@ namespace BloodBankLibrary.Core.Appointments
             return null;
 
         }
+
+        public object GetAvailableForDonor(int donorId, int centerId)
+        {
+            List<Appointment> appointments = new List<Appointment>(GetAvailableByCenter(centerId));
+            foreach (Appointment appointment in appointments)
+            {
+                if (appointment.Status == AppointmentStatus.CANCELLED && appointment.DonorId == donorId) continue;
+                appointments.Add(appointment);
+            }
+            return appointments;
+        }
     }
 }

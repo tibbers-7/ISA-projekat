@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 using BloodBankLibrary.Core.Appointments;
 using BloodBankLibrary.Core.Donors;
+using BloodBankLibrary.Core.Materials;
 
 namespace BloodBankLibrary.Core.Centers
 {
@@ -17,9 +19,24 @@ namespace BloodBankLibrary.Core.Centers
             _donorRepository = donorRepository;
         }
 
-        public IEnumerable<BloodCenter> GetAll()
+        public IEnumerable<CenterDTO> GetAll()
         {
-            return _bloodCenterRepository.GetAll();
+            List<CenterDTO> result = new List<CenterDTO>();
+            foreach(BloodCenter center in _bloodCenterRepository.GetAll())
+            {
+                result.Add(new CenterDTO(center));
+            }
+            return result;
+        }
+
+        public IEnumerable<string> GetCities()
+        {
+            List<string> cities = new List<string>();
+            foreach(BloodCenter center in _bloodCenterRepository.GetAll())
+            {
+                if(!cities.Contains(center.Address.City)) cities.Add(center.Address.City);
+            }
+            return cities;
         }
 
         public BloodCenter GetById(int id)
@@ -29,7 +46,6 @@ namespace BloodBankLibrary.Core.Centers
 
         public void Create(BloodCenter bloodCenter)
         {
-            bloodCenter.Address = new Materials.Address(bloodCenter.AddressString);
             _bloodCenterRepository.Create(bloodCenter);
         }
 

@@ -20,27 +20,33 @@ export class DonorAppointmentScheduleComponent implements OnInit {
   public tableShow:boolean=false;
 
   public centers:BloodCenter[]=[];
-  public centerId:string='';
+  public centerId:number=0;
 
   public selectedAppt:Appointment=new Appointment;
   private idNum:number=0;
+  private donorId=0;
   constructor(private centerService:BloodCenterService,private apptService:AppointmentService, private toast:NgToastService, private formService:FormService) { }
 
   ngOnInit(): void {
+    this.donorId=Number(localStorage.getItem("idByRole"));
+    
     this.centerService.getCenters().subscribe(res => {
       this.centers = res;
     });
   }
 
-  getCenters(){
-    if (this.centerId!=''){
+  getAppts(){
+    console.log(this.centerId);
+    if (this.centerId!=undefined){
       this.idNum=Number(this.centerId);
-      this.apptService.getAvailableByCenter(this.idNum).subscribe(res => {
+      
+      this.apptService.getAvailableForDonor(this.idNum,this.donorId).subscribe(res => {
         this.appointments = res;
         this.dataSource.data = this.appointments;
       });
 
       this.tableShow=true;
+    
     }
   }
 

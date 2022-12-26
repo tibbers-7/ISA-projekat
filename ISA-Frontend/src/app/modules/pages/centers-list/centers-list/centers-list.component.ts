@@ -32,6 +32,7 @@ export class CentersListComponent implements OnInit {
       this.dataSource.sort = this.empTbSort;
       
     });
+    this.loadCities();
     const centersCopy = [...this.centers]; 
     this.centers.sort((b,a) => (
     // your sort logic
@@ -39,20 +40,15 @@ export class CentersListComponent implements OnInit {
     ));
 
   }
-  loadCities(event: Event)
+  loadCities()
   {
-    this.cities=[];
-    this.centers.forEach(element => 
-      {
-        const address=element.addressString;
-        const city=address.slice(0,address.indexOf(" "));
-        this.cities.push(city);
-      }
-      );
+      this.bloodService.getCities().subscribe(res=>{
+        this.cities=res;
+      })
   }
   applySearch(event: Event) {
     this.dataSource.filterPredicate = function (centers,filter) {
-      return centers.name.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase()) ||  centers.addressString.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
+      return centers.name.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase()) ||  centers.address.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
     }
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -75,9 +71,11 @@ export class CentersListComponent implements OnInit {
     const filterValue = dateTime.getHours.toString();
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+
   filterByCity(event: Event) {
     this.dataSource.filterPredicate = function (centers,filter) {
-      return centers.addressString.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase());
+      return centers.address.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
     }
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

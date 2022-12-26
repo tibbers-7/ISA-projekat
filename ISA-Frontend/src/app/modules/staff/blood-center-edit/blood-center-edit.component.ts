@@ -45,6 +45,6 @@ export class BloodCenterEditComponent implements OnInit {
   }
 
   private isValidInput(): boolean {
-    return this.center?.name != '' && this.center?.addressString != '' && this.center?.description != '';
+    return this.center?.name != '' && this.center?.address != '' && this.center?.description != '';
   }
 }

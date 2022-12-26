@@ -1,3 +1,4 @@
+
 .fl-table {
     margin-top: 1%;
     border-radius: 5px;
@@ -9,7 +10,8 @@
     margin-left:15%;
     max-width: 100%;
     white-space: nowrap;
-    background-color: rgba(223, 168, 168, 0.395);
+    background-color: rgba(205, 126, 126, 0.582);
+    color:white;
   }
   
   .fl-table td, .fl-table th {
@@ -34,7 +36,7 @@
   }
   
   .fl-table tr:nth-child(even) {
-    background-color: rgba(227, 116, 116, 0.395);
+    background-color: rgba(198, 87, 87, 0.634);
 }
   
   /* Responsive */

@@ -12,7 +12,7 @@ body{
 }
 
 .fl-table {
-    margin-top: 3%;
+    margin-top: 1%;
     border-radius: 5px;
     font-size: 12px;
     font-weight: normal;
@@ -22,7 +22,8 @@ body{
     margin-left:15%;
     max-width: 100%;
     white-space: nowrap;
-    background-color: white;
+    background-color: rgba(205, 126, 126, 0.582);
+    color:white;
   }
   
   .fl-table td, .fl-table th {
@@ -43,12 +44,12 @@ body{
   
   .fl-table thead th:nth-child(odd) {
       color: #ffffff;
-      background: #324960;
+      background-color: rgba(211, 84, 84, 0.395);
   }
   
   .fl-table tr:nth-child(even) {
-      background: #F8F8F8;
-  }
+    background-color: rgba(198, 87, 87, 0.634);
+}
   
   /* Responsive */
   
@@ -168,3 +169,28 @@ body{
     position: relative;
     border: none;
   }
+
+  .select_field{
+    height: 20px;
+    width: 200px;
+    border-style: none;
+    font-size: 15px;
+    outline: none;
+    border-radius: 25px;
+    transition: all .5s ease-in-out;
+    background-color: #dcdcdc;
+    color:#4a4a4a;
+  }
+
+  h3 {
+  
+    text-align: center;
+    margin-left: -1%;
+    margin-top:6%;
+    font-size: 40px;
+    color: rgb(226, 207, 207);
+    font-weight:200;
+    font-stretch:ultra-condensed;
+  }
+  
+  

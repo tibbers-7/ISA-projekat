@@ -2,9 +2,10 @@
 
     <donor-toolbar></donor-toolbar>
   
+    <h3>Schedule with suggestions</h3>
     <div class="row" style="margin-left:45%; margin-top:2%;">
       <p class="block" style="color:whitesmoke;" >Choose a center:</p>
-      <select [(ngModel)]="centerId" name="centerId" id="centerId"  on-click="getCenters()">
+      <select [(ngModel)]="centerId" name="centerId" id="centerId"  (ngModelChange)="getAppts()" class="select_field" style="margin-left:-5%">
         <option selected disabled hidden>Choose a center</option>
         <option  *ngFor="let center of centers" [ngValue]="center.id">{{center.name}}</option>
       </select>

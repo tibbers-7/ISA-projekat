@@ -25,6 +25,10 @@ export class BloodCenterService {
   getCenter(id: number): Observable<BloodCenter> {
     return this.http.get<BloodCenter>(this.apiHost + 'api/BloodCenter/' + id, { headers: this.headers });
   }
+
+  getCities(): Observable<string[]> {
+    return this.http.get<string[]>(this.apiHost + 'api/BloodCenter/cities',  { headers: this.headers });
+  }
  
   updateCenter(bloodCenter: any): Observable<any> {
     return this.http.put<any>(this.apiHost + 'api/BloodCenter/' + bloodCenter.id, bloodCenter, { headers: this.headers });

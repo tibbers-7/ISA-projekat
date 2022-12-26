@@ -2,10 +2,11 @@
 export class BloodCenter {
   name: string = '';
   id: number = 0;
-  addressString: string = '';
+  address: string = '';
   description: string = ' ';
   openHours: string = ' ';
   avgScore: number = 0;
+  
   
 
   public constructor(obj?: any) {
@@ -13,7 +14,7 @@ export class BloodCenter {
       this.id = obj.id;
       this.name = obj.name;
       this.openHours = obj.openHours;
-      this.addressString = obj.addressString;
+      this.address = obj.addressString;
       this.description = obj.description;
       this.avgScore = obj.avgScore;
     }

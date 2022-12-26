@@ -48,6 +48,9 @@ export class AppointmentService {
   getScheduledForDonor(donorId : number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/scheduled/' + donorId, { headers: this.headers });
   }
+  getAvailableForDonor(centerId:number,donorId : number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/available/' + donorId+"/"+centerId, { headers: this.headers });
+  }
   
 
 

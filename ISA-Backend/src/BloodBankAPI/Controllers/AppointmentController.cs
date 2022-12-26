@@ -64,10 +64,12 @@ namespace BloodBankAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            appointment.Status = AppointmentStatus.SCHEDULED;
-            _appointmentService.Update(appointment);
 
-            return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
+                appointment.Status = AppointmentStatus.SCHEDULED;
+                _appointmentService.Update(appointment);
+                return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
+            
+            
         }
 
 
@@ -159,6 +161,17 @@ namespace BloodBankAPI.Controllers
 
         }
 
+        [HttpGet("donor/available/{donorId}/{centerId}")]
+        public ActionResult GetAvailableForDonor(int donorId,int centerId)
+        {
+            var appointments = _appointmentService.GetAvailableForDonor(donorId,centerId);
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointments);
+
+        }
 
 
 

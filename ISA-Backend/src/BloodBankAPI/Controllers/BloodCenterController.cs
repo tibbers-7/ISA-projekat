@@ -35,6 +35,19 @@ namespace BloodBankAPI.Controllers
             return Ok(bloodCenter);
         }
 
+        [HttpGet("cities")]
+        public ActionResult GetCities()
+        {
+            var cities = _bloodCenterService.GetCities();
+            if (cities == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(cities);
+        }
+
+
         // POST api/bloodCenters
         [HttpPost]
         public ActionResult Create(BloodCenter bloodCenter)
