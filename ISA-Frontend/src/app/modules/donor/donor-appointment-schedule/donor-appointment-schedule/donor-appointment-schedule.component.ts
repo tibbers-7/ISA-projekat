@@ -23,7 +23,7 @@ export class DonorAppointmentScheduleComponent implements OnInit {
   public centerId:number=0;
 
   public selectedAppt:Appointment=new Appointment;
-  private idNum:number=0;
+  public selectedCenter:BloodCenter=new BloodCenter;
   private donorId=0;
   constructor(private centerService:BloodCenterService,private apptService:AppointmentService, private toast:NgToastService, private formService:FormService) { }
 
@@ -36,11 +36,10 @@ export class DonorAppointmentScheduleComponent implements OnInit {
   }
 
   getAppts(){
-    console.log(this.centerId);
+    console.log(this.selectedCenter);
+    this.centerId=this.selectedCenter.id;
     if (this.centerId!=undefined){
-      this.idNum=Number(this.centerId);
-      
-      this.apptService.getAvailableForDonor(this.idNum,this.donorId).subscribe(res => {
+      this.apptService.getAvailableForDonor(this.centerId,this.donorId).subscribe(res => {
         this.appointments = res;
         this.dataSource.data = this.appointments;
       });
