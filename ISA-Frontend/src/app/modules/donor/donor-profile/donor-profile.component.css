@@ -128,10 +128,12 @@ label:hover {
 }
 
 h3 {
-  margin-left: 43%;
-  margin-top: 3%;
+  
+  text-align: center;
+  margin-left: -1%;
+  margin-top:6%;
   font-size: 40px;
   color: rgb(226, 207, 207);
-  font-weight: 200;
-  font-stretch: ultra-condensed;
+  font-weight:200;
+  font-stretch:ultra-condensed;
 }

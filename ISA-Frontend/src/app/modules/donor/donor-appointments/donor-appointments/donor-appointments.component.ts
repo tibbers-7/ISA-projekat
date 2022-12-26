@@ -40,6 +40,10 @@ export class DonorAppointmentsComponent {
     this.apptService.cancelAppt(this.selectedAppt).subscribe(res => {
       this.appointments=res;
       this.dataSource.data=this.appointments;
+      this.toast.success({detail:"Appointment cancelled!",summary:'You can\'t reschedule on the same date.',duration:3000});
+
+    }, error=>{
+      this.toast.error({detail:'Something went wrong!',summary:"",duration:3000});
     });
   }
 }
