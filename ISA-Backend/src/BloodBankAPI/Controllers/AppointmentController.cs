@@ -74,15 +74,16 @@ namespace BloodBankAPI.Controllers
 
 
         [HttpPost("cancel")]
-        public ActionResult Cancel(Appointment appointment)
+        public ActionResult Cancel(AppointmentDTO appointment)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            appointment.Status = AppointmentStatus.CANCELLED;
+            Appointment _appointment = new Appointment(appointment);
+            _appointment.Status = AppointmentStatus.CANCELLED;
             _donorService.AddStrike(appointment.DonorId);
-            _appointmentService.Update(appointment);
+            _appointmentService.Update(_appointment);
 
             return Ok(appointment);
         }

@@ -76,13 +76,13 @@ namespace BloodBankLibrary.Core.Appointments
 
 
 
-        public IEnumerable<Appointment> GetScheduledByDonor(int donorId)
+        public IEnumerable<AppointmentDTO> GetScheduledByDonor(int donorId)
         {
             IEnumerable<Appointment> allScheduled = GetScheduled();
-            List<Appointment> res = new List<Appointment>();
+            List<AppointmentDTO> res = new List<AppointmentDTO>();
             foreach(Appointment appointment in allScheduled)
             {
-                if (appointment.DonorId == donorId) res.Add(appointment);
+                if (appointment.DonorId == donorId) res.Add(new AppointmentDTO(appointment));
             }
             return res;
             //return allScheduled.Where<Appointment>(a => a.DonorId == donorId);
@@ -194,11 +194,11 @@ namespace BloodBankLibrary.Core.Appointments
         public object GetAvailableForDonor(int donorId, int centerId)
         {
             IEnumerable<Appointment> appointments = GetAvailableByCenter(centerId);
-            List<Appointment> res = new List<Appointment>();
+            List<AppointmentDTO> res = new List<AppointmentDTO>();
             foreach (Appointment appointment in appointments)
             {
                 if (appointment.Status == AppointmentStatus.CANCELLED && appointment.DonorId == donorId) continue;
-                res.Add(appointment);
+                res.Add(new AppointmentDTO(appointment));
             }
             return res;
         }

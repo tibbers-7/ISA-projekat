@@ -19,12 +19,14 @@ namespace BloodBankLibrary.Core.Appointments
         
         public Appointment(AppointmentDTO dto)
         {
+            this.id=dto.Id;
             this.centerId = dto.CenterId;
             this.staffId = dto.StaffId;
             this.startDate = DateTime.Parse(dto.Date);
             this.duration = dto.Duration;
             this.DonorId = dto.DonorId;
-            this.status = Enum.Parse<AppointmentStatus>(dto.Status);
+            this.status = Enum.Parse<AppointmentStatus>(dto.Status.ToUpper());
+            startDate = DateTime.ParseExact(dto.Date, "dd.MM.yyyy.", System.Globalization.DateTimeFormatInfo.InvariantInfo);
         }
 
       
