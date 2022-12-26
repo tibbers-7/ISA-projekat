@@ -9,7 +9,7 @@ namespace BloodBankLibrary.Core.Appointments
         IEnumerable<Appointment> GetAll();
         Appointment GetById(int id);
         IEnumerable<Appointment> GetScheduled();
-        IEnumerable<Appointment> GetScheduledByDonor(int donorId);
+        IEnumerable<AppointmentDTO> GetScheduledByDonor(int donorId);
         IEnumerable<Appointment> GetAvailable();
       
         ICollection<Appointment> GetByStaffId(int id);
