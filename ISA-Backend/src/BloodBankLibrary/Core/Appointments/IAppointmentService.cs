@@ -23,5 +23,6 @@ namespace BloodBankLibrary.Core.Appointments
         Appointment CancelAppt(int apptId);
         object GetAvailableForDonor(int donorId, int centerId);
         Appointment GenerateAndSaveQR(Appointment appointment);
+        object GetAllByDonor(int id);
     }
 }

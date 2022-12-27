@@ -14,6 +14,7 @@ import { MaterialModule } from 'app/material/material.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PagesModule } from '../pages/pages.module';
 import { DonorQrsComponent } from './donor-qrs/donor-qrs/donor-qrs.component';
+import { MatSortModule } from '@angular/material/sort';
 
 const routes: Routes = [
   
@@ -54,7 +55,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    PagesModule
+    PagesModule,
+    MatSortModule
   ]
 })
 export class DonorModule { }

@@ -6,14 +6,25 @@
         <h3 >QR Codes</h3>
       
       </div>
+
+      <div class="flexbox" style="align-items: baseline;margin-left:20%; gap:10px">
+        <label style="color: whitesmoke;">Status:</label>  
+        <select [(ngModel)]="filterStatus" class="select-filter" (change)="filterByStatus($event)" style="width:9%">
+            <option value="All" (change)="filterByStatus($event)">All</option>
+            <option value="Scheduled" (change)="filterByStatus($event)">Scheduled</option>
+            <option value="Cancelled" (change)="filterByStatus($event)">Cancelled</option>
+            <option value="Completed" (change)="filterByStatus($event)">Completed</option>
+        </select>
+
+      </div>
   
-      <table mat-table [dataSource]="dataSource"  class="fl-table">
+      <table mat-table [dataSource]="dataSource"  class="fl-table" matSort #empTbSort="matSort">
         <ng-container matColumnDef="staffId">
             <th mat-header-cell *matHeaderCellDef  class="cell-center"> QR </th>
             <td mat-cell *matCellDef="let appointment" class="clickable cell-center"><img class="qr_img" [src]='appointment.url'/></td>
           </ng-container>
         <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef class="cell-center"> Date </th>
+          <th mat-header-cell *matHeaderCellDef class="cell-center"  mat-sort-header> Date </th>
           <td mat-cell *matCellDef="let appointment" class="cell-center">{{appointment.date}}</td>
        </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

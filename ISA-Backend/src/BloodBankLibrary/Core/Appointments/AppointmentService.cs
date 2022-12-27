@@ -246,5 +246,17 @@ namespace BloodBankLibrary.Core.Appointments
             return appointment;
             
         }
+
+        public object GetAllByDonor(int id)
+        {
+            List<AppointmentDTO> res=new List<AppointmentDTO>();
+            foreach(Appointment appointment in GetAll()) {
+                if(appointment.DonorId == id) 
+                    res.Add(new AppointmentDTO(appointment));
+
+            }
+
+            return res;
+        }
     }
 }

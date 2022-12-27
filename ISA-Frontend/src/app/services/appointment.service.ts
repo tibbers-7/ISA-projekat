@@ -56,7 +56,9 @@ export class AppointmentService {
     return this.http.post<any>(this.apiHost + 'api/Appointment/qr', appointment, { headers: this.headers });
   }
 
-  
+  getAllForDonor(donorId : number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/all/' + donorId, { headers: this.headers });
+  }
 
  
 

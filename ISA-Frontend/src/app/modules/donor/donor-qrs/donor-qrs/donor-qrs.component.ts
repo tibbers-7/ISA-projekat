@@ -6,6 +6,8 @@ import { AppointmentService } from 'app/services/appointment.service';
 import { AuthService } from 'app/services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { ViewChild } from '@angular/core';
+import { MatSort, Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-donor-qrs',
@@ -13,10 +15,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./donor-qrs.component.css']
 })
 export class DonorQrsComponent {
+
+  @ViewChild('empTbSort') empTbSort = new MatSort();
   public dataSource = new MatTableDataSource<Appointment>();
   public appointments:Appointment[]=[];
+  public appointmentsCopy:Appointment[]=[];
   public displayedColumns = ['staffId','date'];
-
+  public filterStatus: any= "";
   private donorId:number=0;
 
   constructor(private apptService:AppointmentService, 
@@ -28,8 +33,9 @@ export class DonorQrsComponent {
   ngOnInit(): void {
     this.donorId=Number(this.authService.getIdByRole());
 
-    this.apptService.getScheduledForDonor(this.donorId).subscribe(res => {
+    this.apptService.getAllForDonor(this.donorId).subscribe(res => {
       this.appointments=res;
+      this.appointmentsCopy=res;
       this.dataSource.data=this.appointments;
 
       this.appointments.forEach(appointment => {
@@ -40,14 +46,33 @@ export class DonorQrsComponent {
           appointment.url='/assets/images/white_x.png';
         }
       });
+
+
+      
     });
 
+    
    
   }
 
   backClick(){
     this.router.navigate(['/donor/appointments']);
 
+  }
+
+  filterByStatus(event: Event) {
+
+      const filterValue = (event.target as HTMLInputElement).value;
+
+      if(filterValue==='All'){
+        this.dataSource.filter='';
+        return;
+      }
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+      this.dataSource.filterPredicate = function (appointments,filter) {
+        return appointments.status.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
+      }
+    
   }
 
 }

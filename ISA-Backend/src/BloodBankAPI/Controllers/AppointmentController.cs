@@ -171,6 +171,18 @@ namespace BloodBankAPI.Controllers
 
         }
 
+        [HttpGet("donor/all/{id}")]
+        public ActionResult GetAllForDonor(int id)
+        {
+            var appointments = _appointmentService.GetAllByDonor(id);
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointments);
+
+        }
+
         [HttpGet("donor/available/{donorId}/{centerId}")]
         public ActionResult GetAvailableForDonor(int donorId,int centerId)
         {
