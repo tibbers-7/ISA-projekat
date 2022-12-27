@@ -19,6 +19,7 @@ namespace BloodBankLibrary.Core.Appointments
             this.id=appt.Id;
             this.staffId=appt.StaffId;
             this.donorId=appt.DonorId;
+            this.CenterId=appt.CenterId;
             this.duration=appt.Duration;
 
             this.status=appt.Status.ToString().ToLower();

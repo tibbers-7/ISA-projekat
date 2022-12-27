@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using BloodBankLibrary.Core.Appointments;
 using BloodBankLibrary.Core.Donors;
 using BloodBankLibrary.Core.Materials.Enums;
+using BloodBankLibrary.Core.Materials.QRGenerator;
+using BloodBankLibrary.Core.Centers;
+using BloodBankLibrary.Core.Staffs;
+using BloodBankLibrary.Core.EmailSender;
 
 namespace BloodBankAPI.Controllers
 {
@@ -12,11 +16,24 @@ namespace BloodBankAPI.Controllers
     {
         private readonly IAppointmentService _appointmentService;
         private readonly IDonorService _donorService;
+        private readonly IQRService _qRService;
+        private readonly IBloodCenterService _centerService;
+        private readonly IStaffService _staffService;
+        private readonly IEmailSendService _emailSendService;
 
-        public AppointmentController(IAppointmentService appointmentService, IDonorService donorService)
+        public AppointmentController(IAppointmentService appointmentService, 
+                                    IDonorService donorService,
+                                    IQRService qRService,
+                                    IBloodCenterService centerService,
+                                    IStaffService staffService,
+                                    IEmailSendService emailSendService)
         {
             _appointmentService = appointmentService;
             _donorService = donorService;
+            _qRService = qRService;
+            _centerService = centerService;
+            _staffService = staffService;
+            _emailSendService = emailSendService;
         }
 
        
@@ -58,15 +75,17 @@ namespace BloodBankAPI.Controllers
         }
 
         [HttpPost("schedule")]
-        public ActionResult AddScheduled(Appointment appointment)
+        public ActionResult AddScheduled(AppointmentDTO appointment)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+                Appointment _appointment =new Appointment(appointment);
+                _appointment.Status = AppointmentStatus.SCHEDULED;
+                _appointmentService.Update(_appointment);
 
-                appointment.Status = AppointmentStatus.SCHEDULED;
-                _appointmentService.Update(appointment);
+                sendEmail(_appointment);
                 return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
             
             
@@ -171,6 +190,24 @@ namespace BloodBankAPI.Controllers
                 return NotFound();
             }
             return Ok(appointments);
+
+        }
+
+        [NonAction]
+        private void sendEmail(Appointment appointment)
+        {
+
+            Staff staff = _staffService.GetById(appointment.StaffId);
+            
+            byte[] qr = _qRService.GenerateQR(appointment.EmailInfo(
+                                                         _centerService.GetById(appointment.CenterId).Name,
+                                                         staff.Name + staff.Surname));
+            Donor donor = _donorService.GetById(appointment.DonorId);
+            string subject = "BloodCenter - Scheduled appointment information";
+            string body = "Here is the QR code with your information:\n";
+
+
+            _emailSendService.SendWithQR(new Message(new string[] { donor.Email }, subject, body),qr);
 
         }
 

@@ -1,6 +1,7 @@
 ﻿using MimeKit;
 using MailKit.Net.Smtp;
-
+using System.IO;
+using System;
 
 namespace BloodBankLibrary.Core.EmailSender
 {
@@ -19,6 +20,15 @@ namespace BloodBankLibrary.Core.EmailSender
             var emailMessage = CreateEmailMessage(message);
 
             Send(emailMessage);
+        }
+
+        public void SendWithQR(Message message, byte[] arr)
+        {
+            string base64String = Convert.ToBase64String(arr, 0, arr.Length);
+            string path = "data:image/jpg;base64," + base64String;
+            MimeMessage _message=ConstructAttachment(CreateEmailMessage(message), path);
+            Send(_message);
+
         }
         private MimeMessage CreateEmailMessage(Message message)
         {
@@ -49,6 +59,32 @@ namespace BloodBankLibrary.Core.EmailSender
             client.Dispose();
 
 
+        }
+
+        private MimeMessage ConstructAttachment(MimeMessage message,string path)
+        {
+
+            var body = new TextPart("plain")
+            {
+                Text = @"Poruka"
+            };
+
+
+            var attachment = new MimePart("image", "gif")
+            
+            {
+                Content = new MimeContent(File.OpenRead(path), ContentEncoding.Default),
+                ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                ContentTransferEncoding = ContentEncoding.Base64,
+                FileName = Path.GetFileName(path)
+            };
+
+            var multipart = new Multipart("mixed");
+            multipart.Add(body);
+            multipart.Add(attachment);
+
+            message.Body = multipart;
+            return message;
         }
     }
 }

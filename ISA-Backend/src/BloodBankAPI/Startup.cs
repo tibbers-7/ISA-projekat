@@ -19,6 +19,7 @@ using BloodBankLibrary.Core.Centers;
 using BloodBankLibrary.Core.Appointments;
 using BloodBankLibrary.Core.Donors;
 using BloodBankLibrary.Core.Admins;
+using BloodBankLibrary.Core.Materials.QRGenerator;
 
 namespace BloodBankAPI
 {
@@ -64,6 +65,10 @@ namespace BloodBankAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GraphicalEditor", Version = "v1" });
             });
 
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IEmailSendService, EmailSendService>();
+            services.AddScoped<IQRService, QRService>();
+
             services.AddScoped<IDonorRepository, DonorRepository>();
             services.AddScoped<IDonorService, DonorService>();
             services.AddScoped<IStaffRepository, StaffRepository>();
@@ -74,8 +79,7 @@ namespace BloodBankAPI
 
 
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IPasswordHasher, PasswordHasher>();
-            services.AddScoped<IEmailSendService, EmailSendService>();
+            
             services.AddScoped<IUserService, UserService>();
             
             services.AddScoped<IBloodCenterService, BloodCenterService>();

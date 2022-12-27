@@ -6,6 +6,8 @@ import { BloodCenterService } from '../../../../services/blood-center.service';
 import { AppointmentService } from '../../../../services/appointment.service';
 import { NgToastService } from 'ng-angular-popup';
 import { FormService } from '../../../../services/form.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { SafeCall } from '@angular/compiler';
 
 @Component({
   selector: 'app-donor-appointment-schedule',
@@ -25,7 +27,11 @@ export class DonorAppointmentScheduleComponent implements OnInit {
   public selectedAppt:Appointment=new Appointment;
   public selectedCenter:BloodCenter=new BloodCenter;
   private donorId=0;
-  constructor(private centerService:BloodCenterService,private apptService:AppointmentService, private toast:NgToastService, private formService:FormService) { }
+  constructor(private centerService:BloodCenterService,
+              private apptService:AppointmentService,
+              private toast:NgToastService, 
+              private formService:FormService,
+              private sanitizer:DomSanitizer) { }
 
   ngOnInit(): void {
     this.donorId=Number(localStorage.getItem("idByRole"));
@@ -55,6 +61,8 @@ export class DonorAppointmentScheduleComponent implements OnInit {
   }
 
   schedule(){
+
+
     this.selectedAppt.donorId=Number(localStorage.getItem('idByRole'));
     this.formService.isEligible(this.selectedAppt.donorId).subscribe(res =>{
       this.apptService.scheduleAppt(this.selectedAppt).subscribe(res => {

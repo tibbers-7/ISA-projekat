@@ -39,5 +39,13 @@ namespace BloodBankLibrary.Core.Appointments
         public AppointmentStatus Status { get => status; set => status = value; }
         public int Id { get => id; set => id = value; }
         public int? ReportId { get; set; }
+
+        public string EmailInfo(string centerName,string staffName)
+        {
+            string res = "Your appointment is scheduled to happen at "+ startDate.ToString("dd.MM.yyyy. HH:mm")+","+
+                         " at the "+centerName+"."+
+                         "\nThe staff tasked with your appointment is "+staffName+".";
+            return res;
+        }
     }
 }

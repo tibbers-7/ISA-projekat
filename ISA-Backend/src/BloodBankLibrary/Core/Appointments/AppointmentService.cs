@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using BloodBankLibrary.Core.Centers;
 using BloodBankLibrary.Core.Materials.Enums;
-
 namespace BloodBankLibrary.Core.Appointments
 {
     public class AppointmentService : IAppointmentService
     {
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IBloodCenterRepository _bloodCenterRepository;
-
         public AppointmentService(IAppointmentRepository appointmentRepository, IBloodCenterRepository bloodCenterRepository)
         {
             _appointmentRepository = appointmentRepository;
             _bloodCenterRepository = bloodCenterRepository;
-
+            
         }
 
 

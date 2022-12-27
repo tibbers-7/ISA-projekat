@@ -52,7 +52,9 @@ export class AppointmentService {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/available/' + donorId+"/"+centerId, { headers: this.headers });
   }
   
-
+  getQR(appointment:Appointment): Observable<any> {
+    return this.http.post<any>(this.apiHost + 'api/Appointment/qr', appointment, { headers: this.headers });
+  }
 
   
 
