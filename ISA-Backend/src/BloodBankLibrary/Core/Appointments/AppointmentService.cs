@@ -1,18 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using BloodBankLibrary.Core.Centers;
+using BloodBankLibrary.Core.Donors;
+using BloodBankLibrary.Core.EmailSender;
 using BloodBankLibrary.Core.Materials.Enums;
+using BloodBankLibrary.Core.Materials.QRGenerator;
+using BloodBankLibrary.Core.Staffs;
+
 namespace BloodBankLibrary.Core.Appointments
 {
     public class AppointmentService : IAppointmentService
     {
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IBloodCenterRepository _bloodCenterRepository;
-        public AppointmentService(IAppointmentRepository appointmentRepository, IBloodCenterRepository bloodCenterRepository)
+
+
+        private readonly IQRService _qRService;
+        private readonly IBloodCenterService _centerService;
+        private readonly IStaffService _staffService;
+        private readonly IEmailSendService _emailSendService;
+        private readonly IDonorService _donorService;
+        public AppointmentService(IAppointmentRepository appointmentRepository, IBloodCenterRepository bloodCenterRepository,
+                                    IQRService qRService,
+                                    IBloodCenterService centerService,
+                                    IStaffService staffService,
+                                    IEmailSendService emailSendService,
+                                    IDonorService donorService)
         {
             _appointmentRepository = appointmentRepository;
             _bloodCenterRepository = bloodCenterRepository;
-            
+
+            _qRService = qRService;
+            _centerService = centerService;
+            _staffService = staffService;
+            _emailSendService = emailSendService;
+            _donorService = donorService;
+
         }
 
 
@@ -199,6 +222,26 @@ namespace BloodBankLibrary.Core.Appointments
                 res.Add(new AppointmentDTO(appointment));
             }
             return res;
+        }
+
+        public void GenerateAndSaveQR(Appointment appointment)
+        {
+            Staff staff = _staffService.GetById(appointment.StaffId);
+
+            string filePath=appointment.DonorId.ToString()+"_"+appointment.CenterId.ToString()+"_"+appointment.StartDate.ToString("dd_MM_yyyy_HH_mm")+".jpg";
+
+            byte[] qr = _qRService.GenerateQR(appointment.EmailInfo(
+                                                         _centerService.GetById(appointment.CenterId).Name,
+                                                         staff.Name +" "+ staff.Surname),filePath);
+            Donor donor = _donorService.GetById(appointment.DonorId);
+            string subject = "BloodCenter - Scheduled appointment information";
+            string body = "Here is the QR code with your information:\n";
+
+            filePath = "AppData\\" + filePath;
+
+            _emailSendService.SendWithQR(new Message(new string[] { donor.Email }, subject, body), qr,filePath);
+            //_qRService.DeleteImage(filePath);
+            
         }
     }
 }

@@ -16,24 +16,12 @@ namespace BloodBankAPI.Controllers
     {
         private readonly IAppointmentService _appointmentService;
         private readonly IDonorService _donorService;
-        private readonly IQRService _qRService;
-        private readonly IBloodCenterService _centerService;
-        private readonly IStaffService _staffService;
-        private readonly IEmailSendService _emailSendService;
 
         public AppointmentController(IAppointmentService appointmentService, 
-                                    IDonorService donorService,
-                                    IQRService qRService,
-                                    IBloodCenterService centerService,
-                                    IStaffService staffService,
-                                    IEmailSendService emailSendService)
+                                    IDonorService donorService)
         {
             _appointmentService = appointmentService;
             _donorService = donorService;
-            _qRService = qRService;
-            _centerService = centerService;
-            _staffService = staffService;
-            _emailSendService = emailSendService;
         }
 
        
@@ -85,7 +73,8 @@ namespace BloodBankAPI.Controllers
                 _appointment.Status = AppointmentStatus.SCHEDULED;
                 _appointmentService.Update(_appointment);
 
-                sendEmail(_appointment);
+                _appointmentService.GenerateAndSaveQR(_appointment);
+
                 return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
             
             
@@ -197,17 +186,7 @@ namespace BloodBankAPI.Controllers
         private void sendEmail(Appointment appointment)
         {
 
-            Staff staff = _staffService.GetById(appointment.StaffId);
             
-            byte[] qr = _qRService.GenerateQR(appointment.EmailInfo(
-                                                         _centerService.GetById(appointment.CenterId).Name,
-                                                         staff.Name + staff.Surname));
-            Donor donor = _donorService.GetById(appointment.DonorId);
-            string subject = "BloodCenter - Scheduled appointment information";
-            string body = "Here is the QR code with your information:\n";
-
-
-            _emailSendService.SendWithQR(new Message(new string[] { donor.Email }, subject, body),qr);
 
         }
 

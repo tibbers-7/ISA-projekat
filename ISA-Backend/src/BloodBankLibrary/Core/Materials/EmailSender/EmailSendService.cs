@@ -2,6 +2,7 @@
 using MailKit.Net.Smtp;
 using System.IO;
 using System;
+using System.DrawingCore;
 
 namespace BloodBankLibrary.Core.EmailSender
 {
@@ -22,10 +23,9 @@ namespace BloodBankLibrary.Core.EmailSender
             Send(emailMessage);
         }
 
-        public void SendWithQR(Message message, byte[] arr)
+        public void SendWithQR(Message message, byte[] arr,string path)
         {
-            string base64String = Convert.ToBase64String(arr, 0, arr.Length);
-            string path = "data:image/jpg;base64," + base64String;
+           
             MimeMessage _message=ConstructAttachment(CreateEmailMessage(message), path);
             Send(_message);
 
@@ -66,18 +66,21 @@ namespace BloodBankLibrary.Core.EmailSender
 
             var body = new TextPart("plain")
             {
-                Text = @"Poruka"
+                Text = @"Please scan the attached QR code for more information:"
             };
 
+            MimeContent content = new MimeContent(File.OpenRead(path), ContentEncoding.Default);
 
             var attachment = new MimePart("image", "gif")
-            
+
             {
-                Content = new MimeContent(File.OpenRead(path), ContentEncoding.Default),
+                Content = content,
                 ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
                 ContentTransferEncoding = ContentEncoding.Base64,
                 FileName = Path.GetFileName(path)
             };
+
+            File.Create(path).Close();
 
             var multipart = new Multipart("mixed");
             multipart.Add(body);

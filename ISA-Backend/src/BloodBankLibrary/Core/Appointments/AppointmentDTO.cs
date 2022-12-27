@@ -27,7 +27,7 @@ namespace BloodBankLibrary.Core.Appointments
             letters[0] = char.ToUpper(letters[0]);
             this.status= new string(letters);
 
-            this.date = appt.StartDate.ToString("dd.MM.yyyy.");
+            this.date = appt.StartDate.ToString("dd.MM.yyyy. HH:mm");
 
         }
 
