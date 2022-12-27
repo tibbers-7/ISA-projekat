@@ -13,6 +13,7 @@ import { DonorToolbarComponent } from './donor-toolbar/donor-toolbar.component';
 import { MaterialModule } from 'app/material/material.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PagesModule } from '../pages/pages.module';
+import { DonorQrsComponent } from './donor-qrs/donor-qrs/donor-qrs.component';
 
 const routes: Routes = [
   
@@ -30,7 +31,8 @@ const routes: Routes = [
   canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' }},
   { path: 'donor/make-appointment', component: DonorMadeAppointmentComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' } },
-
+  { path: 'donor/qrs', component: DonorQrsComponent,
+    canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' } },
 ];
 
 @NgModule({
@@ -43,7 +45,8 @@ const routes: Routes = [
     DonorFormComponent,
     DonorAppointmentScheduleComponent,
     DonorAppointmentsComponent,
-    DonorMadeAppointmentComponent
+    DonorMadeAppointmentComponent,
+    DonorQrsComponent
   ],
   imports: [
     CommonModule,

@@ -1,3 +1,5 @@
+import { SafeUrl } from "@angular/platform-browser";
+
 export class Appointment {
   id: number = 0;
   staffId: number = 0;
@@ -6,6 +8,8 @@ export class Appointment {
   date: string = '';
   duration: number = 0;
   status: string = '';
+  qrCode:string='';
+  url:any;
   
   public constructor(obj?: any) {
     if (obj) {
@@ -17,6 +21,7 @@ export class Appointment {
       this.duration = obj.duration;
       this.date = obj.date;
       this.status = obj.status;
+      this.qrCode=obj.qrCode;
     }
 
 
