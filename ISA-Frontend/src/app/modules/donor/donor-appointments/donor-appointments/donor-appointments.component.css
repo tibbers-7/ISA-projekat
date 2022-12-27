@@ -11,6 +11,17 @@ body{
     padding: 0;
 }
 
+.flexbox {
+    display: flex;
+    flex-flow: row;
+    justify-content: baseline;
+    
+  }
+
+.back_image {
+    height: 50px;
+    width: 50px;
+}
 
 
 .fl-table {
@@ -159,7 +170,7 @@ body{
     margin-left: 20%;
   }
 
-  .btn {
+  button {
     color:#670200;
     text-decoration: none;
     padding: 10px 20px;
@@ -169,21 +180,21 @@ body{
     position: relative;
     border: none;
   }
-.btn:hover {
-transform: translateY(-3px);
-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
+        button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
 
-.btn:active {
-transform: translateY(-1px);
-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
+        button:active {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
 
-.btn-white {
-background-color: #fff;
-color: #777;
-font-size: 14px;
-}
+        button-white {
+        background-color: #fff;
+        color: #777;
+        font-size: 14px;
+        }
 
   h3 {
   

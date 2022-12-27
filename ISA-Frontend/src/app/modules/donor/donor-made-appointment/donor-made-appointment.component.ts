@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { MatSort, Sort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgToastService } from 'ng-angular-popup';
 import { Appointment } from '../../../model/appointment.model';
@@ -35,7 +36,12 @@ export class DonorMadeAppointmentComponent implements OnInit {
   public donor!: Donor;
   public center!: BloodCenter;
 
-  constructor(private appointmentService: AppointmentService, private donorService:DonorService, private authService: AuthService, private formService: FormService,private toast:NgToastService) { }
+  constructor(private appointmentService: AppointmentService, 
+              private donorService:DonorService, 
+              private authService: AuthService, 
+              private formService: FormService,
+              private toast:NgToastService,
+              private router:Router) { }
 
   ngOnInit(): void {
     this.donorId = Number(this.authService.getIdByRole());
@@ -96,6 +102,11 @@ export class DonorMadeAppointmentComponent implements OnInit {
     },
 error => console.log("greska")    )
   
+  }
+
+  backClick(){
+    this.router.navigate(['/donor/appointments']);
+
   }
 
 }

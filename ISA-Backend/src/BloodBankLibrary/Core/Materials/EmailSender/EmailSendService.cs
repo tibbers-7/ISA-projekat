@@ -80,7 +80,7 @@ namespace BloodBankLibrary.Core.EmailSender
                 FileName = Path.GetFileName(path)
             };
 
-            File.Create(path).Close();
+            File.Delete(path);
 
             var multipart = new Multipart("mixed");
             multipart.Add(body);

@@ -8,6 +8,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { FormService } from '../../../../services/form.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { SafeCall } from '@angular/compiler';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-donor-appointment-schedule',
@@ -31,7 +32,7 @@ export class DonorAppointmentScheduleComponent implements OnInit {
               private apptService:AppointmentService,
               private toast:NgToastService, 
               private formService:FormService,
-              private sanitizer:DomSanitizer) { }
+              private router:Router) { }
 
   ngOnInit(): void {
     this.donorId=Number(localStorage.getItem("idByRole"));
@@ -77,6 +78,11 @@ export class DonorAppointmentScheduleComponent implements OnInit {
       this.toast.error({detail:'You haven\'t filled the form or you already gave blood recently!',summary:"",duration:3000});
     });
     
+  }
+
+  backClick(){
+    this.router.navigate(['/donor/appointments']);
+
   }
 
 }
