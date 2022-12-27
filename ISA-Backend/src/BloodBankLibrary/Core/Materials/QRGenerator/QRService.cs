@@ -39,10 +39,5 @@ namespace BloodBankLibrary.Core.Materials.QRGenerator
             
         }
 
-        public void DeleteImage(string path)
-        {
-            FileInfo file = new FileInfo(path);
-            file.Delete();
-        }
     }
 }

@@ -22,6 +22,6 @@ namespace BloodBankLibrary.Core.Appointments
         bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration);
         Appointment CancelAppt(int apptId);
         object GetAvailableForDonor(int donorId, int centerId);
-        void GenerateAndSaveQR(Appointment appointment);
+        Appointment GenerateAndSaveQR(Appointment appointment);
     }
 }

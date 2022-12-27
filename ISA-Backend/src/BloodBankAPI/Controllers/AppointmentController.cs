@@ -71,11 +71,12 @@ namespace BloodBankAPI.Controllers
             }
                 Appointment _appointment =new Appointment(appointment);
                 _appointment.Status = AppointmentStatus.SCHEDULED;
+                
+
+                _appointment=_appointmentService.GenerateAndSaveQR(_appointment);
                 _appointmentService.Update(_appointment);
 
-                _appointmentService.GenerateAndSaveQR(_appointment);
-
-                return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
+            return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
             
             
         }
@@ -179,14 +180,6 @@ namespace BloodBankAPI.Controllers
                 return NotFound();
             }
             return Ok(appointments);
-
-        }
-
-        [NonAction]
-        private void sendEmail(Appointment appointment)
-        {
-
-            
 
         }
 

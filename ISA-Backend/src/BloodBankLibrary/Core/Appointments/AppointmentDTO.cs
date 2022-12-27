@@ -11,6 +11,7 @@ namespace BloodBankLibrary.Core.Appointments
         private int duration;
         private int centerId;
         private string status;
+        private byte[] qrCode;
 
         public AppointmentDTO() { }
 
@@ -28,6 +29,7 @@ namespace BloodBankLibrary.Core.Appointments
             this.status= new string(letters);
 
             this.date = appt.StartDate.ToString("dd.MM.yyyy. HH:mm");
+            this.qrCode = appt.QrCode;
 
         }
 
@@ -38,5 +40,6 @@ namespace BloodBankLibrary.Core.Appointments
         public int CenterId { get => centerId; set => centerId = value; }
         public int Id { get => id; set => id = value; }
         public string Status { get => status; set => status = value; }
+        public byte[] QrCode { get => qrCode; set => qrCode = value; }
     }
 }

@@ -13,6 +13,7 @@ namespace BloodBankLibrary.Core.Appointments
         private int duration;
         private int centerId;
         private AppointmentStatus status;
+        private byte[]? qrCode;
         
         public Appointment() { }
 
@@ -27,6 +28,7 @@ namespace BloodBankLibrary.Core.Appointments
             this.DonorId = dto.DonorId;
             this.status = Enum.Parse<AppointmentStatus>(dto.Status.ToUpper());
             startDate = DateTime.ParseExact(dto.Date, "dd.MM.yyyy. HH:mm", System.Globalization.DateTimeFormatInfo.InvariantInfo);
+            this.qrCode = dto.QrCode;
         }
 
       
@@ -39,6 +41,7 @@ namespace BloodBankLibrary.Core.Appointments
         public AppointmentStatus Status { get => status; set => status = value; }
         public int Id { get => id; set => id = value; }
         public int? ReportId { get; set; }
+        public byte[]? QrCode { get => qrCode; set => qrCode = value; }
 
         public string EmailInfo(string centerName,string staffName)
         {

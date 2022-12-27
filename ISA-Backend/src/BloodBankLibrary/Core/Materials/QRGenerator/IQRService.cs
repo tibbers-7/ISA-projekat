@@ -9,6 +9,5 @@ namespace BloodBankLibrary.Core.Materials.QRGenerator
     public interface IQRService
     {
         public Byte[] GenerateQR(string data,string fileName);
-        public void DeleteImage(string filePath);
     }
 }

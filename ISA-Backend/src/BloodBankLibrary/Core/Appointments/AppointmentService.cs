@@ -224,7 +224,7 @@ namespace BloodBankLibrary.Core.Appointments
             return res;
         }
 
-        public void GenerateAndSaveQR(Appointment appointment)
+        public Appointment GenerateAndSaveQR(Appointment appointment)
         {
             Staff staff = _staffService.GetById(appointment.StaffId);
 
@@ -233,6 +233,7 @@ namespace BloodBankLibrary.Core.Appointments
             byte[] qr = _qRService.GenerateQR(appointment.EmailInfo(
                                                          _centerService.GetById(appointment.CenterId).Name,
                                                          staff.Name +" "+ staff.Surname),filePath);
+            appointment.QrCode = qr;
             Donor donor = _donorService.GetById(appointment.DonorId);
             string subject = "BloodCenter - Scheduled appointment information";
             string body = "Here is the QR code with your information:\n";
@@ -241,6 +242,8 @@ namespace BloodBankLibrary.Core.Appointments
 
             _emailSendService.SendWithQR(new Message(new string[] { donor.Email }, subject, body), qr,filePath);
             //_qRService.DeleteImage(filePath);
+
+            return appointment;
             
         }
     }
