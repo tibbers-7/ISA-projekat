@@ -5,6 +5,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { AppointmentService } from 'app/services/appointment.service';
 import { AuthService } from 'app/services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-donor-qrs',
@@ -18,7 +19,11 @@ export class DonorQrsComponent {
 
   private donorId:number=0;
 
-  constructor(private apptService:AppointmentService, private toast:NgToastService,private authService:AuthService,private sanitizer:DomSanitizer) { }
+  constructor(private apptService:AppointmentService, 
+              private toast:NgToastService,
+              private authService:AuthService,
+              private sanitizer:DomSanitizer,
+              private router:Router) { }
 
   ngOnInit(): void {
     this.donorId=Number(this.authService.getIdByRole());
@@ -32,12 +37,17 @@ export class DonorQrsComponent {
         appointment.qrCode='data:image/png;base64,' + appointment.qrCode;
         appointment.url = this.sanitizer.bypassSecurityTrustUrl(appointment.qrCode);
         } else {
-         // appointment.url=
+          appointment.url='/assets/images/white_x.png';
         }
       });
     });
 
    
+  }
+
+  backClick(){
+    this.router.navigate(['/donor/appointments']);
+
   }
 
 }

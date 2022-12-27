@@ -200,3 +200,16 @@ font-size: 14px;
     width: 120px;
     height: 120px;
 }
+
+.back_image {
+    height: 50px;
+    width: 50px;
+}
+
+
+.flexbox {
+    display: flex;
+    flex-flow: row;
+    justify-content: baseline;
+    
+  }

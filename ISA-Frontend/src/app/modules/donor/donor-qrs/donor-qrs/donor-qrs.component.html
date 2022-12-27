@@ -1,7 +1,11 @@
 <body>
 
     <donor-toolbar style="width: 100%;"></donor-toolbar>
-    <h3>Appointments</h3>
+    <div class="flexbox" style="gap:20px;margin-left:40% ;margin-top:3%;align-items: baseline;">
+        <img src="/assets/images/back.png" class="back_image"  (click)="backClick()"/>
+        <h3 >QR Codes</h3>
+      
+      </div>
   
       <table mat-table [dataSource]="dataSource"  class="fl-table">
         <ng-container matColumnDef="staffId">

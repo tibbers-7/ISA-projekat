@@ -5,7 +5,7 @@
     <div class="flexbox" style="gap:10px;align-items: baseline;margin-left: 33%;margin-top: 2%;">
       <button (click)="suggestionSchedule()">Schedule with suggestions</button>
       <button (click)="regSchedule()">Regular schedule</button>
-      <button>QR codes</button>
+      <button (click)="qrsClick()">QR codes</button>
     </div>
       <table mat-table [dataSource]="dataSource"  class="fl-table">
         <ng-container matColumnDef="staffId">

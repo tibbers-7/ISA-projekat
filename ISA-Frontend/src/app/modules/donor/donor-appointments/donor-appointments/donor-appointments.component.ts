@@ -59,4 +59,9 @@ export class DonorAppointmentsComponent {
     this.router.navigate(['/donor/make-appointment']);
   }
 
+  qrsClick(){
+    this.router.navigate(['/donor/qrs']);
+
+  }
+
 }
