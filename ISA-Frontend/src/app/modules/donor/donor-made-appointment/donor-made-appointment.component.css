@@ -138,7 +138,17 @@ th.mat-header-cell {
   color: black;
 } */
 
+.flexbox {
+  display: flex;
+  flex-flow: row;
+  justify-content: baseline;
+  
+}
 
+.back_image {
+  height: 50px;
+  width: 50px;
+}
 h3 {
   
   text-align: center;

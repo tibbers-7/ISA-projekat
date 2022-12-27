@@ -11,6 +11,18 @@ body{
     padding: 0;
 }
 
+.flexbox {
+    display: flex;
+    flex-flow: row;
+    justify-content: baseline;
+    
+  }
+
+.back_image {
+    height: 50px;
+    width: 50px;
+}
+
 .fl-table {
     margin-top: 1%;
     border-radius: 5px;

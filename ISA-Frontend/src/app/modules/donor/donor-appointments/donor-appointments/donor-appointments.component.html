@@ -1,8 +1,12 @@
 <body>
 
     <donor-toolbar></donor-toolbar>
-    <h3>Appointments</h3>
-  
+      <h3 >Appointments</h3>
+    <div class="flexbox" style="gap:10px;align-items: baseline;margin-left: 33%;margin-top: 2%;">
+      <button (click)="suggestionSchedule()">Schedule with suggestions</button>
+      <button (click)="regSchedule()">Regular schedule</button>
+      <button>QR codes</button>
+    </div>
       <table mat-table [dataSource]="dataSource"  class="fl-table">
         <ng-container matColumnDef="staffId">
             <th mat-header-cell *matHeaderCellDef  class="cell-center"> Staff </th>
@@ -19,7 +23,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"  (click)="selectAppointment(row)"></tr>
   </table>
-  <button class="btn" style="margin-left:45%;margin-top:2%" (click)="cancelAppointment()">Cancel appointment</button>
+  <button style="margin-left:45%;margin-top:2%" (click)="cancelAppointment()">Cancel appointment</button>
 
   </body>
   

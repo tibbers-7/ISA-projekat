@@ -4,6 +4,7 @@ import { Appointment } from '../../../../model/appointment.model';
 import { AppointmentService } from '../../../../services/appointment.service';
 import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from '../../../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-donor-appointments',
@@ -20,7 +21,10 @@ export class DonorAppointmentsComponent {
   public donorId:any;
 
   public apptId:number=0;
-  constructor(private apptService:AppointmentService, private toast:NgToastService,private authService:AuthService) { }
+  constructor(private apptService:AppointmentService, 
+              private toast:NgToastService,
+              private authService:AuthService,
+              private router:Router) { }
 
   ngOnInit(): void {
     this.donorId=Number(this.authService.getIdByRole());
@@ -46,4 +50,13 @@ export class DonorAppointmentsComponent {
       this.toast.error({detail:'Something went wrong!',summary:"",duration:3000});
     });
   }
+
+  suggestionSchedule(){
+    this.router.navigate(['/donor/schedule-appt']);
+  }
+
+  regSchedule(){
+    this.router.navigate(['/donor/make-appointment']);
+  }
+
 }
