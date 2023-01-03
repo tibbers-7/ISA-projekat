@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BloodBankLibrary.Core.Donors;
+using System.Collections.Generic;
 
 namespace BloodBankLibrary.Core.Users
 {
@@ -9,5 +10,7 @@ namespace BloodBankLibrary.Core.Users
         void Create(User user);
         void Update(User user);
         void Delete(User user);
+
+        User GetUserByDonor(Donor donor);
     }
 }

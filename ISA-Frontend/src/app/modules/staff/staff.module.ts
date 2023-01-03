@@ -49,7 +49,8 @@ const routes: Routes = [
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    RouterModule.forChild(routes),
   ],
   entryComponents: [AppointmentDialogComponent]
   

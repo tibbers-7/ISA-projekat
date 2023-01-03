@@ -1,4 +1,5 @@
-﻿using BloodBankLibrary.Settings;
+﻿using BloodBankLibrary.Core.Donors;
+using BloodBankLibrary.Settings;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,13 @@ namespace BloodBankLibrary.Core.Users
         {
             _context.Users.Remove(user);
             _context.SaveChanges();
+        }
+
+        public User GetUserByDonor(Donor donor)
+        {
+            return _context.Users
+                .Where(u => u.IdByType == donor.Id && u.UserType == Materials.Enums.UserType.DONOR)
+                .FirstOrDefault<User>();
         }
     }
 }

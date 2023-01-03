@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using BloodBankLibrary.Core.Donors;
+using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 
 namespace BloodBankLibrary.Core.Users
@@ -18,7 +19,7 @@ namespace BloodBankLibrary.Core.Users
         public SecurityToken GenerateFullToken(User user);
         public string GenerateActivationToken(string email);
 
-
+        public Donor UpdateUserByDonor(Donor donor);
 
     }
 }

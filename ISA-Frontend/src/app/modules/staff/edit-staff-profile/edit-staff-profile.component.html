@@ -1,4 +1,8 @@
+
+<body>
 <staff-toolbar></staff-toolbar>
+
+<h3>Edit Profile</h3>
 
 <div class="container" *ngIf="staff">
   <div class="fields">
@@ -18,10 +22,10 @@
       <mat-label>Email</mat-label>
       <input matInput [(ngModel)]="staff.email">
     </mat-form-field><br>
-    <button mat-stroked-button (click)="updateStaff()">
+    <button mat-stroked-button  (click)="updateStaff()" style="color:white;margin-left:40%;background-color:rgb(150, 13, 13)">
       Submit
     </button>
   </div>
 </div>
 
-
+</body>
