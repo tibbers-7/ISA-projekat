@@ -16,7 +16,7 @@ export class UserListComponent implements OnInit {
   public users: User[] = [];
   public searchText: any= "";
   public dataSource = new MatTableDataSource<User>();
-  public displayedColumns = ['name','adress','email','phoneNumber'];
+  public displayedColumns = ['name','surname','email','type'];
   
 
   constructor(private userService:UserService) { }

@@ -21,14 +21,6 @@ export class DonorService {
     return this.http.get<Donor>(this.apiHost + 'api/Donor/' + id, { headers: this.headers });
   }
 
-  deleteDonor(id: any): Observable<any> {
-    return this.http.delete<any>(this.apiHost + 'api/Donor/' + id, { headers: this.headers });
-  }
-
-  createDonor(donor: any): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/Credentials/register', donor, { headers: this.headers });
-  }
-
   updateDonor(donor: any): Observable<any> {
     return this.http.put<any>(this.apiHost + 'api/Donor/' + donor.id, donor, { headers: this.headers });
   }

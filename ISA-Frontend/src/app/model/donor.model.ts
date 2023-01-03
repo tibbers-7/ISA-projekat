@@ -3,7 +3,8 @@ export class Donor {
   email: string = '';
   password: string = '';
   name: string = '';
-  adress: string = '';
+  surname:string='';
+  addressString: string = '';
   phoneNumber: string = '';
   gender: string = '';
   jmbg: string = '';
@@ -17,7 +18,8 @@ export class Donor {
       this.password = obj.password;
       this.id = obj.id;
       this.name = obj.name;
-      this.adress = obj.adress;
+      this.surname=obj.surname;
+      this.addressString = obj.addressString;
       this.phoneNumber = obj.phoneNumber;
       this.gender = obj.gender;
       this.jmbg = obj.jmbg;

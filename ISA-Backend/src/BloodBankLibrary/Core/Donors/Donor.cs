@@ -12,8 +12,17 @@ namespace BloodBankLibrary.Core.Donors
         public string Email { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        private string addressJson { get; set; }
         [Column(TypeName = "jsonb")]
-        public string AddressJson { get; set;}
+        public string AddressJson
+        {
+            get => addressJson; set
+            {
+                addressJson = value;
+                Address = JsonSerializer.Deserialize<Address>(addressJson);
+                AddressString=Address.ToString();
+            }
+        }
         [NotMapped]
         private Address address { get; set; }
         [NotMapped]
@@ -22,7 +31,6 @@ namespace BloodBankLibrary.Core.Donors
             get => address; set
             {
                 address = value;
-                AddressJson = JsonSerializer.Serialize(address);
             }
         }
         public long PhoneNumber { get; set; }
@@ -30,6 +38,12 @@ namespace BloodBankLibrary.Core.Donors
         public string Profession { get; set; }
         public string Workplace { get; set; }
         public Gender Gender { get; set; }
+        [NotMapped]
+        public string AddressString { get; set; }
+
+        [NotMapped]
+        public string Password { get; set; } //ovo sluzi samo za update, nakon sto se i user updatuje polje se anulira
+        
 
 
 

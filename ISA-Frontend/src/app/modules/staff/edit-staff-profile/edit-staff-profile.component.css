@@ -1,3 +1,16 @@
+body{
+  overflow: auto;
+  background-image: url(/assets/images/blood.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: repeat;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
 .container {
   width: 40%;
   margin-left: auto;
@@ -7,9 +20,94 @@
 mat-form-field {
   width: 100%;
   margin: auto;
+  background-color: rgba(132, 17, 17, 0.621);
+  color:white;
+}
+mat-label {
+  color:rgba(255, 255, 255, 0.734);
 }
 .fields {
     margin-top: 30px;
    
 
+}
+
+
+h3 {
+  
+  text-align: center;
+  margin-top:6%;
+  font-size: 40px;
+  color: rgb(226, 207, 207);
+  font-weight:200;
+  font-stretch:ultra-condensed;
+}
+
+.btn {
+  color: #670200;
+  text-decoration: none;
+  padding: 10px 20px;
+  display: inline-block;
+  border-radius: 100px;
+  transition: all .2s;
+  position: relative;
+  border: none;
+}
+
+  .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  }
+
+.btn-white {
+  background-color: #fff;
+  color: #777;
+  font-size: 14px;
+}
+
+.box {
+  width: 350px;
+  height: 250px;
+  background: #2C394B;
+  color: white;
+  border-radius: 10px;
+  position: absolute;
+  clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: all .4s;
+}
+
+.btn:checked ~ .box {
+  clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
+}
+
+.box p {
+  font-size: 1.5em;
+}
+
+.box label {
+  width: 120px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  color: black;
+  margin-top: 1em;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0px 6px #556b88;
+  transition: all .4s;
+}
+
+label:hover {
+  box-shadow: 0px 0px 30px #788daa83;
 }

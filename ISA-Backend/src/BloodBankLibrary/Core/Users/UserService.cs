@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using BloodBankLibrary.Core.EmailSender;
 using System.Web;
-
+using BloodBankLibrary.Core.Donors;
 
 namespace BloodBankLibrary.Core.Users
 {
@@ -208,6 +208,19 @@ namespace BloodBankLibrary.Core.Users
             }
 
             return password.ToString();
+        }
+
+        public Donor UpdateUserByDonor(Donor donor)
+        {
+            User user=_userRepository.GetUserByDonor(donor);
+            user.Password= _passwordHasher.HashPassword(donor.Password);
+            user.Name = donor.Name;
+            user.Surname = donor.Surname;
+            _userRepository.Update(user);
+
+            donor.Password = null;
+            donor.Address = new Materials.Address(donor.AddressString);
+            return donor;
         }
 
     }

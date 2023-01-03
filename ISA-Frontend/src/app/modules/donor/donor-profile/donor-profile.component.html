@@ -5,55 +5,27 @@
   <h3>Profile info</h3>
   <form id="formlogin">
     <table class="login_container">
-      <tr>
-        <td align="center">
-          <div class="row">
-            <p class="block">Email:</p>
-            <p name="email" class="block">{{donor.email}}</p>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td align="center">
-          <div class="row">
-            <p class="block">Password:</p>
-            <p name="password" class="block">{{donor.password}}</p>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td align="center">
-          <div class="row">
-            <p class="block">Full name:</p>
-            <p name="name" class="block">{{donor.name}}</p>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td align="center">
-          <div class="row">
-            <p class="block">Address:</p>
-            <p name="address" class="block">{{donor.adress}}</p>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td align="center">
-          <div class="row">
-            <p class="block">Workplace:</p>
-            <p name="workplace" class="block">{{donor.workplace}}</p>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td align="center">
-          <div class="row">
-            <p class="block">Phone number:</p>
-            <p name="phoneNumber" class="block">{{donor.phoneNumber}}</p>
-          </div>
-        </td>
-      </tr>
+      
 
+      <div class="flexbox_row">
+
+        <div class="flexbox_col">
+          <p>Email:</p>
+          <p>Full name:</p>
+          <p>Address:</p>
+          <p>Workplace:</p>
+          <p>Phone number:</p>
+        </div>
+        <div class="flexbox_col">
+          <p>{{donor.email}}</p>
+          <p>{{donor.name}} {{donor.surname}}</p>
+          <p>{{donor.addressString}}</p>
+          <p>{{donor.workplace}}</p>
+          <p>{{donor.phoneNumber}}</p>
+
+        </div>
+
+      </div>
       <tr>
         <td align="center">
           <button class="btn" (click)="goToEditPage()" >Edit</button>
