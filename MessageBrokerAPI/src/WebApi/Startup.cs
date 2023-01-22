@@ -25,7 +25,7 @@ namespace WebApi
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<CheckInventoryConsumer>();
+                x.AddConsumer<CheckLocationConsumer>();
 
                 x.UsingInMemory((context, cfg) =>
                 {

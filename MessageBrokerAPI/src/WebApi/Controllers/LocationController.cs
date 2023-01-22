@@ -8,20 +8,22 @@
 
     [ApiController]
     [Route("[controller]")]
-    public class CheckInventoryController :
+    public class LocationController :
         ControllerBase
     {
-        readonly IRequestClient<CheckInventory> _client;
+        readonly IRequestClient<CheckLocation> _client;
 
-        public CheckInventoryController(IRequestClient<CheckInventory> client)
+        public LocationController(IRequestClient<CheckLocation> client)
         {
             _client = client;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string sku)
+        public async Task<IActionResult> Get(int id)
         {
-            Response<InventoryStatus> response = await _client.GetResponse<InventoryStatus>(new {sku});
+            
+
+            Response<LocationCoordinates> response = await _client.GetResponse<LocationCoordinates>(new { id });
 
             return Ok(response.Message);
         }
