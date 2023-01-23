@@ -3,13 +3,27 @@
 <h1>
     Angular + WebSockets
   </h1>
-  <google-map></google-map>
+  <button (click)="sendMsg()">Start</button>
+
+        <ejs-maps id='rn-container' style='display:block' [zoomSettings]='zoomSettings' [centerPosition]='centerPosition'>
+            <e-layers >
+
+                <e-layer [urlTemplate]="urlTemplate" [shapeData] = 'shapeData' shapePropertyPath= 'continent' shapeDataPath= 'continent' [dataSource] ='dataSource' [shapeSettings]= 'shapeSettings'>
+            
+                  <e-markerSettings >
+                  <e-markerSetting visible= true [dataSource] ='markerdataSource' height= 20 width= 20 animationDelay="5" ></e-markerSetting>
+                  </e-markerSettings>
+            
+                </e-layer>  
+            
+            </e-layers>
+        </ejs-maps>
   <br>
   <div class="row">
     <div class="column">
       <textarea [(ngModel)]="content" name="contentInput" cols="40" rows="5"></textarea>
       <br>
-      <button (click)="sendMsg()">Send Message</button>
+      
     </div>
   
   </div>

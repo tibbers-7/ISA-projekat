@@ -11,7 +11,11 @@ import { CentersListComponent } from './centers-list/centers-list/centers-list.c
 import { MaterialModule } from 'app/material/material.module';
 import { StartToolbarComponent } from './start-toolbar/start-toolbar/start-toolbar.component';
 import { TestprobaComponent } from './testproba/testproba.component';
-import { GoogleMapsModule } from '@angular/google-maps'
+import { GoogleMapsModule } from "@angular/google-maps";
+import {GoogleMap} from "@angular/google-maps"
+import { MapsModule } from '@syncfusion/ej2-angular-maps';
+import { LegendService, MarkerService, MapsTooltipService, DataLabelService, BubbleService, NavigationLineService, SelectionService, AnnotationsService, ZoomService } from '@syncfusion/ej2-angular-maps';
+
 
 
 const routes: Routes = [
@@ -37,10 +41,23 @@ const routes: Routes = [
     FormsModule,
     NgToastModule,
     MaterialModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    MapsModule
   ],
   exports: [
     CentersListComponent
+  ],
+  providers: [
+    GoogleMap,
+    LegendService, 
+    MarkerService, 
+    MapsTooltipService, 
+    DataLabelService, 
+    BubbleService, 
+    NavigationLineService , 
+    SelectionService, 
+    AnnotationsService, 
+    ZoomService
   ]
 })
 export class PagesModule { }

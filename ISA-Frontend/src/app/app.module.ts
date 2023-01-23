@@ -19,7 +19,9 @@ import { AdminModule } from "./modules/admin/admin.module";
 import { DonorModule } from "./modules/donor/donor.module";
 import { StaffModule } from "./modules/staff/staff.module";
 import { MatDialogModule } from "@angular/material/dialog";
-import { GoogleMapsModule } from '@angular/google-maps'
+import { GoogleMapsModule } from "@angular/google-maps";
+import { MapsModule } from '@syncfusion/ej2-angular-maps';
+import { LegendService, MarkerService, MapsTooltipService, DataLabelService, BubbleService, NavigationLineService, SelectionService, AnnotationsService, ZoomService } from '@syncfusion/ej2-angular-maps';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { GoogleMapsModule } from '@angular/google-maps'
     AdminModule,
     DonorModule,
     StaffModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    MapsModule
   ],
   providers: [
     {
@@ -49,7 +52,16 @@ import { GoogleMapsModule } from '@angular/google-maps'
       multi: true
     },
     RoleGuardService,
-    DatePipe
+    DatePipe,
+    LegendService, 
+    MarkerService, 
+    MapsTooltipService, 
+    DataLabelService, 
+    BubbleService, 
+    NavigationLineService , 
+    SelectionService, 
+    AnnotationsService, 
+    ZoomService
   ],
   bootstrap: [AppComponent]
 })

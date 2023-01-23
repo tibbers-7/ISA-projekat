@@ -56,7 +56,7 @@ namespace WebSocketsTutorial.Controllers
 
                 for(int i=1;i<=14;i++)
                 {
-                    Thread.Sleep(360);
+                    Thread.Sleep(2000);
                     string url = "https://localhost:44371/Location?id=" + i.ToString();
                     var loc = await client.GetStringAsync(url);
 
