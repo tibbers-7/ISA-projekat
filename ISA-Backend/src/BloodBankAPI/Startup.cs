@@ -118,6 +118,8 @@ namespace BloodBankAPI
             app.UseAuthorization();
             app.UseAuthentication();
 
+            app.UseWebSockets();
+
 
             app.UseEndpoints(endpoints =>
             {

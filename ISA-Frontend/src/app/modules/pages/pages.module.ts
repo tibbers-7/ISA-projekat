@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
 import { MaterialModule } from 'app/material/material.module';
 import { StartToolbarComponent } from './start-toolbar/start-toolbar/start-toolbar.component';
+import { TestprobaComponent } from './testproba/testproba.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,7 +24,8 @@ const routes: Routes = [
     RegistrationComponent,
     LoginComponent,
     CentersListComponent,
-    StartToolbarComponent
+    StartToolbarComponent,
+    TestprobaComponent
   ],
   imports: [
     CommonModule,

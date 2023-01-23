@@ -1,5 +1,6 @@
 ﻿namespace WebApi.Controllers
 {
+    using System.Threading;
     using System.Threading.Tasks;
     using Contracts;
     using MassTransit;
@@ -18,14 +19,22 @@
             _client = client;
         }
 
-        [HttpGet]
+        [Consumes]
         public async Task<IActionResult> Get(int id)
         {
+            while (true) 
+            {
+                Thread.Sleep(60);
+                Response<LocationCoordinates> response = await _client.GetResponse<LocationCoordinates>(new { id });
+
+                return Ok(response.Message);
+            }
             
 
-            Response<LocationCoordinates> response = await _client.GetResponse<LocationCoordinates>(new { id });
 
-            return Ok(response.Message);
+            Response<LocationCoordinates> _response = await _client.GetResponse<LocationCoordinates>(new { id });
+
+            //return Ok(response.Message);
         }
     }
 }
