@@ -12,6 +12,8 @@ namespace BloodBankLibrary.Core.Donors
         public string Email { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        [NotMapped]
+        private PrivateAddress privateAddress { get; set; }
 
         [NotMapped]
         public PrivateAddress Address
@@ -20,12 +22,9 @@ namespace BloodBankLibrary.Core.Donors
             {
                 return new PrivateAddress(AddressString);
             }
-            set
-            {
-                Address = value;
-                AddressString = Address.ToString();
-            }
+            set => privateAddress = value;
         }
+
 
         public long PhoneNumber { get; set; }
         public long Jmbg { get; set; }
@@ -46,7 +45,7 @@ namespace BloodBankLibrary.Core.Donors
             this.Name = regDTO.Name;
             this.Surname = regDTO.Surname;
             this.Email = regDTO.Email;
-            this.Address = new PrivateAddress() { City=regDTO.City, Country=regDTO.State,StreetAddress=regDTO.Address};
+            this.Address = new PrivateAddress(regDTO.City, regDTO.State, regDTO.Address);
             this.Jmbg = regDTO.Jmbg;
             Gender.TryParse(regDTO.Gender, out Gender g);
             this.Gender = g;

@@ -40,9 +40,11 @@ export class BloodCenterEditComponent implements OnInit {
 
   public updateCenter(): void {
     if (!this.isValidInput()) return;
+    this.bloodCenterService.updateAddress(this.address).subscribe();
     this.bloodCenterService.updateCenter(this.center).subscribe(res => {
       this.router.navigate(['staff/center']);
     });
+   
   }
 
   private isValidInput(): boolean {

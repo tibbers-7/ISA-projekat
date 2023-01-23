@@ -5,6 +5,7 @@ export class Donor {
   name: string = '';
   surname:string='';
   addressString: string = '';
+  address: any = '';
   phoneNumber: string = '';
   gender: string = '';
   jmbg: string = '';
@@ -25,6 +26,7 @@ export class Donor {
       this.jmbg = obj.jmbg;
       this.workplace = obj.workplace;
       this.profession = obj.profession;
+      this.address = obj.address;
     }
   }
 }

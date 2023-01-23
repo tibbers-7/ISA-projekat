@@ -1,5 +1,6 @@
 import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Address } from 'app/model/address.model';
 import { BloodCenter } from 'app/model/blood-center.model';
 import { BloodCenterService } from 'app/services/blood-center.service';
 
@@ -11,11 +12,9 @@ import { BloodCenterService } from 'app/services/blood-center.service';
 export class AdminNewCenterComponent implements OnInit {
 
   public bloodCenter =new BloodCenter();
-  public address:string='';
-  public city:string='';
-  public country:string='';
-
-  public time:string='';
+  public address = new Address();
+  public startTime:string='';
+  public endTime:string='';
   constructor(private bloodCenterService: BloodCenterService) { }
 
   ngOnInit(): void {
@@ -24,11 +23,11 @@ export class AdminNewCenterComponent implements OnInit {
 
   post() {
     this.bloodCenter.avgScore = 0.0;
-    console.log(this.time);
-   // this.bloodCenter.address=this.address+','+this.city+','+this.country;
-    // this.bloodCenterService.createCenter(this.bloodCenter).subscribe(res => {
-    //   console.log("created center!");
-    // });
+    this.address.centerId = this.bloodCenter.id;
+    this.bloodCenterService.createAddress(this.address).subscribe();  
+     this.bloodCenterService.createCenter(this.bloodCenter).subscribe(res => {
+      console.log("created center!");
+     });
    
   }
 

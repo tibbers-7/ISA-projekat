@@ -17,11 +17,7 @@ namespace BloodBankLibrary.Core.Centers
         private double avgScore;
         private DateTime workTimeStart;
         private DateTime workTimeEnd;
-        [NotMapped]
-        private string startString;
-        [NotMapped]
-        private string endString;
-       
+      
         public BloodCenter(){}
 
         public BloodCenter(int id,string name,string description, double avgScore, string workTimeStart, string workTimeEnd)
@@ -41,28 +37,6 @@ namespace BloodBankLibrary.Core.Centers
         public DateTime WorkTimeStart { get => workTimeStart; set => workTimeStart = value; }
         public DateTime WorkTimeEnd { get => workTimeEnd; set => workTimeEnd = value; }
         
-      
-        [NotMapped]
-        public string StartString
-        {
-            get => startString; set
-            {
-                value = "01/01/0001 " + value;
-                WorkTimeStart = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm:ss", System.Globalization.DateTimeFormatInfo.InvariantInfo);
-                startString = value;
-            }
-        }
-
-        [NotMapped]
-        public string EndString
-        {
-            get => endString; set
-            {
-                value = "01/01/0001 " + value;
-                WorkTimeEnd = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm:ss", System.Globalization.DateTimeFormatInfo.InvariantInfo);
-                
-                endString = value;
-            }
-        }
+     
     }
 }

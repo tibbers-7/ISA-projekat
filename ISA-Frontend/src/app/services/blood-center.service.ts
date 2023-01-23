@@ -47,5 +47,13 @@ export class BloodCenterService {
     return this.http.get<Address>(this.apiHost+'api/BloodCenter/address/'+id, { headers: this.headers });
   }
 
+  updateAddress(address: any): Observable<any> {
+    return this.http.put<any>(this.apiHost + 'api/BloodCenter/address/' + address.id, address, { headers: this.headers });
+  }
+
+  createAddress(address: any): Observable<any> {
+    return this.http.post<any>(this.apiHost + 'api/address', address, { headers: this.headers });
+  }
+
 
 }

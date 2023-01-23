@@ -1,9 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
+import { AuthService } from "app/services/auth.service";
 import { Staff } from "../../../model/staff.model";
-import { User } from "../../../model/user.model";
 import { StaffService } from "../../../services/staff.service";
-import { UserService } from "../../../services/user.service";
 
 @Component({
   selector: 'app-edit-staff-profile',
@@ -15,11 +14,11 @@ export class EditStaffProfileComponent implements OnInit {
 
   public staff: Staff | undefined;
 
-  constructor(private staffService: StaffService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthService, private staffService: StaffService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     
-    this.staffService.getStaff(1).subscribe(res => {
+    this.staffService.getStaff(Number(this.authService.getIdByRole())).subscribe(res => {
       this.staff = res;
     });
    
@@ -27,12 +26,13 @@ export class EditStaffProfileComponent implements OnInit {
 
   public updateStaff(): void {
     if (!this.isValidInput()) return;
+    console.log(this.staff);
     this.staffService.updateStaff(this.staff).subscribe(res => {
       this.router.navigate(['staff/profile']);
     });
   }
 
   private isValidInput(): boolean {
-    return  this.staff?.name != '' && this.staff?.email != '' && this.staff?.surname != '';
+    return  this.staff?.name != '' && this.staff?.email != '' && this.staff?.surname != '' && this.staff?.addressString!='' && this.staff?.phoneNumber!=0;
   }
 }

@@ -130,5 +130,43 @@ namespace BloodBankAPI.Controllers
             return Ok(address);
         
         }
+
+        [HttpPut("address/{id}")]
+        public ActionResult UpdateAddress(int id, CenterAddress address)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != address.Id)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                _addressService.Update(address);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+            return Ok(address);
+        }
+
+        // POST api/bloodCenters
+        [HttpPost("address")]
+        public ActionResult CreateAddress(CenterAddress address)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _addressService.Create(address);
+            return CreatedAtAction("GetById", new { id = address.Id }, address);
+        }
     }
 }

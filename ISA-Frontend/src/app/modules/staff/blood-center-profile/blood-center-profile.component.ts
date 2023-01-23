@@ -35,9 +35,7 @@ export class BloodCenterProfileComponent {
 
   ngOnInit(): void {
 //dobijamo ulogovanog staff id preko local storage
-    let id = Number(this.authService.getIdByRole());
-
-    this.staffService.getStaff(id!).subscribe(res => {
+    this.staffService.getStaff(Number(this.authService.getIdByRole())).subscribe(res => {
       //dobijamo staff preko id
       this.staff = res;
       //dobijamo centar preko naseg staffa
