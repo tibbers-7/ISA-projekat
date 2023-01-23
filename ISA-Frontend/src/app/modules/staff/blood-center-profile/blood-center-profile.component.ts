@@ -11,6 +11,7 @@ import { StaffService } from '../../../services/staff.service';
 import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { AppointmentDialogComponent } from '../staff-appointment/appointment-dialog.component';
 import { AuthService } from '../../../services/auth.service';
+import { Address } from 'app/model/address.model';
 
 @Component({
   selector: 'app-blood-center-profile',
@@ -20,11 +21,12 @@ import { AuthService } from '../../../services/auth.service';
 export class BloodCenterProfileComponent {
 
   public center: BloodCenter | undefined;
+  public address: Address | undefined;
   public staff: Staff | undefined;
   public allStaff: Staff[] = [];
   public availableAppointments: Appointment[] = [];
   public dataSourceStaff = new MatTableDataSource<Staff>();
-  public displayedColumnsStaff = ['name', 'email', 'adress'];
+  public displayedColumnsStaff = ['name', 'surname', 'email'];
   public dataSourceAppointments = new MatTableDataSource<Appointment>();
   public displayedColumnsAppointments = ['date', 'duration','staff'];
 
@@ -32,23 +34,31 @@ export class BloodCenterProfileComponent {
   constructor(private authService: AuthService, private bloodCenterService: BloodCenterService, private staffService: StaffService, private appointmentService: AppointmentService, private dialog: MatDialog, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-
+//dobijamo ulogovanog staff id preko local storage
     let id = Number(this.authService.getIdByRole());
 
     this.staffService.getStaff(id!).subscribe(res => {
-      
-        this.staff = res;
-        this.bloodCenterService.getCenter(res.centerId).subscribe(res1 => {
+      //dobijamo staff preko id
+      this.staff = res;
+      //dobijamo centar preko naseg staffa
+      this.bloodCenterService.getCenter(res.centerId).subscribe(res1 => {
           this.center = res1;
-        });
-        this.staffService.getStaffByCenter(res.centerId).subscribe(res1 => {
+          console.log(this.address);
+      });
+      this.bloodCenterService.getAddressForCenter(res.centerId).subscribe(res1=>{
+          this.address = res1;
+          console.log(this.address);
+      });
+      //prikazujemo sve staffove osim ulogovanog iz naseg centra
+      this.staffService.getStaffByCenter(res.centerId).subscribe(res1 => {
             this.allStaff = res1.filter(s => s.id != res.id);
             this.dataSourceStaff.data = this.allStaff;
-          });
-         this.appointmentService.getAvailableByCenter(res.centerId).subscribe(res1 => {
+      });
+
+      this.appointmentService.getAvailableByCenter(res.centerId).subscribe(res1 => {
             this.availableAppointments = res1;
             this.dataSourceAppointments.data = this.availableAppointments;
-          });
+      });
          
         
       });

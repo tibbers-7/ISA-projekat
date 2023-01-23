@@ -149,6 +149,7 @@ namespace BloodBankLibrary.Core.Appointments
 
         public IEnumerable<BloodCenter> GetCentersForDateTime(string dateTime)
         {
+            //gledamo samo scheduled, available mogu doci u obzir
             //ovo parsiranje cu srediti kad sredim front
             DateTime parsedDateTime = DateTime.Parse(dateTime);
             IEnumerable<BloodCenter> bloodCenters = _bloodCenterRepository.GetAll();

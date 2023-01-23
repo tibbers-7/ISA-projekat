@@ -17,7 +17,7 @@ export class StaffProfileComponent {
   constructor(private staffService: StaffService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    //promeniti kad dodje localstorage
+    
     this.staffService.getStaff(1).subscribe(res => {
       this.staff = res;
     });

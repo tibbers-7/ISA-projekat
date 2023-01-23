@@ -58,27 +58,11 @@ namespace BloodBankAPI.Controllers
             {
                 return NotFound();
             }
+           // _appointment = _appointmentService.GenerateAndSaveQR(_appointment);
+           //ovde ubaciti i proveru da li staff vec ima u to vreme pregled 
+           //i provera da li vec pstoji available, ako postoji zakazes njega ne pravis novi
             _appointmentService.Create(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
-        }
-
-        [HttpPost("schedule")]
-        public ActionResult AddScheduled(AppointmentDTO appointment)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-                Appointment _appointment =new Appointment(appointment);
-                _appointment.Status = AppointmentStatus.SCHEDULED;
-                
-
-                _appointment=_appointmentService.GenerateAndSaveQR(_appointment);
-                _appointmentService.Update(_appointment);
-
-            return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
-            
-            
         }
 
 

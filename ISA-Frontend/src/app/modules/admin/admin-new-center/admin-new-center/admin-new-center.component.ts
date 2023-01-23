@@ -25,7 +25,7 @@ export class AdminNewCenterComponent implements OnInit {
   post() {
     this.bloodCenter.avgScore = 0.0;
     console.log(this.time);
-    this.bloodCenter.address=this.address+','+this.city+','+this.country;
+   // this.bloodCenter.address=this.address+','+this.city+','+this.country;
     // this.bloodCenterService.createCenter(this.bloodCenter).subscribe(res => {
     //   console.log("created center!");
     // });

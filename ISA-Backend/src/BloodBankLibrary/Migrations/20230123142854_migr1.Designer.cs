@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BloodBankLibrary.Migrations
 {
     [DbContext(typeof(BloodBankDbContext))]
-    [Migration("20221225125310_migration")]
-    partial class migration
+    [Migration("20230123142854_migr1")]
+    partial class migr1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,64 @@ namespace BloodBankLibrary.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+            modelBuilder.Entity("BloodBankLibrary.Core.Addresses.CenterAddress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("CenterId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StreetAddress")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Addresses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CenterId = 1,
+                            City = "Novi Sad",
+                            Country = "Srbija",
+                            StreetAddress = "Futoska 62"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CenterId = 2,
+                            City = "Novi Sad",
+                            Country = "Srbija",
+                            StreetAddress = "Bulevar Oslobodjenja 111"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CenterId = 3,
+                            City = "Novi Sad",
+                            Country = "Srbija",
+                            StreetAddress = "Strazilovska 18"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CenterId = 4,
+                            City = "Novi Sad",
+                            Country = "Srbija",
+                            StreetAddress = "Vere Petrovic 1"
+                        });
+                });
 
             modelBuilder.Entity("BloodBankLibrary.Core.Admins.Admin", b =>
                 {
@@ -71,7 +129,10 @@ namespace BloodBankLibrary.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ReportId")
+                    b.Property<byte[]>("QrCode")
+                        .HasColumnType("bytea");
+
+                    b.Property<int?>("ReportId")
                         .HasColumnType("integer");
 
                     b.Property<int>("StaffId")
@@ -94,9 +155,6 @@ namespace BloodBankLibrary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("AddressJson")
-                        .HasColumnType("jsonb");
 
                     b.Property<double>("AvgScore")
                         .HasColumnType("double precision");
@@ -121,42 +179,38 @@ namespace BloodBankLibrary.Migrations
                         new
                         {
                             Id = 1,
-                            AddressJson = "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Futoska 62\"}",
                             AvgScore = 4.9000000000000004,
                             Description = "Blood transfusion center.",
                             Name = "Center 1",
-                            WorkTimeEnd = new DateTime(1, 1, 1, 18, 0, 0, 0, DateTimeKind.Unspecified),
-                            WorkTimeStart = new DateTime(1, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
+                            WorkTimeEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            WorkTimeStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
-                            AddressJson = "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Bulevar Oslobodjenja 111\"}",
                             AvgScore = 3.7000000000000002,
                             Description = "Blood transfusion center.",
                             Name = "Center 2",
-                            WorkTimeEnd = new DateTime(1, 1, 1, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            WorkTimeStart = new DateTime(1, 1, 1, 8, 0, 0, 0, DateTimeKind.Unspecified)
+                            WorkTimeEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            WorkTimeStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
-                            AddressJson = "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Strazilovska 18\"}",
                             AvgScore = 5.0,
                             Description = "Blood transfusion center.",
                             Name = "Center 3",
-                            WorkTimeEnd = new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
-                            WorkTimeStart = new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                            WorkTimeEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            WorkTimeStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4,
-                            AddressJson = "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Vere Petrovic 1\"}",
                             AvgScore = 4.2000000000000002,
                             Description = "Blood transfusion center.",
                             Name = "Center 4",
-                            WorkTimeEnd = new DateTime(1, 1, 1, 17, 0, 0, 0, DateTimeKind.Unspecified),
-                            WorkTimeStart = new DateTime(1, 1, 1, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            WorkTimeEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            WorkTimeStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -167,8 +221,8 @@ namespace BloodBankLibrary.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("AddressJson")
-                        .HasColumnType("jsonb");
+                    b.Property<string>("AddressString")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -205,7 +259,7 @@ namespace BloodBankLibrary.Migrations
                         new
                         {
                             Id = 1,
-                            AddressJson = "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Bore Prodanovica 11\"}",
+                            AddressString = "Ise Bajica 1,Novi Sad,Srbija",
                             Email = "donor",
                             Gender = Gender.FEMALE,
                             Jmbg = 34242423565L,
@@ -303,8 +357,8 @@ namespace BloodBankLibrary.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("AddressJson")
-                        .HasColumnType("jsonb");
+                    b.Property<string>("AddressString")
+                        .HasColumnType("text");
 
                     b.Property<int>("CenterId")
                         .HasColumnType("integer");
@@ -324,13 +378,7 @@ namespace BloodBankLibrary.Migrations
                     b.Property<long>("PhoneNumber")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Profession")
-                        .HasColumnType("text");
-
                     b.Property<string>("Surname")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Workplace")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -341,7 +389,7 @@ namespace BloodBankLibrary.Migrations
                         new
                         {
                             Id = 1,
-                            AddressJson = "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Bore Prodanovica 11\"}",
+                            AddressString = "Bore Prodanovica 22,Novi Sad,Srbija",
                             CenterId = 1,
                             Email = "staff",
                             Gender = Gender.MALE,

@@ -1,7 +1,7 @@
 export class Staff {
   id: number = 0;
   email: string = '';
-  password: string = '';
+  jmbg:  string= '';
   centerId: number = 0;
   name: string = '';
   surname: string = ''; 
@@ -10,7 +10,7 @@ export class Staff {
     if (obj) {
       this.id = obj.id;
       this.email = obj.email;
-      this.password = obj.password;
+      this.jmbg = obj.jmbg;
       this.centerId = obj.centerId;
       this.name = obj.name;
       this.surname = obj.surname;

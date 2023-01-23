@@ -2,9 +2,9 @@
 export class BloodCenter {
   name: string = '';
   id: number = 0;
-  address: string = '';
   description: string = ' ';
-  openHours: string = ' ';
+  workTimeStart: string = ' ';
+  workTimeEnd: string ='';
   avgScore: number = 0;
   
   
@@ -13,8 +13,8 @@ export class BloodCenter {
     if (obj) {
       this.id = obj.id;
       this.name = obj.name;
-      this.openHours = obj.openHours;
-      this.address = obj.addressString;
+      this.workTimeStart = obj.workTimeStart;
+      this.workTimeEnd = obj.workTimeEnd;
       this.description = obj.description;
       this.avgScore = obj.avgScore;
     }

@@ -20,6 +20,7 @@ using BloodBankLibrary.Core.Appointments;
 using BloodBankLibrary.Core.Donors;
 using BloodBankLibrary.Core.Admins;
 using BloodBankLibrary.Core.Materials.QRGenerator;
+using BloodBankLibrary.Core.Addresses;
 
 namespace BloodBankAPI
 {
@@ -79,11 +80,13 @@ namespace BloodBankAPI
 
 
             services.AddScoped<IUserRepository, UserRepository>();
-            
             services.AddScoped<IUserService, UserService>();
             
             services.AddScoped<IBloodCenterService, BloodCenterService>();
             services.AddScoped<IBloodCenterRepository, BloodCenterRepository>();
+            services.AddScoped<IAddressRepository,AddressRepository>();
+            services.AddScoped<IAddressService, AddressService>();
+
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IFormService, FormService>();

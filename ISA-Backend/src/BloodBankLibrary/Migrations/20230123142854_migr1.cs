@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BloodBankLibrary.Migrations
 {
-    public partial class migration : Migration
+    public partial class migr1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,6 +13,22 @@ namespace BloodBankLibrary.Migrations
                 .Annotation("Npgsql:Enum:appointment_status", "scheduled,available,cancelled,completed")
                 .Annotation("Npgsql:Enum:gender", "male,female,other")
                 .Annotation("Npgsql:Enum:user_type", "donor,staff,admin");
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    Country = table.Column<string>(type: "text", nullable: true),
+                    StreetAddress = table.Column<string>(type: "text", nullable: true),
+                    CenterId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Admins",
@@ -41,7 +57,8 @@ namespace BloodBankLibrary.Migrations
                     DonorId = table.Column<int>(type: "integer", nullable: false),
                     CenterId = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<AppointmentStatus>(type: "appointment_status", nullable: false),
-                    ReportId = table.Column<int>(type: "integer", nullable: false)
+                    ReportId = table.Column<int>(type: "integer", nullable: true),
+                    QrCode = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,8 +75,7 @@ namespace BloodBankLibrary.Migrations
                     Description = table.Column<string>(type: "text", nullable: true),
                     AvgScore = table.Column<double>(type: "double precision", nullable: false),
                     WorkTimeStart = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    WorkTimeEnd = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    AddressJson = table.Column<string>(type: "jsonb", nullable: true)
+                    WorkTimeEnd = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,12 +91,12 @@ namespace BloodBankLibrary.Migrations
                     Email = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Surname = table.Column<string>(type: "text", nullable: true),
-                    AddressJson = table.Column<string>(type: "jsonb", nullable: true),
                     PhoneNumber = table.Column<long>(type: "bigint", nullable: false),
                     Jmbg = table.Column<long>(type: "bigint", nullable: false),
                     Profession = table.Column<string>(type: "text", nullable: true),
                     Workplace = table.Column<string>(type: "text", nullable: true),
                     Gender = table.Column<Gender>(type: "gender", nullable: false),
+                    AddressString = table.Column<string>(type: "text", nullable: true),
                     Strikes = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -127,11 +143,9 @@ namespace BloodBankLibrary.Migrations
                     Name = table.Column<string>(type: "text", nullable: true),
                     Surname = table.Column<string>(type: "text", nullable: true),
                     Jmbg = table.Column<long>(type: "bigint", nullable: false),
-                    AddressJson = table.Column<string>(type: "jsonb", nullable: true),
                     Gender = table.Column<Gender>(type: "gender", nullable: false),
-                    Profession = table.Column<string>(type: "text", nullable: true),
-                    Workplace = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<long>(type: "bigint", nullable: false)
+                    PhoneNumber = table.Column<long>(type: "bigint", nullable: false),
+                    AddressString = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -159,25 +173,36 @@ namespace BloodBankLibrary.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Addresses",
+                columns: new[] { "Id", "CenterId", "City", "Country", "StreetAddress" },
+                values: new object[,]
+                {
+                    { 1, 1, "Novi Sad", "Srbija", "Futoska 62" },
+                    { 2, 2, "Novi Sad", "Srbija", "Bulevar Oslobodjenja 111" },
+                    { 3, 3, "Novi Sad", "Srbija", "Strazilovska 18" },
+                    { 4, 4, "Novi Sad", "Srbija", "Vere Petrovic 1" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "Id", "Email", "Name", "Surname" },
                 values: new object[] { 1, "admin", "Marko", "Dobrosavljevic" });
 
             migrationBuilder.InsertData(
                 table: "BloodCenters",
-                columns: new[] { "Id", "AddressJson", "AvgScore", "Description", "Name", "WorkTimeEnd", "WorkTimeStart" },
+                columns: new[] { "Id", "AvgScore", "Description", "Name", "WorkTimeEnd", "WorkTimeStart" },
                 values: new object[,]
                 {
-                    { 1, "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Futoska 62\"}", 4.9000000000000004, "Blood transfusion center.", "Center 1", new DateTime(1, 1, 1, 18, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Bulevar Oslobodjenja 111\"}", 3.7000000000000002, "Blood transfusion center.", "Center 2", new DateTime(1, 1, 1, 14, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 8, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Strazilovska 18\"}", 5.0, "Blood transfusion center.", "Center 3", new DateTime(1, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Vere Petrovic 1\"}", 4.2000000000000002, "Blood transfusion center.", "Center 4", new DateTime(1, 1, 1, 17, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 13, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 4.9000000000000004, "Blood transfusion center.", "Center 1", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 3.7000000000000002, "Blood transfusion center.", "Center 2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 5.0, "Blood transfusion center.", "Center 3", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 4.2000000000000002, "Blood transfusion center.", "Center 4", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Donors",
-                columns: new[] { "Id", "AddressJson", "Email", "Gender", "Jmbg", "Name", "PhoneNumber", "Profession", "Strikes", "Surname", "Workplace" },
-                values: new object[] { 1, "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Bore Prodanovica 11\"}", "donor", Gender.FEMALE, 34242423565L, "Emilija", 381629448332L, "student", 0, "Medic", "Fakultet Tehnickih Nauka" });
+                columns: new[] { "Id", "AddressString", "Email", "Gender", "Jmbg", "Name", "PhoneNumber", "Profession", "Strikes", "Surname", "Workplace" },
+                values: new object[] { 1, "Ise Bajica 1,Novi Sad,Srbija", "donor", Gender.FEMALE, 34242423565L, "Emilija", 381629448332L, "student", 0, "Medic", "Fakultet Tehnickih Nauka" });
 
             migrationBuilder.InsertData(
                 table: "Questions",
@@ -188,16 +213,16 @@ namespace BloodBankLibrary.Migrations
                     { 7, "Have you ever consumed any type of opioids?" },
                     { 6, "Have you had any tattoos or piercings done in the last 6 months?" },
                     { 5, "Did you drink any alcohol in the last 6 hours?" },
+                    { 1, "Have you donated blood in the last 6 months?" },
                     { 3, "Do you currently feel healthy and rested enough to donate blood?" },
                     { 2, "Have you ever been rejected as a blood donor?" },
-                    { 1, "Have you donated blood in the last 6 months?" },
                     { 4, "Have you eaten anything prior to your arrival to donate blood?" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Staff",
-                columns: new[] { "Id", "AddressJson", "CenterId", "Email", "Gender", "Jmbg", "Name", "PhoneNumber", "Profession", "Surname", "Workplace" },
-                values: new object[] { 1, "{\"City\":\"Novi Sad\",\"Country\":\"Srbija\",\"StreetAddr\":\"Bore Prodanovica 11\"}", 1, "staff", Gender.MALE, 47387297437L, "Milan", 3816298437L, null, "Miric", null });
+                columns: new[] { "Id", "AddressString", "CenterId", "Email", "Gender", "Jmbg", "Name", "PhoneNumber", "Surname" },
+                values: new object[] { 1, "Bore Prodanovica 22,Novi Sad,Srbija", 1, "staff", Gender.MALE, 47387297437L, "Milan", 3816298437L, "Miric" });
 
             migrationBuilder.InsertData(
                 table: "Users",
@@ -212,6 +237,9 @@ namespace BloodBankLibrary.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Addresses");
+
             migrationBuilder.DropTable(
                 name: "Admins");
 

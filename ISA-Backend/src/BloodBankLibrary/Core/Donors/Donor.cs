@@ -1,4 +1,4 @@
-﻿using BloodBankLibrary.Core.Materials;
+﻿using BloodBankLibrary.Core.Addresses;
 using BloodBankLibrary.Core.Materials.Enums;
 using BloodBankLibrary.Core.Users;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,41 +12,32 @@ namespace BloodBankLibrary.Core.Donors
         public string Email { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        private string addressJson { get; set; }
-        [Column(TypeName = "jsonb")]
-        public string AddressJson
+
+        [NotMapped]
+        public PrivateAddress Address
         {
-            get => addressJson; set
+            get
             {
-                addressJson = value;
-                Address = JsonSerializer.Deserialize<Address>(addressJson);
-                AddressString=Address.ToString();
+                return new PrivateAddress(AddressString);
+            }
+            set
+            {
+                Address = value;
+                AddressString = Address.ToString();
             }
         }
-        [NotMapped]
-        private Address address { get; set; }
-        [NotMapped]
-        public Address Address
-        {
-            get => address; set
-            {
-                address = value;
-            }
-        }
+
         public long PhoneNumber { get; set; }
         public long Jmbg { get; set; }
         public string Profession { get; set; }
         public string Workplace { get; set; }
         public Gender Gender { get; set; }
-        [NotMapped]
+       
         public string AddressString { get; set; }
 
         [NotMapped]
         public string Password { get; set; } //ovo sluzi samo za update, nakon sto se i user updatuje polje se anulira
         
-
-
-
         //broj penala - nepojavljivanje na pregledu
         public int Strikes { get; set; }
 
@@ -55,11 +46,9 @@ namespace BloodBankLibrary.Core.Donors
             this.Name = regDTO.Name;
             this.Surname = regDTO.Surname;
             this.Email = regDTO.Email;
-            this.Address = new Address() { City=regDTO.City, Country=regDTO.State,StreetAddr=regDTO.Address};
-            this.AddressJson=JsonSerializer.Serialize(this.Address);
+            this.Address = new PrivateAddress() { City=regDTO.City, Country=regDTO.State,StreetAddress=regDTO.Address};
             this.Jmbg = regDTO.Jmbg;
-            Gender g;
-            Gender.TryParse(regDTO.Gender, out g);
+            Gender.TryParse(regDTO.Gender, out Gender g);
             this.Gender = g;
             // BloodType.TryParse(regDTO.BloodType, out this.bloodType);
             this.Profession = regDTO.EmploymentInfo;

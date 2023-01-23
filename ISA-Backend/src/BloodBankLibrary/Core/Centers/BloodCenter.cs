@@ -1,4 +1,4 @@
-﻿using BloodBankLibrary.Core.Materials;
+﻿using BloodBankLibrary.Core.Addresses;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,71 +13,35 @@ namespace BloodBankLibrary.Core.Centers
         [Key]
         private int id;
         private string name;
-        [NotMapped]
-        private Address address;
         private string description;
         private double avgScore;
         private DateTime workTimeStart;
         private DateTime workTimeEnd;
-        private string addressJson;
-        [NotMapped]
-        private string addressString;
         [NotMapped]
         private string startString;
         [NotMapped]
         private string endString;
        
-        public BloodCenter()
-        {
-        }
+        public BloodCenter(){}
 
-        public BloodCenter(int id,string name,string addressString, string description, double avgScore, string workTimeStart, string workTimeEnd)
+        public BloodCenter(int id,string name,string description, double avgScore, string workTimeStart, string workTimeEnd)
         {
             this.id = id;
             this.name = name;
-            this.Address = new Address(addressString);
-            this.AddressJson=JsonSerializer.Serialize(Address);
             this.description = description;
             this.avgScore = avgScore;
-
-           /* Regex checkTime = new Regex(@"^(?i)(0?[1-9]|1[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?( AM| PM)?$");
-            if (checkTime.IsMatch(workTimeStart) && checkTime.IsMatch(workTimeEnd))
-            {*/
-                this.StartString = workTimeStart;
-                this.EndString = workTimeEnd;
-           /* }
-            else new ArgumentException();*/
-
-            
-            
         }
-
+           
+            
+      
         public string Name { get => name; set => name = value; }
         public int Id { get => id; set => id = value; }
-        [NotMapped]
-        public Address Address {get;set;}
         public string Description { get => description; set => description = value; }
         public double AvgScore { get => avgScore; set => avgScore = value; }
         public DateTime WorkTimeStart { get => workTimeStart; set => workTimeStart = value; }
         public DateTime WorkTimeEnd { get => workTimeEnd; set => workTimeEnd = value; }
-        [Column(TypeName = "jsonb")]
-        public string AddressJson
-        {
-            get => addressJson; set
-            {
-                addressJson = value;
-                Address = JsonSerializer.Deserialize<Address>(value);
-
-            }
-        }
-       /* [NotMapped]
-        public string AddressString { get => addressString; set
-            {
-                Address = new Address(value);
-                addressString= value;
-            }
-        }*/
-
+        
+      
         [NotMapped]
         public string StartString
         {

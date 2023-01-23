@@ -10,6 +10,7 @@ using System.Text;
 using BloodBankLibrary.Core.EmailSender;
 using System.Web;
 using BloodBankLibrary.Core.Donors;
+using BloodBankLibrary.Core.Addresses;
 
 namespace BloodBankLibrary.Core.Users
 {
@@ -219,7 +220,7 @@ namespace BloodBankLibrary.Core.Users
             _userRepository.Update(user);
 
             donor.Password = null;
-            donor.Address = new Materials.Address(donor.AddressString);
+            donor.Address = new PrivateAddress(donor.AddressString);
             return donor;
         }
 

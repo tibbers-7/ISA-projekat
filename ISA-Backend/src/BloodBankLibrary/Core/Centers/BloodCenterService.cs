@@ -29,18 +29,10 @@ namespace BloodBankLibrary.Core.Centers
             return result;
         }
 
-        public IEnumerable<string> GetCities()
-        {
-            List<string> cities = new List<string>();
-            foreach(BloodCenter center in _bloodCenterRepository.GetAll())
-            {
-                if(!cities.Contains(center.Address.City)) cities.Add(center.Address.City);
-            }
-            return cities;
-        }
-
+      
         public BloodCenter GetById(int id)
         {
+
             return _bloodCenterRepository.GetById(id);
         }
 

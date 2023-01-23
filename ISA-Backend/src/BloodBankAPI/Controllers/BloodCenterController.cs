@@ -1,4 +1,5 @@
-﻿using BloodBankLibrary.Core.Centers;
+﻿using BloodBankLibrary.Core.Addresses;
+using BloodBankLibrary.Core.Centers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -9,10 +10,12 @@ namespace BloodBankAPI.Controllers
     public class BloodCenterController : ControllerBase
     {
         private readonly IBloodCenterService _bloodCenterService;
+        private readonly IAddressService _addressService;
 
-        public BloodCenterController(IBloodCenterService bloodCenterService)
+        public BloodCenterController(IBloodCenterService bloodCenterService, IAddressService addressService)
         {
             _bloodCenterService = bloodCenterService;
+            _addressService = addressService;
         }
 
         // GET: api/bloodCenters
@@ -38,7 +41,7 @@ namespace BloodBankAPI.Controllers
         [HttpGet("cities")]
         public ActionResult GetCities()
         {
-            var cities = _bloodCenterService.GetCities();
+            var cities = _addressService.GetCities();
             if (cities == null)
             {
                 return NotFound();
@@ -114,6 +117,18 @@ namespace BloodBankAPI.Controllers
             return Ok(donors);
         }
 
-      
+
+        [HttpGet("address/{id}")]
+        public ActionResult GetAddressByCenter(int id) { 
+        
+        
+            var address = _addressService.GetByCenter(id);
+            if(address== null)
+            {
+                return NotFound();
+            }
+            return Ok(address);
+        
+        }
     }
 }

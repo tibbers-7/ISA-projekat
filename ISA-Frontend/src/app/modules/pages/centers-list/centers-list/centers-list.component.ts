@@ -48,35 +48,38 @@ export class CentersListComponent implements OnInit {
   }
   applySearch(event: Event) {
     this.dataSource.filterPredicate = function (centers,filter) {
-      return centers.name.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase()) ||  centers.address.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
+    return centers.name.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase());
+    //||  centers.address.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
     }
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  filterByScore(event: Event) {
+
+
+ filterByScore(event: Event) {
     this.dataSource.filterPredicate = function (centers,filter) {
-      return centers.avgScore > parseFloat(filter);
-    }
-    const filterValue = (event.target as HTMLInputElement).value;
+    return centers.avgScore > parseFloat(filter);
+}
+   const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-  filterOpen(event: Event) {
+ }
+
+ filterOpen(event: Event) {
     this.dataSource.filterPredicate = function (centers,filter) {
-      if((event.target as HTMLInputElement).value == 'open')
-        return parseFloat(centers.openHours.substring(0,2)) > parseFloat(filter) && parseFloat(centers.openHours.substring(6,8)) < parseFloat(filter);
-      else
-        return !(parseFloat(centers.openHours.substring(0,2)) > parseFloat(filter) && parseFloat(centers.openHours.substring(6,8)) < parseFloat(filter));
-    }
+     if((event.target as HTMLInputElement).value == 'open')
+        return true;
+      else return true;
+      }
     let dateTime = new Date()
     const filterValue = dateTime.getHours.toString();
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+   this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 
   filterByCity(event: Event) {
     this.dataSource.filterPredicate = function (centers,filter) {
-      return centers.address.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
-    }
+    return true;
+   }
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }

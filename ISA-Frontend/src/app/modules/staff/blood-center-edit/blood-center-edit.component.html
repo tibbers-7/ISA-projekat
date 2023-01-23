@@ -9,7 +9,9 @@
     </mat-form-field><br>
     <mat-form-field appearance="fill">
       <mat-label>Adress</mat-label>
-      <input matInput [(ngModel)]="center.address">
+      <input matInput [(ngModel)]="address!.country">
+      <input matInput [(ngModel)]="address!.city">
+      <input matInput [(ngModel)]="address!.streetAddress">
     </mat-form-field><br>
     <mat-form-field appearance="fill">
       <mat-label>Description</mat-label>

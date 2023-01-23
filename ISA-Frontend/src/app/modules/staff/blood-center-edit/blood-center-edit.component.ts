@@ -1,14 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router, Params } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { BloodCenter } from "../../../model/blood-center.model";
-import { Appointment } from "../../../model/appointment.model";
-import { AppointmentService } from "../../../services/appointment.service";
 import { BloodCenterService } from "../../../services/blood-center.service";
-import { User } from "../../../model/user.model";
-import { UserService } from "../../../services/user.service";
 import { StaffService } from "../../../services/staff.service";
 import { AuthService } from "../../../services/auth.service";
 import { Staff } from "../../../model/staff.model";
+import { Address } from "app/model/address.model";
 
 @Component({
   selector: 'app-blood-center-edit',
@@ -20,6 +17,7 @@ export class BloodCenterEditComponent implements OnInit {
 
   public center: BloodCenter | undefined;
   public staff: Staff | undefined;
+  public address: Address | undefined;
  
   constructor(private staffService: StaffService, private authService: AuthService, private bloodCenterService: BloodCenterService, private route: ActivatedRoute, private router: Router) { }
 
@@ -30,6 +28,9 @@ export class BloodCenterEditComponent implements OnInit {
         this.staff = res;
         this.bloodCenterService.getCenter(this.staff.centerId).subscribe(res1 => {
           this.center = res1;
+        });
+        this.bloodCenterService.getAddressForCenter(this.staff.centerId).subscribe(res1 => {
+          this.address = res1;
         });
       });
 
@@ -45,6 +46,6 @@ export class BloodCenterEditComponent implements OnInit {
   }
 
   private isValidInput(): boolean {
-    return this.center?.name != '' && this.center?.address != '' && this.center?.description != '';
+    return this.center?.name != '' && this.address?.city != '' &&this.address?.country != '' &&this.address?.streetAddress != '' && this.center?.description != '';
   }
 }

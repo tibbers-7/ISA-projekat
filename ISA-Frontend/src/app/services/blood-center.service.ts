@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Address } from 'app/model/address.model';
 import { Observable } from 'rxjs';
 import { BloodCenter } from '../model/blood-center.model';
 import { Donor } from '../model/donor.model';
@@ -40,6 +41,10 @@ export class BloodCenterService {
 
   getDonorsForCenter(id: number): Observable<Donor[]> {
     return this.http.get<Donor[]>(this.apiHost + 'api/BloodCenter/' + id + '/donors', { headers: this.headers });
+  }
+
+  getAddressForCenter(id: number):Observable<Address> {
+    return this.http.get<Address>(this.apiHost+'api/BloodCenter/address/'+id, { headers: this.headers });
   }
 
 
