@@ -4,7 +4,7 @@ import { AnonymousSubject } from 'rxjs/internal/Subject';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-const CHAT_URL = "ws://localhost:5000";
+const CHAT_URL = "ws://localhost:16177/ws";
 
 //dict that defines the behavior of an object, but does not specify its content
 export interface Message {
@@ -16,16 +16,17 @@ export interface Message {
 export class WebsocketService {
     //an instance of AnonymousSubject class with MessageEvent property
     //The AnonymousSubject class allows extending a Subject by defining the source and destination observables
-    private subject: AnonymousSubject<MessageEvent>=new AnonymousSubject<MessageEvent>;
+    private subject: AnonymousSubject<MessageEvent>;
     //instance of Subject class. Every Subject is an Observable and an Observer
     //We'll subscribe to this Subject, and we'll be able to call next to feed values as well as error and complete.
-    public messages: Subject<Message>=new Subject<Message>;
+    public messages: Subject<Message>;
 
     constructor() {
         this.messages = <Subject<Message>>this.connect(CHAT_URL).pipe(
             map(
                 (response: MessageEvent): Message => {
                     console.log(response.data);
+                    
                     let data = JSON.parse(response.data)
                     return data;
                 }
@@ -36,9 +37,11 @@ export class WebsocketService {
     //validates if subject property doesn’t exist and then calls create method for creating the subject
     public connect(url:any): AnonymousSubject<MessageEvent> {
         if (!this.subject) {
+            console.log("establishing connection...");
             this.subject = this.create(url);
             console.log("Successfully connected: " + url);
         }
+        console.log("has a connection");
         return this.subject;
     }
 

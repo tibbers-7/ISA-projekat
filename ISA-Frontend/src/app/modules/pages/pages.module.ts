@@ -15,7 +15,8 @@ import { TestprobaComponent } from './testproba/testproba.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {path:'register',component:RegistrationComponent},
-  {path:'login',component:LoginComponent}
+  {path:'login',component:LoginComponent},
+  {path:'proba',component:TestprobaComponent}
 ];
 
 @NgModule({

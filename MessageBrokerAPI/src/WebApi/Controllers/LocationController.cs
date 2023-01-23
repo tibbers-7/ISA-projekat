@@ -19,7 +19,7 @@
             _client = client;
         }
 
-        [Consumes]
+        [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
             while (true) 
