@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using BloodBankAPI;
 using BloodBankLibrary.Core.Appointments;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,10 +17,12 @@ namespace WebSocketsTutorial.Controllers
     public class WebSocketsController : ControllerBase
     {
         private readonly ILogger<WebSocketsController> _logger;
+        private readonly HttpClient client;
 
         public WebSocketsController(ILogger<WebSocketsController> logger)
         {
             _logger = logger;
+            client = new HttpClient();
         }
 
         //Add a new route called ws/
@@ -49,14 +53,15 @@ namespace WebSocketsTutorial.Controllers
             //Going into a loop until the client closes the connection
             while (!result.CloseStatus.HasValue)
             {
-                while (true)
+
+                for(int i=1;i<=14;i++)
                 {
-                    Thread.Sleep(60);
-                    //Within the loop, we will prepend “Server: Hello. You said: <client’s message>” to the message and send it back to the client.
-                    Appointment appointment = new Appointment();
-                    string json = JsonSerializer.Serialize(appointment);
-                    var serverMsg = Encoding.UTF8.GetBytes(json);
-                    //Server: Hello. You said: {Encoding.UTF8.GetString(buffer)}
+                    Thread.Sleep(360);
+                    string url = "https://localhost:44371/Location?id=" + i.ToString();
+                    var loc = await client.GetStringAsync(url);
+
+                    Location location = new Location(loc);
+                    var serverMsg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(location));
                     await webSocket.SendAsync(new ArraySegment<byte>(serverMsg, 0, serverMsg.Length), result.MessageType, result.EndOfMessage, CancellationToken.None);
                     _logger.Log(LogLevel.Information, "Message sent to Client");
                 }
@@ -70,4 +75,6 @@ namespace WebSocketsTutorial.Controllers
             _logger.Log(LogLevel.Information, "WebSocket connection closed");
         }
     }
+
+    
 }

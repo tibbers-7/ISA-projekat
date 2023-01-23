@@ -22,19 +22,9 @@
         [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
-            while (true) 
-            {
-                Thread.Sleep(60);
-                Response<LocationCoordinates> response = await _client.GetResponse<LocationCoordinates>(new { id });
+            Response<LocationCoordinates> response = await _client.GetResponse<LocationCoordinates>(new { id });
 
-                return Ok(response.Message);
-            }
-            
-
-
-            Response<LocationCoordinates> _response = await _client.GetResponse<LocationCoordinates>(new { id });
-
-            //return Ok(response.Message);
+            return Ok(response.Message);
         }
     }
 }
