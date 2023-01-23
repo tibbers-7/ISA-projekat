@@ -15,6 +15,7 @@ import { EditStaffProfileComponent } from './edit-staff-profile/edit-staff-profi
 import { BloodCenterEditComponent } from './blood-center-edit/blood-center-edit.component';
 import { StaffToolbarComponent } from './staff-toolbar/staff-toolbar.component';
 import { AppointmentDialogComponent } from './staff-appointment/appointment-dialog.component';
+import { DeliveryMapComponent } from './delivery-map/delivery-map.component';
 
 
 
@@ -41,7 +42,8 @@ const routes: Routes = [
     BloodCenterEditComponent,
     BloodCenterProfileComponent,
     EditStaffProfileComponent,
-    AppointmentDialogComponent
+    AppointmentDialogComponent,
+    DeliveryMapComponent
   ],
   imports: [
     CommonModule,

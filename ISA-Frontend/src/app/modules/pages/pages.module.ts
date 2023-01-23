@@ -11,6 +11,8 @@ import { CentersListComponent } from './centers-list/centers-list/centers-list.c
 import { MaterialModule } from 'app/material/material.module';
 import { StartToolbarComponent } from './start-toolbar/start-toolbar/start-toolbar.component';
 import { TestprobaComponent } from './testproba/testproba.component';
+import { GoogleMapsModule } from '@angular/google-maps'
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -34,7 +36,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     NgToastModule,
-    MaterialModule
+    MaterialModule,
+    GoogleMapsModule
   ],
   exports: [
     CentersListComponent

@@ -19,7 +19,7 @@ import { AdminModule } from "./modules/admin/admin.module";
 import { DonorModule } from "./modules/donor/donor.module";
 import { StaffModule } from "./modules/staff/staff.module";
 import { MatDialogModule } from "@angular/material/dialog";
-
+import { GoogleMapsModule } from '@angular/google-maps'
 
 @NgModule({
   declarations: [
@@ -39,7 +39,8 @@ import { MatDialogModule } from "@angular/material/dialog";
     MatDialogModule,
     AdminModule,
     DonorModule,
-    StaffModule
+    StaffModule,
+    GoogleMapsModule
   ],
   providers: [
     {
