@@ -23,7 +23,7 @@ export class AppointmentService {
   }
 
   newAppointment(appointment: Appointment): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/Appointment/new', appointment, { headers: this.headers });
+    return this.http.post<any>(this.apiHost + 'api/Appointment/schedule', appointment, { headers: this.headers });
   }
 
   scheduleAppt(appointment: Appointment): Observable<any> {

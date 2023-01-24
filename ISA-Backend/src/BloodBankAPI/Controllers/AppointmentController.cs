@@ -45,25 +45,38 @@ namespace BloodBankAPI.Controllers
         }
 
         //ista fja za dodavanje available i schedule pa sam spojila
-        [HttpPost("new")]
+
+        //OVO JE ZA DONORA, STAFF ODVOJITI, ovo vise ne radi za staff (nisam menjala na frontu)
+        // U PrepareForDonorSchedule ubaciti i proveru da li postoji available/cancelled termin tada
+        // Za cancelled ce ici opet provera da li je available staff i centar u to vreme 
+        /*[HttpPost("new")]
         public ActionResult NewAppointment(AppointmentDTO dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            dto.Status = "SCHEDULED";
-            var appointment = new Appointment(dto);
-            //ako je false nije available
-            if (!_appointmentService.CheckIfCenterAvailable(appointment.CenterId, appointment.StartDate, appointment.Duration))
-            {
-                return NotFound();
-            }
-            appointment = _appointmentService.GenerateAndSaveQR(appointment);
-           //ovde ubaciti i proveru da li staff vec ima u to vreme pregled 
-           //i provera da li vec pstoji available, ako postoji zakazes njega ne pravis novi
+
+            Appointment appointment=_appointmentService.PrepareForSchedule(dto);
+            if (appointment == null) return BadRequest("Unavailable");
             _appointmentService.Create(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
+        }*/
+
+        [HttpPost("schedule")]
+        public ActionResult AddScheduled(AppointmentDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Appointment appointment = _appointmentService.PrepareForSchedule(dto);
+            if (appointment == null) return BadRequest("Unavailable");
+            _appointmentService.Create(appointment);
+            return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
+
+
         }
 
 

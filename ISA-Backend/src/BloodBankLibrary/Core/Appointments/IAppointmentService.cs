@@ -26,5 +26,7 @@ namespace BloodBankLibrary.Core.Appointments
         Appointment GenerateAndSaveQR(Appointment appointment);
         object GetAllByDonor(int id);
         public IEnumerable<Donor> GetDonorsByCenterId(int centerId);
+        Appointment AssignStaff(Appointment appointment);
+        Appointment PrepareForSchedule(AppointmentDTO dto);
     }
 }

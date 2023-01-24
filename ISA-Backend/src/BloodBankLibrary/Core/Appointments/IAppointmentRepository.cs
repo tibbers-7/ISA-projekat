@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BloodBankLibrary.Core.Appointments
 {
@@ -18,6 +19,7 @@ namespace BloodBankLibrary.Core.Appointments
         IEnumerable<Appointment> GetScheduledByCenter(int centerId);
 
         IEnumerable<Appointment> GetByStaff(int staffId);
+        IEnumerable<Appointment> GetByDateAndStaff(int staffId, DateTime dateTime);
 
 
 

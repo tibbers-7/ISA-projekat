@@ -1,5 +1,6 @@
 ﻿using BloodBankLibrary.Settings;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -77,6 +78,11 @@ namespace BloodBankLibrary.Core.Appointments
                                                     .Select(appt=>appt.DonorId)
                                                     .Distinct();
             return appointments;
+        }
+
+        public IEnumerable<Appointment> GetByDateAndStaff(int staffId, DateTime dateTime)
+        {
+            return _context.Appointments.Where(appt => appt.StaffId == staffId && appt.StartDate.Date == dateTime.Date);
         }
 
         public void Update(Appointment appointment)

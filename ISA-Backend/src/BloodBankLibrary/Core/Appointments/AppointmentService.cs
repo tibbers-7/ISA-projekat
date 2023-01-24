@@ -113,6 +113,23 @@ namespace BloodBankLibrary.Core.Appointments
             return _appointmentRepository.GetByStaff(id);
         }
 
+        public Appointment PrepareForSchedule(AppointmentDTO dto)
+        {
+            dto.Status = "SCHEDULED";
+            var appointment = new Appointment(dto);
+            //ako je false nije available
+            if (!CheckIfCenterAvailable(appointment.CenterId, appointment.StartDate, appointment.Duration))
+            {
+                return null;
+            }
+            if (appointment.StaffId==0) appointment = AssignStaff(appointment);
+            if (appointment.StaffId == 0) return null;
+            appointment = GenerateAndSaveQR(appointment);
+            return appointment;
+
+
+        }
+
         public IEnumerable<BloodCenter> GetCentersForDateTime(string dateTime)
         {
             //gledamo samo scheduled, available mogu doci u obzir
@@ -207,11 +224,37 @@ namespace BloodBankLibrary.Core.Appointments
 
             filePath = "AppData\\" + filePath;
 
+            donor.Email = "tibbers707@gmail.com";
             _emailSendService.SendWithQR(new Message(new string[] { donor.Email }, subject, body), qr,filePath);
             //_qRService.DeleteImage(filePath);
 
             return appointment;
             
+        }
+
+        public Appointment AssignStaff(Appointment apptToAssign)
+        {
+            List<Staff> staffs = _staffService.GetByCenterId(apptToAssign.CenterId).ToList();
+            foreach(Staff staff in staffs)
+            {
+                List<Appointment> apptsByDateAndStaff = _appointmentRepository.GetByDateAndStaff(staff.Id, apptToAssign.StartDate).ToList();
+                bool isAvailable = true;
+                foreach(Appointment appointment in apptsByDateAndStaff)
+                {
+                    if (Overlaps(appointment.StartDate, appointment.StartDate.AddMinutes(appointment.Duration), apptToAssign.StartDate, apptToAssign.StartDate.AddMinutes(apptToAssign.Duration))) 
+                        isAvailable = false;
+                }
+                if (!isAvailable) continue;
+                apptToAssign.StaffId=staff.Id;
+            }
+
+            return apptToAssign;
+
+        }
+
+        private bool isStaffAvailable(int staffId, DateTime dateTime)
+        {
+            throw new NotImplementedException();
         }
 
         public object GetAllByDonor(int id)
