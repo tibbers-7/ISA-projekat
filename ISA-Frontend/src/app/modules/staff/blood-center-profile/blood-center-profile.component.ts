@@ -80,7 +80,7 @@ export class BloodCenterProfileComponent {
         appointment.duration = data.duration;
         appointment.status = "AVAILABLE";
 
-        this.appointmentService.newAppointment(appointment).subscribe(
+        this.appointmentService.scheduleStaff(appointment).subscribe(
           response => {
             alert("Uspesno dodavanje")
           },

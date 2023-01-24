@@ -63,6 +63,20 @@ namespace BloodBankAPI.Controllers
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
+        // Ovo je za zakazivanje postojecih
+        [HttpPost("staff/schedule")]
+        public ActionResult ScheduleAppointmentStaff(AppointmentDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Appointment appointment = new Appointment(dto);
+            appointment.Status = AppointmentStatus.SCHEDULED;
+            _appointmentService.Create(appointment);
+            return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
+        }
 
         //OVO JE ZA DONORA, STAFF ODVOJITI, ovo vise ne radi za staff(nisam menjala na frontu)
         // U PrepareForDonorSchedule ubaciti i proveru da li postoji available/cancelled termin tada

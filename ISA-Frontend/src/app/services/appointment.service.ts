@@ -22,8 +22,8 @@ export class AppointmentService {
     return this.http.get<Appointment>(this.apiHost + 'api/Appointment/' + id, { headers: this.headers });
   }
 
-  newAppointment(appointment: Appointment): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/Appointment/schedule', appointment, { headers: this.headers });
+  scheduleStaff(appointment: Appointment): Observable<any> {
+    return this.http.post<any>(this.apiHost + 'api/Appointment/staff/schedule', appointment, { headers: this.headers });
   }
 
   scheduleAppt(appointment: Appointment): Observable<any> {

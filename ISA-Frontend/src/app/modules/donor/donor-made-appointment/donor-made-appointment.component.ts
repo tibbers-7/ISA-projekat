@@ -96,7 +96,7 @@ export class DonorMadeAppointmentComponent implements OnInit {
   appointment.centerId = this.selectedRow.id;
   appointment.donorId = this.donorId;
     appointment.duration = 30;
-    this.appointmentService.newAppointment(appointment).subscribe(res => {
+    this.appointmentService.scheduleAppt(appointment).subscribe(res => {
 
       console.log("uspelo je ")
     },
