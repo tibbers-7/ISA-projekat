@@ -44,25 +44,29 @@ namespace BloodBankAPI.Controllers
             return Ok(appointment);
         }
 
-        //ista fja za dodavanje available i schedule pa sam spojila
 
-        //OVO JE ZA DONORA, STAFF ODVOJITI, ovo vise ne radi za staff (nisam menjala na frontu)
-        // U PrepareForDonorSchedule ubaciti i proveru da li postoji available/cancelled termin tada
-        // Za cancelled ce ici opet provera da li je available staff i centar u to vreme 
-        /*[HttpPost("new")]
-        public ActionResult NewAppointment(AppointmentDTO dto)
+        // Ovo je za zakazivanje postojecih
+        [HttpPost("scheduleMade")]
+        public ActionResult ScheduleMadeAppointment(AppointmentDTO dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Appointment appointment=_appointmentService.PrepareForSchedule(dto);
+            Appointment appointment = _appointmentService.GetById(dto.Id);
+            appointment.DonorId = dto.DonorId;
+            if (appointment.StaffId == 0) _appointmentService.AssignStaff(appointment);
             if (appointment == null) return BadRequest("Unavailable");
-            _appointmentService.Create(appointment);
+            appointment.Status = AppointmentStatus.SCHEDULED;
+            _appointmentService.Update(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
-        }*/
+        }
 
+
+        //OVO JE ZA DONORA, STAFF ODVOJITI, ovo vise ne radi za staff(nisam menjala na frontu)
+        // U PrepareForDonorSchedule ubaciti i proveru da li postoji available/cancelled termin tada
+        // Za cancelled ce ici opet provera da li je available staff i centar u to vreme 
         [HttpPost("schedule")]
         public ActionResult AddScheduled(AppointmentDTO dto)
         {

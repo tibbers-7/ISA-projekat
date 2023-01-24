@@ -30,6 +30,10 @@ export class AppointmentService {
     return this.http.post<any>(this.apiHost + 'api/Appointment/schedule', appointment, { headers: this.headers });
   }
 
+  scheduleMade(appointment: Appointment): Observable<any> {
+    return this.http.post<any>(this.apiHost + 'api/Appointment/scheduleMade', appointment, { headers: this.headers });
+  }
+
   cancelAppt(appointment: Appointment): Observable<any> {
     return this.http.post<any>(this.apiHost + 'api/Appointment/cancel', appointment, { headers: this.headers });
   }

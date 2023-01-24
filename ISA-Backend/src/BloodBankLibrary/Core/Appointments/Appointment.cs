@@ -27,7 +27,8 @@ namespace BloodBankLibrary.Core.Appointments
             this.duration = dto.Duration;
             this.DonorId = dto.DonorId;
             this.status = Enum.Parse<AppointmentStatus>(dto.Status.ToUpper());
-            startDate = DateTime.ParseExact(dto.Date, "yyyy-MM-dd HH:mm:ss", System.Globalization.DateTimeFormatInfo.InvariantInfo);
+            //startDate = DateTime.ParseExact(dto.Date, "yyyy-MM-dd HH:mm:ss", System.Globalization.DateTimeFormatInfo.InvariantInfo);
+            startDate = DateTime.Parse(dto.Date);
             this.qrCode = dto.QrCode;
         }
 
