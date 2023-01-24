@@ -52,13 +52,14 @@ namespace BloodBankAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
+            dto.Status = "SCHEDULED";
             var appointment = new Appointment(dto);
             //ako je false nije available
             if (!_appointmentService.CheckIfCenterAvailable(appointment.CenterId, appointment.StartDate, appointment.Duration))
             {
                 return NotFound();
             }
-           // _appointment = _appointmentService.GenerateAndSaveQR(_appointment);
+            appointment = _appointmentService.GenerateAndSaveQR(appointment);
            //ovde ubaciti i proveru da li staff vec ima u to vreme pregled 
            //i provera da li vec pstoji available, ako postoji zakazes njega ne pravis novi
             _appointmentService.Create(appointment);

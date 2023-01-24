@@ -6,6 +6,7 @@ using BloodBankLibrary.Core.EmailSender;
 using BloodBankLibrary.Core.Materials.Enums;
 using BloodBankLibrary.Core.Materials.QRGenerator;
 using BloodBankLibrary.Core.Staffs;
+using System.Linq;
 
 namespace BloodBankLibrary.Core.Appointments
 {
@@ -132,7 +133,7 @@ namespace BloodBankLibrary.Core.Appointments
 
         public bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration)
         {
-            List<Appointment> allCenterApps = (List<Appointment>)GetScheduledByCenter(centerId);
+            List<Appointment> allCenterApps =GetScheduledByCenter(centerId).ToList();
             allCenterApps.AddRange(GetAvailableByCenter(centerId));
             BloodCenter bloodCenter = _bloodCenterRepository.GetById(centerId);
             if (dateTime.Hour < bloodCenter.WorkTimeStart.Hour || dateTime.Hour > bloodCenter.WorkTimeEnd.Hour) return false;
