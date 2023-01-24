@@ -47,12 +47,12 @@ namespace BloodBankLibrary.Core.Appointments
             return _context.Appointments.Where(appt => appt.StaffId == staffId);
         }
 
-        public IEnumerable<Appointment> GetAvailable()
+        public IEnumerable<Appointment> GetEligible()
         {
             return _context.Appointments.Where(appt=>appt.Status==Materials.Enums.AppointmentStatus.AVAILABLE || appt.Status==Materials.Enums.AppointmentStatus.CANCELLED);
         }
 
-        public IEnumerable<Appointment> GetAvailableByCenter(int centerId)
+        public IEnumerable<Appointment> GetEligibleByCenter(int centerId)
         {
             return _context.Appointments.Where(appt =>appt.CenterId==centerId && (appt.Status == Materials.Enums.AppointmentStatus.AVAILABLE || appt.Status == Materials.Enums.AppointmentStatus.CANCELLED));
         }

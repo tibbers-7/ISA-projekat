@@ -45,9 +45,9 @@ namespace BloodBankAPI.Controllers
         }
 
 
-        // Ovo je za zakazivanje postojecih
-        [HttpPost("scheduleMade")]
-        public ActionResult ScheduleMadeAppointment(AppointmentDTO dto)
+        // Ovo je za zakazivanje postojecih od strane donora
+        [HttpPost("schedule/predefined")]
+        public ActionResult SchedulePredefined(AppointmentDTO dto)
         {
             if (!ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace BloodBankAPI.Controllers
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
-        // Ovo je za zakazivanje postojecih
+        // Ovo je za pravljenje available
         [HttpPost("staff/schedule")]
         public ActionResult ScheduleAppointmentStaff(AppointmentDTO dto)
         {
@@ -81,7 +81,7 @@ namespace BloodBankAPI.Controllers
         //OVO JE ZA DONORA, STAFF ODVOJITI, ovo vise ne radi za staff(nisam menjala na frontu)
         // U PrepareForDonorSchedule ubaciti i proveru da li postoji available/cancelled termin tada
         // Za cancelled ce ici opet provera da li je available staff i centar u to vreme 
-        [HttpPost("schedule")]
+        [HttpPost("donor/schedule")]
         public ActionResult AddScheduled(AppointmentDTO dto)
         {
             if (!ModelState.IsValid)
@@ -154,7 +154,7 @@ namespace BloodBankAPI.Controllers
         [HttpGet("available/{centerId}")]
         public ActionResult GetAvailableForCenter(int centerId)
         {
-            var appointments = _appointmentService.GetAvailableByCenter(centerId);
+            var appointments = _appointmentService.GetEligibleByCenter(centerId);
             if(appointments == null)
             {
                 return NotFound();
@@ -202,7 +202,7 @@ namespace BloodBankAPI.Controllers
         [HttpGet("donor/available/{donorId}/{centerId}")]
         public ActionResult GetAvailableForDonor(int donorId,int centerId)
         {
-            var appointments = _appointmentService.GetAvailableForDonor(donorId,centerId);
+            var appointments = _appointmentService.GetEligibleForDonor(donorId,centerId);
             if (appointments == null)
             {
                 return NotFound();
