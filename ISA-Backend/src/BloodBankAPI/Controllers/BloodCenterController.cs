@@ -1,4 +1,5 @@
 ﻿using BloodBankLibrary.Core.Addresses;
+using BloodBankLibrary.Core.Appointments;
 using BloodBankLibrary.Core.Centers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -11,11 +12,12 @@ namespace BloodBankAPI.Controllers
     {
         private readonly IBloodCenterService _bloodCenterService;
         private readonly IAddressService _addressService;
-
-        public BloodCenterController(IBloodCenterService bloodCenterService, IAddressService addressService)
+        private readonly IAppointmentService _appointmentService;
+        public BloodCenterController(IBloodCenterService bloodCenterService, IAddressService addressService, IAppointmentService appointmentService)
         {
             _bloodCenterService = bloodCenterService;
             _addressService = addressService;
+            _appointmentService=appointmentService;
         }
 
         // GET: api/bloodCenters
@@ -108,7 +110,7 @@ namespace BloodBankAPI.Controllers
         public ActionResult GetDonorsForCenter(int centerId)
         {
 
-            var donors = _bloodCenterService.GetDonorsByCenterId(centerId);
+            var donors = _appointmentService.GetDonorsByCenterId(centerId);
             if (donors == null)
             {
                 return NotFound();

@@ -36,6 +36,49 @@ namespace BloodBankLibrary.Core.Appointments
             return _context.Appointments.Find(id);
         }
 
+        public IEnumerable<Appointment> GetByDonor(int donorId)
+        {
+            return _context.Appointments.Where(appt=>appt.DonorId==donorId);
+        }
+
+        public IEnumerable<Appointment> GetByStaff(int staffId)
+        {
+            return _context.Appointments.Where(appt => appt.StaffId == staffId);
+        }
+
+        public IEnumerable<Appointment> GetAvailable()
+        {
+            return _context.Appointments.Where(appt=>appt.Status==Materials.Enums.AppointmentStatus.AVAILABLE || appt.Status==Materials.Enums.AppointmentStatus.CANCELLED);
+        }
+
+        public IEnumerable<Appointment> GetAvailableByCenter(int centerId)
+        {
+            return _context.Appointments.Where(appt =>appt.CenterId==centerId && (appt.Status == Materials.Enums.AppointmentStatus.AVAILABLE || appt.Status == Materials.Enums.AppointmentStatus.CANCELLED));
+        }
+
+        public IEnumerable<Appointment> GetScheduled()
+        {
+            return _context.Appointments.Where(appt => appt.Status == Materials.Enums.AppointmentStatus.SCHEDULED);
+        }
+
+        public IEnumerable<Appointment> GetScheduledByCenter(int centerId)
+        {
+            return _context.Appointments.Where(appt =>appt.CenterId==centerId && appt.Status == Materials.Enums.AppointmentStatus.SCHEDULED);
+        }
+
+        public IEnumerable<Appointment> GetScheduledByDonor(int donorId)
+        {
+            return _context.Appointments.Where(appt => appt.DonorId == donorId && appt.Status == Materials.Enums.AppointmentStatus.SCHEDULED);
+        }
+        public IEnumerable<int> GetDonorsByCenter(int centerId)
+        {
+            var appointments = 
+                _context.Appointments.Where(appt => appt.CenterId == centerId && appt.Status==Materials.Enums.AppointmentStatus.COMPLETED)
+                                                    .Select(appt=>appt.DonorId)
+                                                    .Distinct();
+            return appointments;
+        }
+
         public void Update(Appointment appointment)
         {
             _context.Entry(appointment).State = EntityState.Modified;

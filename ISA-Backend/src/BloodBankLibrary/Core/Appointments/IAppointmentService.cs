@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BloodBankLibrary.Core.Centers;
+using BloodBankLibrary.Core.Donors;
 
 namespace BloodBankLibrary.Core.Appointments
 {
@@ -24,5 +25,6 @@ namespace BloodBankLibrary.Core.Appointments
         object GetAvailableForDonor(int donorId, int centerId);
         Appointment GenerateAndSaveQR(Appointment appointment);
         object GetAllByDonor(int id);
+        public IEnumerable<Donor> GetDonorsByCenterId(int centerId);
     }
 }

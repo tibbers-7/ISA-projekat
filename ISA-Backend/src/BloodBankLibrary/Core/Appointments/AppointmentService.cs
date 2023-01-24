@@ -62,41 +62,28 @@ namespace BloodBankLibrary.Core.Appointments
 
         public IEnumerable<Appointment> GetAvailable()
         {
-            IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
-            //svi koji su available i u buducnosti, mada mozda i neko brisnanje da se napravi za available al ne mora
-            List<Appointment> available = new List<Appointment>();
-            foreach(Appointment appointment in allAppointments)
-            {
-                if(appointment.Status == AppointmentStatus.AVAILABLE || appointment.Status == AppointmentStatus.CANCELLED)
-                {
-                    if (DateTime.Compare(appointment.StartDate, DateTime.Now) > 0) available.Add(appointment);
-                  
-                }
-            }
-            return available;
+            return _appointmentRepository.GetAvailable();
            
         }
 
         public IEnumerable<Appointment> GetScheduled()
         {
-            IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
-            //svi scheduled koji su u buducnosti ili nsiu jos zavrseni
-            List<Appointment> res = new List<Appointment>();
-           // return allAppointments.Where<Appointment>(a => a.Status == AppointmentStatus.SCHEDULED && DateTime.Compare(a.StartDate.AddMinutes(a.Duration), DateTime.Now) >= 0);
-           foreach(Appointment appointment in allAppointments)
+           IEnumerable<Appointment> scheduled=_appointmentRepository.GetScheduled();
+            List<Appointment> res=new List<Appointment>();
+           foreach (Appointment appointment in scheduled)
             {
-                if (appointment.Status==AppointmentStatus.SCHEDULED) {
                     if (DateTime.Compare(appointment.StartDate.AddMinutes(appointment.Duration), DateTime.Now) >= 0)
                     {
                         res.Add(appointment);
                     }
-                }
+           
             }
             return res;
         }
 
 
-
+        // TODO: nmg da izvalim jel ovo dobavlja i one completed 
+        // ostavicu zasad u servisu
         public IEnumerable<AppointmentDTO> GetScheduledByDonor(int donorId)
         {
             IEnumerable<Appointment> allScheduled = GetScheduled();
@@ -111,24 +98,12 @@ namespace BloodBankLibrary.Core.Appointments
 
         public IEnumerable<Appointment> GetScheduledByCenter(int id)
         {
-            IEnumerable<Appointment> allScheduled = GetScheduled();
-            List<Appointment> res = new List<Appointment>();
-           foreach(Appointment appointment in allScheduled)
-            {
-                if(appointment.CenterId == id) res.Add(appointment) ;
-            }
-            return res;
+            return _appointmentRepository.GetScheduledByCenter(id);
         }
 
         public IEnumerable<Appointment> GetAvailableByCenter(int id)
         {
-            IEnumerable<Appointment> allAvailable = GetAvailable();
-            List<Appointment> res = new List<Appointment>();
-            foreach (Appointment appointment in allAvailable)
-            {
-                if (appointment.CenterId == id) res.Add(appointment);
-            }
-            return res;
+            return _appointmentRepository.GetAvailableByCenter(id);
         }
 
         //ovo popraviti da bude buducnost ako treba
@@ -250,14 +225,19 @@ namespace BloodBankLibrary.Core.Appointments
 
         public object GetAllByDonor(int id)
         {
-            List<AppointmentDTO> res=new List<AppointmentDTO>();
-            foreach(Appointment appointment in GetAll()) {
-                if(appointment.DonorId == id) 
-                    res.Add(new AppointmentDTO(appointment));
+            return _appointmentRepository.GetByDonor(id);
+        }
 
+        public IEnumerable<Donor> GetDonorsByCenterId(int centerId)
+        {
+            IEnumerable<int> donorIds = _appointmentRepository.GetDonorsByCenter(centerId);
+            List<Donor> res = new List<Donor>();
+            foreach (int donorId in donorIds)
+            {
+                res.Add(_donorService.GetById(donorId));
             }
-
             return res;
         }
+
     }
 }
