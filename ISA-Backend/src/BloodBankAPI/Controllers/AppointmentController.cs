@@ -73,7 +73,7 @@ namespace BloodBankAPI.Controllers
             }
 
             Appointment appointment = new Appointment(dto);
-            appointment.Status = AppointmentStatus.SCHEDULED;
+            appointment.Status = AppointmentStatus.AVAILABLE;
             _appointmentService.Create(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
