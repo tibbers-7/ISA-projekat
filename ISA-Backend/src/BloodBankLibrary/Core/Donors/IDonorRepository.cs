@@ -9,6 +9,6 @@ namespace BloodBankLibrary.Core.Donors
         void Create(Donor donor);
         void Update(Donor donor);
         void Delete(Donor donor);
-        Donor GetByEmail(string email)
+        Donor GetByEmail(string email);
     }
 }
