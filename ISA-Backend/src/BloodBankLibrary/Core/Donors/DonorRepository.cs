@@ -24,6 +24,11 @@ namespace BloodBankLibrary.Core.Donors
             return _context.Donors.Find(id);
         }
 
+        public Donor GetByEmail(string email)
+        {
+            return _context.Donors.FirstOrDefault(donor=>donor.Email == email);
+        }
+
         public void Create(Donor donor)
         {
             _context.Donors.Add(donor);

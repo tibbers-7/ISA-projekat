@@ -40,11 +40,7 @@ namespace BloodBankLibrary.Core.Donors
 
         public Donor GetByEmail(string email)
         {
-            foreach (Donor d in GetAll())
-            {
-                if (d.Email.Equals(email)) return d;
-            }
-            return null;
+            return _donorRepository.GetByEmail(email);
 
         }
 

@@ -13,7 +13,7 @@ namespace BloodBankLibrary.Core.Appointments
         IEnumerable<AppointmentDTO> GetScheduledByDonor(int donorId);
         IEnumerable<Appointment> GetAvailable();
       
-        ICollection<Appointment> GetByStaffId(int id);
+        IEnumerable<Appointment> GetByStaffId(int id);
         IEnumerable<Appointment> GetScheduledByCenter(int centerId);
         IEnumerable<Appointment> GetAvailableByCenter(int centerId);
         IEnumerable<BloodCenter> GetCentersForDateTime(string DateTime);

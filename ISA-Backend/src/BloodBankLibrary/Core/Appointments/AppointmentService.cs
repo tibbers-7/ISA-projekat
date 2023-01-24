@@ -107,19 +107,9 @@ namespace BloodBankLibrary.Core.Appointments
         }
 
         //ovo popraviti da bude buducnost ako treba
-        public ICollection<Appointment> GetByStaffId(int id)
+        public IEnumerable<Appointment> GetByStaffId(int id)
         {
-            IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
-            List<Appointment> selectedAppointments = new List<Appointment>();
-            foreach (Appointment a in allAppointments)
-            {
-                if (a.StaffId == id)
-                {
-                    selectedAppointments.Add(a);
-                }
-            }
-
-            return selectedAppointments;
+            return _appointmentRepository.GetByStaff(id);
         }
 
         public IEnumerable<BloodCenter> GetCentersForDateTime(string dateTime)

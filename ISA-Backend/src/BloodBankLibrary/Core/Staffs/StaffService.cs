@@ -39,8 +39,7 @@ namespace BloodBankLibrary.Core.Staffs
 
         public IEnumerable<Staff> GetByCenterId(int centerId)
         {
-            IEnumerable<Staff> allStaff = _staffRepository.GetAll();
-            return allStaff.Where<Staff>(s => s.CenterId == centerId);
+            return _staffRepository.GetByCenter(centerId);
         }
     }
 }

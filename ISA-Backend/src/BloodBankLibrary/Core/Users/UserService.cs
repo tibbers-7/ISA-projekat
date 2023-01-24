@@ -39,10 +39,7 @@ namespace BloodBankLibrary.Core.Users
         }
         public User GetByEmail(string email)
         {
-            foreach(User u in _userRepository.GetAll())
-                if (u.Email.Equals(email))
-                    return u;
-             return null;
+            return _userRepository.GetByEmail(email);
         }
 
         public string Create(User user)
