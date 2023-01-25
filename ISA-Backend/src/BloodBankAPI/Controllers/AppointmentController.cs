@@ -44,44 +44,73 @@ namespace BloodBankAPI.Controllers
             return Ok(appointment);
         }
 
-        //ista fja za dodavanje available i schedule pa sam spojila
-        [HttpPost("new")]
-        public ActionResult NewAppointment(AppointmentDTO dto)
+
+        // Ovo je za zakazivanje postojecih od strane donora
+        [HttpPost("schedule/predefined")]
+        public ActionResult SchedulePredefined(AppointmentDTO dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var appointment = new Appointment(dto);
-            //ako je false nije available
-            if (!_appointmentService.CheckIfCenterAvailable(appointment.CenterId, appointment.StartDate, appointment.Duration))
+
+            Appointment appointment = _appointmentService.GetById(dto.Id);
+            appointment.DonorId = dto.DonorId;
+            if (appointment.Status == AppointmentStatus.SCHEDULED)
             {
-                return NotFound();
+                //ukoliko je u medjuvremenu zakazan taj napravimo kopiju da bude cancelled
+                appointment.Status = AppointmentStatus.CANCELLED;
+                _appointmentService.Create(appointment);
+                _appointmentService.SendQRCancelled(appointment, 1);
+                return BadRequest("Unavailable");
             }
+            if (appointment.StaffId == 0) _appointmentService.AssignStaff(appointment);
+            if (appointment == null)
+            {
+                _appointmentService.SendQRCancelled(appointment, 2);
+                return BadRequest("Unavailable");
+            }
+            appointment.Status = AppointmentStatus.SCHEDULED;
+            _appointmentService.Update(appointment);
+            return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
+        }
+
+        // Ovo je za pravljenje available
+        [HttpPost("staff/schedule")]
+        public ActionResult ScheduleAppointmentStaff(AppointmentDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Appointment appointment = new Appointment(dto);
+            if(!_appointmentService.IsStaffAvailable(appointment)) return BadRequest("Unavailable");
+            if(!_appointmentService.CheckIfCenterAvailable(appointment.CenterId,appointment.StartDate, appointment.Duration)) return BadRequest("Unavailable");
+            appointment.Status = AppointmentStatus.AVAILABLE;
             _appointmentService.Create(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
-        [HttpPost("schedule")]
-        public ActionResult AddScheduled(AppointmentDTO appointment)
+        // U PrepareForDonorSchedule ubaciti i proveru da li postoji available/cancelled termin tada
+        // Za cancelled ce ici opet provera da li je available staff i centar u to vreme 
+        [HttpPost("donor/schedule")]
+        public ActionResult AddScheduled(AppointmentDTO dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-                Appointment _appointment =new Appointment(appointment);
-                _appointment.Status = AppointmentStatus.SCHEDULED;
-                
-
-                _appointment=_appointmentService.GenerateAndSaveQR(_appointment);
-                _appointmentService.Update(_appointment);
-
+            
+            Appointment appointment = _appointmentService.PrepareForSchedule(dto);
+            if (appointment == null) return BadRequest("Unavailable");
+            _appointmentService.Create(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
-            
-            
+
+
         }
 
-
+        //otkazivanje pregleda odradjeno
         [HttpPost("cancel")]
         public ActionResult Cancel(AppointmentDTO appointment)
         {
@@ -89,11 +118,11 @@ namespace BloodBankAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            Appointment _appointment = new Appointment(appointment);
-            _appointment.Status = AppointmentStatus.CANCELLED;
+            //ukoliko je prekasno da otkaze izadje no content
+            bool isSuccessful = _appointmentService.CancelAppt(appointment);
+            if(!isSuccessful)  return NoContent();
             _donorService.AddStrike(appointment.DonorId);
-            _appointmentService.Update(_appointment);
-
+            appointment.Status = AppointmentStatus.CANCELLED.ToString();
             return Ok(appointment);
         }
 
@@ -138,7 +167,7 @@ namespace BloodBankAPI.Controllers
         [HttpGet("available/{centerId}")]
         public ActionResult GetAvailableForCenter(int centerId)
         {
-            var appointments = _appointmentService.GetAvailableByCenter(centerId);
+            var appointments = _appointmentService.GetEligibleByCenter(centerId);
             if(appointments == null)
             {
                 return NotFound();
@@ -151,6 +180,19 @@ namespace BloodBankAPI.Controllers
         public ActionResult GetScheduledForCenter(int centerId)
         {
             var appointments = _appointmentService.GetScheduledByCenter(centerId);
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointments);
+
+        }
+
+
+        [HttpGet("center/future/{centerId}")]
+        public ActionResult GetFutureForCenter(int centerId)
+        {
+            var appointments = _appointmentService.GetFutureByCenter(centerId);
             if (appointments == null)
             {
                 return NotFound();
@@ -183,10 +225,10 @@ namespace BloodBankAPI.Controllers
 
         }
 
-        [HttpGet("donor/available/{donorId}/{centerId}")]
+        [HttpGet("donor/eligible/{donorId}/{centerId}")]
         public ActionResult GetAvailableForDonor(int donorId,int centerId)
         {
-            var appointments = _appointmentService.GetAvailableForDonor(donorId,centerId);
+            var appointments = _appointmentService.GetEligibleForDonor(donorId,centerId);
             if (appointments == null)
             {
                 return NotFound();

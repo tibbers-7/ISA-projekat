@@ -26,6 +26,7 @@ export class AppointmentDialogComponent implements OnInit {
 //ovo ispraviti kad proradi log in
 
     for (let i = 15; i <= 60; i++){ this.numbers.push(i); }
+
     this.staffService.getAll().subscribe(res => {
       this.allStaff = res;
     });

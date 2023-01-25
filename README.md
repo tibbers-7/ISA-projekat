@@ -1,7 +1,7 @@
 # ISA-projekat
 POKRETANJE PROJEKTA:
 
-Za backend je koristena .NET tehologija, a za frontend Angular sa bazom u PostgreSQL
+Za backend je koriscena .NET tehologija, a za frontend Angular sa bazom u PostgreSQL
 
 Baza se pravi u pgAdminu sa username 'postgres' i sifrom 'password'
 Migracije se nalaze u sklopu backenda, tako da se tabele automatski prave

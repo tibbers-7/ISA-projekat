@@ -30,7 +30,8 @@ export class DonorAppointmentsComponent {
     this.donorId=Number(this.authService.getIdByRole());
     console.log(this.donorId);
     this.apptService.getScheduledForDonor(this.donorId).subscribe(res => {
-      this.appointments=res;
+      this.appointments = res;
+      console.log(res);
       this.dataSource.data=this.appointments;
     });
   }

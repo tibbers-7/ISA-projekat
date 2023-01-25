@@ -8,13 +8,17 @@
     <mat-card-content>
       <p> Name: {{staff?.name}}</p>
       <p> Surname: {{staff?.surname}}</p>
-      <p> Password: {{staff?.password}}</p>
       <p> Email: {{staff?.email}}</p>
+      <p> Phone number: {{staff?.email}}</p>
+      <p> Address: {{staff?.addressString}}</p>
+      <p> JMBG: {{staff?.jmbg}}</p>
+
     </mat-card-content>
   </mat-card>
   </div>
 
-  <button class="btn" style="margin-left: 45%;" mat-raised-button (click)="editStaffProfile()">
+  <button class="btn" style="margin-left: 39%;" mat-raised-button (click)="editStaffProfile()">
     Edit information
   </button>
+  <button mat-raised-button class="btn" style="margin-left: 2%;" (click)="changePass()">Change password</button>
 </body>

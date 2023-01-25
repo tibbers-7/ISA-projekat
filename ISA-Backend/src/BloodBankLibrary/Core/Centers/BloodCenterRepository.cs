@@ -1,5 +1,6 @@
 ﻿
-using BloodBankLibrary.Core.Materials;
+using BloodBankLibrary.Core.Addresses;
+using BloodBankLibrary.Core.Materials.Enums;
 using BloodBankLibrary.Settings;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -19,19 +20,15 @@ namespace BloodBankLibrary.Core.Centers
 
         public IEnumerable<BloodCenter> GetAll()
         {
-            List<BloodCenter> centers=new List<BloodCenter>();
-            foreach (BloodCenter center in _context.BloodCenters)
-            {
-                center.Address = JsonSerializer.Deserialize<Address>(center.AddressJson);
-                centers.Add(center);
-            }
-            return centers;
+            
+            return _context.BloodCenters.ToList();
         }
 
         public BloodCenter GetById(int id)
         {
             return _context.BloodCenters.Find(id);
         }
+
 
         public void Create(BloodCenter bloodCenter)
         {

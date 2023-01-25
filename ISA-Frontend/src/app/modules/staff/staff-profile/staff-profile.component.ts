@@ -4,6 +4,7 @@ import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
 import { Staff } from '../../../model/staff.model';
 import { StaffService } from '../../../services/staff.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   selector: 'app-staff-profile',
@@ -14,16 +15,19 @@ export class StaffProfileComponent {
 
   public staff: Staff | undefined;
 
-  constructor(private staffService: StaffService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private staffService: StaffService, private route: ActivatedRoute, private router: Router,private authService:AuthService) { }
 
   ngOnInit(): void {
-    //promeniti kad dodje localstorage
-    this.staffService.getStaff(1).subscribe(res => {
+    var id=Number(this.authService.getIdByRole());
+    this.staffService.getStaff(id).subscribe(res => {
       this.staff = res;
     });
   }
   editStaffProfile() {
     this.router.navigate(['staff/edit-profile']);
+  }
+  changePass() {
+    this.router.navigate(['change-password']);
   }
 }
 

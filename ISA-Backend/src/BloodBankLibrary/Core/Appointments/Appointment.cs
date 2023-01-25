@@ -27,7 +27,8 @@ namespace BloodBankLibrary.Core.Appointments
             this.duration = dto.Duration;
             this.DonorId = dto.DonorId;
             this.status = Enum.Parse<AppointmentStatus>(dto.Status.ToUpper());
-            startDate = DateTime.ParseExact(dto.Date, "dd.MM.yyyy. HH:mm", System.Globalization.DateTimeFormatInfo.InvariantInfo);
+            //startDate = DateTime.ParseExact(dto.Date, "yyyy-MM-dd HH:mm:ss", System.Globalization.DateTimeFormatInfo.InvariantInfo);
+            startDate = DateTime.Parse(dto.Date);
             this.qrCode = dto.QrCode;
         }
 
@@ -43,11 +44,21 @@ namespace BloodBankLibrary.Core.Appointments
         public int? ReportId { get; set; }
         public byte[]? QrCode { get => qrCode; set => qrCode = value; }
 
-        public string EmailInfo(string centerName,string staffName)
+        public string EmailInfo(string centerName,string staffName,string cancelReason)
         {
-            string res = "Your appointment is scheduled to happen at "+ startDate.ToString("dd.MM.yyyy. HH:mm")+","+
-                         " at the "+centerName+"."+
-                         "\nThe staff tasked with your appointment is "+staffName+".";
+            string res="";
+            if (status == AppointmentStatus.SCHEDULED)
+            {
+                res = "Your appointment is scheduled to happen at " + startDate.ToString("dd.MM.yyyy. HH:mm") + "," +
+                             " at the " + centerName + "." +
+                             "\nThe staff tasked with your appointment is " + staffName + ".";
+                
+            }
+            else if (status == AppointmentStatus.CANCELLED)
+            {
+                res = "Your appointment that was supposed to happen at " + startDate.ToString("dd.MM.yyyy. HH:mm") + "," +
+                             " at the " + centerName + ", with staff " + staffName + ", because " + cancelReason;
+            }
             return res;
         }
     }

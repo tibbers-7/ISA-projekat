@@ -49,5 +49,10 @@ namespace BloodBankLibrary.Core.Staffs
             _context.Staff.Remove(staff);
             _context.SaveChanges();
         }
+
+        public IEnumerable<Staff> GetByCenter(int centerId)
+        {
+            return _context.Staff.Where(staff => staff.CenterId == centerId);
+        }
     }
 }

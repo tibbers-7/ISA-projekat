@@ -12,5 +12,6 @@ namespace BloodBankLibrary.Core.Users
         void Delete(User user);
 
         User GetUserByDonor(Donor donor);
+        User GetByEmail(string email);
     }
 }

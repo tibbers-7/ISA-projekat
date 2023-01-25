@@ -23,8 +23,8 @@
         <tr>
           <td align="center">
             <div class="flexbox">
-              <input type="time" [(ngModel)]="time" name="startTime" >-
-              <input type="time">
+              <input type="time" [(ngModel)]="startTime" name="startTime" >
+              <input type="time" [(ngModel)]="endTime" name="endTime">
             </div>
           </td>
         </tr>
@@ -37,9 +37,9 @@
             </div>
             <div class="flexbox" style="gap:10px;">
               
-              <input type="text" style="width: 7rem;" name="adress" [(ngModel)]="address">
-              <input type="text" style="width: 7rem;" name="city" [(ngModel)]="city">
-              <input type="text" style="width: 7rem;" name="state" [(ngModel)]="country">
+              <input type="text" style="width: 7rem;" name="address" [(ngModel)]="address.streetAddress">
+              <input type="text" style="width: 7rem;" name="city" [(ngModel)]="address.city">
+              <input type="text" style="width: 7rem;" name="state" [(ngModel)]="address.country">
 
             </div>
 

@@ -33,4 +33,8 @@ export class AdminToolbarComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  Profile(){
+    this.router.navigate(['/admin/profile']); 
+  }
+
 }

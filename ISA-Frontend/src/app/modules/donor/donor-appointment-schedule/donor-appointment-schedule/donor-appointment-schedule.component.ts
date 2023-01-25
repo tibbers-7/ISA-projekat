@@ -46,11 +46,12 @@ export class DonorAppointmentScheduleComponent implements OnInit {
     console.log(this.selectedCenter);
     this.centerId=this.selectedCenter.id;
     if (this.centerId!=undefined){
-      this.apptService.getAvailableForDonor(this.centerId,this.donorId).subscribe(res => {
+      this.apptService.getEligibleForDonor(this.centerId,this.donorId).subscribe(res => {
         this.appointments = res;
+        console.log(res);
         this.dataSource.data = this.appointments;
       });
-
+    
       this.tableShow=true;
     
     }
@@ -66,7 +67,7 @@ export class DonorAppointmentScheduleComponent implements OnInit {
 
     this.selectedAppt.donorId=Number(localStorage.getItem('idByRole'));
     this.formService.isEligible(this.selectedAppt.donorId).subscribe(res =>{
-      this.apptService.scheduleAppt(this.selectedAppt).subscribe(res => {
+      this.apptService.schedulePredefined(this.selectedAppt).subscribe(res => {
 
         this.toast.success({detail:"Appointment scheduled!",summary:'',duration:3000});
   

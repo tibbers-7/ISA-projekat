@@ -25,6 +25,11 @@ namespace BloodBankLibrary.Core.Users
             return _context.Users.Find(id);
         }
 
+        public User GetByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(user=>user.Email==email);
+        }
+
         public void Create(User user)
         {
             _context.Users.Add(user);

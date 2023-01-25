@@ -20,18 +20,16 @@ body{
 mat-form-field {
   width: 100%;
   margin: auto;
-  background-color: rgba(132, 17, 17, 0.621);
   color:white;
 }
+
 mat-label {
-  color:rgba(255, 255, 255, 0.734);
+  color: white;
 }
+
 .fields {
     margin-top: 30px;
-   
-
 }
-
 
 h3 {
   
@@ -43,71 +41,25 @@ h3 {
   font-stretch:ultra-condensed;
 }
 
-.btn {
-  color: #670200;
-  text-decoration: none;
+.bttn{
+  margin-left: auto;
   padding: 10px 20px;
-  display: inline-block;
-  border-radius: 100px;
+  border-radius: 15px;
   transition: all .2s;
-  position: relative;
   border: none;
+  border-color: rgb(0, 0, 0);
+  background-color: rgba(36, 36, 36, 0.681);
+  color: white; 
 }
 
-  .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  }
+.bttn:hover {
+transform: translateY(-3px);
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
 
-  .btn:active {
+.btn:active {
     transform: translateY(-1px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
 
-.btn-white {
-  background-color: #fff;
-  color: #777;
-  font-size: 14px;
-}
 
-.box {
-  width: 350px;
-  height: 250px;
-  background: #2C394B;
-  color: white;
-  border-radius: 10px;
-  position: absolute;
-  clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  transition: all .4s;
-}
-
-.btn:checked ~ .box {
-  clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
-}
-
-.box p {
-  font-size: 1.5em;
-}
-
-.box label {
-  width: 120px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: white;
-  color: black;
-  margin-top: 1em;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0px 6px #556b88;
-  transition: all .4s;
-}
-
-label:hover {
-  box-shadow: 0px 0px 30px #788daa83;
-}

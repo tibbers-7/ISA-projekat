@@ -10,6 +10,7 @@ using System.Text;
 using BloodBankLibrary.Core.EmailSender;
 using System.Web;
 using BloodBankLibrary.Core.Donors;
+using BloodBankLibrary.Core.Addresses;
 
 namespace BloodBankLibrary.Core.Users
 {
@@ -38,10 +39,7 @@ namespace BloodBankLibrary.Core.Users
         }
         public User GetByEmail(string email)
         {
-            foreach(User u in _userRepository.GetAll())
-                if (u.Email.Equals(email))
-                    return u;
-             return null;
+            return _userRepository.GetByEmail(email);
         }
 
         public string Create(User user)
@@ -56,6 +54,16 @@ namespace BloodBankLibrary.Core.Users
             user.Password = newPass;
             _userRepository.Create(user);
             return tempPass;
+        }
+
+        public bool ChangePassword(User user)
+        {
+            if (user == null) return false;
+            user.Password = _passwordHasher.HashPassword(user.Password);
+
+            Update(user);
+            return true;
+
         }
 
 
@@ -130,9 +138,7 @@ namespace BloodBankLibrary.Core.Users
         public User Authenticate(User user)
         {
             // UserConstraints -> baza
-            var users = _userRepository.GetAll();
-            var currentUser = users.FirstOrDefault(o => o.Email.ToLower() ==
-                user.Email.ToLower());
+            User currentUser = _userRepository.GetByEmail(user.Email);
             if (currentUser == null || !currentUser.Active) return null;
             if (_passwordHasher.VerifyHashedPassword(currentUser.Password, user.Password)) return currentUser;
 
@@ -219,7 +225,7 @@ namespace BloodBankLibrary.Core.Users
             _userRepository.Update(user);
 
             donor.Password = null;
-            donor.Address = new Materials.Address(donor.AddressString);
+            donor.Address = new PrivateAddress(donor.AddressString);
             return donor;
         }
 

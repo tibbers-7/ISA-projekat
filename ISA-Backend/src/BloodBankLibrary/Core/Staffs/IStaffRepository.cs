@@ -9,5 +9,6 @@ namespace BloodBankLibrary.Core.Staffs
         void Create(Staff staff);
         void Update(Staff staff);
         void Delete(Staff staff);
+        IEnumerable<Staff> GetByCenter(int centerId);
     }
 }

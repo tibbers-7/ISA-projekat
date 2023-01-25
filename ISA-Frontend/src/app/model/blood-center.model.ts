@@ -6,6 +6,10 @@ export class BloodCenter {
   description: string = ' ';
   openHours: string = ' ';
   avgScore: number = 0;
+  amountA:number=0;
+  amountB:number=0;
+  amountAB:number=0;
+  amountO:number=0;
   
   
 
@@ -17,6 +21,10 @@ export class BloodCenter {
       this.address = obj.addressString;
       this.description = obj.description;
       this.avgScore = obj.avgScore;
+      this.amountA=obj.amountA;
+      this.amountB=obj.amountB;
+      this.amountAB=obj.amountAB;
+      this.amountO=obj.amountO;
     }
   }
 }

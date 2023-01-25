@@ -1,36 +1,40 @@
-
-
-p {
-    margin: 40px 20px 20px 20px;
-}
-
 .container {
   display: flex;
   margin-left: 5%;
   margin-right: 20%;
   margin-top: 5%;
+  width:100%;
+}
+.container2 {
+  display: flex;
+  padding-left: 5%;
+  flex-flow: column;
+  width:60%;
+}
+.container3 {
+  display: flex;
+  flex-flow: column;
+  width:80%;
+  padding-left: 5%;
+  margin-top:4%;
 }
 
 .personal-info{
     margin-left: 5%;
     margin-right:auto;
-}
-
-.tables {
-  margin-left: auto;
-  margin-right: auto;
+    width:90%;
 }
 
 th {
-  text-decoration: underline;
-  font-weight: bold;
   text-align: center;
   font-size: 18px;
+  color:white;
 }
 
 .cell-center {
   text-align: center;
   font-size: 16px;
+  color: white;
 }
 
 .table-title {
@@ -44,7 +48,8 @@ th {
 
 table {
   width: 100%;
-  background-color: lightgray;
+  background-color: rgba(163, 23, 23, 0.467);
+  color:white;
 }
 
 body{
@@ -82,48 +87,64 @@ p {
   margin-top: 50px;
   margin-bottom: 20px;
   padding: 40px;
-  background-color: rgba(163, 23, 23, 0.732);
+  background-color: rgba(163, 23, 23, 0.467);
   color:white;
   border: #DCD6CC 1px solid;
 }
 
-.container {
-  display: flex;
- 
-}
-
-.edit-button{
-    display:flex;
-    margin-left:auto;
-    margin-right:auto;
-    font-size: 18px;
-}
-
-
 .btn {
-  color: #670200;
-  text-decoration: none;
   padding: 10px 20px;
-  display: inline-block;
   border-radius: 15px;
   transition: all .2s;
-  position: relative;
   border: none;
-  
+  border-color: rgb(0, 0, 0);
+  background-color: rgba(36, 36, 36, 0.681);
+  color: white;
 }
 
-  .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  }
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
 
-  .btn:active {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  }
+.btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
 
-.btn-white {
-  background-color: #fff;
-  color: #777;
-  font-size: 14px;
+
+mat-list {
+  margin-top: 3%;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: normal;
+  border: none;
+  border-collapse: collapse;
+  width: 30%;
+  height: 40%;
+  white-space: nowrap;
+  background-color: white;
+  line-height: 1em;
+  
+  box-shadow: 10px 10px 8px #b7b7b755;
+    border-radius: 10px;
+
+
+    background-color: rgba(163, 23, 23, 0.756);
+  border: #DCD6CC 1px solid;
+  
+
+}
+
+mat-list-item{
+  border-bottom: 1px solid rgb(173, 189, 198);
+  text-align: center;
+  color:white;
+}
+
+h3{
+  font-size: 30px;
+  text-align: center;
+  color:white;
+  margin-right: 320px;
 }

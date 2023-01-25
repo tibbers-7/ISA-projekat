@@ -29,18 +29,10 @@ namespace BloodBankLibrary.Core.Centers
             return result;
         }
 
-        public IEnumerable<string> GetCities()
-        {
-            List<string> cities = new List<string>();
-            foreach(BloodCenter center in _bloodCenterRepository.GetAll())
-            {
-                if(!cities.Contains(center.Address.City)) cities.Add(center.Address.City);
-            }
-            return cities;
-        }
-
+      
         public BloodCenter GetById(int id)
         {
+
             return _bloodCenterRepository.GetById(id);
         }
 
@@ -58,24 +50,6 @@ namespace BloodBankLibrary.Core.Centers
         {
             _bloodCenterRepository.Delete(bloodCenter);
         }
-
-        public IEnumerable<Donor> GetDonorsByCenterId(int centerId)
-        {
-            IEnumerable<Appointment> allAppointments = _appointmentRepository.GetAll();
-            List<Donor> donors = new List<Donor>();
-            foreach (Appointment appointment in allAppointments)
-            {
-                //dodati proveru da bude completed al onda napraviti da kad se zavrsi da se status promeni u completed
-                if(appointment.CenterId == centerId)
-                {
-                    donors.Add(_donorRepository.GetById(appointment.DonorId));
-                }
-                
-            }
-
-            return donors;
-        }
-
         
     }
 }

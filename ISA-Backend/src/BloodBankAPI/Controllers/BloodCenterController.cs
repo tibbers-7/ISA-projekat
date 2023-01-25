@@ -1,4 +1,6 @@
-﻿using BloodBankLibrary.Core.Centers;
+﻿using BloodBankLibrary.Core.Addresses;
+using BloodBankLibrary.Core.Appointments;
+using BloodBankLibrary.Core.Centers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -9,10 +11,13 @@ namespace BloodBankAPI.Controllers
     public class BloodCenterController : ControllerBase
     {
         private readonly IBloodCenterService _bloodCenterService;
-
-        public BloodCenterController(IBloodCenterService bloodCenterService)
+        private readonly IAddressService _addressService;
+        private readonly IAppointmentService _appointmentService;
+        public BloodCenterController(IBloodCenterService bloodCenterService, IAddressService addressService, IAppointmentService appointmentService)
         {
             _bloodCenterService = bloodCenterService;
+            _addressService = addressService;
+            _appointmentService=appointmentService;
         }
 
         // GET: api/bloodCenters
@@ -38,7 +43,7 @@ namespace BloodBankAPI.Controllers
         [HttpGet("cities")]
         public ActionResult GetCities()
         {
-            var cities = _bloodCenterService.GetCities();
+            var cities = _addressService.GetCities();
             if (cities == null)
             {
                 return NotFound();
@@ -105,7 +110,7 @@ namespace BloodBankAPI.Controllers
         public ActionResult GetDonorsForCenter(int centerId)
         {
 
-            var donors = _bloodCenterService.GetDonorsByCenterId(centerId);
+            var donors = _appointmentService.GetDonorsByCenterId(centerId);
             if (donors == null)
             {
                 return NotFound();
@@ -114,6 +119,56 @@ namespace BloodBankAPI.Controllers
             return Ok(donors);
         }
 
-      
+
+        [HttpGet("address/{id}")]
+        public ActionResult GetAddressByCenter(int id) { 
+        
+        
+            var address = _addressService.GetByCenter(id);
+            if(address== null)
+            {
+                return NotFound();
+            }
+            return Ok(address);
+        
+        }
+
+        [HttpPut("address/{id}")]
+        public ActionResult UpdateAddress(int id, CenterAddress address)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != address.Id)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                _addressService.Update(address);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+            return Ok(address);
+        }
+
+        // POST api/bloodCenters
+        [HttpPost("address")]
+        public ActionResult CreateAddress(CenterAddress address)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _addressService.Create(address);
+            return CreatedAtAction("GetById", new { id = address.Id }, address);
+        }
     }
 }

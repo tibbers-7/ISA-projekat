@@ -11,5 +11,7 @@ namespace BloodBankLibrary.Core.Staffs
         void Update(Staff staff);
         void Delete(Staff staff);
         
+
+
     }
 }

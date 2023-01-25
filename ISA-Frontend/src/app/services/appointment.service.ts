@@ -22,12 +22,16 @@ export class AppointmentService {
     return this.http.get<Appointment>(this.apiHost + 'api/Appointment/' + id, { headers: this.headers });
   }
 
-  newAppointment(appointment: Appointment): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/Appointment/new', appointment, { headers: this.headers });
+  scheduleStaff(appointment: Appointment): Observable<any> {
+    return this.http.post<any>(this.apiHost + 'api/Appointment/staff/schedule', appointment, { headers: this.headers });
   }
 
-  scheduleAppt(appointment: Appointment): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/Appointment/schedule', appointment, { headers: this.headers });
+  scheduleDonorMade(appointment: Appointment): Observable<any> {
+    return this.http.post<any>(this.apiHost + 'api/Appointment/donor/schedule', appointment, { headers: this.headers });
+  }
+
+  schedulePredefined(appointment: Appointment): Observable<any> {
+    return this.http.post<any>(this.apiHost + 'api/Appointment/schedule/predefined', appointment, { headers: this.headers });
   }
 
   cancelAppt(appointment: Appointment): Observable<any> {
@@ -45,11 +49,15 @@ export class AppointmentService {
   getScheduledByCenter(centerId : number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/center/scheduled/' + centerId, { headers: this.headers });
   }
+
+  getFutureApptsByCenter(centerId: number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/center/future/' + centerId, { headers: this.headers });
+  }
   getScheduledForDonor(donorId : number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/scheduled/' + donorId, { headers: this.headers });
   }
-  getAvailableForDonor(centerId:number,donorId : number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/available/' + donorId+"/"+centerId, { headers: this.headers });
+  getEligibleForDonor(centerId:number,donorId : number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/eligible/' + donorId+"/"+centerId, { headers: this.headers });
   }
   
   getQR(appointment:Appointment): Observable<any> {
@@ -59,7 +67,5 @@ export class AppointmentService {
   getAllForDonor(donorId : number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/all/' + donorId, { headers: this.headers });
   }
-
  
-
 }

@@ -17,11 +17,13 @@ import { MapsModule } from '@syncfusion/ej2-angular-maps';
 import { LegendService, MarkerService, MapsTooltipService, DataLabelService, BubbleService, NavigationLineService, SelectionService, AnnotationsService, ZoomService } from '@syncfusion/ej2-angular-maps';
 
 
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {path:'register',component:RegistrationComponent},
   {path:'login',component:LoginComponent},
+  {path:'change-password',component:ChangePasswordComponent},
   {path:'proba',component:TestprobaComponent}
 ];
 
@@ -32,7 +34,8 @@ const routes: Routes = [
     LoginComponent,
     CentersListComponent,
     StartToolbarComponent,
-    TestprobaComponent
+    TestprobaComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,
