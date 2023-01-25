@@ -16,6 +16,8 @@ import { BloodCenterEditComponent } from './blood-center-edit/blood-center-edit.
 import { StaffToolbarComponent } from './staff-toolbar/staff-toolbar.component';
 import { AppointmentDialogComponent } from './staff-appointment/appointment-dialog.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import {MatListModule} from '@angular/material/list';
+
 
 
 
@@ -54,6 +56,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatListModule,
     RouterModule.forChild(routes),
   ],
   entryComponents: [AppointmentDialogComponent]

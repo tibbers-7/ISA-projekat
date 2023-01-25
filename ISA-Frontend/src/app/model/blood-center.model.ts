@@ -2,10 +2,14 @@
 export class BloodCenter {
   name: string = '';
   id: number = 0;
+  address: string = '';
   description: string = ' ';
-  workTimeStart: string = ' ';
-  workTimeEnd: string ='';
+  openHours: string = ' ';
   avgScore: number = 0;
+  amountA:number=0;
+  amountB:number=0;
+  amountAB:number=0;
+  amountO:number=0;
   
   
 
@@ -13,10 +17,14 @@ export class BloodCenter {
     if (obj) {
       this.id = obj.id;
       this.name = obj.name;
-      this.workTimeStart = obj.workTimeStart;
-      this.workTimeEnd = obj.workTimeEnd;
+      this.openHours = obj.openHours;
+      this.address = obj.addressString;
       this.description = obj.description;
       this.avgScore = obj.avgScore;
+      this.amountA=obj.amountA;
+      this.amountB=obj.amountB;
+      this.amountAB=obj.amountAB;
+      this.amountO=obj.amountO;
     }
   }
 }
