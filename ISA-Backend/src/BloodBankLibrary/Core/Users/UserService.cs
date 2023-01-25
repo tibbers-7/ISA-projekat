@@ -56,6 +56,16 @@ namespace BloodBankLibrary.Core.Users
             return tempPass;
         }
 
+        public bool ChangePassword(User user)
+        {
+            if (user == null) return false;
+            user.Password = _passwordHasher.HashPassword(user.Password);
+
+            Update(user);
+            return true;
+
+        }
+
 
         public void Update(User user)
         {
@@ -128,9 +138,7 @@ namespace BloodBankLibrary.Core.Users
         public User Authenticate(User user)
         {
             // UserConstraints -> baza
-            var users = _userRepository.GetAll();
-            var currentUser = users.FirstOrDefault(o => o.Email.ToLower() ==
-                user.Email.ToLower());
+            User currentUser = _userRepository.GetByEmail(user.Email);
             if (currentUser == null || !currentUser.Active) return null;
             if (_passwordHasher.VerifyHashedPassword(currentUser.Password, user.Password)) return currentUser;
 

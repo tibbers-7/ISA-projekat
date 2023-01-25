@@ -46,6 +46,39 @@ namespace BloodBankAPI.Controllers
 			return Unauthorized();
 		}
 
+		[AllowAnonymous] 
+		[HttpPut("changePassword")]
+		public IActionResult ChangePassword(string email,string newPass)
+		{
+			User user=_userService.GetByEmail(email);
+			if (user == null) return BadRequest("NoUser");
+
+			user.Password = newPass;
+			
+
+			if(!_userService.ChangePassword(user)) return BadRequest("ChangePassError");
+			Staff staff = _staffService.GetById(user.IdByType);
+			staff.IsNew = false;
+			_staffService.Update(staff);
+			return Ok();
+
+			return Unauthorized();
+		}
+
+		[AllowAnonymous]
+		[HttpPut("authenticate")]
+		public IActionResult Authenticate(string email, string password)
+		{
+			User user = new User() { Email=email, Password=password };
+			if (_userService.Authenticate(user) == null) return BadRequest("AuthFailed");
+
+			return Ok();
+
+
+
+			return Unauthorized();
+		}
+
 
 		[AllowAnonymous]
 		[HttpPost("register")]

@@ -20,6 +20,7 @@ namespace BloodBankLibrary.Core.Users
         public string GenerateActivationToken(string email);
 
         public Donor UpdateUserByDonor(Donor donor);
+        bool ChangePassword(User user);
 
     }
 }

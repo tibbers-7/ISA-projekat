@@ -16,16 +16,7 @@ namespace BloodBankLibrary.Core.Users
         private string token;
         private bool active;
 
-        public User(int id, int idByType, string email, string password, string name, string surname, UserType userType)
-        {
-            this.id = id;
-            this.idByType = idByType;
-            this.email = email;
-            this.password = password;
-            this.name = name;
-            this.surname = surname;
-            this.userType = userType;
-        }
+        
 
         public User(RegisterDTO regDTO, int roleID) //samo pacijent moze da se registruje
         {
