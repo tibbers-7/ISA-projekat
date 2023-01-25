@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Donor } from '../../../model/donor.model';
+import { Donor } from 'app/model/donor.model';
 import { DonorService } from '../../../services/donor.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
