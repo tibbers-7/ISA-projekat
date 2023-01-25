@@ -27,7 +27,7 @@ namespace BloodBankLibrary.Core.Appointments
 
         bool CanDonorCancel(int apptId);
          IEnumerable<AppointmentDTO >GetEligibleForDonor(int donorId, int centerId);
-        Appointment GenerateAndSaveQR(Appointment appointment);
+        Appointment GenerateAndSaveQR(Appointment appointment, string cancelReason);
         object GetAllByDonor(int id);
         IEnumerable<Donor> GetDonorsByCenterId(int centerId);
         Appointment AssignStaff(Appointment appointment);
