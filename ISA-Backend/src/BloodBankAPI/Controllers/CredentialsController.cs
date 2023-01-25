@@ -57,9 +57,14 @@ namespace BloodBankAPI.Controllers
 			
 
 			if(!_userService.ChangePassword(user)) return BadRequest("ChangePassError");
-			Staff staff = _staffService.GetById(user.IdByType);
-			staff.IsNew = false;
-			_staffService.Update(staff);
+
+            if (user.UserType == BloodBankLibrary.Core.Materials.Enums.UserType.STAFF)
+            {
+				Staff staff = _staffService.GetById(user.IdByType);
+				staff.IsNew = false;
+				_staffService.Update(staff);
+			}
+			
 			return Ok();
 
 			return Unauthorized();

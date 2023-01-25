@@ -10,11 +10,13 @@ import { LoginComponent } from './login/login.component';
 import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
 import { MaterialModule } from 'app/material/material.module';
 import { StartToolbarComponent } from './start-toolbar/start-toolbar/start-toolbar.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {path:'register',component:RegistrationComponent},
-  {path:'login',component:LoginComponent}
+  {path:'login',component:LoginComponent},
+  {path:'change-password',component:ChangePasswordComponent}
 ];
 
 @NgModule({
@@ -23,7 +25,8 @@ const routes: Routes = [
     RegistrationComponent,
     LoginComponent,
     CentersListComponent,
-    StartToolbarComponent
+    StartToolbarComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,

@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Staff } from 'app/model/staff.model';
 import { AuthService } from 'app/services/auth.service';
+import { UserService } from 'app/services/user.service';
 import { StaffService } from 'app/services/staff.service';
 import { NgToastService } from 'ng-angular-popup';
-
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
@@ -18,23 +18,32 @@ export class ChangePasswordComponent {
   private staffId:number=0;
   private staff:Staff=new Staff;
   public showToolbar:boolean=true;
+  private email:string='';
 
-  constructor(private authService:AuthService,private staffService:StaffService,private toast:NgToastService,private router:Router){}
+  constructor(private authService:AuthService,private staffService:StaffService,private toast:NgToastService,private router:Router,private userService:UserService  ){}
 
   ngOnInit(){
-    this.staffId=Number(this.authService.getIdByRole());
-    this.staffService.getStaff(this.staffId).subscribe(res => {
-      this.staff = res;
-      if (this.staff.isNew) this.showToolbar=false;
-    });
+    
+
+
+    
   }
 
   changePassword(){
     if(!this.checkValidity()) return;
-    this.authService.authenticate(this.staff.email,this.oldPassword).subscribe(res=>{
-      this.authService.changePass(this.staff.email,this.newPassword).subscribe(res=>{
+
+    var uId=Number(this.authService.getUserId());
+    console.log(uId);
+
+    this.userService.getUser(uId).subscribe(res=>{
+      this.email=res.email;
+    })
+
+    this.authService.authenticate(this.email,this.oldPassword).subscribe(res=>{
+      this.authService.changePass(this.email,this.newPassword).subscribe(res=>{
         this.toast.success({detail:'Password changed!',duration:3000});
-        this.router.navigate(['/staff/homepage']);
+          this.authService.logout();
+          this.router.navigate(['login']);
       },error=>{
         this.toast.error({detail:'Password not updated!',summary:"Something went wrong.",duration:3000});
       })

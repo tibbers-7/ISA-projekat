@@ -11,6 +11,7 @@ import { AdminNewCenterComponent } from './admin-new-center/admin-new-center/adm
 import { UserListComponent } from './user-list/user-list.component';
 import { StaffRegistrationComponent } from './staff-registration/staff-registration.component';
 import { PagesModule } from '../pages/pages.module';
+import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 
 const routes: Routes = [
 
@@ -22,6 +23,8 @@ const routes: Routes = [
   canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' }},
   { path: 'admin/staff-register', component: StaffRegistrationComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' } },
+  { path: 'admin/profile', component: AdminProfileComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' } },
 
 ];
 @NgModule({
@@ -30,7 +33,8 @@ const routes: Routes = [
     AdminToolbarComponent,
     UserListComponent,
     AdminNewCenterComponent,
-    StaffRegistrationComponent
+    StaffRegistrationComponent,
+    AdminProfileComponent
   ],
   imports: [
     CommonModule,

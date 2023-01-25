@@ -15,7 +15,10 @@
       <p> Phone number: {{donor.phoneNumber}}</p>
     </mat-card-content>
   </mat-card>
-  <button class="btn" (click)="goToEditPage()" style="margin-left:40%">Edit profile</button>
+  <div class="flexbox_row">
+    <button class="btn" (click)="goToEditPage()" style="margin-left:40%">Edit profile</button>
+    <button class="btn" (click)="changePassword()" style="margin-left:40%">Change password</button>
+  </div>
 
   </div>
 
