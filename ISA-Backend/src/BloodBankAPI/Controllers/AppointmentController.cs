@@ -61,10 +61,15 @@ namespace BloodBankAPI.Controllers
                 //ukoliko je u medjuvremenu zakazan taj napravimo kopiju da bude cancelled
                 appointment.Status = AppointmentStatus.CANCELLED;
                 _appointmentService.Create(appointment);
+                _appointmentService.SendQRCancelled(appointment, 1);
                 return BadRequest("Unavailable");
             }
             if (appointment.StaffId == 0) _appointmentService.AssignStaff(appointment);
-            if (appointment == null) return BadRequest("Unavailable");
+            if (appointment == null)
+            {
+                _appointmentService.SendQRCancelled(appointment, 2);
+                return BadRequest("Unavailable");
+            }
             appointment.Status = AppointmentStatus.SCHEDULED;
             _appointmentService.Update(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);

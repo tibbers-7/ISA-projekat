@@ -32,5 +32,6 @@ namespace BloodBankLibrary.Core.Appointments
         IEnumerable<Donor> GetDonorsByCenterId(int centerId);
         Appointment AssignStaff(Appointment appointment);
         Appointment PrepareForSchedule(AppointmentDTO dto);
+        void SendQRCancelled(Appointment appointment, int code);
     }
 }

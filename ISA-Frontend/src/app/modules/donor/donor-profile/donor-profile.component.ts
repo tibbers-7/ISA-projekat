@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Donor } from '../../../model/donor.model';
+import { Donor } from 'app/model/donor.model';
 import { DonorService } from '../../../services/donor.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -19,7 +19,6 @@ export class DonorProfileComponent {
   ngOnInit(): void {
 
     this.id=Number(this.authService.getIdByRole());
-    console.log(this.id);
     this.donorService.getDonor(this.id).subscribe(res => {
       this.donor = res;
     });
@@ -27,5 +26,9 @@ export class DonorProfileComponent {
   }
   goToEditPage() {
     this.router.navigate(['donor/edit-profile'])
+  }
+
+  changePassword() {
+    this.router.navigate(['change-password']);
   }
 }

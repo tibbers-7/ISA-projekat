@@ -11,6 +11,7 @@ export class Donor {
   jmbg: string = '';
   profession: string = '';
   workplace: string = '';
+  strikes:number=0;
   
 
   public constructor(obj?: any) {
@@ -27,6 +28,7 @@ export class Donor {
       this.workplace = obj.workplace;
       this.profession = obj.profession;
       this.address = obj.address;
+      this.strikes=obj.strikes;
     }
   }
 }
