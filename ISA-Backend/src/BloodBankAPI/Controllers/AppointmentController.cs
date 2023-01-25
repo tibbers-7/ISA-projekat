@@ -56,6 +56,13 @@ namespace BloodBankAPI.Controllers
 
             Appointment appointment = _appointmentService.GetById(dto.Id);
             appointment.DonorId = dto.DonorId;
+            if (appointment.Status == AppointmentStatus.SCHEDULED)
+            {
+                //ukoliko je u medjuvremenu zakazan taj napravimo kopiju da bude cancelled
+                appointment.Status = AppointmentStatus.CANCELLED;
+                _appointmentService.Create(appointment);
+                return BadRequest("Unavailable");
+            }
             if (appointment.StaffId == 0) _appointmentService.AssignStaff(appointment);
             if (appointment == null) return BadRequest("Unavailable");
             appointment.Status = AppointmentStatus.SCHEDULED;
@@ -78,7 +85,6 @@ namespace BloodBankAPI.Controllers
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
-        //OVO JE ZA DONORA, STAFF ODVOJITI, ovo vise ne radi za staff(nisam menjala na frontu)
         // U PrepareForDonorSchedule ubaciti i proveru da li postoji available/cancelled termin tada
         // Za cancelled ce ici opet provera da li je available staff i centar u to vreme 
         [HttpPost("donor/schedule")]

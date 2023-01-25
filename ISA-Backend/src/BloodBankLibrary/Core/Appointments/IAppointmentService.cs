@@ -16,7 +16,7 @@ namespace BloodBankLibrary.Core.Appointments
         IEnumerable<Appointment> GetByStaffId(int id);
         IEnumerable<Appointment> GetScheduledByCenter(int centerId);
         IEnumerable<Appointment> GetEligibleByCenter(int centerId);
-        IEnumerable<Appointment> GetFutureByCenter(int centerId);
+        IEnumerable<AppointmentDTO> GetFutureByCenter(int centerId);
         IEnumerable<BloodCenter> GetCentersForDateTime(string DateTime);
         void Create(Appointment appointment);
         void Update(Appointment appointment);
@@ -25,10 +25,10 @@ namespace BloodBankLibrary.Core.Appointments
         bool CancelAppt(AppointmentDTO appointment);
 
         bool CanDonorCancel(int apptId);
-        object GetEligibleForDonor(int donorId, int centerId);
+         IEnumerable<AppointmentDTO >GetEligibleForDonor(int donorId, int centerId);
         Appointment GenerateAndSaveQR(Appointment appointment);
         object GetAllByDonor(int id);
-        public IEnumerable<Donor> GetDonorsByCenterId(int centerId);
+        IEnumerable<Donor> GetDonorsByCenterId(int centerId);
         Appointment AssignStaff(Appointment appointment);
         Appointment PrepareForSchedule(AppointmentDTO dto);
     }

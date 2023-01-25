@@ -54,7 +54,14 @@ namespace BloodBankLibrary.Core.Appointments
 
         public IEnumerable<Appointment> GetEligibleByCenter(int centerId)
         {
-            return _context.Appointments.Where(appt =>appt.CenterId==centerId && (appt.Status == Materials.Enums.AppointmentStatus.AVAILABLE);
+            return _context.Appointments.Where(appt => appt.CenterId == centerId && appt.Status == Materials.Enums.AppointmentStatus.AVAILABLE && DateTime.Compare(appt.StartDate, DateTime.Now) > 0);
+
+        }
+
+        public IEnumerable<Appointment> GetCancelledByDonorCenter(int donorId, int centerId)
+        {
+            return _context.Appointments.Where(appt => appt.CenterId == centerId && appt.Status == Materials.Enums.AppointmentStatus.CANCELLED && appt.DonorId == donorId && DateTime.Compare(appt.StartDate, DateTime.Now) > 0);
+
         }
 
         public IEnumerable<Appointment> GetScheduled()

@@ -8,6 +8,7 @@ using BloodBankLibrary.Core.Materials.QRGenerator;
 using BloodBankLibrary.Core.Staffs;
 using System.Linq;
 using MimeKit.Encodings;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BloodBankLibrary.Core.Appointments
 {
@@ -103,9 +104,15 @@ namespace BloodBankLibrary.Core.Appointments
             return _appointmentRepository.GetScheduledByCenter(id);
         }
 
-        public IEnumerable<Appointment> GetFutureByCenter(int id)
+        public IEnumerable<AppointmentDTO> GetFutureByCenter(int id)
         {
-            return _appointmentRepository.GetFutureByCenter(id);
+            IEnumerable<Appointment> future = _appointmentRepository.GetFutureByCenter(id);
+            List<AppointmentDTO> res = new List<AppointmentDTO>();
+            foreach (Appointment appointment in future)
+            {
+                res.Add(new AppointmentDTO(appointment));
+            }
+            return res;
         }
 
         public IEnumerable<Appointment> GetEligibleByCenter(int id)
@@ -201,7 +208,7 @@ namespace BloodBankLibrary.Core.Appointments
 
         }
 
-        //prvo provera da li je prekasnoo da otkaze pregled pa ako nije napravi se kopija koja je available i kreira se u bazi
+        //prvo provera da li je prekasno da otkaze pregled pa ako nije napravi se kopija koja je available i kreira se u bazi
         //a ovaj se apdejtuje kao cancelled
         public bool CancelAppt(AppointmentDTO appointment)
         {
@@ -215,17 +222,30 @@ namespace BloodBankLibrary.Core.Appointments
             return true;
         }
 
-        public object GetEligibleForDonor(int donorId, int centerId)
+        //ovo se kreira prikaz za predefinisane preglede donora
+        public IEnumerable<AppointmentDTO> GetEligibleForDonor(int donorId, int centerId)
         {
-            IEnumerable<Appointment> appointments = GetEligibleByCenter(centerId);
+            //buduci cancelled za tog donors u tom centru
             List<AppointmentDTO> res = new List<AppointmentDTO>();
-            foreach (Appointment appointment in appointments)
-            {
-                if (appointment.Status == AppointmentStatus.CANCELLED && appointment.DonorId == donorId) continue;
-                res.Add(new AppointmentDTO(appointment));
+            IEnumerable<Appointment> futureCancelledByDonor = _appointmentRepository.GetCancelledByDonorCenter(donorId, centerId);
+            IEnumerable<Appointment> appointments = GetEligibleByCenter(centerId);
+            if (!futureCancelledByDonor.IsNullOrEmpty()) {
+                foreach (Appointment appointment in appointments)
+                {
+                    foreach (Appointment cancelled in futureCancelledByDonor)
+                    {
+                        //ako su u isto vreme 
+                        if (appointment.StartDate.Equals(cancelled.StartDate)) continue;
+                    }
+
+                    res.Add(new AppointmentDTO(appointment));
+                }
+
             }
             return res;
         }
+
+       
 
         public Appointment GenerateAndSaveQR(Appointment appointment)
         {
@@ -251,6 +271,7 @@ namespace BloodBankLibrary.Core.Appointments
             
         }
 
+        //mozda cim nadje available  da returnuje
         public Appointment AssignStaff(Appointment apptToAssign)
         {
             List<Staff> staffs = _staffService.GetByCenterId(apptToAssign.CenterId).ToList();
