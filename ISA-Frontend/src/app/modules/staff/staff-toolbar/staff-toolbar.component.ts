@@ -34,6 +34,7 @@ export class StaffToolbarComponent implements OnInit {
 
   CalendarClick() {
 
+    this.router.navigate(['/staff/calendar']);
   }
 
   BloodClick() {

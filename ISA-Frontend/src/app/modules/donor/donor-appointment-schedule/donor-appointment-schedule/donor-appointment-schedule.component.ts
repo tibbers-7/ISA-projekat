@@ -66,7 +66,7 @@ export class DonorAppointmentScheduleComponent implements OnInit {
 
     this.selectedAppt.donorId=Number(localStorage.getItem('idByRole'));
     this.formService.isEligible(this.selectedAppt.donorId).subscribe(res =>{
-      this.apptService.scheduleMade(this.selectedAppt).subscribe(res => {
+      this.apptService.schedulePredefined(this.selectedAppt).subscribe(res => {
 
         this.toast.success({detail:"Appointment scheduled!",summary:'',duration:3000});
   

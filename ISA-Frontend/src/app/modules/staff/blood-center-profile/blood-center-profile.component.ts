@@ -24,14 +24,11 @@ export class BloodCenterProfileComponent {
   public address: Address | undefined;
   public staff: Staff | undefined;
   public allStaff: Staff[] = [];
-  public availableAppointments: Appointment[] = [];
   public dataSourceStaff = new MatTableDataSource<Staff>();
   public displayedColumnsStaff = ['name', 'surname', 'email'];
-  public dataSourceAppointments = new MatTableDataSource<Appointment>();
-  public displayedColumnsAppointments = ['date', 'duration','staff'];
 
 
-  constructor(private authService: AuthService, private bloodCenterService: BloodCenterService, private staffService: StaffService, private appointmentService: AppointmentService, private dialog: MatDialog, private route: ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthService, private bloodCenterService: BloodCenterService, private staffService: StaffService, private router: Router) { }
 
   ngOnInit(): void {
 //dobijamo ulogovanog staff id preko local storage
@@ -41,57 +38,22 @@ export class BloodCenterProfileComponent {
       //dobijamo centar preko naseg staffa
       this.bloodCenterService.getCenter(res.centerId).subscribe(res1 => {
           this.center = res1;
-          console.log(this.address);
       });
       this.bloodCenterService.getAddressForCenter(res.centerId).subscribe(res1=>{
           this.address = res1;
-          console.log(this.address);
       });
       //prikazujemo sve staffove osim ulogovanog iz naseg centra
       this.staffService.getStaffByCenter(res.centerId).subscribe(res1 => {
             this.allStaff = res1.filter(s => s.id != res.id);
             this.dataSourceStaff.data = this.allStaff;
       });
-
-      this.appointmentService.getAvailableByCenter(res.centerId).subscribe(res1 => {
-            this.availableAppointments = res1;
-            this.dataSourceAppointments.data = this.availableAppointments;
-      });
          
-        
-      });
-    }
+    });
+  }
 
   editBloodCenter() {
     this.router.navigate(['staff/edit-center']);
   }
 
-  addAppointment() {
-    
-    const dialogRef = this.dialog.open(AppointmentDialogComponent, { height: '600px', width: '400px' });
-
-    dialogRef.afterClosed().subscribe(
-      data => {
-        let appointment = new Appointment();
-        appointment.staffId = this.staff!.id;
-        appointment.centerId = this.center!.id;
-        appointment.donorId = 0;
-        appointment.date = data.dateTime.format('YYYY-MM-DD HH:mm:ss');
-        appointment.duration = data.duration;
-        appointment.status = "AVAILABLE";
-
-        this.appointmentService.scheduleStaff(appointment).subscribe(
-          response => {
-            alert("Uspesno dodavanje")
-          },
-          error => {
-            console.log(error);
-            alert("Neuspesno dodavanje");
-          }
-        )
-      }
-      
-    );
-    
-  }
+  
 }

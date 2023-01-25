@@ -1,19 +1,17 @@
 .container {
-  display: flex;
-  margin-left: 5%;
-  margin-right: 20%;
-  margin-top: 5%;
+ margin-top:5%;
+ margin-left: 35%;
+ 
 }
 
-.personal-info{
-    margin-left: 5%;
-    margin-right:auto;
+.content {
+  display: inline-block;
 }
 
 th {
   text-align: center;
   font-size: 18px;
-  color:white;
+  color: white;
 }
 
 .cell-center {
@@ -27,16 +25,16 @@ th {
   padding-left: 20px;
   font-size: 30px;
   text-align: center;
-  color:white;
+  color: white;
 }
 
 table {
   width: 100%;
   background-color: rgba(163, 23, 23, 0.467);
-  color:white;
+  color: white;
 }
 
-body{
+body {
   overflow: auto;
   background-image: url(/assets/images/blood.jpg);
   background-size: cover;
@@ -49,31 +47,8 @@ body{
   padding: 0;
 }
 
-.mat-card-title {
-  font-size: 40px;
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
-
-.mat-card-content {
-  font-size: 18px;
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
-
 p {
   margin: 40px 20px 20px 20px;
-}
-
-.mat-card {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 50px;
-  margin-bottom: 20px;
-  padding: 40px;
-  background-color: rgba(163, 23, 23, 0.467);
-  color:white;
-  border: #DCD6CC 1px solid;
 }
 
 .btn {
@@ -86,13 +61,12 @@ p {
   color: white;
 }
 
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
+  .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
 
-.btn:active {
-  transform: translateY(-1px);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-
+  .btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  }
