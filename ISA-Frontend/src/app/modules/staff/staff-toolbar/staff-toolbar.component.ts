@@ -37,7 +37,7 @@ export class StaffToolbarComponent implements OnInit {
   }
 
   BloodClick() {
-
+    this.router.navigate(['/staff/delivery-map']);
   }
 
   CenterProfileClick(){

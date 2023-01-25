@@ -31,6 +31,8 @@ const routes: Routes = [
   canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
   { path: 'staff/edit-center', component: BloodCenterEditComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
+  { path: 'staff/delivery-map', component: DeliveryMapComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
  
 ];
 
