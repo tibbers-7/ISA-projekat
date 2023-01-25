@@ -15,6 +15,7 @@ namespace BloodBankLibrary.Core.Appointments
         IEnumerable<Appointment> GetByDonor(int donorId);
         IEnumerable<Appointment> GetEligible();
         IEnumerable<Appointment> GetEligibleByCenter(int centerId);
+        IEnumerable<Appointment> GetFutureByCenter(int centerId);
         IEnumerable<Appointment> GetScheduled();
         IEnumerable<Appointment> GetScheduledByCenter(int centerId);
 

@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Appointment } from "../../../model/appointment.model";
@@ -10,12 +9,14 @@ import { AuthService } from "../../../services/auth.service";
 import { BloodCenterService } from "../../../services/blood-center.service";
 import { StaffService } from "../../../services/staff.service";
 import { AppointmentDialogComponent } from "../staff-appointment/appointment-dialog.component";
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-blood-center-calendar',
   templateUrl: './blood-center-calendar.component.html',
   styleUrls: ['./blood-center-calendar.component.css']
 })
+
 export class BloodCenterCalendarComponent {
 
   public center: BloodCenter | undefined;
@@ -25,12 +26,10 @@ export class BloodCenterCalendarComponent {
   public dataSource = new MatTableDataSource<Appointment>();
   public displayedColumns = ['date', 'duration', 'staff', 'status'];
 
-
-  constructor(private authService: AuthService, private bloodCenterService: BloodCenterService, private staffService: StaffService, private appointmentService: AppointmentService, private dialog: MatDialog, private router: Router) { }
+  constructor(private authService: AuthService, private bloodCenterService: BloodCenterService, private staffService: StaffService, private appointmentService: AppointmentService, private dialog: MatDialog, private route: ActivatedRoute,private router: Router) { }
 
   ngOnInit(): void {
     //dobijamo ulogovanog staff id preko local storage
-    
     this.staffService.getStaff(Number(this.authService.getIdByRole())).subscribe(res => {
       //dobijamo staff preko id
       this.staff = res;
@@ -40,7 +39,7 @@ export class BloodCenterCalendarComponent {
        
       });
      
-      this.appointmentService.getAvailableByCenter(res.centerId).subscribe(res1 => {
+      this.appointmentService.getFutureApptsByCenter(res.centerId).subscribe(res1 => {
         this.availableAppointments = res1;
         this.dataSource.data = this.availableAppointments;
       });
@@ -52,7 +51,6 @@ export class BloodCenterCalendarComponent {
   addAppointment() {
 
     const dialogRef = this.dialog.open(AppointmentDialogComponent, { height: '600px', width: '400px' });
-
     dialogRef.afterClosed().subscribe(
       data => {
         let appointment = new Appointment();

@@ -97,7 +97,7 @@ namespace BloodBankAPI.Controllers
 
         }
 
-
+        //otkazivanje pregleda odradjeno
         [HttpPost("cancel")]
         public ActionResult Cancel(AppointmentDTO appointment)
         {
@@ -105,11 +105,11 @@ namespace BloodBankAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            Appointment _appointment = new Appointment(appointment);
-            _appointment.Status = AppointmentStatus.CANCELLED;
+            //ukoliko je prekasno da otkaze izadje no content
+            bool isSuccessful = _appointmentService.CancelAppt(appointment);
+            if(!isSuccessful)  return NoContent();
             _donorService.AddStrike(appointment.DonorId);
-            _appointmentService.Update(_appointment);
-
+            appointment.Status = AppointmentStatus.CANCELLED.ToString();
             return Ok(appointment);
         }
 
@@ -167,6 +167,19 @@ namespace BloodBankAPI.Controllers
         public ActionResult GetScheduledForCenter(int centerId)
         {
             var appointments = _appointmentService.GetScheduledByCenter(centerId);
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointments);
+
+        }
+
+
+        [HttpGet("center/future/{centerId}")]
+        public ActionResult GetFutureForCenter(int centerId)
+        {
+            var appointments = _appointmentService.GetFutureByCenter(centerId);
             if (appointments == null)
             {
                 return NotFound();

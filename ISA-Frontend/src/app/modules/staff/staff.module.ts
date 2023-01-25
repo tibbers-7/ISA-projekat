@@ -5,9 +5,7 @@ import { RoleGuardService } from 'app/auth/role-guard.service';
 import { MaterialModule } from 'app/material/material.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatDialogModule } from '@angular/material/dialog';
-
 import { PagesModule } from '../pages/pages.module';
-
 import { StaffHomepageComponent } from './staff-homepage/staff-homepage/staff-homepage.component';
 import { StaffProfileComponent } from './staff-profile/staff-profile.component';
 import { BloodCenterProfileComponent } from './blood-center-profile/blood-center-profile.component';
@@ -32,10 +30,8 @@ const routes: Routes = [
   { path: 'staff/edit-center', component: BloodCenterEditComponent,
     canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' }
   },
-  {
-    path: 'staff/calendar', component: BloodCenterCalendarComponent,
-    canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' }
-  }
+  { path: 'staff/calendar', component: BloodCenterCalendarComponent,
+    canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' }}
  
 ];
 

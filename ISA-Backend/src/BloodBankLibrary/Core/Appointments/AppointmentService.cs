@@ -7,6 +7,7 @@ using BloodBankLibrary.Core.Materials.Enums;
 using BloodBankLibrary.Core.Materials.QRGenerator;
 using BloodBankLibrary.Core.Staffs;
 using System.Linq;
+using MimeKit.Encodings;
 
 namespace BloodBankLibrary.Core.Appointments
 {
@@ -102,6 +103,11 @@ namespace BloodBankLibrary.Core.Appointments
             return _appointmentRepository.GetScheduledByCenter(id);
         }
 
+        public IEnumerable<Appointment> GetFutureByCenter(int id)
+        {
+            return _appointmentRepository.GetFutureByCenter(id);
+        }
+
         public IEnumerable<Appointment> GetEligibleByCenter(int id)
         {
             return _appointmentRepository.GetEligibleByCenter(id);
@@ -184,14 +190,29 @@ namespace BloodBankLibrary.Core.Appointments
 
         }
 
-        public Appointment CancelAppt(int apptId)
+        //can the donor cancel the appt
+        public bool CanDonorCancel(int apptId)
         {
             
             Appointment appt=GetById(apptId);
             DateTime cancelBy = appt.StartDate.AddDays(1);
-            if (DateTime.Compare(cancelBy, DateTime.Now) < 0) return appt;
-            return null;
+            if (DateTime.Compare(cancelBy, DateTime.Now) < 0) return true;
+            return false;
 
+        }
+
+        //prvo provera da li je prekasnoo da otkaze pregled pa ako nije napravi se kopija koja je available i kreira se u bazi
+        //a ovaj se apdejtuje kao cancelled
+        public bool CancelAppt(AppointmentDTO appointment)
+        {
+            if (!CanDonorCancel(appointment.Id)) return false;
+            Appointment _appt= new Appointment(appointment);
+            _appt.Status = AppointmentStatus.CANCELLED;
+            _appointmentRepository.Update(_appt);
+            //sad pravimo kopiju
+            Appointment _newAppt = new Appointment { CenterId = _appt.CenterId, Duration = _appt.Duration, StaffId = _appt.StaffId, StartDate = _appt.StartDate, Status = AppointmentStatus.AVAILABLE };
+            _appointmentRepository.Create(_newAppt);
+            return true;
         }
 
         public object GetEligibleForDonor(int donorId, int centerId)
