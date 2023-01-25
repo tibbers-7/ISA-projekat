@@ -42,9 +42,9 @@ namespace BloodBankLibrary.Core.Appointments
             return _context.Appointments.Where(appt=>appt.DonorId==donorId);
         }
 
-        public IEnumerable<Appointment> GetByStaff(int staffId)
+        public IEnumerable<Appointment> GetFutureByStaff(int staffId)
         {
-            return _context.Appointments.Where(appt => appt.StaffId == staffId);
+            return _context.Appointments.Where(appt => appt.StaffId == staffId && DateTime.Compare(appt.StartDate, DateTime.Now) > 0 && appt.Status != Materials.Enums.AppointmentStatus.CANCELLED);
         }
 
         public IEnumerable<Appointment> GetEligible()

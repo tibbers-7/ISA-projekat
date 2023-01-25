@@ -20,7 +20,7 @@ namespace BloodBankLibrary.Core.Appointments
         IEnumerable<Appointment> GetScheduled();
         IEnumerable<Appointment> GetScheduledByCenter(int centerId);
 
-        IEnumerable<Appointment> GetByStaff(int staffId);
+        IEnumerable<Appointment> GetFutureByStaff(int staffId);
         IEnumerable<Appointment> GetByDateAndStaff(int staffId, DateTime dateTime);
 
 

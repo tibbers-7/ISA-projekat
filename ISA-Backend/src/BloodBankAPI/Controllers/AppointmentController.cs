@@ -80,6 +80,8 @@ namespace BloodBankAPI.Controllers
             }
 
             Appointment appointment = new Appointment(dto);
+            if(!_appointmentService.IsStaffAvailable(appointment)) return BadRequest("Unavailable");
+            if(!_appointmentService.CheckIfCenterAvailable(appointment.CenterId,appointment.StartDate, appointment.Duration)) return BadRequest("Unavailable");
             appointment.Status = AppointmentStatus.AVAILABLE;
             _appointmentService.Create(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
@@ -94,7 +96,7 @@ namespace BloodBankAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            
             Appointment appointment = _appointmentService.PrepareForSchedule(dto);
             if (appointment == null) return BadRequest("Unavailable");
             _appointmentService.Create(appointment);

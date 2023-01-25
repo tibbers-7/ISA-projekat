@@ -84,6 +84,16 @@ namespace BloodBankLibrary.Core.Appointments
             return res;
         }
 
+        public IEnumerable<Donor> GetDonorsByCenterId(int centerId)
+        {
+            IEnumerable<int> donorIds = _appointmentRepository.GetDonorsByCenter(centerId);
+            List<Donor> res = new List<Donor>();
+            foreach (int donorId in donorIds)
+            {
+                res.Add(_donorService.GetById(donorId));
+            }
+            return res;
+        }
 
         // TODO: nmg da izvalim jel ovo dobavlja i one completed 
         // ostavicu zasad u servisu
@@ -104,6 +114,7 @@ namespace BloodBankLibrary.Core.Appointments
             return _appointmentRepository.GetScheduledByCenter(id);
         }
 
+        //TREBA
         public IEnumerable<AppointmentDTO> GetFutureByCenter(int id)
         {
             IEnumerable<Appointment> future = _appointmentRepository.GetFutureByCenter(id);
@@ -121,15 +132,27 @@ namespace BloodBankLibrary.Core.Appointments
         }
 
         //ovo popraviti da bude buducnost ako treba
-        public IEnumerable<Appointment> GetByStaffId(int id)
+        public IEnumerable<Appointment> GetFutureByStaffId(int id)
         {
-            return _appointmentRepository.GetByStaff(id);
+            return _appointmentRepository.GetFutureByStaff(id);
         }
 
         public Appointment PrepareForSchedule(AppointmentDTO dto)
         {
-            dto.Status = "SCHEDULED";
             var appointment = new Appointment(dto);
+            IEnumerable<Appointment> allCenterAppts = _appointmentRepository.GetEligibleByCenter(dto.CenterId);
+            foreach(Appointment app in allCenterAppts)
+            {
+                if (Overlaps(app.StartDate, app.StartDate.AddMinutes(app.Duration), appointment.StartDate, appointment.StartDate.AddMinutes(appointment.Duration))) {
+
+                    appointment = app;
+                    appointment.Status = AppointmentStatus.SCHEDULED;
+                    appointment.DonorId = dto.DonorId;
+                    appointment = GenerateAndSaveQR(appointment);
+                    return appointment;
+                } 
+            }
+            
             //ako je false nije available
             if (!CheckIfCenterAvailable(appointment.CenterId, appointment.StartDate, appointment.Duration))
             {
@@ -143,6 +166,7 @@ namespace BloodBankLibrary.Core.Appointments
 
         }
 
+        //TREBA
         public IEnumerable<BloodCenter> GetCentersForDateTime(string dateTime)
         {
             //gledamo samo scheduled, available mogu doci u obzir
@@ -160,6 +184,7 @@ namespace BloodBankLibrary.Core.Appointments
             return availableCenters;
         }
 
+        //TREBA
         public bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration)
         {
             List<Appointment> allCenterApps = GetScheduledByCenter(centerId).ToList();
@@ -271,30 +296,32 @@ namespace BloodBankLibrary.Core.Appointments
             
         }
 
-        //mozda cim nadje available  da returnuje
+       
         public Appointment AssignStaff(Appointment apptToAssign)
         {
             List<Staff> staffs = _staffService.GetByCenterId(apptToAssign.CenterId).ToList();
             foreach(Staff staff in staffs)
             {
-                List<Appointment> apptsByDateAndStaff = _appointmentRepository.GetByDateAndStaff(staff.Id, apptToAssign.StartDate).ToList();
-                bool isAvailable = true;
-                foreach(Appointment appointment in apptsByDateAndStaff)
-                {
-                    if (Overlaps(appointment.StartDate, appointment.StartDate.AddMinutes(appointment.Duration), apptToAssign.StartDate, apptToAssign.StartDate.AddMinutes(apptToAssign.Duration))) 
-                        isAvailable = false;
-                }
+                apptToAssign.StaffId = staff.Id;
+                bool isAvailable = IsStaffAvailable(apptToAssign);
                 if (!isAvailable) continue;
                 apptToAssign.StaffId=staff.Id;
+                return apptToAssign;
             }
 
             return apptToAssign;
 
         }
 
-        private bool isStaffAvailable(int staffId, DateTime dateTime)
+        public bool IsStaffAvailable(Appointment appointment)
         {
-            throw new NotImplementedException();
+            IEnumerable<Appointment> staffAppts = _appointmentRepository.GetFutureByStaff(appointment.StaffId);
+            foreach(Appointment appt in staffAppts)
+            {
+                if (Overlaps(appointment.StartDate, appointment.StartDate.AddMinutes(appointment.Duration), appt.StartDate, appt.StartDate.AddMinutes(appt.Duration)))  return false;
+
+            }
+            return true;
         }
 
         public object GetAllByDonor(int id)
@@ -302,16 +329,7 @@ namespace BloodBankLibrary.Core.Appointments
             return _appointmentRepository.GetByDonor(id);
         }
 
-        public IEnumerable<Donor> GetDonorsByCenterId(int centerId)
-        {
-            IEnumerable<int> donorIds = _appointmentRepository.GetDonorsByCenter(centerId);
-            List<Donor> res = new List<Donor>();
-            foreach (int donorId in donorIds)
-            {
-                res.Add(_donorService.GetById(donorId));
-            }
-            return res;
-        }
+     
 
     }
 }

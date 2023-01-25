@@ -13,7 +13,7 @@ namespace BloodBankLibrary.Core.Appointments
         IEnumerable<AppointmentDTO> GetScheduledByDonor(int donorId);
         IEnumerable<Appointment> GetEligible();
       
-        IEnumerable<Appointment> GetByStaffId(int id);
+        IEnumerable<Appointment> GetFutureByStaffId(int id);
         IEnumerable<Appointment> GetScheduledByCenter(int centerId);
         IEnumerable<Appointment> GetEligibleByCenter(int centerId);
         IEnumerable<AppointmentDTO> GetFutureByCenter(int centerId);
@@ -23,6 +23,7 @@ namespace BloodBankLibrary.Core.Appointments
 
         bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration);
         bool CancelAppt(AppointmentDTO appointment);
+        bool IsStaffAvailable(Appointment appointment);
 
         bool CanDonorCancel(int apptId);
          IEnumerable<AppointmentDTO >GetEligibleForDonor(int donorId, int centerId);
