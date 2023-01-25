@@ -61,9 +61,9 @@ namespace BloodBankLibrary.Core.Appointments
             return _appointmentRepository.GetById(id);
         }
 
-        public IEnumerable<Appointment> GetAvailable()
+        public IEnumerable<Appointment> GetEligible()
         {
-            return _appointmentRepository.GetAvailable();
+            return _appointmentRepository.GetEligible();
            
         }
 
@@ -102,9 +102,9 @@ namespace BloodBankLibrary.Core.Appointments
             return _appointmentRepository.GetScheduledByCenter(id);
         }
 
-        public IEnumerable<Appointment> GetAvailableByCenter(int id)
+        public IEnumerable<Appointment> GetEligibleByCenter(int id)
         {
-            return _appointmentRepository.GetAvailableByCenter(id);
+            return _appointmentRepository.GetEligibleByCenter(id);
         }
 
         //ovo popraviti da bude buducnost ako treba
@@ -133,13 +133,12 @@ namespace BloodBankLibrary.Core.Appointments
         public IEnumerable<BloodCenter> GetCentersForDateTime(string dateTime)
         {
             //gledamo samo scheduled, available mogu doci u obzir
-            //ovo parsiranje cu srediti kad sredim front
             DateTime parsedDateTime = DateTime.Parse(dateTime);
             IEnumerable<BloodCenter> bloodCenters = _bloodCenterRepository.GetAll();
             List<BloodCenter> availableCenters = new List<BloodCenter>();
            
             foreach(BloodCenter center in bloodCenters)
-            {
+            { 
                if(CheckIfCenterAvailable(center.Id, parsedDateTime, 30))
                 {
                     availableCenters.Add(center);
@@ -150,8 +149,7 @@ namespace BloodBankLibrary.Core.Appointments
 
         public bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration)
         {
-            List<Appointment> allCenterApps =GetScheduledByCenter(centerId).ToList();
-            allCenterApps.AddRange(GetAvailableByCenter(centerId));
+            List<Appointment> allCenterApps = GetScheduledByCenter(centerId).ToList();
             BloodCenter bloodCenter = _bloodCenterRepository.GetById(centerId);
             if (dateTime.Hour < bloodCenter.WorkTimeStart.Hour || dateTime.Hour > bloodCenter.WorkTimeEnd.Hour) return false;
             foreach (Appointment app in allCenterApps)
@@ -196,9 +194,9 @@ namespace BloodBankLibrary.Core.Appointments
 
         }
 
-        public object GetAvailableForDonor(int donorId, int centerId)
+        public object GetEligibleForDonor(int donorId, int centerId)
         {
-            IEnumerable<Appointment> appointments = GetAvailableByCenter(centerId);
+            IEnumerable<Appointment> appointments = GetEligibleByCenter(centerId);
             List<AppointmentDTO> res = new List<AppointmentDTO>();
             foreach (Appointment appointment in appointments)
             {

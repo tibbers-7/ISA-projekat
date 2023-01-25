@@ -18,6 +18,7 @@ import { AppointmentDialogComponent } from './staff-appointment/appointment-dial
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import {MatListModule} from '@angular/material/list';
 
+import { BloodCenterCalendarComponent } from './blood-center-calendar/blood-center-calendar.component';
 
 
 
@@ -32,7 +33,12 @@ const routes: Routes = [
   { path: 'staff/edit-profile', component: EditStaffProfileComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
   { path: 'staff/edit-center', component: BloodCenterEditComponent,
-  canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
+    canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' }
+  },
+  {
+    path: 'staff/calendar', component: BloodCenterCalendarComponent,
+    canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' }
+  },
   { path: 'staff/change-password', component: ChangePasswordComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
  
@@ -45,6 +51,7 @@ const routes: Routes = [
     StaffProfileComponent,
     BloodCenterEditComponent,
     BloodCenterProfileComponent,
+    BloodCenterCalendarComponent,
     EditStaffProfileComponent,
     AppointmentDialogComponent,
     ChangePasswordComponent
