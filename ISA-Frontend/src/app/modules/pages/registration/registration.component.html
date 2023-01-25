@@ -1,6 +1,71 @@
 <body>
-  <start-toolbar ></start-toolbar>
+  <start-toolbar></start-toolbar>
         <h3 class="header" style="width:40%;margin-left:30%">Registration</h3>
+        <div class="container">
+          <div class="fields">
+              <mat-label>Email:</mat-label>
+              <mat-form-field appearance="fill">
+                <input matInput  [(ngModel)]="user.email">
+              </mat-form-field><br>
+              <mat-label>Password:</mat-label>
+              <mat-form-field appearance="fill">
+                <input matInput type="password" [(ngModel)]="user.password">
+              </mat-form-field><br>
+              <mat-label>Confirm password:</mat-label>
+              <mat-form-field appearance="fill">
+                <input matInput type="password" [(ngModel)]="passwordConfirm">
+              </mat-form-field><br>
+              <mat-label>Name:</mat-label>
+              <mat-form-field appearance="fill">
+                <input matInput  [(ngModel)]="user.name">
+              </mat-form-field><br>
+              <mat-label>Surname:</mat-label>
+              <mat-form-field appearance="fill">
+                <input matInput  [(ngModel)]="user.surname">
+              </mat-form-field><br>
+              <mat-label>Gender:</mat-label>
+              <mat-form-field appearance="fill" class="flexbox">
+                <input type="radio" name="gender" id="male" value="MALE" [(ngModel)]="user.gender">
+                <label for="male">Male</label>
+                <input type="radio" name="gender" id="female" value="FEMALE" [(ngModel)]="user.gender">
+                <label for="female">Female</label>
+              </mat-form-field><br>
+              <mat-label>Jmbg:</mat-label>
+              <mat-form-field appearance="fill">
+                <input matInput type="number" [(ngModel)]="user.jmbg">
+              </mat-form-field><br>
+              <mat-label>Workplace:</mat-label>
+              <mat-form-field appearance="fill">
+                <input matInput  [(ngModel)]="user.workplace">
+              </mat-form-field><br>
+              <mat-label>Profession:</mat-label>
+              <mat-form-field appearance="fill">
+                <input matInput  [(ngModel)]="user.employmentInfo">
+              </mat-form-field><br>
+              <mat-label>Phone number:</mat-label>
+              <mat-form-field appearance="fill">
+                <input matInput  [(ngModel)]="user.phoneNum">
+              </mat-form-field><br>
+              <mat-label>Address</mat-label>
+              <div class="flexbox">
+                  <mat-form-field >
+                    <mat-label>Country</mat-label>
+                    <input matInput [(ngModel)]="user.state">
+                  </mat-form-field>
+                  <mat-form-field >
+                    <mat-label>City</mat-label>
+                    <input matInput [(ngModel)]="user.city">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Street and number</mat-label>
+                    <input matInput [(ngModel)]="user.address">
+                  </mat-form-field><br>
+                </div>
+            </div>
+            <button class="btn" mat-stroked-button (click)="post()">
+              Login
+            </button>
+          </div>
       
       <form id="formlogin">
         <table class="form_container">

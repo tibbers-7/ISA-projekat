@@ -25,6 +25,9 @@ export class StaffProfileComponent {
   editStaffProfile() {
     this.router.navigate(['staff/edit-profile']);
   }
+  changePass() {
+    this.router.navigate(['staff/change-password']);
+  }
 }
 
 

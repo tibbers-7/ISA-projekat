@@ -9,6 +9,7 @@ export class Staff {
   phoneNumber: number = 0;
   gender: number = 0;
   address: any = null;
+  isNew:boolean=false;
 
   public constructor(obj?: any) {
     if (obj) {
@@ -22,6 +23,7 @@ export class Staff {
       this.phoneNumber = obj.phoneNumber;
       this.gender = obj.gender;
       this.address = obj.address;
+      this.isNew=obj.isNew;
     }
   }
 }

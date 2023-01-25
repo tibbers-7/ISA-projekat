@@ -17,6 +17,10 @@ namespace BloodBankLibrary.Core.Centers
         private double avgScore;
         private DateTime workTimeStart;
         private DateTime workTimeEnd;
+        private int? amountA;
+        private int? amountB;
+        private int? amountAB;
+        private int? amountO;
       
         public BloodCenter(){}
 
@@ -36,7 +40,15 @@ namespace BloodBankLibrary.Core.Centers
         public double AvgScore { get => avgScore; set => avgScore = value; }
         public DateTime WorkTimeStart { get => workTimeStart; set => workTimeStart = value; }
         public DateTime WorkTimeEnd { get => workTimeEnd; set => workTimeEnd = value; }
+      
         
-     
+        public int? AmountA { get => amountA; set => amountA = value; }
+        public int? AmountB { get => amountB; set => amountB = value; }
+        public int? AmountAB { get => amountAB; set => amountAB = value; }
+        public int? AmountO { get => amountO; set => amountO = value; }
+
+
+
+
     }
 }

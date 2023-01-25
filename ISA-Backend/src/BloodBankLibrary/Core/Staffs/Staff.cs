@@ -17,6 +17,7 @@ namespace BloodBankLibrary.Core.Staffs
         public string Name { get; set; }
         public string Surname { get; set; }
         public long Jmbg { get; set; }
+        public bool IsNew { get; set; }
         [NotMapped]
         private PrivateAddress privateAddress { get; set; }
 
@@ -39,6 +40,7 @@ namespace BloodBankLibrary.Core.Staffs
 
         public Staff(RegisterDTO regDTO)
         {
+            this.IsNew = true;
             this.Name = regDTO.Name;
             this.Surname = regDTO.Surname;
             this.Email = regDTO.Email;
