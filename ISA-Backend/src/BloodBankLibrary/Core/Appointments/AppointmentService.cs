@@ -148,7 +148,7 @@ namespace BloodBankLibrary.Core.Appointments
                     appointment = app;
                     appointment.Status = AppointmentStatus.SCHEDULED;
                     appointment.DonorId = dto.DonorId;
-                    appointment = GenerateAndSaveQR(appointment);
+                    appointment = GenerateAndSaveQR(appointment,null);
                     return appointment;
                 } 
             }
@@ -156,16 +156,30 @@ namespace BloodBankLibrary.Core.Appointments
             //ako je false nije available
             if (!CheckIfCenterAvailable(appointment.CenterId, appointment.StartDate, appointment.Duration))
             {
+                SendQRCancelled(appointment, 1);
                 return null;
             }
             if (appointment.StaffId==0) appointment = AssignStaff(appointment);
             if (appointment.StaffId == 0) return null;
-            appointment = GenerateAndSaveQR(appointment);
+            appointment = GenerateAndSaveQR(appointment,null);
             return appointment;
 
 
         }
 
+
+        public void SendQRCancelled(Appointment appointment,int code)
+        {
+            switch (code)
+            {
+                case 1:
+                    GenerateAndSaveQR(appointment, " the appointment has already been scheduled by someone else.");
+                    break;
+                case 2:
+                    GenerateAndSaveQR(appointment, " the staff was busy.");
+                    break;
+            }
+        }
         //TREBA
         public IEnumerable<BloodCenter> GetCentersForDateTime(string dateTime)
         {
@@ -272,7 +286,7 @@ namespace BloodBankLibrary.Core.Appointments
 
        
 
-        public Appointment GenerateAndSaveQR(Appointment appointment)
+        public Appointment GenerateAndSaveQR(Appointment appointment,string cancelReason)
         {
             Staff staff = _staffService.GetById(appointment.StaffId);
 
@@ -280,7 +294,7 @@ namespace BloodBankLibrary.Core.Appointments
 
             byte[] qr = _qRService.GenerateQR(appointment.EmailInfo(
                                                          _centerService.GetById(appointment.CenterId).Name,
-                                                         staff.Name +" "+ staff.Surname),filePath);
+                                                         staff.Name +" "+ staff.Surname,cancelReason),filePath);
             appointment.QrCode = qr;
             Donor donor = _donorService.GetById(appointment.DonorId);
             string subject = "BloodCenter - Scheduled appointment information";
