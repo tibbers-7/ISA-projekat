@@ -7,11 +7,13 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgToastService } from 'ng-angular-popup';
+import { Address } from '../../../model/address.model';
 import { Appointment } from '../../../model/appointment.model';
 import { BloodCenter } from '../../../model/blood-center.model';
 import { Donor } from '../../../model/donor.model';
 import { AppointmentService } from '../../../services/appointment.service';
 import { AuthService } from '../../../services/auth.service';
+import { BloodCenterService } from '../../../services/blood-center.service';
 import { DonorService } from '../../../services/donor.service';
 import { FormService } from '../../../services/form.service';
 
@@ -27,7 +29,7 @@ export class DonorMadeAppointmentComponent implements OnInit {
   public dataSource = new MatTableDataSource<BloodCenter>();
   public selectedRow: BloodCenter=new BloodCenter;
   public selectedIndex = 0;
-  public displayedColumns = ['name', 'adress', 'avgScore'];
+  public displayedColumns = ['name','description', 'avgScore'];
   public minDate = new Date();
   public dateTime = new FormControl(moment(new Date()));
   public chosenDate = '';
@@ -38,7 +40,7 @@ export class DonorMadeAppointmentComponent implements OnInit {
 
   constructor(private appointmentService: AppointmentService, 
               private donorService:DonorService, 
-              private authService: AuthService, 
+              private authService: AuthService,
               private formService: FormService,
               private toast:NgToastService,
               private router:Router) { }
@@ -55,7 +57,6 @@ export class DonorMadeAppointmentComponent implements OnInit {
     if (this.dateTime.value != null) {
 
      this.chosenDate = this.dateTime.value.format('YYYY-MM-DD HH:mm:ss');
-     console.log(this.chosenDate);
       this.appointmentService.getCentersForDateTime(this.chosenDate).subscribe(res => {
         this.centers = res.sort((a, b) => b.avgScore - a.avgScore);
         this.dataSource.data = this.centers;
@@ -93,7 +94,8 @@ export class DonorMadeAppointmentComponent implements OnInit {
   var appointment = new Appointment();
   appointment.date = this.chosenDate;
   appointment.centerId = this.selectedRow.id;
-  appointment.donorId = this.donorId;
+    appointment.donorId = this.donorId;
+    appointment.status = 'scheduled';
     appointment.duration = 30;
     this.appointmentService.scheduleDonorMade(appointment).subscribe(res => {
 

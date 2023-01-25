@@ -48,6 +48,7 @@ export class DonorAppointmentScheduleComponent implements OnInit {
     if (this.centerId!=undefined){
       this.apptService.getEligibleForDonor(this.centerId,this.donorId).subscribe(res => {
         this.appointments = res;
+        console.log(res);
         this.dataSource.data = this.appointments;
       });
     

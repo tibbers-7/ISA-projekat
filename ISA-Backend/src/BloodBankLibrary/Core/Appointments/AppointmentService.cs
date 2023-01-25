@@ -267,6 +267,13 @@ namespace BloodBankLibrary.Core.Appointments
                 }
 
             }
+            else
+            {
+                foreach (Appointment appointment in appointments)
+                {
+                    res.Add(new AppointmentDTO(appointment));
+                }
+            }
             return res;
         }
 
@@ -289,7 +296,7 @@ namespace BloodBankLibrary.Core.Appointments
             filePath = "AppData\\" + filePath;
 
             donor.Email = "tibbers707@gmail.com";
-            _emailSendService.SendWithQR(new Message(new string[] { donor.Email }, subject, body), qr,filePath);
+            _emailSendService.SendWithQR(new Message(new string[] { "danabrasanac@gmail.com"}, subject, body), qr,filePath);
             //_qRService.DeleteImage(filePath);
 
             return appointment;

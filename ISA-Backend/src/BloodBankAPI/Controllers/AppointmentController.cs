@@ -220,7 +220,7 @@ namespace BloodBankAPI.Controllers
 
         }
 
-        [HttpGet("donor/available/{donorId}/{centerId}")]
+        [HttpGet("donor/eligible/{donorId}/{centerId}")]
         public ActionResult GetAvailableForDonor(int donorId,int centerId)
         {
             var appointments = _appointmentService.GetEligibleForDonor(donorId,centerId);
