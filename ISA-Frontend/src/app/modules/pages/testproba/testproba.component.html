@@ -6,19 +6,9 @@
   <button (click)="sendMsg()">Start</button>
   <button (click)="stopReceiving()">Stop</button>
 
-        <ejs-maps id='rn-container' style='display:block' [zoomSettings]='zoomSettings' [centerPosition]='centerPosition'>
-            <e-layers >
-
-                <e-layer [urlTemplate]="urlTemplate" [shapeData] = 'shapeData' shapePropertyPath= 'continent' shapeDataPath= 'continent' [dataSource] ='dataSource' [shapeSettings]= 'shapeSettings'>
-            
-                  <e-markerSettings >
-                  <e-markerSetting visible= true [dataSource] ='markerdataSource' height= 20 width= 20 animationDelay="5"  ></e-markerSetting>
-                  </e-markerSettings>
-            
-                </e-layer>  
-            
-            </e-layers>
-        </ejs-maps>
+  <div class="row">
+    <div id="hotel_map"></div>
+</div>
   <br>
   <div class="row">
     <div class="column">
