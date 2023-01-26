@@ -10,6 +10,9 @@ export class BloodCenter {
   amountB:number=0;
   amountAB:number=0;
   amountO: number = 0;
+  workTimeEnd: string='';
+  workTimeStart: string = '';
+   
   
   
 
@@ -24,7 +27,9 @@ export class BloodCenter {
       this.amountA=obj.amountA;
       this.amountB=obj.amountB;
       this.amountAB=obj.amountAB;
-      this.amountO=obj.amountO;
+      this.amountO = obj.amountO;
+      this.workTimeEnd = obj.workTimeEnd;
+      this.workTimeStart = obj.workTimeStart;
     }
   }
 }

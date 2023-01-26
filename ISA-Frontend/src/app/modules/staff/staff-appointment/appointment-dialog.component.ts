@@ -7,7 +7,6 @@ import { range } from 'rxjs';
 import { Staff } from '../../../model/staff.model';
 import { StaffService } from '../../../services/staff.service';
 
-
 @Component({
   selector:'app-appointment-dialog',
   templateUrl: './appointment-dialog.component.html',
@@ -19,12 +18,17 @@ export class AppointmentDialogComponent implements OnInit {
   minDate = new Date();
   allStaff: Staff[] = [];
   numbers: number[] = [];
+  start: number = 0;
+  end: number = 0;
 
-    constructor(private dialogRef: MatDialogRef <AppointmentDialogComponent>, private staffService: StaffService, private fb: FormBuilder) {}
+  constructor(private dialogRef: MatDialogRef<AppointmentDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any, private staffService: StaffService, private fb: FormBuilder) {
+    this.start = data.start;
+    this.end = data.end;
+   
+  }
 
   ngOnInit(): void {
-//ovo ispraviti kad proradi log in
-
+   
     for (let i = 15; i <= 60; i++){ this.numbers.push(i); }
 
     this.staffService.getAll().subscribe(res => {
@@ -34,12 +38,14 @@ export class AppointmentDialogComponent implements OnInit {
     this.form = this.fb.group({
       dateTime: [null],
       duration: [''],
-      staff: ['']
+      staff: [0]
     });
   }
 
   public save() {
-    this.dialogRef.close(this.form?.value);
+    if (this.form?.value.dateTime.hour() > this.start && this.form?.value.dateTime.hour() < this.end) {
+      this.dialogRef.close(this.form?.value);
+    }
   }
 
   public close() {

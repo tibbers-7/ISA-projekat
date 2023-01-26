@@ -37,25 +37,29 @@ export class BloodCenterCalendarComponent {
       //dobijamo centar preko naseg staffa
       this.bloodCenterService.getCenter(res.centerId).subscribe(res1 => {
         this.center = res1;
-       
+        this.loadApps();
       });
-     
-      this.appointmentService.getFutureApptsByCenter(res.centerId).subscribe(res1 => {
-        this.futureAppointments = res1;
-        this.dataSource.data = this.futureAppointments;
-      });
-
-
+    
+    
     });
   }
 
-  addAppointment() {
+  loadApps() {
+    this.appointmentService.getFutureApptsByCenter(this.center!.id).subscribe(res1 => {
+      this.futureAppointments = res1;
+      this.dataSource.data = this.futureAppointments;
+    });
 
-    const dialogRef = this.dialog.open(AppointmentDialogComponent, { height: '600px', width: '400px' });
+
+  }
+  addAppointment() {
+    const startTime = new Date(this.center!.workTimeStart);
+    const endTime = new Date(this.center!.workTimeEnd);
+    const dialogRef = this.dialog.open(AppointmentDialogComponent, { height: '600px', width: '400px', data: { start: startTime.getHours(), end: endTime.getHours() } });
     dialogRef.afterClosed().subscribe(
       data => {
         let appointment = new Appointment();
-        appointment.staffId = this.staff!.id;
+        appointment.staffId = data.staff;
         appointment.centerId = this.center!.id;
         appointment.donorId = 0;
         appointment.date = data.dateTime.format('YYYY-MM-DD HH:mm:ss');
@@ -65,6 +69,7 @@ export class BloodCenterCalendarComponent {
         this.appointmentService.scheduleStaff(appointment).subscribe(
           response => {
             this.toast.success({ detail: "Appointment scheduled!", summary: '', duration: 3000 });
+            this.loadApps();
           },
           error => {
             this.toast.error({ detail: 'Something went wrong!', summary: "", duration: 3000 });

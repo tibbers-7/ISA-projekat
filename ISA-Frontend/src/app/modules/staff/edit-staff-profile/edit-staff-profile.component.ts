@@ -33,6 +33,6 @@ export class EditStaffProfileComponent implements OnInit {
   }
 
   private isValidInput(): boolean {
-    return  this.staff?.name != '' && this.staff?.email != '' && this.staff?.surname != '' && this.staff?.addressString!='' && this.staff?.phoneNumber!=0;
+    return  this.staff?.name != '' && this.staff?.surname != '' && this.staff?.addressString!='' && this.staff?.phoneNumber!=0;
   }
 }
