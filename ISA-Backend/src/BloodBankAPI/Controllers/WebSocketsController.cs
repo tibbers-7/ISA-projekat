@@ -9,6 +9,7 @@ using BloodBankAPI;
 using BloodBankLibrary.Core.Appointments;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Model;
 
 namespace WebSocketsTutorial.Controllers
 {
@@ -18,6 +19,7 @@ namespace WebSocketsTutorial.Controllers
     {
         private readonly ILogger<WebSocketsController> _logger;
         private readonly HttpClient client;
+
 
         public WebSocketsController(ILogger<WebSocketsController> logger)
         {
@@ -42,29 +44,31 @@ namespace WebSocketsTutorial.Controllers
             }
         }
 
+
         private async Task Echo(WebSocket webSocket)
         {
+            StoreLocation storage = new StoreLocation();
             var buffer = new byte[1024 * 4];
             var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
             //Wait until client initiates a request.
             _logger.Log(LogLevel.Information, "Message received from Client");
 
+
             //Going into a loop until the client closes the connection
             while (!result.CloseStatus.HasValue)
             {
+                var loc = storage.storedLoc;
 
-                for(int i=1;i<=14;i++)
+                if (storage.isNew)
                 {
-                    Thread.Sleep(2000);
-                    string url = "https://localhost:44371/Location?id=" + i.ToString();
-                    var loc = await client.GetStringAsync(url);
-
-                    Location location = new Location(loc);
-                    var serverMsg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(location));
+                    var serverMsg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(loc));
                     await webSocket.SendAsync(new ArraySegment<byte>(serverMsg, 0, serverMsg.Length), result.MessageType, result.EndOfMessage, CancellationToken.None);
                     _logger.Log(LogLevel.Information, "Message sent to Client");
+                    storage.isNew = false;
                 }
+
+                
                 //Wait until the client send another request.
                 result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                     _logger.Log(LogLevel.Information, "Message received from Client");

@@ -4,6 +4,7 @@ import { MapsTooltipService, MarkerService } from '@syncfusion/ej2-angular-maps'
 import { WebsocketService } from 'app/services/websocket.service';
 import { Message } from 'app/services/websocket.service';
 import { Location } from 'app/model/location.model';
+import { DeliveryService } from 'app/services/delivery.service';
 
 @Component({
   selector: "testproba-root",
@@ -30,9 +31,11 @@ export class TestprobaComponent {
   public centerPosition:object;
 
   public location:Location;
+
+  private stop:boolean=false;
   
 
-  constructor(private webSocket:  WebsocketService) {
+  constructor(private webSocket:  WebsocketService, private deliveryService:DeliveryService) {
     
     webSocket.messages.subscribe(msg => {
       this.received.push(msg);
@@ -43,7 +46,7 @@ export class TestprobaComponent {
 
       this.markerdataSource = [
         { latitude:this.location.Latitude,longitude:this.location.Longitude, name: 'Novi Sad' }];
-        console.log(this.markerdataSource);
+        //console.log(this.markerdataSource);
       //console.log("Response from websocket: " + msg);      
     }); 
   }
@@ -74,12 +77,27 @@ export class TestprobaComponent {
   }
 
   sendMsg() {
+
+    this.deliveryService.startDelivery().subscribe(res=>{
+      console.log(res);
+    });
+
     let message = {
       source: '',
       content: ''
     };
     message.source = 'localhost';
     message.content = this.content;
+
+    this.sent.push(message);
+    this.webSocket.messages.next(message);
+  }
+
+  stopReceiving(){
+    let message = {
+      source: 'localhost',
+      content: 'STOP'
+    };
 
     this.sent.push(message);
     this.webSocket.messages.next(message);

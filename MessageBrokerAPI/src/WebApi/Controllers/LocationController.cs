@@ -1,30 +1,42 @@
 ﻿namespace WebApi.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Contracts;
     using MassTransit;
     using Microsoft.AspNetCore.Mvc;
-
+    using Model;
+    using WebApi.Contracts;
 
     [ApiController]
     [Route("[controller]")]
     public class LocationController :
         ControllerBase
     {
-        readonly IRequestClient<CheckLocation> _client;
+        readonly IPublishEndpoint _endpoint;
+        private LocationRepo _locationRepo { get; set; }
 
-        public LocationController(IRequestClient<CheckLocation> client)
+        public LocationController(IPublishEndpoint publishEndpoint)
         {
-            _client = client;
+            _endpoint = publishEndpoint;
+            _locationRepo = new LocationRepo();
+            _locationRepo.Init();
         }
-
         [HttpGet]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Send()
         {
-            Response<LocationCoordinates> response = await _client.GetResponse<LocationCoordinates>(new { id });
+            List<Location> locations = _locationRepo.locations.Values.ToList();
 
-            return Ok(response.Message);
+            foreach(Location loc in locations)
+            {
+                Thread.Sleep(3000);
+                await _endpoint.Publish<Location>(new Location() { Latitude = 34.2434234 });
+            }
+
+            
+            return Ok();
         }
+
     }
 }
