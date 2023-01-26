@@ -13,11 +13,12 @@ import OSM from 'ol/source/OSM';
 import * as olProj from 'ol/proj';
 import TileLayer from 'ol/layer/Tile';
 import Marker from 'ol-marker-feature';
+import Overlay from 'ol/Overlay.js';
 
 @Component({
   selector: "testproba-root",
   templateUrl: "./testproba.component.html",
-  styleUrls: ["./testproba.component.css"],
+  styleUrls: ["./testproba.component.css","ol.css"],
   providers: [WebsocketService]
 })
 
@@ -28,21 +29,13 @@ export class TestprobaComponent {
   received:Message[] = [];
   sent:Message[] = [];
 
-  //maps
-  public shapeData: object;
-  public dataSource: object;
-  public shapeSettings: object;
-  public markerdataSource: object[];
-
-  urlTemplate:string;
-  public zoomSettings: object;
-  public centerPosition:object;
 
   public location:Location;
 
   private stop:boolean=false;
 
   public map:Map=new Map();
+  
   
 
   constructor(private webSocket:  WebsocketService, private deliveryService:DeliveryService) {
@@ -54,8 +47,6 @@ export class TestprobaComponent {
        let intermediary=msg as unknown;
        this.location=intermediary as Location;
 
-      this.markerdataSource = [
-        { latitude:this.location.Latitude,longitude:this.location.Longitude, name: 'Novi Sad' }];
         //console.log(this.markerdataSource);
       //console.log("Response from websocket: " + msg);      
     }); 
@@ -70,8 +61,9 @@ export class TestprobaComponent {
       target: 'hotel_map',
       layers: [
         new TileLayer({
-          source: new OSM()
-        })
+          source: new OSM(),
+        }),
+        
       ],
       view: new View({
         center: olProj.fromLonLat([19.835684294227466,45.25230882879536]),
@@ -80,16 +72,15 @@ export class TestprobaComponent {
 
       
     });
-    const marker = new Marker([19.835684294227466,45.25230882879536]);
-    marker.set('info', 'I am a marker.')
-    marker.setMap(this.map);
+    
+    
 
 
     
    }
 
   sendMsg() {
-
+    
 
     let message = {
       source: '',
@@ -103,14 +94,19 @@ export class TestprobaComponent {
   }
 
   stopReceiving(){
-    let message = {
-      source: 'localhost',
-      content: 'STOP'
-    };
+    const popup = new Overlay({
+      element: document.getElementById('popup') as HTMLElement,
+    });
 
-    this.sent.push(message);
-    this.webSocket.messages.next(message);
+    this.map.addOverlay(popup);
+    const element = popup.getElement();
+    const marker = new Overlay({
+      position: olProj.fromLonLat([19.835684294227466,45.25230882879536]),
+      positioning: 'center-center',
+      element: document.getElementById('marker') as HTMLElement,
+      stopEvent: false,
+    });
+    this.map.addOverlay(marker);
   }
-
   
 }
