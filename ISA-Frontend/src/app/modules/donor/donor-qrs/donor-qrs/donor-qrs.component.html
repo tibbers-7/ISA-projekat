@@ -7,17 +7,7 @@
       
       </div>
 
-      <div class="flexbox" style="align-items: baseline;margin-left:20%; gap:10px">
-        <label style="color: whitesmoke;">Status:</label>  
-        <select [(ngModel)]="filterStatus" class="select-filter" (change)="filterByStatus($event)" style="width:9%">
-            <option value="All" (change)="filterByStatus($event)">All</option>
-            <option value="Scheduled" (change)="filterByStatus($event)">Scheduled</option>
-            <option value="Cancelled" (change)="filterByStatus($event)">Cancelled</option>
-            <option value="Completed" (change)="filterByStatus($event)">Completed</option>
-        </select>
-
-      </div>
-  
+   
       <table mat-table [dataSource]="dataSource"  class="fl-table" matSort #empTbSort="matSort">
         <ng-container matColumnDef="staffId">
             <th mat-header-cell *matHeaderCellDef  class="cell-center"> QR </th>
