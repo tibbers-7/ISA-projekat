@@ -23,6 +23,11 @@ namespace BloodBankLibrary.Core.Addresses
             return _context.Addresses.ToList();
         }
 
+        public CenterAddress GetByCenter(int centerId)
+        {
+           return _context.Addresses.FirstOrDefault(addr => addr.CenterId == centerId);
+        }
+
         public CenterAddress GetById(int id)
         {
             return _context.Addresses.Find(id);

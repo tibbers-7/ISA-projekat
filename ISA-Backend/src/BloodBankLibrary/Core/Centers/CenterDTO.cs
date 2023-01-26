@@ -13,6 +13,7 @@ namespace BloodBankLibrary.Core.Centers
         public string Description { get; set; }
         public string OpenHours { get; set; }
         public double AvgScore { get; set; }
+        public string stringAddress { get; set; }
 
         public CenterDTO(BloodCenter center)
         {

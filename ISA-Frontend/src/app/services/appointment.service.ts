@@ -42,20 +42,14 @@ export class AppointmentService {
     return this.http.get<BloodCenter[]>(this.apiHost + 'api/Appointment/centers/' + dateTime, { headers: this.headers });
   }
 
-  getAvailableByCenter(centerId : number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/available/' + centerId, { headers: this.headers });
-  }
-
-  getScheduledByCenter(centerId : number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/center/scheduled/' + centerId, { headers: this.headers });
-  }
-
   getFutureApptsByCenter(centerId: number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/center/future/' + centerId, { headers: this.headers });
   }
+
   getScheduledForDonor(donorId : number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/scheduled/' + donorId, { headers: this.headers });
   }
+
   getEligibleForDonor(centerId:number,donorId : number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/eligible/' + donorId+"/"+centerId, { headers: this.headers });
   }
@@ -66,6 +60,10 @@ export class AppointmentService {
 
   getAllForDonor(donorId : number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/all/' + donorId, { headers: this.headers });
+  }
+
+  getHistoryForDonor(donorId: number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.apiHost + 'api/Appointment/donor/history/' + donorId, { headers: this.headers });
   }
  
 }

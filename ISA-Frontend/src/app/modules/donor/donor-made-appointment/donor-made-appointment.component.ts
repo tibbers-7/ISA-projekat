@@ -67,47 +67,38 @@ export class DonorMadeAppointmentComponent implements OnInit {
   }
 
   chooseCenter() {
-    //check if popunjen upitnik ako ne redirect ili nesto
-    console.log(this.donorId);
-    console.log(this.selectedRow);
-    this.formService.isEligible(this.donorId).subscribe(response => {
-      //popunjen je
-        this.makeAppointment();
-        this.toast.success({detail:"Appointment scheduled!",summary:'',duration:3000});
-      
+   
+    this.formService.isEligible(this.donorId).subscribe(response => {    
+        this.makeAppointment(); 
     },
       error => {
         this.toast.error({detail:'You haven\'t filled the form or you already gave blood recently!',summary:"",duration:3000});
       });
-
-  //neka provera da li je popunjena?
   
-    
   }
 
   selectCenter(appt:any){
     this.selectedRow=appt;
-    console.log(appt);
   }
 
   makeAppointment() {
-  var appointment = new Appointment();
-  appointment.date = this.chosenDate;
-  appointment.centerId = this.selectedRow.id;
+    var appointment = new Appointment();
+    appointment.date = this.chosenDate;
+    appointment.centerId = this.selectedRow.id;
     appointment.donorId = this.donorId;
     appointment.status = 'scheduled';
     appointment.duration = 30;
-    this.appointmentService.scheduleDonorMade(appointment).subscribe(res => {
-
-      console.log("uspelo je ")
-    },
-error => console.log("greska")    )
-  
+    this.appointmentService.scheduleDonorMade(appointment).subscribe(
+      res => {
+        this.toast.success({ detail: "Appointment scheduled!", summary: '', duration: 3000 });
+      },
+      error => {
+        this.toast.error({ detail: 'Something went wrong!', summary: "", duration: 3000 });
+      });
   }
 
   backClick(){
     this.router.navigate(['/donor/appointments']);
-
   }
 
 }

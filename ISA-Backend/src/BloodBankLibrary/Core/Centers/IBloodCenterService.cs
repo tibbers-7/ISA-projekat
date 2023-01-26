@@ -10,6 +10,8 @@ namespace BloodBankLibrary.Core.Centers
         void Create(BloodCenter bloodCenter);
         void Update(BloodCenter bloodCenter);
         void Delete(BloodCenter bloodCenter);
+
+        IEnumerable<CenterDTO> GetSearchResult(string content);
        
     }
 }

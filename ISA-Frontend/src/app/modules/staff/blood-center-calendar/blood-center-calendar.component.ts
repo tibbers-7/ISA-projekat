@@ -10,6 +10,7 @@ import { BloodCenterService } from "../../../services/blood-center.service";
 import { StaffService } from "../../../services/staff.service";
 import { AppointmentDialogComponent } from "../staff-appointment/appointment-dialog.component";
 import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { NgToastService } from "ng-angular-popup";
 
 @Component({
   selector: 'app-blood-center-calendar',
@@ -22,11 +23,11 @@ export class BloodCenterCalendarComponent {
   public center: BloodCenter | undefined;
   public staff: Staff | undefined;
   public allStaff: Staff[] = [];
-  public availableAppointments: Appointment[] = [];
+  public futureAppointments: Appointment[] = [];
   public dataSource = new MatTableDataSource<Appointment>();
   public displayedColumns = ['date', 'duration', 'staff', 'status'];
 
-  constructor(private authService: AuthService, private bloodCenterService: BloodCenterService, private staffService: StaffService, private appointmentService: AppointmentService, private dialog: MatDialog, private route: ActivatedRoute,private router: Router) { }
+  constructor(private toast: NgToastService, private authService: AuthService, private bloodCenterService: BloodCenterService, private staffService: StaffService, private appointmentService: AppointmentService, private dialog: MatDialog, private route: ActivatedRoute,private router: Router) { }
 
   ngOnInit(): void {
     //dobijamo ulogovanog staff id preko local storage
@@ -40,8 +41,8 @@ export class BloodCenterCalendarComponent {
       });
      
       this.appointmentService.getFutureApptsByCenter(res.centerId).subscribe(res1 => {
-        this.availableAppointments = res1;
-        this.dataSource.data = this.availableAppointments;
+        this.futureAppointments = res1;
+        this.dataSource.data = this.futureAppointments;
       });
 
 
@@ -63,11 +64,10 @@ export class BloodCenterCalendarComponent {
 
         this.appointmentService.scheduleStaff(appointment).subscribe(
           response => {
-            alert("Uspesno dodavanje")
+            this.toast.success({ detail: "Appointment scheduled!", summary: '', duration: 3000 });
           },
           error => {
-            console.log(error);
-            alert("Neuspesno dodavanje");
+            this.toast.error({ detail: 'Something went wrong!', summary: "", duration: 3000 });
           }
         )
       }

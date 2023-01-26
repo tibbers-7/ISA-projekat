@@ -41,10 +41,7 @@ namespace BloodBankLibrary.Core.Addresses
 
         public CenterAddress GetByCenter(int centerId)
         {
-            foreach(CenterAddress address in _addressRepository.GetAll()) { 
-                if(address.CenterId == centerId) return address;
-            }
-            return null;
+           return _addressRepository.GetByCenter(centerId);
         }
 
         public void Create(CenterAddress address)

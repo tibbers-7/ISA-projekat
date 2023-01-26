@@ -19,11 +19,8 @@ namespace BloodBankLibrary.Core.Appointments
         IEnumerable<Appointment> GetFutureByCenter(int centerId);
         IEnumerable<Appointment> GetScheduled();
         IEnumerable<Appointment> GetScheduledByCenter(int centerId);
-
         IEnumerable<Appointment> GetFutureByStaff(int staffId);
-        IEnumerable<Appointment> GetByDateAndStaff(int staffId, DateTime dateTime);
-
-
+        IEnumerable<Appointment> GetHistoryForDonor(int donorId);
 
 
     }

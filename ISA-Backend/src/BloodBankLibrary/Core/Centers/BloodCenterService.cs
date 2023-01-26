@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
+using BloodBankLibrary.Core.Addresses;
 using BloodBankLibrary.Core.Appointments;
 using BloodBankLibrary.Core.Donors;
 using BloodBankLibrary.Core.Materials;
@@ -10,13 +11,15 @@ namespace BloodBankLibrary.Core.Centers
     {
         private readonly IBloodCenterRepository _bloodCenterRepository;
         private readonly IAppointmentRepository _appointmentRepository;
-        private readonly IDonorRepository _donorRepository; 
+        private readonly IDonorRepository _donorRepository;
+        private readonly IAddressRepository _addressRepository;
 
-        public BloodCenterService(IBloodCenterRepository bloodCenterRepository, IAppointmentRepository appointmentRepository, IDonorRepository donorRepository)
+        public BloodCenterService(IBloodCenterRepository bloodCenterRepository, IAppointmentRepository appointmentRepository, IDonorRepository donorRepository, IAddressRepository addressRepository)
         {
             _bloodCenterRepository = bloodCenterRepository;
             _appointmentRepository = appointmentRepository;
             _donorRepository = donorRepository;
+            _addressRepository = addressRepository;
         }
 
         public IEnumerable<CenterDTO> GetAll()
@@ -24,7 +27,10 @@ namespace BloodBankLibrary.Core.Centers
             List<CenterDTO> result = new List<CenterDTO>();
             foreach(BloodCenter center in _bloodCenterRepository.GetAll())
             {
-                result.Add(new CenterDTO(center));
+                CenterAddress addr = _addressRepository.GetByCenter(center.Id);
+                CenterDTO dto = new CenterDTO(center);
+                dto.stringAddress = addr.StreetAddress + "," + addr.City + "," + addr.Country;
+                result.Add(dto);
             }
             return result;
         }
@@ -51,5 +57,21 @@ namespace BloodBankLibrary.Core.Centers
             _bloodCenterRepository.Delete(bloodCenter);
         }
         
+        public IEnumerable<CenterDTO> GetSearchResult(string content)
+        {
+            if (content == "") return GetAll();
+            List<CenterDTO> res = new List<CenterDTO>();
+           
+            foreach(CenterDTO center in GetAll())
+            {
+                if(center.Name.ToLower().Contains(content.ToLower()) || center.stringAddress.ToLower().Contains(content.ToLower())) {
+
+                    res.Add(center);
+                }
+        
+            }
+
+            return res;
+        }
     }
 }

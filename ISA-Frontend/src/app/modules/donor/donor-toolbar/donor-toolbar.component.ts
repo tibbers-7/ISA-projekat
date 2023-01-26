@@ -23,6 +23,10 @@ export class DonorToolbarComponent implements OnInit {
     this.router.navigate(['/donor/form']);
   }
 
+  HistoryClick() {
+    this.router.navigate(['/donor/history']);
+  }
+
   
   ProfileClick(){
     this.router.navigate(['/donor/profile']);

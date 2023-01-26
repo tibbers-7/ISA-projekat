@@ -52,7 +52,11 @@ export class BloodCenterService {
   }
 
   createAddress(address: any): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/address', address, { headers: this.headers });
+    return this.http.post<any>(this.apiHost + 'api/BloodCenter/address', address, { headers: this.headers });
+  }
+
+  getSearchResults(content:any): Observable<BloodCenter[]> {
+    return this.http.get<BloodCenter[]>(this.apiHost + 'api/BloodCenter/search/' + content, { headers: this.headers });
   }
 
 

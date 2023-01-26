@@ -9,7 +9,9 @@ export class Appointment {
   duration: number = 0;
   status: string = '';
   qrCode:string='';
-  url:any;
+  url: any;
+  staffName: string = '';
+  staffSurname: string = '';
   
   public constructor(obj?: any) {
     if (obj) {
@@ -21,7 +23,9 @@ export class Appointment {
       this.duration = obj.duration;
       this.date = obj.date;
       this.status = obj.status;
-      this.qrCode=obj.qrCode;
+      this.qrCode = obj.qrCode;
+      this.staffName = obj.staffName;
+      this.staffSurname = obj.staffSurname;
     }
 
 

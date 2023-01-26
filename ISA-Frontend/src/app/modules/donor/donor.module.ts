@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PagesModule } from '../pages/pages.module';
 import { DonorQrsComponent } from './donor-qrs/donor-qrs/donor-qrs.component';
 import { MatSortModule } from '@angular/material/sort';
+import { DonorHistoryComponent } from './donor-history/donor-history.component';
 
 const routes: Routes = [
   
@@ -33,6 +34,10 @@ const routes: Routes = [
   { path: 'donor/make-appointment', component: DonorMadeAppointmentComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' } },
   { path: 'donor/qrs', component: DonorQrsComponent,
+    canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' }
+  },
+  {
+    path: 'donor/history', component: DonorHistoryComponent,
     canActivate: [RoleGuardService], data: { expectedRole: 'DONOR' } },
 ];
 
@@ -47,7 +52,8 @@ const routes: Routes = [
     DonorAppointmentScheduleComponent,
     DonorAppointmentsComponent,
     DonorMadeAppointmentComponent,
-    DonorQrsComponent
+    DonorQrsComponent,
+    DonorHistoryComponent
   ],
   imports: [
     CommonModule,

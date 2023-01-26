@@ -9,29 +9,37 @@ namespace BloodBankLibrary.Core.Appointments
     {
         IEnumerable<Appointment> GetAll();
         Appointment GetById(int id);
-        IEnumerable<Appointment> GetScheduled();
-        IEnumerable<AppointmentDTO> GetScheduledByDonor(int donorId);
-        IEnumerable<Appointment> GetEligible();
-      
-        IEnumerable<Appointment> GetFutureByStaffId(int id);
-        IEnumerable<Appointment> GetScheduledByCenter(int centerId);
-        IEnumerable<Appointment> GetEligibleByCenter(int centerId);
-        IEnumerable<AppointmentDTO> GetFutureByCenter(int centerId);
-        IEnumerable<BloodCenter> GetCentersForDateTime(string DateTime);
         void Create(Appointment appointment);
         void Update(Appointment appointment);
-
-        bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration);
-        bool CancelAppt(AppointmentDTO appointment);
         bool IsStaffAvailable(Appointment appointment);
-
-        bool CanDonorCancel(int apptId);
-         IEnumerable<AppointmentDTO >GetEligibleForDonor(int donorId, int centerId);
-        Appointment GenerateAndSaveQR(Appointment appointment, string cancelReason);
-        object GetAllByDonor(int id);
-        IEnumerable<Donor> GetDonorsByCenterId(int centerId);
-        Appointment AssignStaff(Appointment appointment);
+        bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration);
         Appointment PrepareForSchedule(AppointmentDTO dto);
         void SendQRCancelled(Appointment appointment, int code);
+        Appointment AssignStaff(Appointment appointment);
+        bool CancelAppt(AppointmentDTO appointment);
+        bool CanDonorCancel(int apptId);
+        IEnumerable<BloodCenter> GetCentersForDateTime(string DateTime);
+        IEnumerable<AppointmentDTO> GetFutureByCenter(int centerId);
+        IEnumerable<AppointmentDTO> GetScheduledByDonor(int donorId);
+        IEnumerable<AppointmentDTO> GetEligibleForDonor(int donorId, int centerId);
+        IEnumerable<AppointmentDTO> GetHistoryForDonor(int donorId);
+        object GetAllByDonor(int id);
+        bool Overlaps(DateTime start1, DateTime end1, DateTime start2, DateTime end2);
+        Appointment GenerateAndSaveQR(Appointment appointment, string cancelReason);
+        IEnumerable<Appointment> GetEligibleByCenter(int centerId);
+        IEnumerable<Donor> GetDonorsByCenterId(int centerId);
+
+        IEnumerable<Appointment> GetScheduled();
+       
+        IEnumerable<Appointment> GetScheduledByCenter(int centerId);
+      
+       
+       
+        
+         
+        
+        
+       
+        
     }
 }

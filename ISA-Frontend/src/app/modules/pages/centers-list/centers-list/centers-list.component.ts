@@ -20,39 +20,43 @@ export class CentersListComponent implements OnInit {
   public open: any="";
   public dataSource = new MatTableDataSource<BloodCenter>();
   public cities: string[]=[];
-  public displayedColumns = ['name','adress','description','avgScore','openHours'];
+  public displayedColumns = ['name','address','description','avgScore','openHours'];
   
 
-  constructor(private bloodService:BloodCenterService) { }
+  constructor(private centerService:BloodCenterService) { }
 
   ngOnInit(): void {
-    this.bloodService.getCenters().subscribe(res => {
-      this.centers = res;
-      this.dataSource.data = this.centers;
-      this.dataSource.sort = this.empTbSort;
-      
-    });
-    this.loadCities();
-    const centersCopy = [...this.centers]; 
+    this.loadCenters();
+    this.loadCities(); 
     this.centers.sort((b,a) => (
-    // your sort logic
-    a.avgScore - b.avgScore // example : order by id    
+    a.avgScore - b.avgScore   
     ));
 
   }
+
   loadCities()
   {
-      this.bloodService.getCities().subscribe(res=>{
+      this.centerService.getCities().subscribe(res=>{
         this.cities=res;
       })
   }
-  applySearch(event: Event) {
-    this.dataSource.filterPredicate = function (centers,filter) {
-    return centers.name.toLocaleLowerCase().startsWith(filter.toLocaleLowerCase());
-    //||  centers.address.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
-    }
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+  loadCenters() {
+    this.centerService.getCenters().subscribe(res => {
+      this.centers = res;
+      this.dataSource.data = this.centers;
+      this.dataSource.sort = this.empTbSort;
+    });
+  }
+
+
+
+  applySearch() {
+    if (this.searchText === '') this.loadCenters();
+    this.centerService.getSearchResults(this.searchText).subscribe(res => {
+      this.centers = res;
+      this.dataSource.data = this.centers;
+    });
   }
 
 
@@ -64,13 +68,14 @@ export class CentersListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
  }
 
- filterOpen(event: Event) {
+  filterOpen(event: Event) {
+
     this.dataSource.filterPredicate = function (centers,filter) {
      if((event.target as HTMLInputElement).value == 'open')
         return true;
-      else return true;
+        else return false;
       }
-    let dateTime = new Date()
+    let dateTime = new Date();
     const filterValue = dateTime.getHours.toString();
    this.dataSource.filter = filterValue.trim().toLowerCase();
   }

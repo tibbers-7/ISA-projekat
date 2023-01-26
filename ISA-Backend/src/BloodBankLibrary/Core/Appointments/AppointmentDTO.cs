@@ -7,9 +7,12 @@ namespace BloodBankLibrary.Core.Appointments
         private int id;
         private int staffId;
         private int donorId;
+        private string staffName;
+        private string staffSurname;
         private string date;
         private int duration;
         private int centerId;
+        private string centerName;  
         private string status;
         private byte[] qrCode;
 
@@ -38,6 +41,9 @@ namespace BloodBankLibrary.Core.Appointments
         public int Duration { get => duration; set => duration = value; }
         public int DonorId { get => donorId; set => donorId = value; }
         public int CenterId { get => centerId; set => centerId = value; }
+        public string StaffName { get => staffName; set=> staffName = value; }
+        public string StaffSurname { get => staffSurname; set => staffSurname = value; }
+        public string CenterName { get => centerName; set => centerName = value; }
         public int Id { get => id; set => id = value; }
         public string Status { get => status; set => status = value; }
         public byte[] QrCode { get => qrCode; set => qrCode = value; }

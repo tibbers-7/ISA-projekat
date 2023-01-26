@@ -15,7 +15,7 @@ export class DonorAppointmentsComponent {
 
   public dataSource = new MatTableDataSource<Appointment>();
   public appointments:Appointment[]=[];
-  public displayedColumns = ['staffId','date','duration'];
+  public displayedColumns = ['staff','date','duration'];
 
   public selectedAppt:Appointment=new Appointment;
   public donorId:any;
@@ -27,8 +27,7 @@ export class DonorAppointmentsComponent {
               private router:Router) { }
 
   ngOnInit(): void {
-    this.donorId=Number(this.authService.getIdByRole());
-    console.log(this.donorId);
+    this.donorId = Number(this.authService.getIdByRole());
     this.apptService.getScheduledForDonor(this.donorId).subscribe(res => {
       this.appointments = res;
       console.log(res);

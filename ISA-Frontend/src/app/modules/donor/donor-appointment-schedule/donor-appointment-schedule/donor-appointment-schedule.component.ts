@@ -43,12 +43,10 @@ export class DonorAppointmentScheduleComponent implements OnInit {
   }
 
   getAppts(){
-    console.log(this.selectedCenter);
     this.centerId=this.selectedCenter.id;
     if (this.centerId!=undefined){
       this.apptService.getEligibleForDonor(this.centerId,this.donorId).subscribe(res => {
         this.appointments = res;
-        console.log(res);
         this.dataSource.data = this.appointments;
       });
     
@@ -59,7 +57,6 @@ export class DonorAppointmentScheduleComponent implements OnInit {
 
   selectAppointment(appt:any){
     this.selectedAppt=appt;
-    console.log(appt);
   }
 
   schedule(){

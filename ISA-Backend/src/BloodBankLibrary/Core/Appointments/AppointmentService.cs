@@ -9,6 +9,7 @@ using BloodBankLibrary.Core.Staffs;
 using System.Linq;
 using MimeKit.Encodings;
 using Microsoft.IdentityModel.Tokens;
+using System.Transactions;
 
 namespace BloodBankLibrary.Core.Appointments
 {
@@ -63,15 +64,10 @@ namespace BloodBankLibrary.Core.Appointments
             return _appointmentRepository.GetById(id);
         }
 
-        public IEnumerable<Appointment> GetEligible()
-        {
-            return _appointmentRepository.GetEligible();
-           
-        }
-
+       
         public IEnumerable<Appointment> GetScheduled()
         {
-           IEnumerable<Appointment> scheduled=_appointmentRepository.GetScheduled();
+           List<Appointment> scheduled=_appointmentRepository.GetScheduled().ToList();
             List<Appointment> res=new List<Appointment>();
            foreach (Appointment appointment in scheduled)
             {
@@ -86,7 +82,7 @@ namespace BloodBankLibrary.Core.Appointments
 
         public IEnumerable<Donor> GetDonorsByCenterId(int centerId)
         {
-            IEnumerable<int> donorIds = _appointmentRepository.GetDonorsByCenter(centerId);
+            List<int> donorIds = _appointmentRepository.GetDonorsByCenter(centerId).ToList();
             List<Donor> res = new List<Donor>();
             foreach (int donorId in donorIds)
             {
@@ -99,11 +95,15 @@ namespace BloodBankLibrary.Core.Appointments
         // ostavicu zasad u servisu
         public IEnumerable<AppointmentDTO> GetScheduledByDonor(int donorId)
         {
-            IEnumerable<Appointment> allScheduled = GetScheduled();
+            List<Appointment> allScheduled = GetScheduled().ToList();
             List<AppointmentDTO> res = new List<AppointmentDTO>();
             foreach(Appointment appointment in allScheduled)
             {
-                if (appointment.DonorId == donorId) res.Add(new AppointmentDTO(appointment));
+                if (appointment.DonorId == donorId)
+                {
+                    AppointmentDTO dto = MakeDTO(appointment);
+                    res.Add(dto);
+                }
             }
             return res;
             //return allScheduled.Where<Appointment>(a => a.DonorId == donorId);
@@ -117,11 +117,11 @@ namespace BloodBankLibrary.Core.Appointments
         //TREBA
         public IEnumerable<AppointmentDTO> GetFutureByCenter(int id)
         {
-            IEnumerable<Appointment> future = _appointmentRepository.GetFutureByCenter(id);
+            List<Appointment> future = _appointmentRepository.GetFutureByCenter(id).ToList();
             List<AppointmentDTO> res = new List<AppointmentDTO>();
             foreach (Appointment appointment in future)
             {
-                res.Add(new AppointmentDTO(appointment));
+                res.Add(MakeDTO(appointment));
             }
             return res;
         }
@@ -131,16 +131,11 @@ namespace BloodBankLibrary.Core.Appointments
             return _appointmentRepository.GetEligibleByCenter(id);
         }
 
-        //ovo popraviti da bude buducnost ako treba
-        public IEnumerable<Appointment> GetFutureByStaffId(int id)
-        {
-            return _appointmentRepository.GetFutureByStaff(id);
-        }
-
+       
         public Appointment PrepareForSchedule(AppointmentDTO dto)
         {
             var appointment = new Appointment(dto);
-            IEnumerable<Appointment> allCenterAppts = _appointmentRepository.GetEligibleByCenter(dto.CenterId);
+            List<Appointment> allCenterAppts = _appointmentRepository.GetEligibleByCenter(dto.CenterId).ToList();
             foreach(Appointment app in allCenterAppts)
             {
                 if (Overlaps(app.StartDate, app.StartDate.AddMinutes(app.Duration), appointment.StartDate, appointment.StartDate.AddMinutes(appointment.Duration))) {
@@ -185,7 +180,7 @@ namespace BloodBankLibrary.Core.Appointments
         {
             //gledamo samo scheduled, available mogu doci u obzir
             DateTime parsedDateTime = DateTime.Parse(dateTime);
-            IEnumerable<BloodCenter> bloodCenters = _bloodCenterRepository.GetAll();
+            List<BloodCenter> bloodCenters = _bloodCenterRepository.GetAll().ToList();
             List<BloodCenter> availableCenters = new List<BloodCenter>();
            
             foreach(BloodCenter center in bloodCenters)
@@ -242,8 +237,8 @@ namespace BloodBankLibrary.Core.Appointments
             
             Appointment appt=GetById(apptId);
             DateTime cancelBy = appt.StartDate.AddDays(1);
-            if (DateTime.Compare(cancelBy, DateTime.Now) < 0) return true;
-            return false;
+            if (DateTime.Compare(cancelBy, DateTime.Now) < 0) return false;
+            return true;
 
         }
 
@@ -252,10 +247,10 @@ namespace BloodBankLibrary.Core.Appointments
         public bool CancelAppt(AppointmentDTO appointment)
         {
             if (!CanDonorCancel(appointment.Id)) return false;
-            Appointment _appt= new Appointment(appointment);
+            Appointment _appt= GetById(appointment.Id);
             _appt.Status = AppointmentStatus.CANCELLED;
             _appointmentRepository.Update(_appt);
-            //sad pravimo kopiju
+             //sad pravimo kopiju
             Appointment _newAppt = new Appointment { CenterId = _appt.CenterId, Duration = _appt.Duration, StaffId = _appt.StaffId, StartDate = _appt.StartDate, Status = AppointmentStatus.AVAILABLE };
             _appointmentRepository.Create(_newAppt);
             return true;
@@ -266,26 +261,27 @@ namespace BloodBankLibrary.Core.Appointments
         {
             //buduci cancelled za tog donors u tom centru
             List<AppointmentDTO> res = new List<AppointmentDTO>();
-            IEnumerable<Appointment> futureCancelledByDonor = _appointmentRepository.GetCancelledByDonorCenter(donorId, centerId);
-            IEnumerable<Appointment> appointments = GetEligibleByCenter(centerId);
+            List<Appointment> futureCancelledByDonor = _appointmentRepository.GetCancelledByDonorCenter(donorId, centerId).ToList();
+            List<Appointment> appointments = GetEligibleByCenter(centerId).ToList();
             if (!futureCancelledByDonor.IsNullOrEmpty()) {
                 foreach (Appointment appointment in appointments)
                 {
+                    bool isCancelled = false;
                     foreach (Appointment cancelled in futureCancelledByDonor)
                     {
                         //ako su u isto vreme 
-                        if (appointment.StartDate.Equals(cancelled.StartDate)) continue;
+                        if (appointment.StartDate.Equals(cancelled.StartDate)) { isCancelled = true; break; }
+                        else isCancelled = false;
                     }
 
-                    res.Add(new AppointmentDTO(appointment));
+                    if (!isCancelled)  res.Add(MakeDTO(appointment));    
                 }
-
             }
             else
             {
                 foreach (Appointment appointment in appointments)
                 {
-                    res.Add(new AppointmentDTO(appointment));
+                     res.Add(MakeDTO(appointment));
                 }
             }
             return res;
@@ -336,7 +332,7 @@ namespace BloodBankLibrary.Core.Appointments
 
         public bool IsStaffAvailable(Appointment appointment)
         {
-            IEnumerable<Appointment> staffAppts = _appointmentRepository.GetFutureByStaff(appointment.StaffId);
+            List<Appointment> staffAppts = _appointmentRepository.GetFutureByStaff(appointment.StaffId).ToList() ;
             foreach(Appointment appt in staffAppts)
             {
                 if (Overlaps(appointment.StartDate, appointment.StartDate.AddMinutes(appointment.Duration), appt.StartDate, appt.StartDate.AddMinutes(appt.Duration)))  return false;
@@ -350,7 +346,27 @@ namespace BloodBankLibrary.Core.Appointments
             return _appointmentRepository.GetByDonor(id);
         }
 
-     
+        public IEnumerable<AppointmentDTO> GetHistoryForDonor(int donorId)
+        {
+            List<AppointmentDTO> res = new List<AppointmentDTO>();
+            List<Appointment> apps = _appointmentRepository.GetHistoryForDonor(donorId).ToList();
+            foreach (Appointment appt in apps)
+            {
+                AppointmentDTO dto = MakeDTO(appt);
+                res.Add(dto);
+            }
+            return res;
+        }  
 
+        public AppointmentDTO MakeDTO(Appointment appointment)
+        {
+            AppointmentDTO dto = new AppointmentDTO(appointment);
+            Staff staff = _staffService.GetById(appointment.StaffId);
+            BloodCenter center = _centerService.GetById(appointment.CenterId);
+            dto.StaffName = staff.Name;
+            dto.StaffSurname = staff.Surname;
+            dto.CenterName = center.Name;
+            return dto;
+        }
     }
 }

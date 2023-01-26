@@ -10,6 +10,7 @@ namespace BloodBankLibrary.Core.Addresses
     public interface IAddressRepository
     {
         IEnumerable<CenterAddress> GetAll();
+        CenterAddress GetByCenter(int centerId);
         CenterAddress GetById(int id);
         void Create(CenterAddress address);
         void Update(CenterAddress address);

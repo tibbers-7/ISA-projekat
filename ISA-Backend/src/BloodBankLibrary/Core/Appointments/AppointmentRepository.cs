@@ -93,9 +93,10 @@ namespace BloodBankLibrary.Core.Appointments
             return appointments;
         }
 
-        public IEnumerable<Appointment> GetByDateAndStaff(int staffId, DateTime dateTime)
+        public IEnumerable<Appointment> GetHistoryForDonor(int donorId)
         {
-            return _context.Appointments.Where(appt => appt.StaffId == staffId && appt.StartDate.Date == dateTime.Date);
+            return _context.Appointments.Where(appt => appt.DonorId == donorId && (appt.Status == Materials.Enums.AppointmentStatus.CANCELLED || appt.Status == Materials.Enums.AppointmentStatus.COMPLETED));
+
         }
 
         public void Update(Appointment appointment)

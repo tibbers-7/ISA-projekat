@@ -170,5 +170,17 @@ namespace BloodBankAPI.Controllers
             _addressService.Create(address);
             return CreatedAtAction("GetById", new { id = address.Id }, address);
         }
+
+        [HttpGet("search/{content}")]
+        public ActionResult SearchResult(string content)
+        {
+            var result = _bloodCenterService.GetSearchResult(content);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+
+        }
     }
 }
