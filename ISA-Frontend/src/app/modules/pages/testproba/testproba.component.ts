@@ -1,15 +1,25 @@
 //src\app\app.component.ts
 import { Component } from '@angular/core';
-import { MapsTooltipService, MarkerService } from '@syncfusion/ej2-angular-maps';
 import { WebsocketService } from 'app/services/websocket.service';
 import { Message } from 'app/services/websocket.service';
 import { Location } from 'app/model/location.model';
+import { DeliveryService } from 'app/services/delivery.service';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import VectorLayer from 'ol/layer/Vector';
+import Style from 'ol/style/Style';
+import Icon from 'ol/style/Icon';
+import OSM from 'ol/source/OSM';
+import * as olProj from 'ol/proj';
+import TileLayer from 'ol/layer/Tile';
+import Marker from 'ol-marker-feature';
+import Overlay from 'ol/Overlay.js';
 
 @Component({
   selector: "testproba-root",
   templateUrl: "./testproba.component.html",
-  styleUrls: ["./testproba.component.css"],
-  providers: [WebsocketService,MarkerService,MapsTooltipService]
+  styleUrls: ["./testproba.component.css","ol.css"],
+  providers: [WebsocketService]
 })
 
 export class TestprobaComponent {
@@ -19,20 +29,16 @@ export class TestprobaComponent {
   received:Message[] = [];
   sent:Message[] = [];
 
-  //maps
-  public shapeData: object;
-  public dataSource: object;
-  public shapeSettings: object;
-  public markerdataSource: object[];
-
-  urlTemplate:string;
-  public zoomSettings: object;
-  public centerPosition:object;
 
   public location:Location;
+
+  private stop:boolean=false;
+
+  public map:Map=new Map();
+  
   
 
-  constructor(private webSocket:  WebsocketService) {
+  constructor(private webSocket:  WebsocketService, private deliveryService:DeliveryService) {
     
     webSocket.messages.subscribe(msg => {
       this.received.push(msg);
@@ -41,39 +47,41 @@ export class TestprobaComponent {
        let intermediary=msg as unknown;
        this.location=intermediary as Location;
 
-      this.markerdataSource = [
-        { latitude:this.location.Latitude,longitude:this.location.Longitude, name: 'Novi Sad' }];
-        console.log(this.markerdataSource);
+        //console.log(this.markerdataSource);
       //console.log("Response from websocket: " + msg);      
     }); 
   }
 
   ngOnInit(){
-    
-    this.zoomSettings = {
-      enable: true,
-      toolbars: ["Zoom", "ZoomIn", "ZoomOut", "Pan", "Reset"],
-      shouldZoomInitially:true,
-      //zoomFactor:13,
-      
-   }
-   this.centerPosition={
-    latitude:45.252259252152676, 
-    longitude:19.837422262872497
-   }
-   this.urlTemplate = 'https://tile.openstreetmap.org/level/tileX/tileY.png';
-//    this.shapeData = world_Map;
-//     this.dataSource = colorMapping;
-//  
-    this.shapeSettings = { colorValuePath: 'color', };
-    this.markerdataSource = [
-      { latitude:45.252259252152676,longitude:19.837422262872497, name: 'Novi Sad' }
-  ];
 
     this.sendMsg();
-  }
+   
+
+    this.map = new Map({
+      target: 'hotel_map',
+      layers: [
+        new TileLayer({
+          source: new OSM(),
+        }),
+        
+      ],
+      view: new View({
+        center: olProj.fromLonLat([19.835684294227466,45.25230882879536]),
+        zoom: 13
+      }),
+
+      
+    });
+    
+    
+
+
+    
+   }
 
   sendMsg() {
+    
+
     let message = {
       source: '',
       content: ''
@@ -85,5 +93,20 @@ export class TestprobaComponent {
     this.webSocket.messages.next(message);
   }
 
+  stopReceiving(){
+    const popup = new Overlay({
+      element: document.getElementById('popup') as HTMLElement,
+    });
+
+    this.map.addOverlay(popup);
+    const element = popup.getElement();
+    const marker = new Overlay({
+      position: olProj.fromLonLat([19.835684294227466,45.25230882879536]),
+      positioning: 'center-center',
+      element: document.getElementById('marker') as HTMLElement,
+      stopEvent: false,
+    });
+    this.map.addOverlay(marker);
+  }
   
 }

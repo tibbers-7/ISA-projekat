@@ -4,17 +4,17 @@ namespace WebApi.Consumers
     using System.Threading.Tasks;
     using Contracts;
     using MassTransit;
+    using Model;
 
-
-    public class CheckLocationConsumer :
-        IConsumer<CheckLocation>
+    public class LocationConsumer :
+        IConsumer<Location>
     { 
 
-        public CheckLocationConsumer()
+        public LocationConsumer()
         {
         }
 
-        public Task Consume(ConsumeContext<CheckLocation> context)
+        public Task Consume(ConsumeContext<Location> context)
         {
             LocationRepo repo = new LocationRepo();
             repo.Init();

@@ -21,6 +21,7 @@ using BloodBankLibrary.Core.Donors;
 using BloodBankLibrary.Core.Admins;
 using BloodBankLibrary.Core.Materials.QRGenerator;
 using BloodBankLibrary.Core.Addresses;
+using MassTransit;
 
 namespace BloodBankAPI
 {
@@ -60,6 +61,7 @@ namespace BloodBankAPI
                     };
                 });
 
+
             
             services.AddSwaggerGen(c =>
             {
@@ -96,6 +98,21 @@ namespace BloodBankAPI
 
 
             services.AddControllers();
+
+            services.AddMassTransit(config => {
+
+            config.AddConsumer<LocationConsumer>();
+
+            config.UsingRabbitMq ((ctx, cfg) => {
+                // za publisher je samo host msm da ako je oba da je na jednom mestu
+                cfg.Host("amqp://guest:guest@localhost:5672"); 
+
+                cfg.ReceiveEndpoint("location-queue", c => {
+                    c.ConfigureConsumer<LocationConsumer>(ctx);  //napravi klasu koja impl IConsumer<Order>
+                });
+            });
+        });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

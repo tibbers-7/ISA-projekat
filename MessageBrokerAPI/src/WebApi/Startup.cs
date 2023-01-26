@@ -9,6 +9,9 @@ namespace WebApi
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
+    using RabbitMQ.Client;
+    using MassTransit;
+    
 
 
     public class Startup
@@ -23,18 +26,17 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMassTransit(x =>
-            {
-                x.AddConsumer<CheckLocationConsumer>();
 
-                x.UsingInMemory((context, cfg) =>
-                {
-                    cfg.UseSendFilter(typeof(TokenSendFilter<>), context);
-                    cfg.UsePublishFilter(typeof(TokenPublishFilter<>), context);
-                    cfg.UseConsumeFilter(typeof(TokenConsumeFilter<>), context);
+            services.AddMassTransit(config => {
 
-                    cfg.ConfigureEndpoints(context);
-                });
+                config.AddConsumer<LocationConsumer>();
+
+
+                config.UsingRabbitMq ((ctx, cfg) => {
+                    // za publisher je samo host msm da ako je oba da je na jednom mestu
+                    cfg.Host("amqp://guest:guest@localhost:5672");  
+
+                 });
             });
 
             services.AddScoped<Token>();

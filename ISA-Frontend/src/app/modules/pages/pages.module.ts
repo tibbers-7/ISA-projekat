@@ -16,7 +16,6 @@ import {GoogleMap} from "@angular/google-maps"
 import { MapsModule } from '@syncfusion/ej2-angular-maps';
 import { LegendService, MarkerService, MapsTooltipService, DataLabelService, BubbleService, NavigationLineService, SelectionService, AnnotationsService, ZoomService } from '@syncfusion/ej2-angular-maps';
 
-
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
@@ -45,7 +44,8 @@ const routes: Routes = [
     NgToastModule,
     MaterialModule,
     GoogleMapsModule,
-    MapsModule
+    MapsModule,
+    
   ],
   exports: [
     CentersListComponent
