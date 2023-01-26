@@ -1,3 +1,9 @@
+enum UserType{
+  STAFF,
+  ADMIN,
+  DONOR
+}
+
 export class User {
     id: number = 0;
     email: string = '';
@@ -9,7 +15,7 @@ export class User {
     jmbg:string='';
     profession:string='';
     workplace:string='';
-    userType:string='';
+    userType:UserType;
     idOfCenter:number=0;
 
 
