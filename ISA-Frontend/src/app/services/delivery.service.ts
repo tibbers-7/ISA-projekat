@@ -10,13 +10,13 @@ import { Donor } from '../model/donor.model';
 })
 export class DeliveryService {
 
-  apiHost: string = 'http://localhost:44371/';
+  apiHost: string = 'https://localhost:44371/';
   headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) { }
 
   startDelivery(): Observable<any> {
-    return this.http.get<any>(this.apiHost + '/Location', { headers: this.headers });
+    return this.http.get<any>(this.apiHost + 'Location', { headers: this.headers });
   }
 
 }

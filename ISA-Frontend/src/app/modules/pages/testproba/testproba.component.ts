@@ -78,9 +78,6 @@ export class TestprobaComponent {
 
   sendMsg() {
 
-    this.deliveryService.startDelivery().subscribe(res=>{
-      console.log(res);
-    });
 
     let message = {
       source: '',

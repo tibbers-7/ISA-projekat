@@ -24,19 +24,22 @@
             _locationRepo.Init();
         }
         [HttpGet]
-        public async Task<IActionResult> Send()
+        public async Task<IActionResult> Send(int id)
         {
-            List<Location> locations = _locationRepo.locations.Values.ToList();
+                _locationRepo.locations.TryGetValue(id, out var location);
+                
+                await _endpoint.Publish(location);
+            return Ok();
+        }
+            
 
-            foreach(Location loc in locations)
+            /*foreach(Location loc in locations)
             {
                 Thread.Sleep(3000);
                 await _endpoint.Publish<Location>(new Location() { Latitude = 34.2434234 });
-            }
+            }*/
 
-            
-            return Ok();
-        }
+        
 
     }
 }

@@ -15,8 +15,6 @@ namespace BloodBankAPI
         {
         }
 
-
-
         public static StoreLocation Instance
         {
             get

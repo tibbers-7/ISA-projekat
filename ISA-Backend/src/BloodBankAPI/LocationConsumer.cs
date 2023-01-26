@@ -10,13 +10,15 @@ namespace BloodBankAPI
         private StoreLocation storage;
         public LocationConsumer()
         {
-            storage = new StoreLocation();
+            storage = StoreLocation.Instance;
         }
 
         public async Task Consume(ConsumeContext<Location> context)
         {
+             storage.isNew = true;
+            if (storage.isNew) storage.Store(context.Message);
             await context.RespondAsync(context.Message);
-            storage.Store(context.Message);
+            
             
         }
     }
