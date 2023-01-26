@@ -15,8 +15,8 @@ namespace BloodBankAPI
 
         public async Task Consume(ConsumeContext<Location> context)
         {
-             storage.isNew = true;
-            if (storage.isNew) storage.Store(context.Message);
+            if(!storage.locs.Contains(context.Message))
+                storage.Store(context.Message);
             await context.RespondAsync(context.Message);
             
             

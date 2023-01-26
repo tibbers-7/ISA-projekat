@@ -52,32 +52,37 @@ namespace WebSocketsTutorial.Controllers
             var buffer = new byte[1024 * 4];
             // dobijanje poruke sa fronta
             var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-
+            
             //Wait until client initiates a request.
             _logger.Log(LogLevel.Information, "Message received from Client");
+
+            string url = "https://localhost:44371/Location";
+            //posalji sledecu lokaciju
+            await client.GetStringAsync(url);
+
 
             //Going into a loop until the client closes the connection
             while (!result.CloseStatus.HasValue)
             {
                 for (int i = 1; i <= 14; i++)
                 {
+                    
+                   
+
                     Thread.Sleep(1000);
-                    string url = "https://localhost:44371/Location?id="+i;
-                    //posalji sledecu lokaciju
-                    await client.GetStringAsync(url);
 
-
-                   // await LocationConsumer.Consume();
+                    // await LocationConsumer.Consume();
                     //dobavi lokaciju koja je primljena
                     //meni ovde stalno null iako kad proverim vidim da je zabelezena
-                    var loc = storage.storedLoc;
-                    //ako je nova posalji je na front
-                    if (storage.isNew)
+                    if (storage.locs.Count!=0)
                     {
+                        var loc = storage.locs.Dequeue();
+                        //ako je nova posalji je na front
                         var serverMsg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(loc));
                         await webSocket.SendAsync(new ArraySegment<byte>(serverMsg, 0, serverMsg.Length), result.MessageType, result.EndOfMessage, CancellationToken.None);
                         _logger.Log(LogLevel.Information, "Message sent to Client");
                         storage.isNew = false;
+                        
                     }
                 }                
                 //Wait until the client send another request.
@@ -90,6 +95,9 @@ namespace WebSocketsTutorial.Controllers
             _logger.Log(LogLevel.Information, "WebSocket connection closed");
         }
     }
+
+
+
 
     
 }

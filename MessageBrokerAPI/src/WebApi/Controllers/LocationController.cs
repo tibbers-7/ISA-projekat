@@ -24,11 +24,13 @@
             _locationRepo.Init();
         }
         [HttpGet]
-        public async Task<IActionResult> Send(int id)
+        public async Task<IActionResult> Send()
         {
-                _locationRepo.locations.TryGetValue(id, out var location);
-                
-                await _endpoint.Publish(location);
+            foreach(Location loc in _locationRepo.locations.Values)
+            {
+                Thread.Sleep(300);
+                await _endpoint.Publish<Location>(loc);
+            }
             return Ok();
         }
             

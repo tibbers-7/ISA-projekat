@@ -1,4 +1,5 @@
 ﻿using Model;
+using System.Collections;
 
 namespace BloodBankAPI
 {
@@ -7,12 +8,14 @@ namespace BloodBankAPI
 
         public Location storedLoc { get; set; }
         public bool isNew { get; set; }
+        public Queue locs { get; set; }
 
         private static StoreLocation instance = null;
         private static readonly object padlock = new object();
 
         public StoreLocation()
         {
+            locs= new Queue();
         }
 
         public static StoreLocation Instance
@@ -33,6 +36,7 @@ namespace BloodBankAPI
         public void Store(Location loc)
         {
             storedLoc = loc;
+            locs.Enqueue(loc);
             isNew = true;
         }
     }
