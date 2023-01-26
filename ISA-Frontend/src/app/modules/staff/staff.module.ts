@@ -18,6 +18,7 @@ import {MatListModule} from '@angular/material/list';
 
 import { BloodCenterCalendarComponent } from './blood-center-calendar/blood-center-calendar.component';
 import { DeliveryMapComponent } from './delivery-map/delivery-map.component';
+import { StaffScheduledComponent } from './staff-scheduled/staff-scheduled.component';
 
 
 
@@ -40,6 +41,9 @@ const routes: Routes = [
   },
   { path: 'staff/delivery-map', component: DeliveryMapComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
+  { path: 'staff/scheduled', component: StaffScheduledComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'STAFF' } },
+ 
  
 ];
 
@@ -53,7 +57,8 @@ const routes: Routes = [
     BloodCenterCalendarComponent,
     EditStaffProfileComponent,
     AppointmentDialogComponent,
-    DeliveryMapComponent
+    DeliveryMapComponent,
+    StaffScheduledComponent
   ],
   imports: [
     CommonModule,

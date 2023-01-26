@@ -23,12 +23,12 @@ namespace BloodBankLibrary.Core.Appointments
             this.id=dto.Id;
             this.centerId = dto.CenterId;
             this.staffId = dto.StaffId;
-            this.startDate = DateTime.Parse(dto.Date);
+            this.startDate = DateTime.Parse(dto.StartDate);
             this.duration = dto.Duration;
             this.DonorId = dto.DonorId;
             this.status = Enum.Parse<AppointmentStatus>(dto.Status.ToUpper());
             //startDate = DateTime.ParseExact(dto.Date, "yyyy-MM-dd HH:mm:ss", System.Globalization.DateTimeFormatInfo.InvariantInfo);
-            startDate = DateTime.Parse(dto.Date);
+            startDate = DateTime.Parse(dto.StartDate);
             this.qrCode = dto.QrCode;
         }
 
@@ -58,6 +58,11 @@ namespace BloodBankLibrary.Core.Appointments
             {
                 res = "Your appointment that was supposed to happen at " + startDate.ToString("dd.MM.yyyy. HH:mm") + "," +
                              " at the " + centerName + ", with staff " + staffName + ", because " + cancelReason;
+            }
+            else if (status == AppointmentStatus.COMPLETED)
+            {
+                res = "Your appointment at " + startDate.ToString("dd.MM.yyyy. HH:mm") + "," +
+                             " at the " + centerName + ", with staff " + staffName + " was completed.";
             }
             return res;
         }

@@ -83,7 +83,8 @@ export class DonorMadeAppointmentComponent implements OnInit {
 
   makeAppointment() {
     var appointment = new Appointment();
-    appointment.date = this.chosenDate;
+    appointment.startDate = this.chosenDate;
+    console.log(this.chosenDate);
     appointment.centerId = this.selectedRow.id;
     appointment.donorId = this.donorId;
     appointment.status = 'scheduled';

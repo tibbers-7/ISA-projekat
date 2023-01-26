@@ -62,7 +62,7 @@ export class BloodCenterCalendarComponent {
         appointment.staffId = data.staff;
         appointment.centerId = this.center!.id;
         appointment.donorId = 0;
-        appointment.date = data.dateTime.format('YYYY-MM-DD HH:mm:ss');
+        appointment.startDate = data.dateTime.format('YYYY-MM-DD HH:mm:ss');
         appointment.duration = data.duration;
         appointment.status = "AVAILABLE";
 

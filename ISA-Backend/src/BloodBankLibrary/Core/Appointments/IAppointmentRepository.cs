@@ -22,6 +22,6 @@ namespace BloodBankLibrary.Core.Appointments
         IEnumerable<Appointment> GetFutureByStaff(int staffId);
         IEnumerable<Appointment> GetHistoryForDonor(int donorId);
 
-
+        IEnumerable<Appointment> GetScheduledForStaff(int id);
     }
 }

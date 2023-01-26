@@ -9,7 +9,7 @@ namespace BloodBankLibrary.Core.Appointments
         private int donorId;
         private string staffName;
         private string staffSurname;
-        private string date;
+        private string startDate;
         private int duration;
         private int centerId;
         private string centerName;  
@@ -31,13 +31,13 @@ namespace BloodBankLibrary.Core.Appointments
             letters[0] = char.ToUpper(letters[0]);
             this.status= new string(letters);
 
-            this.date = appt.StartDate.ToString("dd.MM.yyyy. HH:mm");
+            this.startDate = appt.StartDate.ToString("dd.MM.yyyy. HH:mm");
             this.qrCode = appt.QrCode;
 
         }
 
         public int StaffId { get => staffId; set => staffId = value; }
-        public string Date { get => date; set => date = value; }
+        public string StartDate { get => startDate; set => startDate = value; }
         public int Duration { get => duration; set => duration = value; }
         public int DonorId { get => donorId; set => donorId = value; }
         public int CenterId { get => centerId; set => centerId = value; }

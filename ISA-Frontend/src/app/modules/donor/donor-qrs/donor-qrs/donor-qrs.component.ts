@@ -39,6 +39,7 @@ export class DonorQrsComponent {
       this.dataSource.data=this.appointments;
 
       this.appointments.forEach(appointment => {
+        console.log(appointment.startDate);
         if (appointment.qrCode!=undefined){
         appointment.qrCode='data:image/png;base64,' + appointment.qrCode;
         appointment.url = this.sanitizer.bypassSecurityTrustUrl(appointment.qrCode);

@@ -112,5 +112,10 @@ namespace BloodBankLibrary.Core.Appointments
                 throw;
             }
         }
+
+        public IEnumerable<Appointment> GetScheduledForStaff(int id)
+        {
+            return _context.Appointments.Where(appt => appt.StaffId == id && appt.Status == Materials.Enums.AppointmentStatus.SCHEDULED);
+        }
     }
 }

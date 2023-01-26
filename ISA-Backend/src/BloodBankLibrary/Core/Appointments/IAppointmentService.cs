@@ -32,14 +32,8 @@ namespace BloodBankLibrary.Core.Appointments
         IEnumerable<Appointment> GetScheduled();
        
         IEnumerable<Appointment> GetScheduledByCenter(int centerId);
-      
-       
-       
-        
-         
-        
-        
-       
-        
+
+        IEnumerable<AppointmentDTO> GetScheduledForStaff(int id);
+        void CompleteAppt(AppointmentDTO appointment);
     }
 }

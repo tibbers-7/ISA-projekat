@@ -45,6 +45,10 @@ export class StaffToolbarComponent implements OnInit {
 
     this.router.navigate(['/staff/center']);
   }
+  Scheduled(){
+
+    this.router.navigate(['/staff/scheduled']);
+  }
 
  
 

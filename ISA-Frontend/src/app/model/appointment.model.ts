@@ -5,7 +5,7 @@ export class Appointment {
   staffId: number = 0;
   donorId: number = 0;
   centerId: number = 0;
-  date: string = '';
+  startDate: string = '';
   duration: number = 0;
   status: string = '';
   qrCode:string='';
@@ -21,7 +21,7 @@ export class Appointment {
       this.centerId = obj.centerId;
       this.donorId = obj.donorId;
       this.duration = obj.duration;
-      this.date = obj.date;
+      this.startDate = obj.startDate;
       this.status = obj.status;
       this.qrCode = obj.qrCode;
       this.staffName = obj.staffName;

@@ -67,6 +67,7 @@ export class DonorAppointmentScheduleComponent implements OnInit {
       this.apptService.schedulePredefined(this.selectedAppt).subscribe(res => {
 
         this.toast.success({detail:"Appointment scheduled!",summary:'',duration:3000});
+        this.router.navigate(["donor/appointments"]);
   
       }, error=>{
         this.toast.error({detail:'Something went wrong!',summary:"",duration:3000});

@@ -173,6 +173,9 @@ namespace BloodBankLibrary.Core.Appointments
                 case 2:
                     GenerateAndSaveQR(appointment, " the staff was busy.");
                     break;
+                case 3:
+                    GenerateAndSaveQR(appointment, " you cancelled it. A strike was added to your account.");
+                    break;
             }
         }
         //TREBA
@@ -250,6 +253,7 @@ namespace BloodBankLibrary.Core.Appointments
             Appointment _appt= GetById(appointment.Id);
             _appt.Status = AppointmentStatus.CANCELLED;
             _appointmentRepository.Update(_appt);
+            SendQRCancelled(_appt, 3);
              //sad pravimo kopiju
             Appointment _newAppt = new Appointment { CenterId = _appt.CenterId, Duration = _appt.Duration, StaffId = _appt.StaffId, StartDate = _appt.StartDate, Status = AppointmentStatus.AVAILABLE };
             _appointmentRepository.Create(_newAppt);
@@ -292,21 +296,23 @@ namespace BloodBankLibrary.Core.Appointments
         public Appointment GenerateAndSaveQR(Appointment appointment,string cancelReason)
         {
             Staff staff = _staffService.GetById(appointment.StaffId);
+            var seed = 3;
+            var random = new Random(seed);
+            int rNum = random.Next();
 
-            string filePath=appointment.DonorId.ToString()+"_"+appointment.CenterId.ToString()+"_"+appointment.StartDate.ToString("dd_MM_yyyy_HH_mm")+".jpg";
+            string filePath=appointment.DonorId.ToString()+"_"+appointment.CenterId.ToString()+"_"+appointment.StartDate.ToString("dd_MM_yyyy_HH_mm")+rNum.ToString()+".jpg";
 
             byte[] qr = _qRService.GenerateQR(appointment.EmailInfo(
                                                          _centerService.GetById(appointment.CenterId).Name,
                                                          staff.Name +" "+ staff.Surname,cancelReason),filePath);
             appointment.QrCode = qr;
             Donor donor = _donorService.GetById(appointment.DonorId);
-            string subject = "BloodCenter - Scheduled appointment information";
+            string subject = "BloodCenter - Appointment information";
             string body = "Here is the QR code with your information:\n";
 
             filePath = "AppData\\" + filePath;
 
-            donor.Email = "tibbers707@gmail.com";
-            _emailSendService.SendWithQR(new Message(new string[] { "danabrasanac@gmail.com"}, subject, body), qr,filePath);
+            _emailSendService.SendWithQR(new Message(new string[] { "danabrasanac@gmail.com", "tibbers707@gmail.com" }, subject, body), qr,filePath);
             //_qRService.DeleteImage(filePath);
 
             return appointment;
@@ -367,6 +373,27 @@ namespace BloodBankLibrary.Core.Appointments
             dto.StaffSurname = staff.Surname;
             dto.CenterName = center.Name;
             return dto;
+        }
+
+        public IEnumerable<AppointmentDTO> GetScheduledForStaff(int id)
+        {
+            List<AppointmentDTO> ret = new List<AppointmentDTO>();
+            List<Appointment> scheduled = _appointmentRepository.GetScheduledForStaff(id).ToList();
+            foreach (Appointment appt in scheduled)
+            {
+                ret.Add(MakeDTO(appt));
+            }
+            return ret;
+        }
+
+        public void CompleteAppt(AppointmentDTO appointment)
+        {
+            Appointment appt = GetById(appointment.Id);
+            appt.Status = AppointmentStatus.COMPLETED;
+            GenerateAndSaveQR(appt,null);
+            Update(appt);
+            
+
         }
     }
 }

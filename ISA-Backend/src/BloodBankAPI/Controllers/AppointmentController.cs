@@ -104,6 +104,7 @@ namespace BloodBankAPI.Controllers
                 return BadRequest("Unavailable");
             }
             appointment.Status = AppointmentStatus.SCHEDULED;
+
             _appointmentService.Update(appointment);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
@@ -122,6 +123,18 @@ namespace BloodBankAPI.Controllers
             if(!isSuccessful)  return NoContent();
             _donorService.AddStrike(appointment.DonorId);
             appointment.Status = AppointmentStatus.CANCELLED.ToString();
+            return Ok(_appointmentService.GetScheduledByDonor(appointment.DonorId));
+        }
+
+        [HttpPost("complete")]
+        public ActionResult Complete(AppointmentDTO appointment)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+             _appointmentService.CompleteAppt(appointment);
+
             return Ok(_appointmentService.GetScheduledByDonor(appointment.DonorId));
         }
 
@@ -199,6 +212,18 @@ namespace BloodBankAPI.Controllers
 
         }
 
+
+        [HttpGet("staff/scheduled/{id}")]
+        public ActionResult GetScheduledForStaff(int id)
+        {
+            var appointments = _appointmentService.GetScheduledForStaff(id);
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointments);
+
+        }
 
 
 
