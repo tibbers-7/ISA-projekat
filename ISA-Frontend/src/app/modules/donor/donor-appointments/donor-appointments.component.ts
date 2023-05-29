@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Appointment } from '../../../../model/appointment.model';
-import { AppointmentService } from '../../../../services/appointment.service';
+import { Appointment } from '../../../model/appointment.model';
+import { AppointmentService } from '../../../services/appointment.service';
 import { NgToastService } from 'ng-angular-popup';
-import { AuthService } from '../../../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

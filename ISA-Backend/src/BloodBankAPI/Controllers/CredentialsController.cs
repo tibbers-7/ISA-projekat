@@ -10,6 +10,7 @@ using BloodBankLibrary.Core.Staffs;
 
 namespace BloodBankAPI.Controllers
 {
+	[AllowAnonymous]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class CredentialsController : ControllerBase
@@ -31,7 +32,7 @@ namespace BloodBankAPI.Controllers
 			_staffService = staffService;
 		}
 
-		[AllowAnonymous] //prevent the auth process to happen when calling
+		
 		[HttpPost("login")]
 		public IActionResult Login(RegisterDTO regDTO)
 		{
@@ -46,7 +47,7 @@ namespace BloodBankAPI.Controllers
 			return Unauthorized();
 		}
 
-		[AllowAnonymous] 
+		[Authorize]
 		[HttpPut("changePassword")]
 		public IActionResult ChangePassword(string email,string newPass)
 		{
@@ -66,11 +67,9 @@ namespace BloodBankAPI.Controllers
 			}
 			
 			return Ok();
-
-			return Unauthorized();
 		}
 
-		[AllowAnonymous]
+		
 		[HttpPut("authenticate")]
 		public IActionResult Authenticate(string email, string password)
 		{
@@ -85,7 +84,7 @@ namespace BloodBankAPI.Controllers
 		}
 
 
-		[AllowAnonymous]
+		
 		[HttpPost("register")]
 		public ActionResult Register(RegisterDTO regDTO)
 		{
@@ -161,7 +160,7 @@ namespace BloodBankAPI.Controllers
 
 
 
-		[AllowAnonymous]
+		
 		[HttpPost("send-activation")]
 		public ActionResult SendActivationCode(RegisterDTO regDTO)
 		{

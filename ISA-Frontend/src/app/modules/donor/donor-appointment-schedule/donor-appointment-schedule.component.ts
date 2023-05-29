@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table'
-import { Appointment } from '../../../../model/appointment.model';
-import { BloodCenter } from '../../../../model/blood-center.model';
-import { BloodCenterService } from '../../../../services/blood-center.service';
-import { AppointmentService } from '../../../../services/appointment.service';
+import { Appointment } from '../../../model/appointment.model';
+import { BloodCenter } from '../../../model/blood-center.model';
+import { BloodCenterService } from '../../../services/blood-center.service';
+import { AppointmentService } from '../../../services/appointment.service';
 import { NgToastService } from 'ng-angular-popup';
-import { FormService } from '../../../../services/form.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { SafeCall } from '@angular/compiler';
+import { FormService } from '../../../services/form.service';
 import { Router } from '@angular/router';
 
 @Component({

@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Address } from 'app/model/address.model';
 import { Observable } from 'rxjs';
 import { BloodCenter } from '../model/blood-center.model';
 import { Donor } from '../model/donor.model';
+import { Address } from '../model/address.model';
+import { BloodCenterRegistrationDTO } from 'app/model/bloodCenterRegistrationDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class BloodCenterService {
     return this.http.get<BloodCenter[]>(this.apiHost + 'api/BloodCenter', { headers: this.headers });
   }
 
-  createCenter(bloodCenter: any): Observable<any> {
+  createCenter(bloodCenter: BloodCenterRegistrationDTO): Observable<any> {
     return this.http.post<any>(this.apiHost + 'api/BloodCenter', bloodCenter, { headers: this.headers });
   }
 

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../../model/user.model';
 import { BloodCenter } from '../../../model/blood-center.model';
 import { UserService } from '../../../services/user.service';
 import { BloodCenterService } from '../../../services/blood-center.service';
 import { AuthService } from 'app/services/auth.service';
-import { RegDTO } from 'app/model/regDTO.model';
 import { NgToastService } from 'ng-angular-popup';
+import { StaffRegistrationDTO } from 'app/model/staffRegistrationDTO';
 
 
 @Component({
@@ -15,45 +14,38 @@ import { NgToastService } from 'ng-angular-popup';
 })
 export class StaffRegistrationComponent implements OnInit {
 
-  public user=new RegDTO();
-  public centers : BloodCenter[]= [];
-  public selectedCenter: BloodCenter=new BloodCenter;
-  constructor(private userService:UserService, private bloodService:BloodCenterService, private authService:AuthService,private toast:NgToastService) { }
+  public staff = new StaffRegistrationDTO()
+  public centers : BloodCenter[] = []
+  public selectedCenter: BloodCenter = new BloodCenter()
+  constructor(private bloodService:BloodCenterService, private authService:AuthService,private toast:NgToastService) { }
 
   ngOnInit(): void {
     this.bloodService.getCenters().subscribe(res => {
-      this.centers = res;      
-    });
+      this.centers = res    
+    })
   }
 
-  post()  {
-    if (!this.checkValidity()) {
-      
-      console.log("Missing parameters!");
-      
-      return;
-    }
-    this.user.userType='STAFF';
-
-    this.authService.register(this.user)
-      .subscribe(res => {
-        this.toast.success({detail:"Sent activation link!",summary:'Check your email.',duration:5000});
-    }, error=>{
-      console.log(error.message);
-    });
+  registerStaff()  {
+    if (this.checkValidity()) this.authService.registerStaff(this.staff).subscribe(res => {
+      console.log(res)
+    })
   }
 
-  setCenter(event:any)
-  {
-    console.log(this.selectedCenter.id);
-    this.user.idOfCenter=this.selectedCenter.id;
-    this.user.employmentInfo=this.selectedCenter.name;
+  setCenter(event:any){
+    this.staff.idOfCenter=this.selectedCenter.id
   }
+
   checkValidity(){
-    if(this.user.email==='' || this.user.address==='' || this.user.city==='' || this.user.state==='' || this.user.gender==='' 
-      || this.user.jmbg===0 || this.user.name==='' || this.user.surname==='' || this.user.phoneNum===0) 
-      return false;
-
-    return true;
+    if(this.fieldsAreEmpty(this.staff)) return false
+    return true
   }
+
+  fieldsAreEmpty(object: Object) { 
+    return Object.values(object).some(
+        value => {
+        if (value === null || value === '')  return true
+        return false
+      })
+  }
+
 }

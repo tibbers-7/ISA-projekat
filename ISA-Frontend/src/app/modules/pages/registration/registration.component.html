@@ -5,11 +5,11 @@
           <div class="fields">
               <mat-label>Email:</mat-label>
               <mat-form-field appearance="fill">
-                <input matInput  [(ngModel)]="user.email">
+                <input matInput  [(ngModel)]="donor.email">
               </mat-form-field><br>
               <mat-label>Password:</mat-label>
               <mat-form-field appearance="fill">
-                <input matInput type="password" [(ngModel)]="user.password">
+                <input matInput type="password" [(ngModel)]="donor.password">
               </mat-form-field><br>
               <mat-label>Confirm password:</mat-label>
               <mat-form-field appearance="fill">
@@ -17,124 +17,53 @@
               </mat-form-field><br>
               <mat-label>Name:</mat-label>
               <mat-form-field appearance="fill">
-                <input matInput  [(ngModel)]="user.name">
+                <input matInput  [(ngModel)]="donor.name">
               </mat-form-field><br>
               <mat-label>Surname:</mat-label>
               <mat-form-field appearance="fill">
-                <input matInput  [(ngModel)]="user.surname">
+                <input matInput  [(ngModel)]="donor.surname">
               </mat-form-field><br>
               <mat-label>Gender:</mat-label>
               <mat-form-field appearance="fill" class="flexbox">
-                <input type="radio" name="gender" id="male" value="MALE" [(ngModel)]="user.gender">
+                <input type="radio" name="gender" id="male" value="MALE" [(ngModel)]="donor.gender">
                 <label for="male">Male</label>
-                <input type="radio" name="gender" id="female" value="FEMALE" [(ngModel)]="user.gender">
+                <input type="radio" name="gender" id="female" value="FEMALE" [(ngModel)]="donor.gender">
                 <label for="female">Female</label>
               </mat-form-field><br>
               <mat-label>Jmbg:</mat-label>
               <mat-form-field appearance="fill">
-                <input matInput type="number" [(ngModel)]="user.jmbg">
+                <input matInput type="number" [(ngModel)]="donor.JMBG">
               </mat-form-field><br>
               <mat-label>Workplace:</mat-label>
               <mat-form-field appearance="fill">
-                <input matInput  [(ngModel)]="user.workplace">
+                <input matInput  [(ngModel)]="donor.workplace">
               </mat-form-field><br>
               <mat-label>Profession:</mat-label>
               <mat-form-field appearance="fill">
-                <input matInput  [(ngModel)]="user.employmentInfo">
+                <input matInput  [(ngModel)]="donor.employmentInfo">
               </mat-form-field><br>
               <mat-label>Phone number:</mat-label>
               <mat-form-field appearance="fill">
-                <input matInput  [(ngModel)]="user.phoneNum">
+                <input matInput  [(ngModel)]="donor.phoneNumber">
               </mat-form-field><br>
               <mat-label>Address</mat-label>
               <div class="flexbox">
                   <mat-form-field >
                     <mat-label>Country</mat-label>
-                    <input matInput [(ngModel)]="user.state">
+                    <input matInput [(ngModel)]="donor.state">
                   </mat-form-field>
                   <mat-form-field >
                     <mat-label>City</mat-label>
-                    <input matInput [(ngModel)]="user.city">
+                    <input matInput [(ngModel)]="donor.city">
                   </mat-form-field>
                   <mat-form-field>
                     <mat-label>Street and number</mat-label>
-                    <input matInput [(ngModel)]="user.address">
+                    <input matInput [(ngModel)]="donor.address">
                   </mat-form-field><br>
                 </div>
             </div>
-            <button class="btn" mat-stroked-button (click)="post()">
-              Login
+            <button class="btn" mat-stroked-button (click)="registerDonor()">
+              Register
             </button>
           </div>
-      
-      <form id="formlogin">
-        <table class="form_container">
-          <tr>
-            <div class="flexbox_row">
-              <div class="flexbox_col" style="gap:0px">
-                  <p>Email:</p>
-                  <p>Password:</p>
-                  <p>Confirm password:</p>
-                  <p>Name:</p>
-                  <p>Surname:</p>
-                  <p>Jmbg:</p>
-                  <p>Workplace:</p>
-                  <p>Profession:</p>
-                  <p>Phone number:</p>
-                  
-              </div>
-              <div class="flexbox_col" style="gap:2.3em; margin-top:5%">
-                <input type="text" name="email" [(ngModel)]="user.email">
-                <input type="password" name="pasword" [(ngModel)]="user.password">
-                <input type="password" name="pasword" [(ngModel)]="passwordConfirm">
-                <input type="text" name="name" [(ngModel)]="user.name">
-                <input type="text" name="name" [(ngModel)]="user.surname">
-                <input type="text" name="jmbg" [(ngModel)]="user.jmbg">
-                <input type="text" name="adress" [(ngModel)]="user.workplace">
-                <input type="text" name="adress" [(ngModel)]="user.employmentInfo">
-                <input type="text" name="number" [(ngModel)]="user.phoneNum">
-              </div>
-            </div>
-          </tr>
-          
-
-          <tr>
-            <td align="center" >
-              <div class="flexbox_row" >
-                <p style="width:20%;margin-left:10%;" >Address:</p>
-                <p style="width:20%;" >City:</p>
-                <p style="width:20%;margin-right:10%;" >State:</p>
-              </div>
-              <div class="flexbox_row">
-                <input type="text" name="adress" style="width:20%;margin-left:10%;"  [(ngModel)]="user.address">
-                <input type="text" name="city" style="width:20%" [(ngModel)]="user.city">
-                <input type="text" name="state" style="width:20%; margin-right:10%" [(ngModel)]="user.state">
-              </div>
-            </td>
-          </tr>
-          
-          <tr>
-            <td align="center">
-              <p>Gender:</p>
-            </td>
-          </tr>
-          <tr>
-            <td align="center">
-              <div class="flexbox_row" style="width:50%">
-                
-                <input type="radio" name="gender" id="male" value="MALE" [(ngModel)]="user.gender">
-                <label for="male">Male</label>
-                <input type="radio" name="gender" id="female" value="FEMALE" [(ngModel)]="user.gender">
-                <label for="female">Female</label>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center">
-              <button class="btn" (click)="post()">Create account</button>
-            </td>
-          </tr>
-        </table>
-      </form>
     </body>

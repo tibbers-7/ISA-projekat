@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { RegDTO } from '../model/regDTO.model';
+import { StaffRegistrationDTO } from 'app/model/staffRegistrationDTO';
+import { AdminRegistrationDTO } from 'app/model/adminRegistrationDTO';
+import { DonorRegistrationDTO } from 'app/model/donorRegistrationDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +22,16 @@ export class AuthService {
         return this.http.post<any>(this.apiHost + 'api/Credentials/login', user, { headers: this.headers });
     }
    
-    register(user:RegDTO): Observable<any> {
-        return this.http.post<any>(this.apiHost + 'api/Credentials/register', user, { headers: this.headers });
+    registerStaff(staff: StaffRegistrationDTO): Observable<any> {
+        return this.http.post<any>(this.apiHost + 'api/Credentials/register/staff', staff, { headers: this.headers });
+    }
+
+    registerDonor(donor: DonorRegistrationDTO): Observable<any> {
+      return this.http.post<any>(this.apiHost + 'api/Credentials/register/donor', donor, { headers: this.headers });
+  }
+
+    registerAdmin(admin: AdminRegistrationDTO): Observable<any> {
+      return this.http.post<any>(this.apiHost + 'api/Credentials/register/admin', admin, { headers: this.headers });
     }
 
     changePass(email:string,newPass:string):Observable<any>{
