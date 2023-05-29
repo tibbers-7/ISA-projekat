@@ -3,7 +3,7 @@
   font: bold 17px verdana;
   color: white;
   min-height: 60px;
-  position: absolute;
+  position: fixed;
 }
 
 .mat-button {

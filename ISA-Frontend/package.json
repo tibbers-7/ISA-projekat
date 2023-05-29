@@ -29,8 +29,6 @@
     "ng-angular-popup": "^0.2.0",
     "ngx-material-timepicker": "^5.5.2",
     "ol": "^7.3.0",
-    "ol-marker-feature": "^2.0.2",
-    "ol-popup": "^5.0.0",
     "osm": "^1.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

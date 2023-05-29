@@ -17,6 +17,9 @@ import { MapsModule } from '@syncfusion/ej2-angular-maps';
 import { LegendService, MarkerService, MapsTooltipService, DataLabelService, BubbleService, NavigationLineService, SelectionService, AnnotationsService, ZoomService } from '@syncfusion/ej2-angular-maps';
 
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -45,6 +48,9 @@ const routes: Routes = [
     MaterialModule,
     GoogleMapsModule,
     MapsModule,
+    MatInputModule,
+    MatRadioModule,
+    MatFormFieldModule
     
   ],
   exports: [
