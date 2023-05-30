@@ -7,7 +7,7 @@ export class DonorRegistrationDTO {
     city = ''
     state = ''
     gender = ''
-    JMBG = 0
+    JMBG = ''
     workplace = ''
     employmentInfo = ''
     phoneNumber = ''
