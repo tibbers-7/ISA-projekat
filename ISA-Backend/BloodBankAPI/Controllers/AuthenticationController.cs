@@ -1,41 +1,35 @@
-﻿using BloodBankLibrary.Core.EmailSender;
-using BloodBankLibrary.Core.Users;
-using BloodBankLibrary.Core.Donors;
+﻿using BloodBankAPI.Materials.DTOs;
+using BloodBankAPI.Materials.EmailSender;
+using BloodBankAPI.Services.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
-using BloodBankLibrary.Core.Staffs;
-using BloodBankLibrary.Core.Materials.DTOs;
 
 namespace BloodBankAPI.Controllers
 {
     [AllowAnonymous]
 	[Route("api/[controller]")]
 	[ApiController]
-	public class CredentialsController : ControllerBase
+	public class AuthenticationController : ControllerBase
 	{
 
 
-		private IUserService _userService;
+		private IAuthenticationService _authService;
 		private JwtSecurityTokenHandler tokenHandler;
 		private IEmailSendService _emailSendService;
-		private IDonorService _donorService;
-		private IStaffService _staffService;
-		public CredentialsController(IUserService userService, IEmailSendService emailSendService, IDonorService donorService,IStaffService staffService)
+		public AuthenticationController(IAuthenticationService authService, IEmailSendService emailSendService)
 		{
 
-			_userService = userService;
+			_authService = authService;
 			tokenHandler = new JwtSecurityTokenHandler();
 			_emailSendService = emailSendService;
-			_donorService = donorService;
-			_staffService = staffService;
 		}
 
 		
 		[HttpPost("login")]
-		public IActionResult Login(RegisterDTO regDTO)
+		public IActionResult Login(LoginDTO regDTO)
 		{
-			User user = new User() { Email = regDTO.Email, Password = regDTO.Password };
+			
 			var _user = _userService.Authenticate(user);
 			if (_user != null )
 			{
