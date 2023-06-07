@@ -16,67 +16,67 @@ namespace BloodBankAPI.Controllers
             _userService = userService;
         }
 
-        /*
-        // GET: api/users
+       
+        
         [HttpGet]
-        public ActionResult GetAll()
+        public async Task<ActionResult> GetAllDonors()
         {
-            return Ok(_userService.GetAll());
+            return Ok(await _userService.GetAllDonors());
         }
+        /*
+       // GET api/users/2
+       [HttpGet("{id}")]
+       public ActionResult GetById(int id)
+       {
+           var user = _userService.GetById(id);
+           if (user == null)
+           {
+               return NotFound();
+           }
 
-        // GET api/users/2
-        [HttpGet("{id}")]
-        public ActionResult GetById(int id)
-        {
-            var user = _userService.GetById(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+           return Ok(user);
+       }
 
-            return Ok(user);
-        }
+       // PUT api/users/2
+       [HttpPut("{id}")]
+       public ActionResult Update(int id, User user)
+       {
+           if (!ModelState.IsValid)
+           {
+               return BadRequest(ModelState);
+           }
 
-        // PUT api/users/2
-        [HttpPut("{id}")]
-        public ActionResult Update(int id, User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+           if (id != user.Id)
+           {
+               return BadRequest();
+           }
 
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
+           try
+           {
+               _userService.Update(user);
+           }
+           catch
+           {
+               return BadRequest();
+           }
 
-            try
-            {
-                _userService.Update(user);
-            }
-            catch
-            {
-                return BadRequest();
-            }
+           return Ok(user);
+       }
 
-            return Ok(user);
-        }
+       // DELETE api/users/2
+       [HttpDelete("{id}")]
+       public ActionResult Delete(int id)
+       {
+           var user = _userService.GetById(id);
+           if (user == null)
+           {
+               return NotFound();
+           }
 
-        // DELETE api/users/2
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
-        {
-            var user = _userService.GetById(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _userService.Delete(user);
-            return NoContent();
-        }
-        */
+           _userService.Delete(user);
+           return NoContent();
+       }
+       */
 
     }
 }

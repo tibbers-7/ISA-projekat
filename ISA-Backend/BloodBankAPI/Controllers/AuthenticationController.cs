@@ -16,13 +16,11 @@ namespace BloodBankAPI.Controllers
 
 		private IAuthenticationService _authService;
 		private JwtSecurityTokenHandler tokenHandler;
-		private IEmailSendService _emailSendService;
-		public AuthenticationController(IAuthenticationService authService, IEmailSendService emailSendService)
+		public AuthenticationController(IAuthenticationService authService)
 		{
 
 			_authService = authService;
 			tokenHandler = new JwtSecurityTokenHandler();
-			_emailSendService = emailSendService;
 		}
 
 
@@ -37,12 +35,36 @@ namespace BloodBankAPI.Controllers
                 }
 
                 await _authService.RegisterDonor(dto);
-                return Ok("User registered successfully!");
+                await _authService.SendActivationLink(dto.Email);
+                return Ok("User registered successfully, sending activation link!");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("activate")]
+        public async Task<ActionResult> Activate()
+        {
+            string email = Request.Query["email"];
+            string token = Request.Query["token"];
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if ( await _authService.ActivateAccount(email, token))
+                        return Redirect("http://localhost:4200/login");
+                    else
+                        return NotFound("Something went wrong!");
+                }catch(Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                
+            }
+            return BadRequest();
         }
 
 
@@ -57,6 +79,25 @@ namespace BloodBankAPI.Controllers
                 }
 
                 await _authService.RegisterStaff(dto);
+                return Ok("User registered successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("register/admin")]
+        public async Task<IActionResult> RegisterAdmin(AdminRegistrationDTO dto)
+        {
+            try
+            {
+                if (await _authService.CheckIfEmailExistsAsync(dto.Email))
+                {
+                    return Conflict("Registration unsuccessful, user with email " + dto.Email + " already exists!");
+                }
+
+                await _authService.RegisterAdmin(dto);
                 return Ok("User registered successfully!");
             }
             catch (Exception ex)
@@ -66,8 +107,8 @@ namespace BloodBankAPI.Controllers
         }
 
 
-		
-		[HttpPost("login")]
+
+        [HttpPost("login")]
 		public async Task<IActionResult> Login(LoginDTO dto)
 		{
 			try
@@ -86,6 +127,8 @@ namespace BloodBankAPI.Controllers
                 return BadRequest(ex.Message);
             }
 		}
+
+
 
 		/*
 		[Authorize]
@@ -109,55 +152,9 @@ namespace BloodBankAPI.Controllers
 			
 			return Ok();
 		}
-	/*
+	
+
 		
-		/*
-		private bool SendActivationEmail(string email,string temp)
-		{
-
-			var token = _userService.GenerateActivationToken(email);
-
-			if (token != null)
-			{
-				_userService.SaveTokenToDatabase(email, token);
-
-				var lnkHref = Url.Action("Activate", "Credentials", new { email = email, code = token }, "http");
-				string subject = "BloodCenter Activation Link";
-				string body = "Your activation link: " + lnkHref;
-				if (temp != null)
-                {
-					body = body + "\nYour temporary password is: "+temp;
-					body = body + "\nPlease change your password as soon as possible!";
-                }
-				_emailSendService.SendEmail(new Message(new string[] { email, "tibbers707@gmail.com" }, subject, body));
-				return true;
-			}
-
-			return false;
-		}
-
-		[HttpGet("activate-account")]
-		public ActionResult Activate()
-		{
-			string email = Request.Query["email"];
-			string token = Request.Query["code"];
-
-
-			if (ModelState.IsValid)
-			{
-				bool response = _userService.Activate(email, token);
-
-				if (response)
-				{
-					return Redirect("http://localhost:4200/login");
-				}
-				else
-				{
-					return NotFound("Something went wrong!");
-				}
-			}
-			return BadRequest();
-		}
 		*/
     }
 }
