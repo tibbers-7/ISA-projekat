@@ -1,4 +1,4 @@
-﻿using BloodBankLibrary.Core.Appointments;
+﻿using BloodBankAPI.Model;
 
 namespace BloodBankAPI.Materials.DTOs
 {

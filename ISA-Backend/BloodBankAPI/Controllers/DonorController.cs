@@ -1,5 +1,4 @@
-﻿using BloodBankLibrary.Core.Donors;
-using BloodBankLibrary.Core.Users;
+﻿using BloodBankAPI.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BloodBankAPI.Controllers
@@ -8,15 +7,15 @@ namespace BloodBankAPI.Controllers
     [ApiController]
     public class DonorController : ControllerBase
     {
-        private readonly IDonorService _donorService;
+        
         private readonly IUserService _userService;
 
-        public DonorController(IDonorService donorService,IUserService userService)
+        public DonorController(IUserService userService)
         {
-            _donorService = donorService;
             _userService = userService;
         }
 
+        /*
         // GET: api/Donor
         [HttpGet]
         public ActionResult GetAll()
@@ -59,6 +58,6 @@ namespace BloodBankAPI.Controllers
             return Ok(donor);
         }
 
-
+        */
     }
 }

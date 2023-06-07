@@ -25,21 +25,69 @@ namespace BloodBankAPI.Controllers
 			_emailSendService = emailSendService;
 		}
 
+
+		[HttpPost("register/donor")]
+		public async Task<IActionResult> RegisterDonor(DonorRegistrationDTO dto)
+		{
+            try
+            {
+                if (await _authService.CheckIfEmailExistsAsync(dto.Email))
+                {
+                    return Conflict("Registration unsuccessful, user with email "+ dto.Email+" already exists!");
+                }
+
+                await _authService.RegisterDonor(dto);
+                return Ok("User registered successfully!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost("register/staff")]
+        public async Task<IActionResult> RegisterStaff(StaffRegistrationDTO dto)
+        {
+            try
+            {
+                if (await _authService.CheckIfEmailExistsAsync(dto.Email))
+                {
+                    return Conflict("Registration unsuccessful, user with email " + dto.Email + " already exists!");
+                }
+
+                await _authService.RegisterStaff(dto);
+                return Ok("User registered successfully!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
 		
 		[HttpPost("login")]
-		public IActionResult Login(LoginDTO regDTO)
+		public async Task<IActionResult> Login(LoginDTO dto)
 		{
-			
-			var _user = _userService.Authenticate(user);
-			if (_user != null )
+			try
 			{
-				var token = Generate(_user);
-				return Ok(tokenHandler.ReadToken(token));
+				if(await _authService.EmailMatchesPasswordAsync(dto))
+				{
+                    var tokenDTO = _authService.LogInUserAsync(dto);
+					return Ok(tokenDTO);
+				}
+				else
+				{
+					return BadRequest("Log in unsuccessful");
+				}
 			}
-
-			return Unauthorized();
+			catch(Exception ex) {
+                return BadRequest(ex.Message);
+            }
 		}
 
+		/*
 		[Authorize]
 		[HttpPut("changePassword")]
 		public IActionResult ChangePassword(string email,string newPass)
@@ -61,72 +109,9 @@ namespace BloodBankAPI.Controllers
 			
 			return Ok();
 		}
-
+	/*
 		
-		[HttpPut("authenticate")]
-		public IActionResult Authenticate(string email, string password)
-		{
-			User user = new User() { Email=email, Password=password };
-			if (_userService.Authenticate(user) == null) return BadRequest("AuthFailed");
-
-			return Ok();
-
-
-
-			return Unauthorized();
-		}
-
-
-		
-		[HttpPost("register")]
-		public ActionResult Register(RegisterDTO regDTO)
-		{
-			if (!ModelState.IsValid) return BadRequest(ModelState);
-			if (_userService.GetByEmail(regDTO.Email) != null) return BadRequest("Exists");
-
-			int idByRole = 0;
-			string email = null;
-
-			switch (regDTO.UserType)
-            {
-				case ("DONOR"):
-                    {
-						Donor donor = new Donor(regDTO);
-						_donorService.Register(donor);
-						donor = _donorService.GetByEmail(donor.Email);
-						idByRole = donor.Id;
-						email=donor.Email; // ako bude postojala provera da li je mejl dobro upisan
-						break;
-                    }
-				case ("STAFF"):
-                    {
-						Staff staff=new Staff(regDTO);
-						_staffService.Create(staff);
-						idByRole=staff.Id;
-						email=staff.Email;
-						break;
-                    }
-
-				default: return (BadRequest("UserType"));
-            }
-
-
-
-
-			if (idByRole != 0 && email!=null)
-			{
-				User newUser = new User(regDTO, idByRole);
-				string tempPass=_userService.Create(newUser);
-				if (!SendActivationEmail(email,tempPass)) return BadRequest("Email");
-			}
-			else return BadRequest("DatabaseError");
-
-			
-
-			return Ok();
-		}
-
-
+		/*
 		private bool SendActivationEmail(string email,string temp)
 		{
 
@@ -151,32 +136,6 @@ namespace BloodBankAPI.Controllers
 			return false;
 		}
 
-
-
-		
-		[HttpPost("send-activation")]
-		public ActionResult SendActivationCode(RegisterDTO regDTO)
-		{
-
-			if (!ModelState.IsValid) return BadRequest();
-
-			string email = regDTO.Email;
-			var token = _userService.GenerateActivationToken(email);
-
-			if (token != null)
-			{
-				_userService.SaveTokenToDatabase(email, token);
-
-				var lnkHref = Url.Action("Activate", "Credentials", new { email = email, code = token }, "http");
-				string subject = "HealthcareMD Activation Link";
-				string body = "Your activation link: " + lnkHref;
-				_emailSendService.SendEmail(new Message(new string[] { email, "tibbers707@gmail.com" }, subject, body));
-				return Ok();
-			}
-
-			return NotFound();
-		}
-
 		[HttpGet("activate-account")]
 		public ActionResult Activate()
 		{
@@ -199,12 +158,6 @@ namespace BloodBankAPI.Controllers
 			}
 			return BadRequest();
 		}
-
-
-		private string Generate(User user)
-		{
-			var token = _userService.GenerateFullToken(user);
-			return new JwtSecurityTokenHandler().WriteToken(token);
-		}
-	}
+		*/
+    }
 }

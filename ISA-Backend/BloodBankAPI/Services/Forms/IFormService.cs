@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using BloodBankAPI.Model;
+using System.Collections.Generic;
 
 namespace BloodBankAPI.Services.Forms
 {
     public interface IFormService
     {
-        IEnumerable<Form> GetAll();
-        Form GetById(int id);
-        void Create(Form form);
+        Task<IEnumerable<Form>> GetAll();
+        Task<Form> GetById(int id);
+        Task Create(Form form);
         void Update(Form form);
         bool IsDonorEligible(Form form);
-        object GetByDonorId(int id);
+        Task<Form> GetByDonorId(int id);
+           
     }
 }

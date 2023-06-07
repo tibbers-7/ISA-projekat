@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BloodBankAPI.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace BloodBankAPI.Materials.DTOs
         public double AvgScore { get; set; }
         public string stringAddress { get; set; }
 
+        /*
         public CenterDTO(BloodCenter center)
         {
             Id=center.Id;
@@ -23,5 +25,7 @@ namespace BloodBankAPI.Materials.DTOs
             AvgScore = center.AvgScore;
             OpenHours=center.WorkTimeStart.ToString("HH:mm") + " - "+center.WorkTimeEnd.ToString("HH:mm");
         }
+        */
+        public CenterDTO() { }
     }
 }

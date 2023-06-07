@@ -7,6 +7,7 @@ namespace BloodBankAPI.Services.Appointments
 {
     public interface IAppointmentService
     {
+        /*
         IEnumerable<Appointment> GetAll();
         Appointment GetById(int id);
         void Create(Appointment appointment);
@@ -34,5 +35,6 @@ namespace BloodBankAPI.Services.Appointments
 
         IEnumerable<AppointmentDTO> GetScheduledForStaff(int id);
         void CompleteAppt(AppointmentDTO appointment);
+        */
     }
 }

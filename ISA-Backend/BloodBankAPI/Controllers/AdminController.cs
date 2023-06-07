@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BloodBankAPI.Services.Users;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BloodBankAPI.Controllers
 {
@@ -7,25 +8,26 @@ namespace BloodBankAPI.Controllers
     public class AdminController : ControllerBase
     {
 
-        private readonly IUserService _adminService;
+        private readonly IUserService _userService;
 
-        public AdminController(IUserService adminService)
+        public AdminController(IUserService userService)
         {
-            _adminService = adminService;
+            _userService = userService;
         }
 
+        /*
         // GET: api/users
         [HttpGet]
-        public ActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            return Ok(_adminService.GetAll());
+            return Ok(await _userService.GetAll());
         }
 
         // GET api/users/2
         [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
-            var user = _adminService.GetById(id);
+            var user = _userService.GetById(id);
             if (user == null)
             {
                 return NotFound();
@@ -34,7 +36,7 @@ namespace BloodBankAPI.Controllers
             return Ok(user);
         }
 
-       
+       */
 
     }
 }

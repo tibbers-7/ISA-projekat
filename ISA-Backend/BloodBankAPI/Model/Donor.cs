@@ -1,0 +1,23 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BloodBankAPI.Model
+{
+    public class Donor : Account
+    {
+        
+        public long PhoneNumber { get; set; }
+        public long Jmbg { get; set; }
+        public string Profession { get; set; }
+        public string Workplace { get; set; }
+
+        public string Address { get; set; }
+
+        //broj penala - nepojavljivanje na pregledu
+        public int Strikes { get; set; }
+
+        public Donor()
+        {
+
+        }
+    }
+}

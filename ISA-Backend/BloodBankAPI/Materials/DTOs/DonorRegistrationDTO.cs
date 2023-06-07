@@ -10,6 +10,7 @@ namespace BloodBankAPI.Materials.DTOs
     {
         public string Email { get; set; }
         public string Password { get; set; }
+        public string UserType { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Address { get; set; }
@@ -19,7 +20,7 @@ namespace BloodBankAPI.Materials.DTOs
         public string Gender { get; set; }
         public long JMBG { get; set; }
         public string Workplace { get; set; }
-        public string EmploymentInfo { get; set; }
+        public string Profession { get; set; }
 
         public DonorRegistrationDTO() { }
     }

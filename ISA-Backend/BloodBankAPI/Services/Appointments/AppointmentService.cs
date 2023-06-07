@@ -12,33 +12,33 @@ namespace BloodBankAPI.Services.Appointments
         {
          _unitOfWork = unitOfWork;
         }
+        /*
 
-
-        public void Create(Appointment appointment)
+        public async Task Create(Appointment appointment)
         {
-            _appointmentRepository.Create(appointment);
+           await _unitOfWork.AppointmentRepository.InsertAsync(appointment);
         }
 
 
         public IEnumerable<Appointment> GetAll()
         {
-            return _appointmentRepository.GetAll();
+            return _unitOfWork.AppointmentRepository.GetAll();
         }
 
         public void Update(Appointment appointment)
         {
-            _appointmentRepository.Update(appointment);
+            _unitOfWork.AppointmentRepository.Update(appointment);
         }
 
         public Appointment GetById(int id)
         {
-            return _appointmentRepository.GetById(id);
+            return _unitOfWork.AppointmentRepository.GetById(id);
         }
 
 
         public IEnumerable<Appointment> GetScheduled()
         {
-            List<Appointment> scheduled = _appointmentRepository.GetScheduled().ToList();
+            List<Appointment> scheduled = _unitOfWork.AppointmentRepository.GetScheduled().ToList();
             List<Appointment> res = new List<Appointment>();
             foreach (Appointment appointment in scheduled)
             {
@@ -53,7 +53,7 @@ namespace BloodBankAPI.Services.Appointments
 
         public IEnumerable<Donor> GetDonorsByCenterId(int centerId)
         {
-            List<int> donorIds = _appointmentRepository.GetDonorsByCenter(centerId).ToList();
+            List<int> donorIds = await _unitOfWork.AppointmentRepository.GetByConditionAsync(app => app.CenterId == centerId);
             List<Donor> res = new List<Donor>();
             foreach (int donorId in donorIds)
             {
@@ -368,5 +368,6 @@ namespace BloodBankAPI.Services.Appointments
 
 
         }
+        */
     }
 }

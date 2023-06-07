@@ -1,4 +1,4 @@
-﻿using BloodBankLibrary.Core.Users;
+﻿using BloodBankAPI.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Eventing.Reader;
 
@@ -16,6 +16,7 @@ namespace BloodBankAPI.Controllers
             _userService = userService;
         }
 
+        /*
         // GET: api/users
         [HttpGet]
         public ActionResult GetAll()
@@ -34,31 +35,6 @@ namespace BloodBankAPI.Controllers
             }
 
             return Ok(user);
-        }
-      
-        // POST api/users/2
-        [HttpPost("{email}")]
-        public ActionResult Login(User user)
-        {
-            var loggedUser = _userService.GetByEmail(user.Email);
-            if (loggedUser == null)
-                return NotFound();
-            if(user.Password!=loggedUser.Password)
-                return Unauthorized();
-            return Ok(user);
-        }
-
-        // POST api/users
-        [HttpPost]
-        public ActionResult Create(User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _userService.Create(user);
-            return CreatedAtAction("GetById", new { id = user.Id }, user);
         }
 
         // PUT api/users/2
@@ -100,6 +76,7 @@ namespace BloodBankAPI.Controllers
             _userService.Delete(user);
             return NoContent();
         }
+        */
 
     }
 }

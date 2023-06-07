@@ -1,8 +1,8 @@
-﻿using BloodBankAPI.Services.Appointment;
-using BloodBankAPI.Services.BloodCenter;
-using BloodBankLibrary.Core.Addresses;
+﻿using BloodBankAPI.Model;
+using BloodBankAPI.Services.Addresses;
+using BloodBankAPI.Services.Appointments;
+using BloodBankAPI.Services.BloodCenters;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace BloodBankAPI.Controllers
 {
@@ -22,16 +22,16 @@ namespace BloodBankAPI.Controllers
 
         // GET: api/bloodCenters
         [HttpGet]
-        public ActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            return Ok(_bloodCenterService.GetAll());
+            return Ok(await _bloodCenterService.GetAll());
         }
 
         // GET api/bloodCenters/2
         [HttpGet("{id}")]
-        public ActionResult GetById(int id)
+        public async Task<ActionResult> GetById(int id)
         {
-            var bloodCenter = _bloodCenterService.GetById(id);
+            var bloodCenter = await _bloodCenterService.GetById(id);
             if (bloodCenter == null)
             {
                 return NotFound();
@@ -41,9 +41,9 @@ namespace BloodBankAPI.Controllers
         }
 
         [HttpGet("cities")]
-        public ActionResult GetCities()
+        public async Task<ActionResult> GetCities()
         {
-            var cities = _addressService.GetCities();
+            var cities = await _addressService.GetCitiesAsync();
             if (cities == null)
             {
                 return NotFound();
@@ -55,14 +55,14 @@ namespace BloodBankAPI.Controllers
 
         // POST api/bloodCenters
         [HttpPost]
-        public ActionResult Create(BloodCenter bloodCenter)
+        public async Task<ActionResult> Create(BloodCenter bloodCenter)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _bloodCenterService.Create(bloodCenter);
+            await _bloodCenterService.Create(bloodCenter);
             return CreatedAtAction("GetById", new { id = bloodCenter.Id }, bloodCenter);
         }
 
@@ -94,9 +94,9 @@ namespace BloodBankAPI.Controllers
 
         // DELETE api/bloodCenters/2
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var bloodCenter = _bloodCenterService.GetById(id);
+            var bloodCenter = await _bloodCenterService.GetById(id);
             if (bloodCenter == null)
             {
                 return NotFound();
@@ -105,7 +105,7 @@ namespace BloodBankAPI.Controllers
             _bloodCenterService.Delete(bloodCenter);
             return NoContent();
         }
-
+/*
         [HttpGet("{centerId}/donors")]
         public ActionResult GetDonorsForCenter(int centerId)
         {
@@ -119,12 +119,12 @@ namespace BloodBankAPI.Controllers
             return Ok(donors);
         }
 
-
+*/
         [HttpGet("address/{id}")]
-        public ActionResult GetAddressByCenter(int id) { 
+        public async Task<ActionResult> GetAddressByCenter(int id) { 
         
         
-            var address = _addressService.GetByCenter(id);
+            var address = await _addressService.GetByCenterAsync(id);
             if(address== null)
             {
                 return NotFound();
@@ -172,9 +172,9 @@ namespace BloodBankAPI.Controllers
         }
 
         [HttpGet("search/{content}")]
-        public ActionResult SearchResult(string content)
+        public async Task<ActionResult> SearchResult(string content)
         {
-            var result = _bloodCenterService.GetSearchResult(content);
+            var result = await _bloodCenterService.GetSearchResult(content);
             if (result == null)
             {
                 return NotFound();

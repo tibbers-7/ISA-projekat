@@ -1,6 +1,5 @@
-﻿using BloodBankLibrary.Core.Staffs;
+﻿using BloodBankAPI.Services.Users;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.Eventing.Reader;
 
 namespace BloodBankAPI.Controllers
 {
@@ -9,14 +8,15 @@ namespace BloodBankAPI.Controllers
     public class StaffController : ControllerBase
     {
 
-        private readonly IStaffService _staffService;
+        private readonly IUserService _userService;
 
-        public StaffController(IStaffService staffService)
+        public StaffController(IUserService userService)
         {
-            _staffService = staffService;
+            _userService = userService;
         }
 
-        
+       
+        /*
         [HttpGet]
         public ActionResult GetAll()
         {
@@ -103,6 +103,7 @@ namespace BloodBankAPI.Controllers
             _staffService.Delete(staff);
             return NoContent();
         }
+        */
 
     }
 }

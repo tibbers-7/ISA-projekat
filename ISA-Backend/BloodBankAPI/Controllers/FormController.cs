@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using BloodBankAPI.Services.Form;
+using BloodBankAPI.Services.Forms;
+using BloodBankAPI.Model;
 
 namespace BloodBankAPI.Controllers
 {
@@ -36,16 +37,17 @@ namespace BloodBankAPI.Controllers
 
         // GET api/bloodCenters/2
         [HttpGet("donor/{id}")]
-        public ActionResult IsEligible(int id)
+        public async Task<ActionResult> IsEligible(int id)
         {
-            var form = _formService.GetByDonorId(id);
+            var form = await _formService.GetByDonorId(id);
             if (form == null)
             {
                 return NotFound();
             }
-            if(!_formService.IsDonorEligible((Form)form)) return NotFound();
+            if(!_formService.IsDonorEligible(form)) return NotFound();
             return Ok(form);
         }
+
         // POST api/bloodCenters
         [HttpPost]
         public ActionResult Create(Form form)

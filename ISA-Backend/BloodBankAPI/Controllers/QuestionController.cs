@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using BloodBankAPI.Services.Question;
+using BloodBankAPI.Services.Questions;
 
 namespace BloodBankAPI.Controllers
 {

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using BloodBankAPI.Model;
+using System.Collections.Generic;
 
 namespace BloodBankAPI.Services.Questions
 {
     public interface IQuestionService
     {
-        IEnumerable<Question> GetAll();
-        Question GetById(int id);
+        Task<IEnumerable<Question>> GetAll();
+        Task<Question> GetById(int id);
     }
 }

@@ -8,12 +8,15 @@ namespace BloodBankAPI.Settings
 {
     public class BloodBankDbContext : DbContext
     {
+        //virtual?
         public DbSet<BloodCenter> BloodCenters { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Form> Forms { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<Profile> Profiles { get; set; }
+        public DbSet<Donor> Donors { get; set; }
+        public DbSet<Staff> Staff { get; set; }
+        public DbSet<Admin> Admins { set; get; }
         public DbSet<CenterAddress> CenterAddresses { get; set; }
 
         public BloodBankDbContext(DbContextOptions<BloodBankDbContext> options) : base(options) {
@@ -28,6 +31,13 @@ namespace BloodBankAPI.Settings
             modelBuilder.HasPostgresEnum<Gender>();
             modelBuilder.HasPostgresEnum<UserType>();
             modelBuilder.HasPostgresEnum<AppointmentStatus>();
+
+            modelBuilder.Entity<Account>().ToTable("accounts");
+            modelBuilder.Entity<Donor>().ToTable("donors");
+            modelBuilder.Entity<Staff>().ToTable("staff");
+            modelBuilder.Entity<Admin>().ToTable("admins");
+
+            modelBuilder.Entity<BloodCenter>().HasOne(c => c.CenterAddress).WithOne(a => a.BloodCenter).HasForeignKey<CenterAddress>(a => a.CenterId);
 
             Question[] questions= new Question[] { new Question(1, "Have you donated blood in the last 6 months?"), 
                                                     new Question(2, "Have you ever been rejected as a blood donor?"),
@@ -52,23 +62,18 @@ namespace BloodBankAPI.Settings
             CenterAddress a4 = new CenterAddress { Id = 4, City = "Novi Sad", StreetAddress = "Vere Petrovic 1", CenterId = 4, Country = "Srbija" }; 
             modelBuilder.Entity<CenterAddress>().HasData(a1, a2, a3, a4);
 
-            /*
-            Donor d = new Donor() {Id=1, Name = "Emilija", Surname = "Medic", Email = "donor", Jmbg = 34242423565, AddressString = "Ise Bajica 1,Novi Sad,Srbija", Gender = Gender.FEMALE, PhoneNumber = 381629448332, Profession = "student", Workplace = "Fakultet Tehnickih Nauka", Strikes = 0 };
+         /*
+            Account acc1 = new Account(){Id=1, Name = "Emilija", Surname = "Medic", Gender = Gender.FEMALE, Email = "donor@gmail.com", IsActive=true, Token = null, Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==",  UserType= UserType.DONOR};
+            Account acc2 = new Account(){Id=2, Name = "Marko", Surname = "Dobrosavljevic", Gender = Gender.FEMALE, Email = "admin@gmail.com", IsActive=true, Token = null, Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==", UserType = UserType.ADMIN};
+            Account acc3 = new Account(){Id=3, Name = "Milan", Surname = "Miric", Gender = Gender.MALE, Email = "staff@gmail.com", IsActive=true, Token = null, Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==", UserType = UserType.STAFF};
+            modelBuilder.Entity<Account>().HasData(acc1, acc2, acc3);
+
+            Donor d = new Donor() { Id = 1, AccountId=1, Jmbg = 34242423565, AddressString = "Ise Bajica 1,Novi Sad,Srbija", PhoneNumber = 381629448332, Profession = "student", Workplace = "Fakultet Tehnickih Nauka", Strikes = 0 };
+            Staff s = new Staff() { Id = 1, AccountId = 3, CenterId = 1};
+
             modelBuilder.Entity<Donor>().HasData(d);
-
-
-            Admin a=new Admin () {Id=1, Email="admin",Name="Marko", Surname= "Dobrosavljevic" };
-            modelBuilder.Entity<Admin>().HasData(a);
-
-            Staff s = new Staff { Id = 1, Email = "staff", Name = "Milan", Surname = "Miric", AddressString = "Bore Prodanovica 22,Novi Sad,Srbija",Gender=Gender.MALE,Jmbg=47387297437,PhoneNumber=3816298437, CenterId = 1 };
             modelBuilder.Entity<Staff>().HasData(s);
-
-            //User u1 = new User { Id = 1, IdByType =1,Name = "Marko", Surname = "Dobrosavljevic", Email = "admin", Active=true, Token = null, Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==",  UserType= UserType.ADMIN };
-            //User u2 = new User { Id = 2, IdByType = 1, Name = "Emilija", Surname = "Medic", Email="donor", Active = true, Token = null, Password = "APuucZwPYpx2awM5SRWZ55yMOqwvnKdxTyFmtxSskpMzABHMEILvphRla+B4hvTmhw==", UserType = UserType.DONOR };
-            //User u3 = new User { Id = 3, IdByType = 1, Email = "staff", Name = "Milan", Surname = "Miric", Active=true, Token=null,  Password= "AMnI1Ks4LwHaa8litjbGOhpvrAV/2e0IZsv6EXpkTMORSQ1GQ1nwiiSE7yEIKjdM9g==", UserType = UserType.STAFF };
-           
-           // modelBuilder.Entity<User>().HasData(u1, u2, u3);
-*/
+           */
             base.OnModelCreating(modelBuilder);
         }
     }

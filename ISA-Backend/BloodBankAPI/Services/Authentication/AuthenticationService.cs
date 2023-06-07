@@ -1,7 +1,14 @@
-﻿using BloodBankAPI.Materials.DTOs;
+﻿using AutoMapper;
+using BloodBankAPI.Materials.DTOs;
 using BloodBankAPI.Materials.EmailSender;
+using BloodBankAPI.Materials.Enums;
+using BloodBankAPI.Materials.PasswordHasher;
 using BloodBankAPI.Model;
+using BloodBankAPI.UnitOfWork;
+using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Crypto.Generators;
 using System.Drawing;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,32 +18,113 @@ namespace BloodBankAPI.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IUserRepository _userRepository;
-        private IConfiguration _config;
+        private readonly IUnitOfWork _unitOfWork;
         private IPasswordHasher _passwordHasher;
         private IEmailSendService _emailSendService;
-        public UserService(IConfiguration config, IUserRepository userRepository, IEmailSendService emailSendService, IPasswordHasher passwordHasher)
+        private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
+        public AuthenticationService(IUnitOfWork unitOfWork, IEmailSendService emailSendService, IPasswordHasher passwordHasher, IConfiguration configuration, IMapper mapper)
         {
-            _userRepository = userRepository;
-            _config = config;
+            _unitOfWork = unitOfWork;
             _emailSendService = emailSendService;
             _passwordHasher = passwordHasher;
+            _configuration = configuration;
+            _mapper = mapper;
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<bool> CheckIfEmailExistsAsync(string email)
         {
-            return _userRepository.GetAll();
+            if (await GetUserByEmailAsync(email) != null)
+            {
+                return true;
+            }
+            return false;
         }
 
-        public User GetById(int id)
+        public async Task<bool> EmailMatchesPasswordAsync(LoginDTO dto)
         {
-            return _userRepository.GetById(id);
-        }
-        public User GetByEmail(string email)
-        {
-            return _userRepository.GetByEmail(email);
+            Account userByEmail = await GetUserByEmailAsync(dto.Email);
+            if (userByEmail != null)
+            {
+                return _passwordHasher.VerifyHashedPassword(userByEmail.Password, dto.Password);
+            }
+
+            return false;
+
         }
 
+        private async Task<Account> GetUserByEmailAsync(string email)
+        {
+            IEnumerable<Account> accounts =  await _unitOfWork.AccountRepository.GetByConditionAsync(u => u.Email == email);
+            return accounts.FirstOrDefault();
+        }
+
+        public async Task<AccessTokenDTO> LogInUserAsync(LoginDTO dto)
+        {
+            Account account = await GetUserByEmailAsync(dto.Email);
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Role, account.UserType.ToString()),
+                new Claim(ClaimTypes.PrimarySid, account.Id.ToString()),
+                new Claim(ClaimTypes.Email, account.Email)
+            };
+            return GenerateToken(claims);
+        }
+
+        private AccessTokenDTO GenerateToken(IEnumerable<Claim> claims)
+        {
+          
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityTokenHandler().WriteToken(
+
+                new JwtSecurityToken(
+                    _configuration["Jwt:Issuer"],
+                    _configuration["Jwt:Audience"],
+                    claims,
+                    expires: DateTime.UtcNow.AddMinutes(15),
+                    signingCredentials: credentials
+                    ));
+
+            return new AccessTokenDTO() { AccessToken = token };
+        }
+
+
+        public async Task RegisterDonor(DonorRegistrationDTO dto)
+        {
+            dto.Password = _passwordHasher.HashPassword(dto.Password);
+            Donor donorData = _mapper.Map<Donor>(dto);
+            donorData.UserType = UserType.DONOR;
+            await _unitOfWork.DonorRepository.InsertAsync(donorData);
+            await _unitOfWork.SaveAsync();
+        }
+       
+        public async Task RegisterStaff(StaffRegistrationDTO dto)
+        {
+            dto.Password = _passwordHasher.HashPassword(dto.Password);
+            Staff staffData = _mapper.Map<Staff>(dto);
+            staffData.UserType = UserType.STAFF;
+            await _unitOfWork.StaffRepository.InsertAsync(staffData);
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task RegisterAdmin(AdminRegistrationDTO dto)
+        {
+            dto.Password = _passwordHasher.HashPassword(dto.Password);
+            Admin adminData = _mapper.Map<Admin>(dto);
+            adminData.UserType = UserType.ADMIN;
+            await _unitOfWork.AdminRepository.InsertAsync(adminData);
+            await _unitOfWork.SaveAsync();
+        }
+
+       
+
+     
+      
+
+
+
+        /*
         public string Create(User user)
         {
             string tempPass = null;
@@ -59,17 +147,6 @@ namespace BloodBankAPI.Services.Authentication
             Update(user);
             return true;
 
-        }
-
-
-        public void Update(User user)
-        {
-            _userRepository.Update(user);
-        }
-
-        public void Delete(User user)
-        {
-            _userRepository.Delete(user);
         }
 
         public bool Activate(string email, string token)
@@ -228,5 +305,6 @@ namespace BloodBankAPI.Services.Authentication
         {
             throw new NotImplementedException();
         }
+        */
     }
 }

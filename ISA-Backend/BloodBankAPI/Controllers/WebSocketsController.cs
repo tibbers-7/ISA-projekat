@@ -1,15 +1,9 @@
-﻿using System;
-using System.Net.Http;
+﻿
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using BloodBankAPI;
-using BloodBankLibrary.Core.Appointments;
+using BloodBankAPI.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Model;
 
 namespace BloodBankAPI.Controllers
 {

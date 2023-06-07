@@ -1,37 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using BloodBankAPI.Model;
+using BloodBankAPI.UnitOfWork;
+using System.Collections.Generic;
 
 namespace BloodBankAPI.Services.Forms
 {
     public class FormService : IFormService
     {
-        private readonly IFormRepository _formRepository;
-        public FormService(IFormRepository formRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public FormService(IUnitOfWork unitOfWork)
         {
-            _formRepository = formRepository;
+           _unitOfWork = unitOfWork;
         }
 
-        public void Create(Form form)
+        public async Task Create(Form form)
         {
-            _formRepository.Create(form);
+           await _unitOfWork.FormRepository.InsertAsync(form);
         }
 
-        public IEnumerable<Form> GetAll()
+        public async Task<IEnumerable<Form>> GetAll()
         {
-            return _formRepository.GetAll();
+            return await _unitOfWork.FormRepository.GetAllAsync();
         }
 
-        public object GetByDonorId(int id)
+        public async Task<Form> GetByDonorId(int id)
         {
-            foreach (Form form in GetAll())
-            {
-                if (form.DonorId == id) return form;
-            }
-            return null;
+           IEnumerable<Form> forms = await _unitOfWork.FormRepository.GetByConditionAsync(form => form.DonorId == id);
+           return forms.FirstOrDefault();
         }
 
-        public Form GetById(int id)
+        public async Task<Form> GetById(int id)
         {
-            return _formRepository.GetById(id);
+            return await _unitOfWork.FormRepository.GetByIdAsync(id);
         }
 
         public bool IsDonorEligible(Form form)
@@ -41,7 +40,7 @@ namespace BloodBankAPI.Services.Forms
 
         public void Update(Form form)
         {
-            _formRepository.Update(form);
+            _unitOfWork.FormRepository.Update(form);
         }
     }
 }

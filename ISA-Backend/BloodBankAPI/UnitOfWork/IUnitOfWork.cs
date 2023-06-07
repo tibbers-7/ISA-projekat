@@ -8,7 +8,9 @@ namespace BloodBankAPI.UnitOfWork
         IGenericRepository<CenterAddress> AddressRepository { get; }
         IGenericRepository<BloodCenter> CenterRepository { get; }
         IGenericRepository<Account> AccountRepository { get; }
-        IGenericRepository<Profile> ProfileRepository { get; }
+        IGenericRepository<Donor> DonorRepository { get; }
+        IGenericRepository<Staff> StaffRepository { get; }
+        IGenericRepository<Admin> AdminRepository { get; }
         IGenericRepository<Appointment> AppointmentRepository { get; }
         IGenericRepository<Form> FormRepository { get; }
         IGenericRepository<Question> QuestionRepository { get; }

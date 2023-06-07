@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BloodBankAPI.Model;
+using BloodBankAPI.UnitOfWork;
 
 namespace BloodBankAPI.Services.Questions
 {
@@ -6,20 +7,20 @@ namespace BloodBankAPI.Services.Questions
 
     public class QuestionService : IQuestionService
     {
-        private readonly IQuestionRepository _questionRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public QuestionService(IQuestionRepository questionRepository)
+        public QuestionService(IUnitOfWork unitOfWork)
         {
-            _questionRepository = questionRepository;
+            _unitOfWork = unitOfWork;
         }
-        public IEnumerable<Question> GetAll()
+        public async Task<IEnumerable<Question>> GetAll()
         {
-            return _questionRepository.GetAll();
+            return await _unitOfWork.QuestionRepository.GetAllAsync();
         }
 
-        public Question GetById(int id)
+        public async Task<Question> GetById(int id)
         {
-            return _questionRepository.GetById(id);
+            return await _unitOfWork.QuestionRepository.GetByIdAsync(id);
         }
     }
 }

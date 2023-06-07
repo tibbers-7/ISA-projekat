@@ -14,6 +14,7 @@ namespace BloodBankAPI.Model
         public string Country { get; set; }
         public string StreetAddress { get; set; }
 
+        public BloodCenter BloodCenter { get; set; }
         public int CenterId { get; set; }
 
         public override string ToString()

@@ -5,6 +5,14 @@ namespace BloodBankAPI.Services.Authentication
 {
     public interface IAuthenticationService
     {
-        void Register(DonorRegistrationDTO dto);
+        Task RegisterDonor(DonorRegistrationDTO dto);
+        Task RegisterStaff(StaffRegistrationDTO dto);
+        Task RegisterAdmin(AdminRegistrationDTO dto);
+        Task<bool> CheckIfEmailExistsAsync(string email);
+
+        Task<bool> EmailMatchesPasswordAsync(LoginDTO dto);
+
+        Task<AccessTokenDTO> LogInUserAsync(LoginDTO dto);
+
     }
 }

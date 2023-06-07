@@ -1,14 +1,6 @@
 ﻿
+using BloodBankAPI.Services.Appointments;
 using Microsoft.AspNetCore.Mvc;
-using BloodBankLibrary.Core.Donors;
-using BloodBankLibrary.Core.Materials.Enums;
-using BloodBankLibrary.Core.Materials.QRGenerator;
-using BloodBankLibrary.Core.Centers;
-using BloodBankLibrary.Core.Staffs;
-using BloodBankLibrary.Core.EmailSender;
-using BloodBankLibrary.Core.Materials.DTOs;
-using BloodBankAPI.Services.Appointment;
-
 namespace BloodBankAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -16,16 +8,13 @@ namespace BloodBankAPI.Controllers
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;
-        private readonly IDonorService _donorService;
 
-        public AppointmentController(IAppointmentService appointmentService, 
-                                    IDonorService donorService)
+        public AppointmentController(IAppointmentService appointmentService)
         {
             _appointmentService = appointmentService;
-            _donorService = donorService;
         }
 
-       
+       /*
         [HttpGet]
         public ActionResult GetAll()
         {
@@ -227,7 +216,7 @@ namespace BloodBankAPI.Controllers
         }
 
 
-
+        */
 
     }
 }

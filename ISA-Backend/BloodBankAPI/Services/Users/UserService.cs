@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BloodBankAPI.UnitOfWork;
+using System.Collections.Generic;
 
 namespace BloodBankAPI.Services.Users
 {
@@ -6,34 +7,11 @@ namespace BloodBankAPI.Services.Users
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(IAdminRepository adminRepository)
+        public UserService(IUnitOfWork unitOfWork)
         {
-            _adminRepository = adminRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Admin> GetAll()
-        {
-            return _adminRepository.GetAll();
-        }
 
-        public Admin GetById(int id)
-        {
-            return _adminRepository.GetById(id);
-        }
-
-        public void Create(Admin admin)
-        {
-            _adminRepository.Create(admin);
-        }
-
-        public void Update(Admin admin)
-        {
-            _adminRepository.Update(admin);
-        }
-
-        public void Delete(Admin admin)
-        {
-            _adminRepository.Delete(admin);
-        }
     }
 }

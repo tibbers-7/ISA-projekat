@@ -9,6 +9,8 @@ namespace BloodBankAPI.Model
         public DateTime WorkTimeStart { get; set; }
         public DateTime WorkTimeEnd { get; set; }
 
+        public CenterAddress CenterAddress { get; set; }
+
         public int? AmountA { get; set; }
         public int? AmountB { get; set; }
         public int? AmountAB { get; set; }
