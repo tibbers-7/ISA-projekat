@@ -19,32 +19,43 @@ namespace BloodBankAPI.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            return Ok(await _appointmentService.GetAll());
+            try
+            {
+                return Ok(await _appointmentService.GetAll());
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
-        [HttpPost("create")]
-        public ActionResult Create(Appointment app)
-        {
-            return Ok(_appointmentService.Create(app));
-        }
-        /*
-
+   
         
         [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
-            var appointment = _appointmentService.GetById(id);
-            if (appointment == null)
+            try
             {
-                return NotFound();
-            }
+                var appointment = _appointmentService.GetById(id);
+                if (appointment == null)
+                {
+                    return NotFound();
+                }
 
-            return Ok(appointment);
+                return Ok(appointment);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
+
+
+        /*
 
         // Ovo je za pravljenje available
         [HttpPost("staff/schedule")]
-        public ActionResult ScheduleAppointmentStaff(AppointmentDTO dto)
+        public ActionResult StaffGeneratedAppointment(AppointmentDTO dto)
         {
             if (!ModelState.IsValid)
             {

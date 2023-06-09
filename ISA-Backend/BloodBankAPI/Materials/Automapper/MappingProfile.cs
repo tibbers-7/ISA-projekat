@@ -23,6 +23,15 @@ namespace BloodBankAPI.Materials.Automapper
                 .ForMember(dest => dest.stringAddress,
                 opt => opt
                 .MapFrom(src => src.CenterAddress.StreetAddress + ", " + src.CenterAddress.City + ", " + src.CenterAddress.Country));
+
+            CreateMap<Appointment, AppointmentViewDTO>()
+                .ForMember(
+                dest => dest.StaffFullName,
+                opt => opt
+                .MapFrom(src => src.Staff.Name + " " + src.Staff.Surname))
+                .ForMember(
+                   dest => dest.CenterName,
+                   opt => opt.MapFrom(src => src.Center.Name));
         }
     }
 }

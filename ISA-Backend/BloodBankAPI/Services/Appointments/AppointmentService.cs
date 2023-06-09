@@ -3,6 +3,7 @@ using BloodBankAPI.Model;
 using BloodBankAPI.UnitOfWork;
 using BloodBankAPI.Materials.DTOs;
 using MimeKit.Cryptography;
+using AutoMapper;
 
 namespace BloodBankAPI.Services.Appointments
 {
@@ -10,9 +11,11 @@ namespace BloodBankAPI.Services.Appointments
     {
         
         private readonly IUnitOfWork _unitOfWork;
-        public AppointmentService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public AppointmentService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-         _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         
 
@@ -22,11 +25,10 @@ namespace BloodBankAPI.Services.Appointments
         }
 
 
-        public async Task<IEnumerable<Appointment>> GetAll()
+        public async Task<IEnumerable<AppointmentViewDTO>> GetAll()
         {
            var apps =  await _unitOfWork.AppointmentRepository.GetAllAsync();
-
-            return apps;
+           return _mapper.Map<IEnumerable<AppointmentViewDTO>>(apps);
         }
 
         public void Update(Appointment appointment)

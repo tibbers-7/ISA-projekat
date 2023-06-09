@@ -8,7 +8,7 @@ namespace BloodBankAPI.Services.Appointments
     public interface IAppointmentService
     {
 
-        Task<IEnumerable<Appointment>> GetAll();
+        Task<IEnumerable<AppointmentViewDTO>> GetAll();
         Task<Appointment> GetById(int id);
         Task Create(Appointment appointment);
         void Update(Appointment appointment);

@@ -28,7 +28,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<BloodBankDbContext>(options =>
-           options.UseNpgsql(builder.Configuration.GetConnectionString("BloodBankDb")));
+           options.UseNpgsql(builder.Configuration.GetConnectionString("BloodBankDb")).UseLazyLoadingProxies());
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
