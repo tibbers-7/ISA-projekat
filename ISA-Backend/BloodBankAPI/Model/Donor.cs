@@ -15,9 +15,11 @@ namespace BloodBankAPI.Model
         //broj penala - nepojavljivanje na pregledu
         public int Strikes { get; set; }
 
+        public virtual ICollection<Appointment> Appointments { get; set; }
+
         public Donor()
         {
-
+            Appointments = new List<Appointment>();
         }
     }
 }

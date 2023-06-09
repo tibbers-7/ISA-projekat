@@ -1,4 +1,6 @@
 ﻿
+using Org.BouncyCastle.Asn1.Cms.Ecc;
+
 namespace BloodBankAPI.Model
 {
     public class BloodCenter : Entity
@@ -9,14 +11,21 @@ namespace BloodBankAPI.Model
         public DateTime WorkTimeStart { get; set; }
         public DateTime WorkTimeEnd { get; set; }
 
-        public CenterAddress CenterAddress { get; set; }
+        public virtual CenterAddress CenterAddress { get; set; }
+        //virtual?
+        public virtual ICollection<Appointment> Appointments { get; set; }
+
+        public virtual ICollection<Staff> Staff { get; set; }
 
         public int? AmountA { get; set; }
         public int? AmountB { get; set; }
         public int? AmountAB { get; set; }
         public int? AmountO { get; set; }
 
-        public BloodCenter(){}
+        public BloodCenter(){
+        Appointments = new List<Appointment>();
+        Staff = new List<Staff>();
+           }
 
         public BloodCenter(int id, string name,string description, double avgScore, string workTimeStart, string workTimeEnd)
         {
@@ -24,6 +33,8 @@ namespace BloodBankAPI.Model
             Name = name;
             Description = description;
             AvgScore = avgScore;
+            Appointments = new List<Appointment>();
+            Staff = new List<Staff>();
         }
   
     }

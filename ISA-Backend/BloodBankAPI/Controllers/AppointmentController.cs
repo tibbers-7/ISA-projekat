@@ -1,4 +1,5 @@
 ﻿
+using BloodBankAPI.Model;
 using BloodBankAPI.Services.Appointments;
 using Microsoft.AspNetCore.Mvc;
 namespace BloodBankAPI.Controllers
@@ -14,12 +15,19 @@ namespace BloodBankAPI.Controllers
             _appointmentService = appointmentService;
         }
 
-       /*
+       
         [HttpGet]
-        public ActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            return Ok(_appointmentService.GetAll());
+            return Ok(await _appointmentService.GetAll());
         }
+
+        [HttpPost("create")]
+        public ActionResult Create(Appointment app)
+        {
+            return Ok(_appointmentService.Create(app));
+        }
+        /*
 
         
         [HttpGet("{id}")]

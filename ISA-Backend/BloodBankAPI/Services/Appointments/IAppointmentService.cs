@@ -7,12 +7,13 @@ namespace BloodBankAPI.Services.Appointments
 {
     public interface IAppointmentService
     {
-        /*
-        IEnumerable<Appointment> GetAll();
-        Appointment GetById(int id);
-        void Create(Appointment appointment);
+
+        Task<IEnumerable<Appointment>> GetAll();
+        Task<Appointment> GetById(int id);
+        Task Create(Appointment appointment);
         void Update(Appointment appointment);
-        bool IsStaffAvailable(Appointment appointment);
+      //  bool IsStaffAvailable(Appointment appointment);
+        /*
         bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration);
         Appointment PrepareForSchedule(AppointmentDTO dto);
         void SendQRCancelled(Appointment appointment, int code);
@@ -29,12 +30,13 @@ namespace BloodBankAPI.Services.Appointments
         Appointment GenerateAndSaveQR(Appointment appointment, string cancelReason);
         IEnumerable<Appointment> GetEligibleByCenter(int centerId);
 
-        IEnumerable<Appointment> GetScheduled();
+        Task<IEnumerable<Appointment>> GetScheduled();
 
         IEnumerable<Appointment> GetScheduledByCenter(int centerId);
 
         IEnumerable<AppointmentDTO> GetScheduledForStaff(int id);
         void CompleteAppt(AppointmentDTO appointment);
         */
+        
     }
 }

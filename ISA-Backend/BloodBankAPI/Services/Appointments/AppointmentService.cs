@@ -1,6 +1,8 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using BloodBankAPI.Model;
 using BloodBankAPI.UnitOfWork;
+using BloodBankAPI.Materials.DTOs;
+using MimeKit.Cryptography;
 
 namespace BloodBankAPI.Services.Appointments
 {
@@ -12,7 +14,7 @@ namespace BloodBankAPI.Services.Appointments
         {
          _unitOfWork = unitOfWork;
         }
-        /*
+        
 
         public async Task Create(Appointment appointment)
         {
@@ -20,9 +22,11 @@ namespace BloodBankAPI.Services.Appointments
         }
 
 
-        public IEnumerable<Appointment> GetAll()
+        public async Task<IEnumerable<Appointment>> GetAll()
         {
-            return _unitOfWork.AppointmentRepository.GetAll();
+           var apps =  await _unitOfWork.AppointmentRepository.GetAllAsync();
+
+            return apps;
         }
 
         public void Update(Appointment appointment)
@@ -30,15 +34,21 @@ namespace BloodBankAPI.Services.Appointments
             _unitOfWork.AppointmentRepository.Update(appointment);
         }
 
-        public Appointment GetById(int id)
+        public async Task<Appointment> GetById(int id)
         {
-            return _unitOfWork.AppointmentRepository.GetById(id);
+            return await _unitOfWork.AppointmentRepository.GetByIdAsync(id);
         }
 
-
-        public IEnumerable<Appointment> GetScheduled()
+        /*
+        public async Task<IEnumerable<Appointment>> GetScheduled()
         {
-            List<Appointment> scheduled = _unitOfWork.AppointmentRepository.GetScheduled().ToList();
+           IEnumerable<Appointment> scheduled = await _unitOfWork.AppointmentRepository
+                .GetByConditionAsync(
+                a => a.Status == Materials.Enums.AppointmentStatus.SCHEDULED && 
+                DateTime.Compare(a.StartDate.AddMinutes(a.Duration),DateTime.Now) >= 0
+                );
+            /*
+             * PROVERITIIIIIIIIIIIIIIIIII
             List<Appointment> res = new List<Appointment>();
             foreach (Appointment appointment in scheduled)
             {
@@ -49,11 +59,20 @@ namespace BloodBankAPI.Services.Appointments
 
             }
             return res;
+            
+            return scheduled;
         }
 
-        public IEnumerable<Donor> GetDonorsByCenterId(int centerId)
+        public async Task<IEnumerable<Donor>> GetDonorsByCenterId(int centerId)
         {
-            List<int> donorIds = await _unitOfWork.AppointmentRepository.GetByConditionAsync(app => app.CenterId == centerId);
+            //ovde bi bio dobar cist query
+            IEnumerable<Appointment> apps = await _unitOfWork.AppointmentRepository.GetByConditionAsync(app => app.CenterId == centerId);
+            List<int> donorIds = new List<int>();
+            foreach (Appointment app in apps)
+            {
+                donorIds.Add(app.DonorId);
+            }
+            //ovo je katastrofa mozda da imam 1 to 1 u bazi za appointmente i 1 to 1 za centre pa onda lazy loading iskljucim
             List<Donor> res = new List<Donor>();
             foreach (int donorId in donorIds)
             {
@@ -369,5 +388,6 @@ namespace BloodBankAPI.Services.Appointments
 
         }
         */
+        
     }
 }

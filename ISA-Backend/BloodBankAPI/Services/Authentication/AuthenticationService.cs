@@ -9,8 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Immutable;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace BloodBankAPI.Services.Authentication
@@ -54,7 +56,7 @@ namespace BloodBankAPI.Services.Authentication
 
         private async Task<Account> GetUserByEmailAsync(string email)
         {
-            IEnumerable<Account> accounts =  await _unitOfWork.AccountRepository.GetByConditionAsync(u => u.Email == email);
+            IEnumerable<Account> accounts = await _unitOfWork.AccountRepository.GetByConditionAsync(u => u.Email == email);
             return accounts.FirstOrDefault();
         }
 
@@ -74,7 +76,7 @@ namespace BloodBankAPI.Services.Authentication
 
         private AccessTokenDTO GenerateToken(IEnumerable<Claim> claims)
         {
-          
+
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityTokenHandler().WriteToken(
@@ -98,7 +100,7 @@ namespace BloodBankAPI.Services.Authentication
             await _unitOfWork.DonorRepository.InsertAsync(donorData);
             await _unitOfWork.SaveAsync();
         }
-       
+
         public async Task RegisterStaff(StaffRegistrationDTO dto)
         {
             dto.Password = _passwordHasher.HashPassword(dto.Password);
@@ -115,24 +117,36 @@ namespace BloodBankAPI.Services.Authentication
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task SendActivationLink(string email)
+        public async Task<string> PrepareActivationToken(string email)
         {
             Account account = await GetUserByEmailAsync(email);
             string token = Guid.NewGuid().ToString();
-            if(account != null)
+            if (account != null)
             {
                 account.Token = token;
                 await UpdateAccount(account);
             }
 
-            // var hash = HMACSHA256.ComputeHash(Encoding.UTF8.GetBytes(token));
-            //return Convert.ToBase64String(hash);
-            //hmac algoritam na guuid
-           // var lnkHref = UrlHelper.Action("ActivateAccount", "Authentication", new { email = email, code = token }, "http");
-            //string subject = "BloodCenter Activation Link";
-           // string body = "Your activation link: " + lnkHref + "\nAfter clicking on the link you will be able to log in!";
-            //_emailSendService.SendEmail(new Message(new string[] { email, "tibbers707@gmail.com", "danabrasanac@gmail.com" }, subject, body));
+           token = StringToHMACString(token);
 
+            return token;
+        }
+
+        private string StringToHMACString(string source)
+        {
+            using (HMACSHA256 hash = new HMACSHA256(Encoding.UTF8.GetBytes(_configuration["VerificationTokenKey"])))
+            {
+                byte[] hmacToken = hash.ComputeHash(Encoding.UTF8.GetBytes(source));
+                source = Convert.ToBase64String(hmacToken);
+            }
+            return source;
+        }
+
+        public async Task SendActivationLink(string email, string link)
+        {
+            string subject = "BloodCenter Activation Link";
+            string body = "Your activation link: " + link + "\nAfter clicking on the link you will be able to log in!";
+            _emailSendService.SendEmail(new Message(new string[] { email, "tibbers707@gmail.com", "danabrasanac@gmail.com" }, subject, body));
         }
 
         public async Task<bool> ActivateAccount(string email, string token)
@@ -149,9 +163,8 @@ namespace BloodBankAPI.Services.Authentication
         }
 
         private bool TokenIsValid(string tokenFromDB, string hmacToken) {
-
-            //ovde token iz baze provlacimo kroz hmac i uporedjujemo s hmacTokenom iz requesta i ako su isti vracamo true, ako nisu false
-            return true;
+            return hmacToken == StringToHMACString(tokenFromDB);
+      
         }
 
         public async Task UpdateAccount(Account account)
@@ -164,7 +177,6 @@ namespace BloodBankAPI.Services.Authentication
 
         /*
 
-                /*
                 public string Create(User user)
                 {
                     string tempPass = null;

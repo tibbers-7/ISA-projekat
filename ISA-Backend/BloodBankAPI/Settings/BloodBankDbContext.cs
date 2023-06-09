@@ -32,22 +32,40 @@ namespace BloodBankAPI.Settings
             modelBuilder.HasPostgresEnum<UserType>();
             modelBuilder.HasPostgresEnum<AppointmentStatus>();
 
-            modelBuilder.Entity<Account>().ToTable("accounts");
-            modelBuilder.Entity<Donor>().ToTable("donors");
-            modelBuilder.Entity<Staff>().ToTable("staff");
-            modelBuilder.Entity<Admin>().ToTable("admins");
+            modelBuilder.Entity<Account>().ToTable("Accounts");
+            modelBuilder.Entity<Donor>().ToTable("Donors");
+            modelBuilder.Entity<Staff>().ToTable("Staff");
+            modelBuilder.Entity<Admin>().ToTable("Admins");
 
-            modelBuilder.Entity<BloodCenter>().HasOne(c => c.CenterAddress).WithOne(a => a.BloodCenter).HasForeignKey<CenterAddress>(a => a.CenterId);
+            modelBuilder.Entity<BloodCenter>()
+                .HasOne(c => c.CenterAddress)
+                .WithOne(a => a.BloodCenter)
+                .HasForeignKey<CenterAddress>(a => a.CenterId);
+            
+            modelBuilder.Entity<Appointment>(a =>
+            {
+                a.HasOne(b => b.Center).WithMany(c => c.Appointments)
+                .OnDelete(DeleteBehavior.Restrict).HasConstraintName("FK_CENTER_APPTS");
+                a.HasOne(d => d.Donor).WithMany( e => e.Appointments)
+                .OnDelete(DeleteBehavior.Restrict).HasConstraintName("FK_DONOR_APPTS");
+                a.HasOne(s => s.Staff).WithMany(e => e.Appointments)
+                .OnDelete(DeleteBehavior.Restrict).HasConstraintName("FK_STAFF_APPTS");
 
-            Question[] questions= new Question[] { new Question(1, "Have you donated blood in the last 6 months?"), 
-                                                    new Question(2, "Have you ever been rejected as a blood donor?"),
-                                                    new Question(3,"Do you currently feel healthy and rested enough to donate blood?"),
-                                                    new Question(4,"Have you eaten anything prior to your arrival to donate blood?"),
-                                                    new Question(5,"Did you drink any alcohol in the last 6 hours?"),
-                                                    new Question(6,"Have you had any tattoos or piercings done in the last 6 months?"),
-                                                    new Question(7,"Have you ever consumed any type of opioids?"),
-                                                    new Question(8,"Have you ever had unsafe sexual intercourse with a person suffering from HIV?")
-                                                  };
+            });
+           
+            modelBuilder.Entity<Staff>().HasOne(s => s.BloodCenter)
+                .WithMany(c => c.Staff).HasConstraintName("FK_BloodCenter");
+
+            Question[] questions= new Question[] { 
+                new Question(1, "Have you donated blood in the last 6 months?"), 
+                new Question(2, "Have you ever been rejected as a blood donor?"),
+                new Question(3,"Do you currently feel healthy and rested enough to donate blood?"),
+                new Question(4,"Have you eaten anything prior to your arrival to donate blood?"),
+                new Question(5,"Did you drink any alcohol in the last 6 hours?"),
+                new Question(6,"Have you had any tattoos or piercings done in the last 6 months?"),
+                new Question(7,"Have you ever consumed any type of opioids?"),
+                new Question(8,"Have you ever had unsafe sexual intercourse with a person suffering from HIV?")
+            };
             modelBuilder.Entity<Question>().HasData(questions);
 
              BloodCenter bc1 = new BloodCenter(1,"Center 1","Blood transfusion center.", 4.9, "12:00:00", "18:00:00" );
@@ -62,18 +80,24 @@ namespace BloodBankAPI.Settings
             CenterAddress a4 = new CenterAddress { Id = 4, City = "Novi Sad", StreetAddress = "Vere Petrovic 1", CenterId = 4, Country = "Srbija" }; 
             modelBuilder.Entity<CenterAddress>().HasData(a1, a2, a3, a4);
 
-         /*
-            Account acc1 = new Account(){Id=1, Name = "Emilija", Surname = "Medic", Gender = Gender.FEMALE, Email = "donor@gmail.com", IsActive=true, Token = null, Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==",  UserType= UserType.DONOR};
-            Account acc2 = new Account(){Id=2, Name = "Marko", Surname = "Dobrosavljevic", Gender = Gender.FEMALE, Email = "admin@gmail.com", IsActive=true, Token = null, Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==", UserType = UserType.ADMIN};
-            Account acc3 = new Account(){Id=3, Name = "Milan", Surname = "Miric", Gender = Gender.MALE, Email = "staff@gmail.com", IsActive=true, Token = null, Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==", UserType = UserType.STAFF};
-            modelBuilder.Entity<Account>().HasData(acc1, acc2, acc3);
+         
+            Admin admin = new Admin(){Id=1, Name = "Marko",
+                Surname = "Dobrosavljevic",
+                Gender = Gender.FEMALE,
+                Email = "admin@gmail.com",
+                IsActive=true,
+                Token = null,
+                Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==",
+                UserType = UserType.ADMIN};
+            modelBuilder.Entity<Admin>().HasData(admin);
 
-            Donor d = new Donor() { Id = 1, AccountId=1, Jmbg = 34242423565, AddressString = "Ise Bajica 1,Novi Sad,Srbija", PhoneNumber = 381629448332, Profession = "student", Workplace = "Fakultet Tehnickih Nauka", Strikes = 0 };
-            Staff s = new Staff() { Id = 1, AccountId = 3, CenterId = 1};
+            Donor donor = new Donor() { Id = 2, Jmbg = 34242423565, Address = "Ise Bajica 1,Novi Sad,Srbija", PhoneNumber = 381629448332, Profession = "student", Workplace = "Fakultet Tehnickih Nauka", Strikes = 0, Name = "Emilija", Surname = "Medic", Gender = Gender.FEMALE, Email = "donor@gmail.com", IsActive = true, Token = null, Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==", UserType = UserType.DONOR };
+            Staff staff = new Staff() { Id = 3, Name = "Milan", Surname = "Miric", Gender = Gender.MALE, Email = "staff@gmail.com", IsActive = true, Token = null, Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==", UserType = UserType.STAFF, BloodCenterId = 1};
+           
 
-            modelBuilder.Entity<Donor>().HasData(d);
-            modelBuilder.Entity<Staff>().HasData(s);
-           */
+            modelBuilder.Entity<Donor>().HasData(donor);
+            modelBuilder.Entity<Staff>().HasData(staff);
+           
             base.OnModelCreating(modelBuilder);
         }
     }

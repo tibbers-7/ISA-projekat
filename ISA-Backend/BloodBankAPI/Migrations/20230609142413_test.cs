@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BloodBankAPI.Migrations
 {
-    public partial class migr1 : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,7 @@ namespace BloodBankAPI.Migrations
                 .Annotation("Npgsql:Enum:user_type", "donor,staff,admin");
 
             migrationBuilder.CreateTable(
-                name: "accounts",
+                name: "Accounts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -28,32 +28,12 @@ namespace BloodBankAPI.Migrations
                     Surname = table.Column<string>(type: "text", nullable: false),
                     Gender = table.Column<Gender>(type: "gender", nullable: false),
                     UserType = table.Column<UserType>(type: "user_type", nullable: false),
-                    Token = table.Column<string>(type: "text", nullable: false),
+                    Token = table.Column<string>(type: "text", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_accounts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Appointments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    StaffId = table.Column<int>(type: "integer", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Duration = table.Column<int>(type: "integer", nullable: false),
-                    DonorId = table.Column<int>(type: "integer", nullable: false),
-                    CenterId = table.Column<int>(type: "integer", nullable: false),
-                    Status = table.Column<AppointmentStatus>(type: "appointment_status", nullable: false),
-                    ReportId = table.Column<int>(type: "integer", nullable: true),
-                    QrCode = table.Column<byte[]>(type: "bytea", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.PrimaryKey("PK_Accounts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,24 +86,24 @@ namespace BloodBankAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "admins",
+                name: "Admins",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_admins", x => x.Id);
+                    table.PrimaryKey("PK_Admins", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_admins_accounts_Id",
+                        name: "FK_Admins_Accounts_Id",
                         column: x => x.Id,
-                        principalTable: "accounts",
+                        principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "donors",
+                name: "Donors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false),
@@ -131,16 +111,16 @@ namespace BloodBankAPI.Migrations
                     Jmbg = table.Column<long>(type: "bigint", nullable: false),
                     Profession = table.Column<string>(type: "text", nullable: false),
                     Workplace = table.Column<string>(type: "text", nullable: false),
-                    AddressString = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
                     Strikes = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_donors", x => x.Id);
+                    table.PrimaryKey("PK_Donors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_donors_accounts_Id",
+                        name: "FK_Donors_Accounts_Id",
                         column: x => x.Id,
-                        principalTable: "accounts",
+                        principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -168,28 +148,75 @@ namespace BloodBankAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "staff",
+                name: "Staff",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false),
-                    CenterId = table.Column<int>(type: "integer", nullable: false),
                     BloodCenterId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_staff", x => x.Id);
+                    table.PrimaryKey("PK_Staff", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_staff_accounts_Id",
-                        column: x => x.Id,
-                        principalTable: "accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_staff_BloodCenters_BloodCenterId",
+                        name: "FK_BloodCenter",
                         column: x => x.BloodCenterId,
                         principalTable: "BloodCenters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Staff_Accounts_Id",
+                        column: x => x.Id,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Duration = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<AppointmentStatus>(type: "appointment_status", nullable: false),
+                    ReportId = table.Column<int>(type: "integer", nullable: true),
+                    QrCode = table.Column<byte[]>(type: "bytea", nullable: true),
+                    CenterId = table.Column<int>(type: "integer", nullable: false),
+                    DonorId = table.Column<int>(type: "integer", nullable: false),
+                    StaffId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CENTER_APPTS",
+                        column: x => x.CenterId,
+                        principalTable: "BloodCenters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DONOR_APPTS",
+                        column: x => x.DonorId,
+                        principalTable: "Donors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_STAFF_APPTS",
+                        column: x => x.StaffId,
+                        principalTable: "Staff",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Accounts",
+                columns: new[] { "Id", "Email", "Gender", "IsActive", "Name", "Password", "Surname", "Token", "UserType" },
+                values: new object[,]
+                {
+                    { 1, "admin@gmail.com", Gender.FEMALE, true, "Marko", "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==", "Dobrosavljevic", null, UserType.ADMIN },
+                    { 2, "donor@gmail.com", Gender.FEMALE, true, "Emilija", "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==", "Medic", null, UserType.DONOR },
+                    { 3, "staff@gmail.com", Gender.MALE, true, "Milan", "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==", "Miric", null, UserType.STAFF }
                 });
 
             migrationBuilder.InsertData(
@@ -219,6 +246,11 @@ namespace BloodBankAPI.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Admins",
+                column: "Id",
+                value: 1);
+
+            migrationBuilder.InsertData(
                 table: "CenterAddresses",
                 columns: new[] { "Id", "CenterId", "City", "Country", "StreetAddress" },
                 values: new object[,]
@@ -229,6 +261,31 @@ namespace BloodBankAPI.Migrations
                     { 4, 4, "Novi Sad", "Srbija", "Vere Petrovic 1" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Donors",
+                columns: new[] { "Id", "Address", "Jmbg", "PhoneNumber", "Profession", "Strikes", "Workplace" },
+                values: new object[] { 2, "Ise Bajica 1,Novi Sad,Srbija", 34242423565L, 381629448332L, "student", 0, "Fakultet Tehnickih Nauka" });
+
+            migrationBuilder.InsertData(
+                table: "Staff",
+                columns: new[] { "Id", "BloodCenterId" },
+                values: new object[] { 3, 1 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_CenterId",
+                table: "Appointments",
+                column: "CenterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_DonorId",
+                table: "Appointments",
+                column: "DonorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_StaffId",
+                table: "Appointments",
+                column: "StaffId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_CenterAddresses_CenterId",
                 table: "CenterAddresses",
@@ -236,15 +293,15 @@ namespace BloodBankAPI.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_staff_BloodCenterId",
-                table: "staff",
+                name: "IX_Staff_BloodCenterId",
+                table: "Staff",
                 column: "BloodCenterId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "admins");
+                name: "Admins");
 
             migrationBuilder.DropTable(
                 name: "Appointments");
@@ -253,22 +310,22 @@ namespace BloodBankAPI.Migrations
                 name: "CenterAddresses");
 
             migrationBuilder.DropTable(
-                name: "donors");
-
-            migrationBuilder.DropTable(
                 name: "Forms");
 
             migrationBuilder.DropTable(
                 name: "Questions");
 
             migrationBuilder.DropTable(
-                name: "staff");
+                name: "Donors");
 
             migrationBuilder.DropTable(
-                name: "accounts");
+                name: "Staff");
 
             migrationBuilder.DropTable(
                 name: "BloodCenters");
+
+            migrationBuilder.DropTable(
+                name: "Accounts");
         }
     }
 }

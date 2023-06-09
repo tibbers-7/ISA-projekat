@@ -1,5 +1,6 @@
 ﻿using BloodBankAPI.Materials.DTOs;
 using System.Drawing;
+using static QRCoder.PayloadGenerator;
 
 namespace BloodBankAPI.Services.Authentication
 {
@@ -11,8 +12,9 @@ namespace BloodBankAPI.Services.Authentication
         Task<bool> CheckIfEmailExistsAsync(string email);
         Task<bool> EmailMatchesPasswordAsync(LoginDTO dto);
         Task<AccessTokenDTO> LogInUserAsync(LoginDTO dto);
-        Task SendActivationLink(string email);
+        Task SendActivationLink(string email, string link);
         Task<bool> ActivateAccount(string email, string token);
+        Task<string> PrepareActivationToken(string email);
 
     }
 }

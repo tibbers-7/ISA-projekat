@@ -1,9 +1,9 @@
 ﻿using BloodBankAPI.Materials.DTOs;
-using BloodBankAPI.Materials.EmailSender;
 using BloodBankAPI.Services.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
+using static QRCoder.PayloadGenerator;
 
 namespace BloodBankAPI.Controllers
 {
@@ -15,16 +15,14 @@ namespace BloodBankAPI.Controllers
 
 
 		private IAuthenticationService _authService;
-		private JwtSecurityTokenHandler tokenHandler;
 		public AuthenticationController(IAuthenticationService authService)
 		{
 
 			_authService = authService;
-			tokenHandler = new JwtSecurityTokenHandler();
 		}
 
 
-		[HttpPost("register/donor")]
+		[HttpPost("Register/Donor")]
 		public async Task<IActionResult> RegisterDonor(DonorRegistrationDTO dto)
 		{
             try
@@ -35,7 +33,9 @@ namespace BloodBankAPI.Controllers
                 }
 
                 await _authService.RegisterDonor(dto);
-                await _authService.SendActivationLink(dto.Email);
+                string token = await _authService.PrepareActivationToken(dto.Email);
+                string href = Url.Action("Activate", "Authentication", new { email = dto.Email, token = token }, "http");
+                await _authService.SendActivationLink(dto.Email, href);
                 return Ok("User registered successfully, sending activation link!");
             }
             catch (Exception ex)
@@ -44,7 +44,7 @@ namespace BloodBankAPI.Controllers
             }
         }
 
-        [HttpGet("activate")]
+        [HttpGet("Activate")]
         public async Task<ActionResult> Activate()
         {
             string email = Request.Query["email"];
@@ -68,7 +68,7 @@ namespace BloodBankAPI.Controllers
         }
 
 
-        [HttpPost("register/staff")]
+        [HttpPost("Register/Staff")]
         public async Task<IActionResult> RegisterStaff(StaffRegistrationDTO dto)
         {
             try
@@ -87,7 +87,7 @@ namespace BloodBankAPI.Controllers
             }
         }
 
-        [HttpPost("register/admin")]
+        [HttpPost("Register/Admin")]
         public async Task<IActionResult> RegisterAdmin(AdminRegistrationDTO dto)
         {
             try
@@ -108,7 +108,7 @@ namespace BloodBankAPI.Controllers
 
 
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
 		public async Task<IActionResult> Login(LoginDTO dto)
 		{
 			try

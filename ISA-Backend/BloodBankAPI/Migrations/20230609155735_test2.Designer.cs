@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BloodBankAPI.Migrations
 {
     [DbContext(typeof(BloodBankDbContext))]
-    [Migration("20230607142050_migr2")]
-    partial class migr2
+    [Migration("20230609155735_test2")]
+    partial class test2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,7 +59,6 @@ namespace BloodBankAPI.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Token")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<UserType>("UserType")
@@ -67,7 +66,7 @@ namespace BloodBankAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("accounts", (string)null);
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("BloodBankAPI.Model.Appointment", b =>
@@ -103,6 +102,12 @@ namespace BloodBankAPI.Migrations
                         .HasColumnType("appointment_status");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CenterId");
+
+                    b.HasIndex("DonorId");
+
+                    b.HasIndex("StaffId");
 
                     b.ToTable("Appointments");
                 });
@@ -339,7 +344,20 @@ namespace BloodBankAPI.Migrations
                 {
                     b.HasBaseType("BloodBankAPI.Model.Account");
 
-                    b.ToTable("admins", (string)null);
+                    b.ToTable("Admins", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "admin@gmail.com",
+                            Gender = Gender.FEMALE,
+                            IsActive = true,
+                            Name = "Marko",
+                            Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==",
+                            Surname = "Dobrosavljevic",
+                            UserType = UserType.ADMIN
+                        });
                 });
 
             modelBuilder.Entity("BloodBankAPI.Model.Donor", b =>
@@ -367,7 +385,26 @@ namespace BloodBankAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.ToTable("donors", (string)null);
+                    b.ToTable("Donors", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            Email = "donor@gmail.com",
+                            Gender = Gender.FEMALE,
+                            IsActive = true,
+                            Name = "Emilija",
+                            Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==",
+                            Surname = "Medic",
+                            UserType = UserType.DONOR,
+                            Address = "Ise Bajica 1,Novi Sad,Srbija",
+                            Jmbg = 34242423565L,
+                            PhoneNumber = 381629448332L,
+                            Profession = "student",
+                            Strikes = 0,
+                            Workplace = "Fakultet Tehnickih Nauka"
+                        });
                 });
 
             modelBuilder.Entity("BloodBankAPI.Model.Staff", b =>
@@ -377,12 +414,53 @@ namespace BloodBankAPI.Migrations
                     b.Property<int>("BloodCenterId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("CenterId")
-                        .HasColumnType("integer");
-
                     b.HasIndex("BloodCenterId");
 
-                    b.ToTable("staff", (string)null);
+                    b.ToTable("Staff", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            Email = "staff@gmail.com",
+                            Gender = Gender.MALE,
+                            IsActive = true,
+                            Name = "Milan",
+                            Password = "AM/u63R1v9SxmknTfBDYIFJgB3+ABmOQZValIoEB0rsuGtKi4HhVbUca8lDFsZDRTA==",
+                            Surname = "Miric",
+                            UserType = UserType.STAFF,
+                            BloodCenterId = 1
+                        });
+                });
+
+            modelBuilder.Entity("BloodBankAPI.Model.Appointment", b =>
+                {
+                    b.HasOne("BloodBankAPI.Model.BloodCenter", "Center")
+                        .WithMany("Appointments")
+                        .HasForeignKey("CenterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_CENTER_APPTS");
+
+                    b.HasOne("BloodBankAPI.Model.Donor", "Donor")
+                        .WithMany("Appointments")
+                        .HasForeignKey("DonorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_DONOR_APPTS");
+
+                    b.HasOne("BloodBankAPI.Model.Staff", "Staff")
+                        .WithMany("Appointments")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_STAFF_APPTS");
+
+                    b.Navigation("Center");
+
+                    b.Navigation("Donor");
+
+                    b.Navigation("Staff");
                 });
 
             modelBuilder.Entity("BloodBankAPI.Model.CenterAddress", b =>
@@ -417,10 +495,11 @@ namespace BloodBankAPI.Migrations
             modelBuilder.Entity("BloodBankAPI.Model.Staff", b =>
                 {
                     b.HasOne("BloodBankAPI.Model.BloodCenter", "BloodCenter")
-                        .WithMany()
+                        .WithMany("Staff")
                         .HasForeignKey("BloodCenterId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_BloodCenter");
 
                     b.HasOne("BloodBankAPI.Model.Account", null)
                         .WithOne()
@@ -433,8 +512,22 @@ namespace BloodBankAPI.Migrations
 
             modelBuilder.Entity("BloodBankAPI.Model.BloodCenter", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("CenterAddress")
                         .IsRequired();
+
+                    b.Navigation("Staff");
+                });
+
+            modelBuilder.Entity("BloodBankAPI.Model.Donor", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("BloodBankAPI.Model.Staff", b =>
+                {
+                    b.Navigation("Appointments");
                 });
 #pragma warning restore 612, 618
         }
