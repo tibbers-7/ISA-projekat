@@ -36,9 +36,10 @@ namespace BloodBankAPI.Services.Appointments
             _unitOfWork.AppointmentRepository.Update(appointment);
         }
 
-        public async Task<Appointment> GetById(int id)
+        public async Task<AppointmentByIdDTO> GetById(int id)
         {
-            return await _unitOfWork.AppointmentRepository.GetByIdAsync(id);
+            Appointment appointment = await _unitOfWork.AppointmentRepository.GetByIdAsync(id);
+            return _mapper.Map<AppointmentByIdDTO>(appointment);
         }
 
         /*

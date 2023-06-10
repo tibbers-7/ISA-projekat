@@ -22,6 +22,11 @@ namespace BloodBankAPI.Repository
             return await _context.Set<T>().ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAllWithIncludeAsync(string expression)
+        {
+            return await _context.Set<T>().Include(expression).ToListAsync();
+        }
+
         public async Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T, bool>> expression){
            
            return await _context.Set<T>().Where(expression).ToListAsync();

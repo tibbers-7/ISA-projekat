@@ -32,11 +32,11 @@ namespace BloodBankAPI.Controllers
    
         
         [HttpGet("{id}")]
-        public ActionResult GetById(int id)
+        public async  Task<ActionResult> GetById(int id)
         {
             try
             {
-                var appointment = _appointmentService.GetById(id);
+                var appointment = await _appointmentService.GetById(id);
                 if (appointment == null)
                 {
                     return NotFound();
