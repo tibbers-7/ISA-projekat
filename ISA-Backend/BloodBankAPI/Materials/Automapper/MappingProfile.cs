@@ -15,6 +15,7 @@ namespace BloodBankAPI.Materials.Automapper
                 .MapFrom(src => src.Address + ", " + src.City + ", " + src.State));
             CreateMap<StaffRegistrationDTO, Staff>();
             CreateMap<AdminRegistrationDTO,Admin>();
+            CreateMap<GeneratePredefinedAppointmentDTO, Appointment>();
             CreateMap<BloodCenter, CenterDTO>()
                 .ForMember(
                 dest => dest.OpenHours,

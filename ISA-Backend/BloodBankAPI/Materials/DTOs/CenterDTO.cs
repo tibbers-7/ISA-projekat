@@ -16,16 +16,6 @@ namespace BloodBankAPI.Materials.DTOs
         public double AvgScore { get; set; }
         public string stringAddress { get; set; }
 
-        /*
-        public CenterDTO(BloodCenter center)
-        {
-            Id=center.Id;
-            Name = center.Name;
-            Description = center.Description;
-            AvgScore = center.AvgScore;
-            OpenHours=center.WorkTimeStart.ToString("HH:mm") + " - "+center.WorkTimeEnd.ToString("HH:mm");
-        }
-        */
         public CenterDTO() { }
     }
 }

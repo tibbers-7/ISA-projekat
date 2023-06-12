@@ -7,9 +7,9 @@ import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule } from '@angular/forms';
 import { NgToastModule } from 'ng-angular-popup';
 import { LoginComponent } from './login/login.component';
-import { CentersListComponent } from './centers-list/centers-list/centers-list.component';
+import { CentersListComponent } from './centers-list/centers-list.component';
 import { MaterialModule } from 'app/material/material.module';
-import { StartToolbarComponent } from './start-toolbar/start-toolbar/start-toolbar.component';
+import { StartToolbarComponent } from './start-toolbar/start-toolbar.component';
 import { TestprobaComponent } from './testproba/testproba.component';
 import { GoogleMapsModule } from "@angular/google-maps";
 import {GoogleMap} from "@angular/google-maps"

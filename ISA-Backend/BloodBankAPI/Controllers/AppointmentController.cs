@@ -1,4 +1,5 @@
 ﻿
+using BloodBankAPI.Materials.DTOs;
 using BloodBankAPI.Model;
 using BloodBankAPI.Services.Appointments;
 using Microsoft.AspNetCore.Mvc;
@@ -51,42 +52,51 @@ namespace BloodBankAPI.Controllers
         }
 
 
-        /*
-
-        // Ovo je za pravljenje available
-        [HttpPost("staff/schedule")]
-        public ActionResult StaffGeneratedAppointment(AppointmentDTO dto)
+        // Ovo je za pravljenje available, treba da se prosledi ovaj dto gde ce status biti available
+        [HttpPost("staff/generate")]
+        public async Task<ActionResult> GeneratePredefined(GeneratePredefinedAppointmentDTO dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Appointment appointment = new Appointment(dto);
-            if (!_appointmentService.IsStaffAvailable(appointment)) return BadRequest("Unavailable");
-            if (!_appointmentService.CheckIfCenterAvailable(appointment.CenterId, appointment.StartDate, appointment.Duration)) return BadRequest("Unavailable");
-            appointment.Status = AppointmentStatus.AVAILABLE;
-            _appointmentService.Create(appointment);
+           
+            if (! await _appointmentService.IsStaffAvailable(dto)) return BadRequest(" Staff is unavailable");
+            if (! await _appointmentService.IsCenterAvailable(dto.CenterId, dto.StartDate, dto.Duration)) return BadRequest("Center is unavailable");
+            Appointment appointment = await _appointmentService.GeneratePredefined(dto);
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
         }
 
+        [HttpGet("centers/{dateTime}")]
+        public ActionResult GetCentersForDateTime(string dateTime)
+        {
+            var bloodCenters = _appointmentService.GetCentersForDateTime(dateTime);
+            if (bloodCenters == null)
+            {
+                return NotFound();
+            }
+            return Ok(bloodCenters);
+        }
+
+        
         [HttpPost("donor/schedule")]
-        public ActionResult AddScheduled(AppointmentDTO dto)
+        public async Task<ActionResult> AddScheduled(AppointmentRequestDTO dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            Appointment appointment = _appointmentService.PrepareForSchedule(dto);
-            if (appointment == null) return BadRequest("Unavailable");
-            _appointmentService.Create(appointment);
+            Appointment appointment = await _appointmentService.ScheduleIfAvailableAppointmentExists(dto);
+            if(appointment == null) appointment =  await _appointmentService.GenerateDonorMadeAppointment(dto);
+            if (appointment == null) BadRequest("Something went wrong");
+           // _appointmentService
             return CreatedAtAction("GetById", new { id = appointment.Id }, appointment);
 
 
         }
 
-
+        /*
         // Ovo je za zakazivanje postojecih od strane donora
         [HttpPost("schedule/predefined")]
         public ActionResult SchedulePredefined(AppointmentDTO dto)
@@ -147,17 +157,6 @@ namespace BloodBankAPI.Controllers
             return Ok(_appointmentService.GetScheduledByDonor(appointment.DonorId));
         }
 
-
-        [HttpGet("centers/{dateTime}")]
-        public ActionResult GetCentersForDateTime(string dateTime)
-        {
-            var bloodCenters = _appointmentService.GetCentersForDateTime(dateTime);
-            if (bloodCenters == null)
-            {
-                return NotFound();
-            }
-            return Ok(bloodCenters);
-        }
 
         [HttpGet("center/future/{centerId}")]
         public ActionResult GetFutureForCenter(int centerId)

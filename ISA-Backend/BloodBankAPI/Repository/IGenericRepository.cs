@@ -10,7 +10,8 @@ namespace BloodBankAPI.Repository
         Task InsertAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
-        Task<IEnumerable<T>> GetAllWithIncludeAsync(string expression);
-        Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T,bool>> expression);
+        Task<IEnumerable<T>> GetAllWithIncludeAsync(string expression1, string expression2);
+        Task<IEnumerable<T>> GetByConditionAsync(Expression<Func<T,bool>> expression1);
+        Task<IEnumerable<T>> GetByConditionWithIncludeAsync(Expression<Func<T, bool>> expression, string include1, string include2);
     }
 }

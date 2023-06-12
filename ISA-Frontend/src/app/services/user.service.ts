@@ -13,7 +13,10 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<User[]> {
+  getAllDonors(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiHost + 'api/User/Donors', { headers: this.headers });
+  }
+  getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiHost + 'api/User', { headers: this.headers });
   }
 

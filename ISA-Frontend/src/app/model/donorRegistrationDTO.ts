@@ -1,6 +1,7 @@
 export class DonorRegistrationDTO {
     email = ''
     password = ''
+    userType = 'DONOR'
     name = ''
     surname = ''
     address = ''
@@ -9,7 +10,7 @@ export class DonorRegistrationDTO {
     gender = ''
     JMBG = ''
     workplace = ''
-    employmentInfo = ''
+    profession = ''
     phoneNumber = ''
   
     public constructor(obj?: any) {
@@ -24,7 +25,7 @@ export class DonorRegistrationDTO {
         this.gender = obj.gender
         this.JMBG = obj.JMBG
         this.workplace = obj.workplace
-        this.employmentInfo = obj.employmentInfo
+        this.profession = obj.profession
         this.phoneNumber = obj.phoneNumber
       }
     }

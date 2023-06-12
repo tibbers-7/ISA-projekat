@@ -15,17 +15,23 @@ export class AdminToolbarComponent implements OnInit {
   }
 
   AdminHomeClick(){
-    this.router.navigate(['/admin/homepage']);
+    this.router.navigate(['/admin-home']);
   }
 
   UsersClick(){
-    this.router.navigate(['/admin/user-list']);
+    this.router.navigate(['/user-list']);
   }
+
   AddCenterClick(){
-    this.router.navigate(['/admin/new-center']);
+    this.router.navigate(['/register-center']);
   }
+
   AddStaffClick(){
-    this.router.navigate(['/admin/staff-register']);
+    this.router.navigate(['/register-staff']);
+  }
+
+  AddAdminClick(){
+    this.router.navigate(['/register-admin']);
   }
 
   LogOutClick(){
@@ -34,7 +40,7 @@ export class AdminToolbarComponent implements OnInit {
   }
 
   Profile(){
-    this.router.navigate(['/admin/profile']); 
+    this.router.navigate(['/admin-profile']); 
   }
 
 }

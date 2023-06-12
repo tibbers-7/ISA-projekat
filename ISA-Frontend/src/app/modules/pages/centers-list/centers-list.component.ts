@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { BloodCenter } from '../../../../model/blood-center.model';
-import { BloodCenterService } from '../../../../services/blood-center.service';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { BloodCenter } from '../../../model/blood-center.model';
+import { BloodCenterService } from '../../../services/blood-center.service';
+import { MatTableDataSource } from '@angular/material/table';
 import {MatSort, Sort} from '@angular/material/sort';
 
 

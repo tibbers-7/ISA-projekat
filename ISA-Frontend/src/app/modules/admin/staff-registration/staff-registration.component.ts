@@ -32,7 +32,7 @@ export class StaffRegistrationComponent implements OnInit {
   }
 
   setCenter(event:any){
-    this.staff.idOfCenter=this.selectedCenter.id
+    this.staff.centerId=this.selectedCenter.id
   }
 
   checkValidity(){

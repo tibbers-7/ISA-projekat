@@ -4,6 +4,11 @@ using BloodBankAPI.UnitOfWork;
 using BloodBankAPI.Materials.DTOs;
 using MimeKit.Cryptography;
 using AutoMapper;
+using BloodBankAPI.Materials.Enums;
+using System.Collections.Generic;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using BloodBankAPI.Materials.EmailSender;
+using BloodBankAPI.Materials.QRGenerator;
 
 namespace BloodBankAPI.Services.Appointments
 {
@@ -12,10 +17,14 @@ namespace BloodBankAPI.Services.Appointments
         
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public AppointmentService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IEmailSendService _emailSendService;
+        private readonly IQRService _qrService;
+        public AppointmentService(IUnitOfWork unitOfWork, IMapper mapper, IEmailSendService emailSendService, IQRService qRService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _emailSendService = emailSendService;
+            _qrService = qRService;
         }
         
 
@@ -24,236 +33,191 @@ namespace BloodBankAPI.Services.Appointments
            await _unitOfWork.AppointmentRepository.InsertAsync(appointment);
         }
 
-
+        //svi ikada appointmenti
         public async Task<IEnumerable<AppointmentViewDTO>> GetAll()
         {
-           var apps =  await _unitOfWork.AppointmentRepository.GetAllAsync();
+           var apps =  await _unitOfWork.AppointmentRepository.GetAllWithIncludeAsync("Center", "Staff");
            return _mapper.Map<IEnumerable<AppointmentViewDTO>>(apps);
         }
 
+        
         public void Update(Appointment appointment)
         {
             _unitOfWork.AppointmentRepository.Update(appointment);
         }
 
-        public async Task<AppointmentByIdDTO> GetById(int id)
+        public async Task<AppointmentViewDTO> GetById(int id)
         {
             Appointment appointment = await _unitOfWork.AppointmentRepository.GetByIdAsync(id);
-            return _mapper.Map<AppointmentByIdDTO>(appointment);
+            return _mapper.Map<AppointmentViewDTO>(appointment);
         }
 
-        /*
-        public async Task<IEnumerable<Appointment>> GetScheduled()
+        //svi koji su ikada zavrsili app u centru tj. dali krv
+        public async Task<IEnumerable<Donor>> GetDonorsByCenter(int centerId)
         {
-           IEnumerable<Appointment> scheduled = await _unitOfWork.AppointmentRepository
-                .GetByConditionAsync(
-                a => a.Status == Materials.Enums.AppointmentStatus.SCHEDULED && 
-                DateTime.Compare(a.StartDate.AddMinutes(a.Duration),DateTime.Now) >= 0
-                );
-            /*
-             * PROVERITIIIIIIIIIIIIIIIIII
-            List<Appointment> res = new List<Appointment>();
-            foreach (Appointment appointment in scheduled)
-            {
-                if (DateTime.Compare(appointment.StartDate.AddMinutes(appointment.Duration), DateTime.Now) >= 0)
-                {
-                    res.Add(appointment);
-                }
-
-            }
-            return res;
-            
-            return scheduled;
-        }
-
-        public async Task<IEnumerable<Donor>> GetDonorsByCenterId(int centerId)
-        {
-            //ovde bi bio dobar cist query
-            IEnumerable<Appointment> apps = await _unitOfWork.AppointmentRepository.GetByConditionAsync(app => app.CenterId == centerId);
-            List<int> donorIds = new List<int>();
+            IEnumerable<Appointment> apps = await _unitOfWork.AppointmentRepository.GetByConditionWithIncludeAsync(app => app.CenterId == centerId &&
+            app.Status == AppointmentStatus.COMPLETED, "Donor", null);
+            List<Donor> donors = new List<Donor>();
             foreach (Appointment app in apps)
             {
-                donorIds.Add(app.DonorId);
-            }
-            //ovo je katastrofa mozda da imam 1 to 1 u bazi za appointmente i 1 to 1 za centre pa onda lazy loading iskljucim
-            List<Donor> res = new List<Donor>();
-            foreach (int donorId in donorIds)
-            {
-                res.Add(_donorService.GetById(donorId));
-            }
-            return res;
+                donors.Add(app.Donor);
+            }   
+            return donors;
         }
 
-        // TODO: nmg da izvalim jel ovo dobavlja i one completed 
-        // ostavicu zasad u servisu
-        public IEnumerable<AppointmentDTO> GetScheduledByDonor(int donorId)
+        //zakazani u buducnosti za donora, koristi se eager loading
+        public async Task<IEnumerable<AppointmentViewDTO>> GetScheduledByDonor(int donorId)
         {
-            List<Appointment> allScheduled = GetScheduled().ToList();
-            List<AppointmentDTO> res = new List<AppointmentDTO>();
-            foreach (Appointment appointment in allScheduled)
-            {
-                if (appointment.DonorId == donorId)
-                {
-                    AppointmentDTO dto = MakeDTO(appointment);
-                    res.Add(dto);
-                }
-            }
-            return res;
-            //return allScheduled.Where<Appointment>(a => a.DonorId == donorId);
+            IEnumerable<Appointment> apps =  await _unitOfWork.AppointmentRepository.GetByConditionWithIncludeAsync(a => a.DonorId == donorId &&
+             a.Status == Materials.Enums.AppointmentStatus.SCHEDULED &&
+                DateTime.Compare(a.StartDate.AddMinutes(a.Duration), DateTime.Now) >= 0, "Center", "Staff");
+            return _mapper.Map<IEnumerable<AppointmentViewDTO>>(apps);
         }
 
-        public IEnumerable<Appointment> GetScheduledByCenter(int id)
+        //svi zakazani u centru, koristi se eager loading
+        public async Task<IEnumerable<AppointmentViewDTO>> GetScheduledByCenter(int centerId)
         {
-            return _appointmentRepository.GetScheduledByCenter(id);
+            IEnumerable<Appointment> apps = await _unitOfWork.AppointmentRepository.GetByConditionWithIncludeAsync(a => a.CenterId == centerId &&
+             a.Status == Materials.Enums.AppointmentStatus.SCHEDULED &&
+                DateTime.Compare(a.StartDate.AddMinutes(a.Duration), DateTime.Now) >= 0, "Center", "Staff");
+            return _mapper.Map<IEnumerable<AppointmentViewDTO>>(apps);
         }
 
-        //TREBA
-        public IEnumerable<AppointmentDTO> GetFutureByCenter(int id)
+        //svi slobodni buduci u centru, eager loading
+        public async Task<IEnumerable<AppointmentViewDTO>> GetAvailableByCenter(int centerId)
         {
-            List<Appointment> future = _appointmentRepository.GetFutureByCenter(id).ToList();
-            List<AppointmentDTO> res = new List<AppointmentDTO>();
-            foreach (Appointment appointment in future)
-            {
-                res.Add(MakeDTO(appointment));
-            }
-            return res;
+            IEnumerable<Appointment> apps = await _unitOfWork.AppointmentRepository.GetByConditionWithIncludeAsync(a => a.CenterId == centerId &&
+            a.Status == Materials.Enums.AppointmentStatus.AVAILABLE &&
+                DateTime.Compare(a.StartDate.AddMinutes(a.Duration), DateTime.Now) >= 0, "Center", "Staff");
+            return _mapper.Map<IEnumerable<AppointmentViewDTO>>(apps);
         }
 
-        public IEnumerable<Appointment> GetEligibleByCenter(int id)
+        public async Task<Appointment> GeneratePredefined(GeneratePredefinedAppointmentDTO dto)
         {
-            return _appointmentRepository.GetEligibleByCenter(id);
-        }
-
-
-        public Appointment PrepareForSchedule(AppointmentDTO dto)
-        {
-            var appointment = new Appointment(dto);
-            List<Appointment> allCenterAppts = _appointmentRepository.GetEligibleByCenter(dto.CenterId).ToList();
-            foreach (Appointment app in allCenterAppts)
-            {
-                if (Overlaps(app.StartDate, app.StartDate.AddMinutes(app.Duration), appointment.StartDate, appointment.StartDate.AddMinutes(appointment.Duration)))
-                {
-
-                    appointment = app;
-                    appointment.Status = AppointmentStatus.SCHEDULED;
-                    appointment.DonorId = dto.DonorId;
-                    appointment = GenerateAndSaveQR(appointment, null);
-                    return appointment;
-                }
-            }
-
-            //ako je false nije available
-            if (!CheckIfCenterAvailable(appointment.CenterId, appointment.StartDate, appointment.Duration))
-            {
-                SendQRCancelled(appointment, 1);
-                return null;
-            }
-            if (appointment.StaffId == 0) appointment = AssignStaff(appointment);
-            if (appointment.StaffId == 0) return null;
-            appointment = GenerateAndSaveQR(appointment, null);
+            Appointment appointment = _mapper.Map<Appointment>(dto);
+            await _unitOfWork.AppointmentRepository.InsertAsync(appointment);
             return appointment;
-
-
         }
 
-
-        public void SendQRCancelled(Appointment appointment, int code)
+        public async Task<bool> IsStaffAvailable(GeneratePredefinedAppointmentDTO dto)
         {
-            switch (code)
+            IEnumerable<Appointment> appointments = await _unitOfWork.AppointmentRepository.GetByConditionAsync(a => a.StaffId == dto.StaffId &&
+            a.Status == Materials.Enums.AppointmentStatus.SCHEDULED);
+            DateTime dateOfAppt = DateTime.Parse(dto.StartDate);
+            foreach (Appointment appt in appointments)
             {
-                case 1:
-                    GenerateAndSaveQR(appointment, " the appointment has already been scheduled by someone else.");
-                    break;
-                case 2:
-                    GenerateAndSaveQR(appointment, " the staff was busy.");
-                    break;
-                case 3:
-                    GenerateAndSaveQR(appointment, " you cancelled it. A strike was added to your account.");
-                    break;
+                if (Overlaps(dateOfAppt, dateOfAppt.AddMinutes(dto.Duration), appt.StartDate, appt.StartDate.AddMinutes(appt.Duration))) return false;
+
             }
+
+            return true;
         }
-        //TREBA
-        public IEnumerable<BloodCenter> GetCentersForDateTime(string dateTime)
+
+        public async Task<bool> IsCenterAvailable(int centerId, string dateTime, int duration)
+        {
+            DateTime parsedDateTime = DateTime.Parse(dateTime);
+            IEnumerable<Appointment> allCenterApps = await _unitOfWork.AppointmentRepository.GetByConditionWithIncludeAsync(a => a.CenterId == centerId &&
+             a.Status == Materials.Enums.AppointmentStatus.SCHEDULED, "Center", null);
+            if (allCenterApps.IsNullOrEmpty()) return true;
+            BloodCenter center = allCenterApps.ElementAt(0).Center;
+            if (parsedDateTime.Hour < center.WorkTimeStart.Hour || parsedDateTime.Hour > center.WorkTimeEnd.Hour) return false;
+            foreach (Appointment app in allCenterApps)
+            {
+                if (Overlaps(app.StartDate, app.StartDate.AddMinutes(app.Duration), parsedDateTime, parsedDateTime.AddMinutes(duration)))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        //scheduled,completed,cancelled
+        public async Task<IEnumerable<AppointmentViewDTO>> GetHistoryForDonor(int donorId)
+        {
+            IEnumerable<Appointment> donorHistory = await _unitOfWork.AppointmentRepository.GetByConditionWithIncludeAsync(a => a.DonorId == donorId &&
+            a.Status != AppointmentStatus.AVAILABLE, "Center", "Staff");
+            return _mapper.Map<IEnumerable<AppointmentViewDTO>>(donorHistory);
+        }
+
+        public async Task<IEnumerable<CenterDTO>> GetCentersForDateTime(string dateTime)
         {
             //gledamo samo scheduled, available mogu doci u obzir
-            DateTime parsedDateTime = DateTime.Parse(dateTime);
-            List<BloodCenter> bloodCenters = _bloodCenterRepository.GetAll().ToList();
+            IEnumerable<BloodCenter> bloodCenters = await _unitOfWork.CenterRepository.GetAllAsync();
             List<BloodCenter> availableCenters = new List<BloodCenter>();
-
             foreach (BloodCenter center in bloodCenters)
             {
-                if (CheckIfCenterAvailable(center.Id, parsedDateTime, 30))
+                //ovde nam je predefinisano vec da traje 30 min kad donor sam zakazuje
+                if (await IsCenterAvailable(center.Id, dateTime, 30))
                 {
                     availableCenters.Add(center);
                 }
             }
-            return availableCenters;
+            return _mapper.Map<List<CenterDTO>>(availableCenters);
         }
 
-        //TREBA
-        public bool CheckIfCenterAvailable(int centerId, DateTime dateTime, int duration)
+        //ako vec postoji available appointment u centru koji se preklapa s nasim, zakazujemo njega
+        public async Task<Appointment> ScheduleIfAvailableAppointmentExists(AppointmentRequestDTO dto)
         {
-            List<Appointment> allCenterApps = GetScheduledByCenter(centerId).ToList();
-            BloodCenter bloodCenter = _bloodCenterRepository.GetById(centerId);
-            if (dateTime.Hour < bloodCenter.WorkTimeStart.Hour || dateTime.Hour > bloodCenter.WorkTimeEnd.Hour) return false;
-            foreach (Appointment app in allCenterApps)
+            //eligible su available, centerid==centerid, i date time je posle datetimenow
+            IEnumerable<Appointment> apps = await _unitOfWork.AppointmentRepository.GetByConditionWithIncludeAsync(a => a.CenterId == dto.CenterId &&
+            DateTime.Compare(a.StartDate.AddMinutes(a.Duration), DateTime.Now) >= 0 && a.Status == Materials.Enums.AppointmentStatus.AVAILABLE, "Center", "Staff");
+            DateTime date = DateTime.Parse(dto.StartDate);
+            foreach (Appointment app in apps)
             {
-
-                if (Overlaps(app.StartDate, app.StartDate.AddMinutes(app.Duration), dateTime, dateTime.AddMinutes(duration)))
+                if (Overlaps(app.StartDate, app.StartDate.AddMinutes(app.Duration), date, date.AddMinutes(dto.Duration)))
                 {
-                    return false;
+                    UpdateAvailableToScheduled(app, dto.Duration, date, dto.DonorId);
+                    return app;
                 }
-
             }
-            return true;
+            return null;
+        }
+
+        private void UpdateAvailableToScheduled(Appointment app,int duration, DateTime date, int donorId ) {
+            app.Status = AppointmentStatus.SCHEDULED;
+            app.DonorId = donorId;
+            app.StartDate = date;
+            app.Duration = duration;
+           // app = GenerateAndSaveQR(app, null);
+            _unitOfWork.AppointmentRepository.Update(app);
 
         }
 
-        public bool Overlaps(DateTime start1, DateTime end1, DateTime start2, DateTime end2)
-        {
-            //ako je pocetak prvog pre pocetka drugog, onda prvi mora i da bude zavrsen pre nego sto drugi pocne
-            if (DateTime.Compare(start1, start2) < 0)
+         public async Task<Appointment> GenerateDonorMadeAppointment(AppointmentRequestDTO dto)
+         {
+            //posto se ne poklapa ni sa jednim vec postojecim available kreiramo novi
+            //ako je false nije available, ne mozemo da zakazmemo
+            Appointment appointment = _mapper.Map<Appointment>(dto);
+            if (! await IsCenterAvailable(dto.CenterId, dto.StartDate, dto.Duration))
             {
-                if (DateTime.Compare(end1, start2) > 0) return true;
-                else return false;
+                SendQRCancelled(appointment, 1);
+                return null;
             }
-            //ako je pocetak drugog pre pocetka prvog, onda kraj drugog mora biti pre pocetka prvog
-            else if (DateTime.Compare(start2, start1) < 0)
+            //ako nije izabran staff bira se random, ako i dalje nema onda ne mozemo da zakazemo
+            appointment = await AssignStaff(appointment);
+            if (appointment == null) return null;
+          //  appointment = GenerateAndSaveQR(appointment, null);
+            await _unitOfWork.AppointmentRepository.InsertAsync(appointment);
+            return appointment;
+         }
+
+        private async Task<Appointment> AssignStaff(Appointment apptToAssign)
+        {
+            IEnumerable<Staff> staffs = await _unitOfWork.StaffRepository.GetByConditionAsync(s => s.BloodCenterId == apptToAssign.CenterId);
+            foreach (Staff staff in staffs)
             {
-                if (DateTime.Compare(end2, start1) > 0) return true;
-                else return false;
+
+                apptToAssign.StaffId = staff.Id;
+                if (!await IsStaffAvailable(_mapper.Map<GeneratePredefinedAppointmentDTO>(apptToAssign))) continue;
+                return apptToAssign;
             }
-            //ne mogu da pocnu u isto vreme
-            return true;
+
+            return null;
 
         }
 
-        //can the donor cancel the appt
-        public bool CanDonorCancel(int apptId)
-        {
 
-            Appointment appt = GetById(apptId);
-            DateTime cancelBy = appt.StartDate.AddDays(1);
-            if (DateTime.Compare(cancelBy, DateTime.Now) < 0) return false;
-            return true;
-
-        }
-
-        //prvo provera da li je prekasno da otkaze pregled pa ako nije napravi se kopija koja je available i kreira se u bazi
-        //a ovaj se apdejtuje kao cancelled
-        public bool CancelAppt(AppointmentDTO appointment)
-        {
-            if (!CanDonorCancel(appointment.Id)) return false;
-            Appointment _appt = GetById(appointment.Id);
-            _appt.Status = AppointmentStatus.CANCELLED;
-            _appointmentRepository.Update(_appt);
-            SendQRCancelled(_appt, 3);
-            //sad pravimo kopiju
-            Appointment _newAppt = new Appointment { CenterId = _appt.CenterId, Duration = _appt.Duration, StaffId = _appt.StaffId, StartDate = _appt.StartDate, Status = AppointmentStatus.AVAILABLE };
-            _appointmentRepository.Create(_newAppt);
-            return true;
-        }
-
+        /*
         //ovo se kreira prikaz za predefinisane preglede donora
         public IEnumerable<AppointmentDTO> GetEligibleForDonor(int donorId, int centerId)
         {
@@ -287,88 +251,11 @@ namespace BloodBankAPI.Services.Appointments
         }
 
 
-
-        public Appointment GenerateAndSaveQR(Appointment appointment, string cancelReason)
-        {
-            Staff staff = _staffService.GetById(appointment.StaffId);
-            var seed = 3;
-            var random = new Random(seed);
-            int rNum = random.Next();
-
-            string filePath = appointment.DonorId.ToString() + "_" + appointment.CenterId.ToString() + "_" + appointment.StartDate.ToString("dd_MM_yyyy_HH_mm") + rNum.ToString() + ".jpg";
-
-            byte[] qr = _qRService.GenerateQR(appointment.EmailInfo(
-                                                         _centerService.GetById(appointment.CenterId).Name,
-                                                         staff.Name + " " + staff.Surname, cancelReason), filePath);
-            appointment.QrCode = qr;
-            Donor donor = _donorService.GetById(appointment.DonorId);
-            string subject = "BloodCenter - Appointment information";
-            string body = "Here is the QR code with your information:\n";
-
-            filePath = "AppData\\" + filePath;
-
-            _emailSendService.SendWithQR(new Message(new string[] { "danabrasanac@gmail.com", "tibbers707@gmail.com" }, subject, body), qr, filePath);
-            //_qRService.DeleteImage(filePath);
-
-            return appointment;
-
-        }
-
-
-        public Appointment AssignStaff(Appointment apptToAssign)
-        {
-            List<Staff> staffs = _staffService.GetByCenterId(apptToAssign.CenterId).ToList();
-            foreach (Staff staff in staffs)
-            {
-                apptToAssign.StaffId = staff.Id;
-                bool isAvailable = IsStaffAvailable(apptToAssign);
-                if (!isAvailable) continue;
-                apptToAssign.StaffId = staff.Id;
-                return apptToAssign;
-            }
-
-            return apptToAssign;
-
-        }
-
-        public bool IsStaffAvailable(Appointment appointment)
-        {
-            List<Appointment> staffAppts = _appointmentRepository.GetFutureByStaff(appointment.StaffId).ToList();
-            foreach (Appointment appt in staffAppts)
-            {
-                if (Overlaps(appointment.StartDate, appointment.StartDate.AddMinutes(appointment.Duration), appt.StartDate, appt.StartDate.AddMinutes(appt.Duration))) return false;
-
-            }
-            return true;
-        }
-
         public object GetAllByDonor(int id)
         {
             return _appointmentRepository.GetByDonor(id);
         }
 
-        public IEnumerable<AppointmentDTO> GetHistoryForDonor(int donorId)
-        {
-            List<AppointmentDTO> res = new List<AppointmentDTO>();
-            List<Appointment> apps = _appointmentRepository.GetHistoryForDonor(donorId).ToList();
-            foreach (Appointment appt in apps)
-            {
-                AppointmentDTO dto = MakeDTO(appt);
-                res.Add(dto);
-            }
-            return res;
-        }
-
-        public AppointmentDTO MakeDTO(Appointment appointment)
-        {
-            AppointmentDTO dto = new AppointmentDTO(appointment);
-            Staff staff = _staffService.GetById(appointment.StaffId);
-            BloodCenter center = _centerService.GetById(appointment.CenterId);
-            dto.StaffName = staff.Name;
-            dto.StaffSurname = staff.Surname;
-            dto.CenterName = center.Name;
-            return dto;
-        }
 
         public IEnumerable<AppointmentDTO> GetScheduledForStaff(int id)
         {
@@ -380,17 +267,116 @@ namespace BloodBankAPI.Services.Appointments
             }
             return ret;
         }
-
-        public void CompleteAppt(AppointmentDTO appointment)
+        */
+        public async Task CompleteAppt(AppointmentViewDTO appointment)
         {
-            Appointment appt = GetById(appointment.Id);
+            Appointment appt = await _unitOfWork.AppointmentRepository.GetByIdAsync(appointment.Id);
             appt.Status = AppointmentStatus.COMPLETED;
-            GenerateAndSaveQR(appt, null);
+         //   SendQRCompleted(appt.Id, null);
             Update(appt);
+        }
+
+        //prvo provera da li je prekasno da otkaze pregled pa ako nije napravi se kopija koja je available i kreira se u bazi
+        //a ovaj se apdejtuje kao cancelled
+        public async Task<bool> CancelAppt(AppointmentViewDTO appointment)
+        {
+            Appointment appt = await _unitOfWork.AppointmentRepository.GetByIdAsync(appointment.Id);
+            if (!CanDonorCancel(appt.StartDate)) return false;
+            appt.Status = AppointmentStatus.CANCELLED;
+            _unitOfWork.AppointmentRepository.Update(appt);
+            SendQRCancelled(appt, 3);
+            //sad pravimo kopiju
+            Appointment newAppt = new Appointment { CenterId = appt.CenterId, Duration = appt.Duration, StaffId = appt.StaffId, StartDate = appt.StartDate, Status = AppointmentStatus.AVAILABLE };
+            await _unitOfWork.AppointmentRepository.InsertAsync(newAppt);
+            return true;
+        }
+
+        //can the donor cancel the appt
+        private bool CanDonorCancel(DateTime startDate)
+        {
+            DateTime cancelBy = startDate.AddDays(1);
+            if (DateTime.Compare(cancelBy, DateTime.Now) < 0) return false;
+            return true;
+
+        }
+
+       
+
+        public Appointment GenerateAndSaveQR(Appointment appointment, string cancelReason)
+        {
+            Staff staff = appointment.Staff;
+            var seed = 3;
+            var random = new Random(seed);
+            int rNum = random.Next();
+            string filePath = appointment.DonorId.ToString() + "_" + appointment.CenterId.ToString() + "_" + appointment.StartDate.ToString("dd_MM_yyyy_HH_mm") + rNum.ToString() + ".jpg";
+
+            byte[] qr = _qrService.GenerateQR(appointment.EmailInfo(appointment.Center.Name, appointment.Staff.Name + " " + appointment.Staff.Surname, cancelReason), filePath);
+            appointment.QrCode = qr;
+           // Donor donor = _donorService.GetById(appointment.DonorId);
+            string subject = "BloodCenter - Appointment information";
+            string body = "Here is the QR code with your information:\n";
+
+            filePath = "AppData\\" + filePath;
+
+            _emailSendService.SendWithQR(new Message(new string[] { "danabrasanac@gmail.com", "tibbers707@gmail.com" }, subject, body), qr, filePath);
+            //_qRService.DeleteImage(filePath);
+
+            return appointment;
+
+        }
+        /*
+        public void SendQRScheduled(Appointment appointment)
+        {
+            string data =
+        appointment.EmailInfo(appointment.Center.Name, appointment.Staff.Name + " " + appointment.Staff.Surname);
 
 
         }
+
+        public void SendQRCompleted(Appointment appointment)
+        {
+            string data = appointment.EmailInfo(appointment.Center.Name, appointment.Staff.Name + " " + appointment.Staff.Surname);
+
+
+        }
+
         */
-        
+        public void SendQRCancelled(Appointment appointment, int code)
+        {
+            switch (code)
+            {
+                case 1:
+                    GenerateAndSaveQR(appointment, " the appointment has already been scheduled by someone else.");
+                    break;
+                case 2:
+                    GenerateAndSaveQR(appointment, " the staff was busy.");
+                    break;
+                case 3:
+                    GenerateAndSaveQR(appointment, " you cancelled it. A strike was added to your account.");
+                    break;
+            }
+        }
+
+
+        private bool Overlaps(DateTime start1, DateTime end1, DateTime start2, DateTime end2)
+        {
+            //ako je pocetak prvog pre pocetka drugog, onda prvi mora i da bude zavrsen pre nego sto drugi pocne
+            if (DateTime.Compare(start1, start2) < 0)
+            {
+                if (DateTime.Compare(end1, start2) > 0) return true;
+                else return false;
+            }
+            //ako je pocetak drugog pre pocetka prvog, onda kraj drugog mora biti pre pocetka prvog
+            else if (DateTime.Compare(start2, start1) < 0)
+            {
+                if (DateTime.Compare(end2, start1) > 0) return true;
+                else return false;
+            }
+            //ne mogu da pocnu u isto vreme
+            return true;
+
+        }
+
+
     }
 }

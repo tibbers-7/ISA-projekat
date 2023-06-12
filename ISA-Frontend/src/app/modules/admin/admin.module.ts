@@ -16,15 +16,17 @@ import { RegisterCenterComponent } from './register-center/register-center.compo
 
 const routes: Routes = [
 
-  { path: 'admin/homepage', component:AdminHomepageComponent,
+  { path: 'admin-home', component:AdminHomepageComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' }},
-  { path: 'admin/user-list', component: UserListComponent,
+  { path: 'user-list', component: UserListComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' } },
-  {path: 'admin/new-center', component:RegisterCenterComponent,
+  {path: 'register-center', component:RegisterCenterComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' }},
-  { path: 'admin/staff-register', component: StaffRegistrationComponent,
+  { path: 'register-staff', component: StaffRegistrationComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' } },
-  { path: 'admin/profile', component: AdminProfileComponent,
+  { path: 'register-admin', component: AdminRegistrationComponent,
+  canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' } },
+  { path: 'admin-profile', component: AdminProfileComponent,
   canActivate: [RoleGuardService], data: { expectedRole: 'ADMIN' } },
 
 ];
