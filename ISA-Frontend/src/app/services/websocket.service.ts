@@ -4,7 +4,7 @@ import { AnonymousSubject } from 'rxjs/internal/Subject';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-const CHAT_URL = "ws://localhost:16177/ws";
+const CHAT_URL = "ws://localhost:5090/ws";
 
 //dict that defines the behavior of an object, but does not specify its content
 export interface Message {
