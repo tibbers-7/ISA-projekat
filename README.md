@@ -24,7 +24,7 @@ Staff:
     password:staff
     
 Izabrane konfliktne situacije: 
-    1.administrator centra ne može unapred definisati termin u isto ili
-preklapajuće vreme za koje i korisnik kreira rezervaciju termina,
+    1.jedan administrator centra/jedan predstavnik medicinskog osoblja ne
+može istovremeno da bude prisutan na više različitih pregleda,
     2. više istovremenih korisnika aplikacije ne može da rezerviše termin koji je u
 međuvremenu postao nedostupan
