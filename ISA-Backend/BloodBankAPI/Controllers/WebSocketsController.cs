@@ -2,6 +2,7 @@
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
+using BloodBankAPI.Materials.Consumer;
 using BloodBankAPI.Model;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
@@ -15,11 +16,16 @@ namespace BloodBankAPI.Controllers
     {
         private readonly ILogger<WebSocketsController> _logger;
         private readonly HttpClient client;
+        private readonly IStoreLocation storage;
+        private readonly IConsumerService consumerService;
 
-        public WebSocketsController(ILogger<WebSocketsController> logger)
+        public WebSocketsController(ILogger<WebSocketsController> logger, IStoreLocation storage, IConsumerService consumerService)
         {
             _logger = logger;
             client = new HttpClient();
+            this.storage = storage;
+            this.consumerService = consumerService;
+
         }
 
         //Add a new route called ws/
@@ -42,8 +48,6 @@ namespace BloodBankAPI.Controllers
 
         private async Task Echo(WebSocket webSocket)
         {
-            //singleton baza za trenutnu lokaciju
-            StoreLocation storage = StoreLocation.Instance;
             var buffer = new byte[1024 * 4];
             // dobijanje poruke sa fronta
             var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
@@ -51,6 +55,7 @@ namespace BloodBankAPI.Controllers
             //Wait until client initiates a request.
             _logger.Log(LogLevel.Information, "Message received from Client");
 
+            consumerService.ConsumeMessages();
             
 
 
@@ -66,8 +71,8 @@ namespace BloodBankAPI.Controllers
                 }            
 
                 //Wait until the client send another request.
-                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                    _logger.Log(LogLevel.Information, "Message received from Client");
+               /* result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    _logger.Log(LogLevel.Information, "Message received from Client");*/
                 
 
             }

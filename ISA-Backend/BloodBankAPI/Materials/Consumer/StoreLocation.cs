@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using BloodBankAPI.Materials.Consumer;
+using System.Collections;
 
 namespace BloodBankAPI.Model
 {
-    public class StoreLocation
+    public class StoreLocation : IStoreLocation
     {
 
         public Location storedLoc { get; set; }

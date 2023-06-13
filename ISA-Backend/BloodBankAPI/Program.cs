@@ -44,6 +44,7 @@ builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped( typeof(IGenericRepository<>),typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IStoreLocation,StoreLocation>();
 
 
 var emailConfig = builder.Configuration.GetSection("EmailConfiguration")
@@ -103,6 +104,7 @@ var config = builder.Configuration;
 var consumer = new ConsumerService(config);
 
 
+
 var app = builder.Build();
 
 
@@ -125,9 +127,16 @@ if (app.Environment.IsDevelopment())
     app.UseWebSockets();
     app.MapControllers();
 
-    app.Run();
 
 
+app.Use(async (context, next) =>
+{
+    // Run the RabbitMQ consumer asynchronously
+    await consumer.ConsumeMessages();
 
-// Start the RabbitMQ consumer
-consumer.ConsumeMessages();
+    // Call the next middleware in the pipeline
+    await next();
+});
+
+
+app.Run();
