@@ -12,7 +12,6 @@ namespace BloodBankAPI.Services.Appointments
         Task<AppointmentViewDTO> GetById(int id);
         Task Create(Appointment appointment);
         void Update(Appointment appointment);
-        Task<IEnumerable<Donor>> GetDonorsByCenter(int centerId);
         Task<IEnumerable<AppointmentViewDTO>> GetScheduledByCenter(int centerId);
         Task<IEnumerable<AppointmentViewDTO>> GetAvailableByCenter(int centerId);
         Task<IEnumerable<AppointmentViewDTO>> GetScheduledByDonor(int donorId);
@@ -23,15 +22,16 @@ namespace BloodBankAPI.Services.Appointments
         Task<IEnumerable<CenterDTO>> GetCentersForDateTime(string DateTime);
         Task<Appointment> GenerateDonorMadeAppointment(AppointmentRequestDTO dto);
         Task<Appointment> ScheduleIfAvailableAppointmentExists(AppointmentRequestDTO dto);
-        Appointment GenerateAndSaveQR(Appointment appointment, string cancelReason);
-        /*     
-        IEnumerable<AppointmentViewDTO> GetEligibleForDonor(int donorId, int centerId);
-        void SendQRCancelled(Appointment appointment, int code);
-        IEnumerable<Appointment> GetEligibleByCenter(int centerId);
-        IEnumerable<AppointmentViewDTO> GetScheduledForStaff(int id);
-        Task CompleteAppt(AppointmentViewDTO appointment);
-        Task<bool> CancelAppt(AppointmentViewDTO appointment);
+        Task<IEnumerable<AppointmentViewDTO>> GetEligibleForDonor(int donorId, int centerId);
+        Task<bool> SchedulePredefinedAppointment(AppointmentRequestDTO dto);
+        Task SendQRCancelled(Appointment appointment, int code);
+        Task SendQRScheduled(Appointment appointment);
+        Task SendQRCompleted(Appointment appointment);
+        Task CompleteAppt(AppointmentRequestDTO appointment);
+        Task<bool> CancelAppt(AppointmentRequestDTO appointment);
+        Task<IEnumerable<AppointmentViewDTO>> GetScheduledForStaff(int id);
+        Task<IEnumerable<AppointmentViewDTO>> GetAllByDonor(int id);
 
-        */
+
     }
 }

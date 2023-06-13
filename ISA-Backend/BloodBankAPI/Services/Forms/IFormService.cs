@@ -8,7 +8,7 @@ namespace BloodBankAPI.Services.Forms
         Task<IEnumerable<Form>> GetAll();
         Task<Form> GetById(int id);
         Task Create(Form form);
-        void Update(Form form);
+        Task Update(Form form);
         bool IsDonorEligible(Form form);
         Task<Form> GetByDonorId(int id);
            

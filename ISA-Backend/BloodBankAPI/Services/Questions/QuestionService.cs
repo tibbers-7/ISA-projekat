@@ -13,6 +13,7 @@ namespace BloodBankAPI.Services.Questions
         {
             _unitOfWork = unitOfWork;
         }
+
         public async Task<IEnumerable<Question>> GetAll()
         {
             return await _unitOfWork.QuestionRepository.GetAllAsync();

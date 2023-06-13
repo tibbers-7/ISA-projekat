@@ -72,3 +72,25 @@ h3 {
   color: #777;
   font-size: 14px;
 }
+
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  opacity: 0 !important; /*click effect color change*/
+  background-color: #c0ace6 !important;  }
+  
+  .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: #ded0f7 !important; /*inner circle color change*/  }
+  
+  .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:not(:checked)+.mdc-radio__background .mdc-radio__outer-circle{
+  border-color: #d4c6f0 !important; /*outer ring color change*/  }
+
+  .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:not(:checked)+.mdc-radio__background .mdc-radio__outer-circle {
+    border-color: #d4c6f0 !important; /*outer ring color change*/ 
+  }
+
+  mat-radio-group mat-radio-button .mat-mdc-radio-button {
+    color: white;
+    border-color:white;
+  }
+  
+
+  

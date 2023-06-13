@@ -17,21 +17,34 @@ namespace BloodBankAPI.Controllers
 
         // GET: api/Question
         [HttpGet]
-        public ActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            return Ok(_questionService.GetAll());
+            try
+            {
+                return Ok(await _questionService.GetAll());
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetById(int id)
+        public async Task<ActionResult> GetById(int id)
         {
-            var question = _questionService.GetById(id);
-            if (question == null)
+            try
             {
-                return NotFound();
-            }
+                var question = await _questionService.GetById(id);
+                if (question == null)
+                {
+                    return NotFound();
+                }
 
-            return Ok(question);
+                return Ok(question);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

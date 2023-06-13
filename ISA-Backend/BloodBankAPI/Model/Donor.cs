@@ -16,6 +16,7 @@ namespace BloodBankAPI.Model
         public int Strikes { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<CancelledAppointment> CancelledAppointments { get; set; }
 
         public Donor()
         {

@@ -1,4 +1,5 @@
-﻿using BloodBankAPI.Services.Users;
+﻿using BloodBankAPI.Model;
+using BloodBankAPI.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Eventing.Reader;
 
@@ -16,67 +17,155 @@ namespace BloodBankAPI.Controllers
             _userService = userService;
         }
 
-       
-        
-        [HttpGet]
+        [HttpGet("Donor")]
         public async Task<ActionResult> GetAllDonors()
         {
-            return Ok(await _userService.GetAllDonors());
+            try {
+                return Ok(await _userService.GetAllDonors());
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
-        /*
-       // GET api/users/2
-       [HttpGet("{id}")]
-       public ActionResult GetById(int id)
-       {
-           var user = _userService.GetById(id);
-           if (user == null)
-           {
-               return NotFound();
-           }
 
-           return Ok(user);
+
+        [HttpPut("Donor")]
+        public async Task<ActionResult> UpdateDonor(Donor donor)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                await _userService.UpdateDonor(donor);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+
+       
+       [HttpGet("Donor/{id}")]
+       public async Task<ActionResult> GetDonorById(int id)
+       {
+            try
+            {
+                var user = await _userService.GetDonorById(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(user);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
        }
 
-       // PUT api/users/2
-       [HttpPut("{id}")]
-       public ActionResult Update(int id, User user)
+        [HttpGet("Staff/{id}")]
+        public async Task<ActionResult> GetStaffById(int id)
+        {
+            try {
+            var user = await _userService.GetStaffById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("Admin/{id}")]
+        public async Task<ActionResult> GetAdminById(int id)
+        {
+            try
+            {
+                var user = await _userService.GetAdminById(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(user);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+        }
+
+
+       [HttpDelete("Admin/{id}")]
+       public async Task<ActionResult> DeleteAdmin(int id)
        {
-           if (!ModelState.IsValid)
-           {
-               return BadRequest(ModelState);
-           }
+            try
+            {
+                var user = await _userService.GetAdminById(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
-           if (id != user.Id)
-           {
-               return BadRequest();
-           }
-
-           try
-           {
-               _userService.Update(user);
-           }
-           catch
-           {
-               return BadRequest();
-           }
-
-           return Ok(user);
+                await _userService.DeleteAdmin(user);
+                return NoContent();
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
        }
 
-       // DELETE api/users/2
-       [HttpDelete("{id}")]
-       public ActionResult Delete(int id)
-       {
-           var user = _userService.GetById(id);
-           if (user == null)
-           {
-               return NotFound();
-           }
+        [HttpDelete("Staff/{id}")]
+        public async Task<ActionResult> DeleteStaff(int id)
+        {
+            try
+            {
+                var user = await _userService.GetStaffById(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
-           _userService.Delete(user);
-           return NoContent();
-       }
-       */
+                await _userService.DeleteStaff(user);
+                return NoContent();
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
+        }
+
+        [HttpDelete("Donor/{id}")]
+        public async Task<ActionResult> DeleteDonor(int id)
+        {
+            try
+            {
+                var user = await _userService.GetDonorById(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                await _userService.DeleteDonor(user);
+                return NoContent();
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
+        }
+
 
     }
 }

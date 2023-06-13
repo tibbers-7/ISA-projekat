@@ -4,7 +4,6 @@
     {
         SCHEDULED,
         AVAILABLE,
-        CANCELLED,
         COMPLETED
     }
 }

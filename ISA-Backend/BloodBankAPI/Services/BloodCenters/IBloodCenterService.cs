@@ -7,10 +7,11 @@ namespace BloodBankAPI.Services.BloodCenters
     public interface IBloodCenterService
     {
         Task<IEnumerable<CenterDTO>> GetAll();
+        Task<IEnumerable<Donor>> GetDonorsByCenter(int centerId);
         Task<BloodCenter> GetById(int id);
         Task Create(BloodCenter bloodCenter);
-        void Update(BloodCenter bloodCenter);
-        void Delete(BloodCenter bloodCenter);
+        Task Update(BloodCenter bloodCenter);
+        Task Delete(BloodCenter bloodCenter);
 
         Task<IEnumerable<CenterDTO>> GetSearchResult(string content);
 

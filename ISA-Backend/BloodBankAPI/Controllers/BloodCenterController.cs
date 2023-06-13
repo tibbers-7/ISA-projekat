@@ -1,6 +1,5 @@
 ﻿using BloodBankAPI.Model;
 using BloodBankAPI.Services.Addresses;
-using BloodBankAPI.Services.Appointments;
 using BloodBankAPI.Services.BloodCenters;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,44 +11,44 @@ namespace BloodBankAPI.Controllers
     {
         private readonly IBloodCenterService _bloodCenterService;
         private readonly IAddressService _addressService;
-        private readonly IAppointmentService _appointmentService;
-        public BloodCenterController(IBloodCenterService bloodCenterService, IAddressService addressService, IAppointmentService appointmentService)
+        public BloodCenterController(IBloodCenterService bloodCenterService, IAddressService addressService)
         {
             _bloodCenterService = bloodCenterService;
             _addressService = addressService;
-            _appointmentService=appointmentService;
         }
 
-        // GET: api/bloodCenters
+       
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            return Ok(await _bloodCenterService.GetAll());
+            try
+            {
+                return Ok(await _bloodCenterService.GetAll());
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         }
 
-        // GET api/bloodCenters/2
+       
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(int id)
         {
-            var bloodCenter = await _bloodCenterService.GetById(id);
-            if (bloodCenter == null)
+            try
             {
-                return NotFound();
-            }
+                var bloodCenter = await _bloodCenterService.GetById(id);
+                if (bloodCenter == null)
+                {
+                    return NotFound();
+                }
 
-            return Ok(bloodCenter);
-        }
-
-        [HttpGet("cities")]
-        public async Task<ActionResult> GetCities()
-        {
-            var cities = await _addressService.GetCitiesAsync();
-            if (cities == null)
+                return Ok(bloodCenter);
+            }catch(Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
-
-            return Ok(cities);
+            
         }
 
 
@@ -61,14 +60,19 @@ namespace BloodBankAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            await _bloodCenterService.Create(bloodCenter);
-            return CreatedAtAction("GetById", new { id = bloodCenter.Id }, bloodCenter);
+            try
+            {
+                await _bloodCenterService.Create(bloodCenter);
+                return CreatedAtAction("GetById", new { id = bloodCenter.Id }, bloodCenter);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // PUT api/bloodCenters/2
         [HttpPut("{id}")]
-        public ActionResult Update(int id, BloodCenter bloodCenter)
+        public async Task<ActionResult> Update(int id, BloodCenter bloodCenter)
         {
             if (!ModelState.IsValid)
             {
@@ -82,7 +86,7 @@ namespace BloodBankAPI.Controllers
 
             try
             {
-                _bloodCenterService.Update(bloodCenter);
+                await _bloodCenterService.Update(bloodCenter);
             }
             catch
             {
@@ -96,45 +100,84 @@ namespace BloodBankAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var bloodCenter = await _bloodCenterService.GetById(id);
-            if (bloodCenter == null)
+            try
             {
-                return NotFound();
-            }
+                var bloodCenter = await _bloodCenterService.GetById(id);
+                if (bloodCenter == null)
+                {
+                    return NotFound();
+                }
 
-            _bloodCenterService.Delete(bloodCenter);
-            return NoContent();
+                await _bloodCenterService.Delete(bloodCenter);
+                return NoContent();
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-/*
-        [HttpGet("{centerId}/donors")]
-        public ActionResult GetDonorsForCenter(int centerId)
+
+        [HttpGet("{centerId}/Donors")]
+        public async Task<ActionResult> GetAllDonorsByCenter(int centerId)
         {
-
-            var donors = _appointmentService.GetDonorsByCenterId(centerId);
-            if (donors == null)
+            try
             {
-                return NotFound();
+                var donors = await _bloodCenterService.GetDonorsByCenter(centerId);
+                if (donors == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(donors);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
-            return Ok(donors);
         }
 
-*/
-        [HttpGet("address/{id}")]
-        public async Task<ActionResult> GetAddressByCenter(int id) { 
-        
-        
-            var address = await _addressService.GetByCenterAsync(id);
-            if(address== null)
+        [HttpGet("Cities")]
+        public async Task<ActionResult> GetCities()
+        {
+            try
             {
-                return NotFound();
+                var cities = await _addressService.GetCitiesAsync();
+                if (cities == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(cities);
             }
-            return Ok(address);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
+        [HttpGet("Address/{centerId}")]
+        public async Task<ActionResult> GetAddressByCenter(int centerId)
+        {
+            try
+            {
+                var address = await _addressService.GetByCenterAsync(centerId);
+                if (address == null)
+                {
+                    return NotFound();
+                }
+                return Ok(address);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         
         }
 
-        [HttpPut("address/{id}")]
-        public ActionResult UpdateAddress(int id, CenterAddress address)
+        [HttpPut("Address/{id}")]
+        public async Task<ActionResult> UpdateAddress(int id, CenterAddress address)
         {
             if (!ModelState.IsValid)
             {
@@ -148,7 +191,7 @@ namespace BloodBankAPI.Controllers
 
             try
             {
-                _addressService.Update(address);
+               await _addressService.Update(address);
             }
             catch
             {
@@ -158,28 +201,41 @@ namespace BloodBankAPI.Controllers
             return Ok(address);
         }
 
-        // POST api/bloodCenters
-        [HttpPost("address")]
-        public ActionResult CreateAddress(CenterAddress address)
+
+        [HttpPost("Address")]
+        public async Task<ActionResult> CreateAddress(CenterAddress address)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            _addressService.Create(address);
-            return CreatedAtAction("GetById", new { id = address.Id }, address);
+            try
+            {
+                await _addressService.Create(address);
+                return CreatedAtAction("GetById", new { id = address.Id }, address);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpGet("search/{content}")]
+
+        [HttpGet("Search/{content}")]
         public async Task<ActionResult> SearchResult(string content)
         {
-            var result = await _bloodCenterService.GetSearchResult(content);
-            if (result == null)
+            try
             {
-                return NotFound();
+                var result = await _bloodCenterService.GetSearchResult(content);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                return Ok(result);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
-            return Ok(result);
+           
 
         }
     }

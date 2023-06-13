@@ -15,55 +15,76 @@ namespace BloodBankAPI.Controllers
             _formService = formService;
         }
 
-        // GET: api/bloodCenters
         [HttpGet]
-        public ActionResult GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            return Ok(_formService.GetAll());
-        }
-
-        // GET api/bloodCenters/2
-        [HttpGet("{id}")]
-        public ActionResult GetById(int id)
-        {
-            var form = _formService.GetById(id);
-            if (form == null)
+            try
             {
-                return NotFound();
+                return Ok(await _formService.GetAll());
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
-
-            return Ok(form);
+            
         }
 
-        // GET api/bloodCenters/2
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(int id)
+        {
+            try
+            {
+                var form = await _formService.GetById(id);
+                if (form == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(form);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
+        }
+
         [HttpGet("donor/{id}")]
         public async Task<ActionResult> IsEligible(int id)
         {
-            var form = await _formService.GetByDonorId(id);
-            if (form == null)
+            try
             {
-                return NotFound();
+                var form = await _formService.GetByDonorId(id);
+                if (form == null)
+                {
+                    return NotFound();
+                }
+                if (!_formService.IsDonorEligible(form)) return NotFound();
+                return Ok(form);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
-            if(!_formService.IsDonorEligible(form)) return NotFound();
-            return Ok(form);
+           
         }
 
-        // POST api/bloodCenters
         [HttpPost]
-        public ActionResult Create(Form form)
+        public async Task<ActionResult> Create(Form form)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            _formService.Create(form);
-            return CreatedAtAction("GetById", new { id = form.Id }, form);
+            try
+            {
+                await _formService.Create(form);
+                return CreatedAtAction("GetById", new { id = form.Id }, form);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // PUT api/bloodCenters/2
         [HttpPut("{id}")]
-        public ActionResult Update(int id, Form form)
+        public async Task<ActionResult> Update(int id, Form form)
         {
             if (!ModelState.IsValid)
             {
@@ -77,7 +98,7 @@ namespace BloodBankAPI.Controllers
 
             try
             {
-                _formService.Update(form);
+               await _formService.Update(form);
             }
             catch
             {

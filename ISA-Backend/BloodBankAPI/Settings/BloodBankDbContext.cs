@@ -8,12 +8,12 @@ namespace BloodBankAPI.Settings
 {
     public class BloodBankDbContext : DbContext
     {
-        //virtual?
         public DbSet<BloodCenter> BloodCenters { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Form> Forms { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<CancelledAppointment> CancelledAppointments { get; set; }
         public DbSet<Donor> Donors { get; set; }
         public DbSet<Staff> Staff { get; set; }
         public DbSet<Admin> Admins { set; get; }
@@ -50,9 +50,13 @@ namespace BloodBankAPI.Settings
                 .OnDelete(DeleteBehavior.Restrict).HasConstraintName("FK_DONOR_APPTS");
                 a.HasOne(s => s.Staff).WithMany(e => e.Appointments)
                 .OnDelete(DeleteBehavior.Restrict).HasConstraintName("FK_STAFF_APPTS");
+                a.HasIndex(a => new { a.CenterId, a.StartDate }).IsUnique();
 
             });
-           
+
+            modelBuilder.Entity<CancelledAppointment>().HasOne(a => a.Donor)
+                .WithMany(c => c.CancelledAppointments).OnDelete(DeleteBehavior.Restrict).HasConstraintName("FK_DONOR_CANCELLED_APPTS");
+
             modelBuilder.Entity<Staff>().HasOne(s => s.BloodCenter)
                 .WithMany(c => c.Staff).HasConstraintName("FK_BloodCenter");
 

@@ -41,19 +41,22 @@ namespace BloodBankAPI.Services.Addresses
            return addresses.FirstOrDefault();
         }
 
-        public Task Create(CenterAddress address)
+        public async Task Create(CenterAddress address)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.AddressRepository.InsertAsync(address);
+            await _unitOfWork.SaveAsync();
         }
 
-        public Task Update(CenterAddress address)
+        public async Task Update(CenterAddress address)
         {
-            throw new NotImplementedException();
+            _unitOfWork.AddressRepository.Update(address);
+            await _unitOfWork.SaveAsync();
         }
 
-        public Task Delete(CenterAddress address)
+        public async Task Delete(CenterAddress address)
         {
-            throw new NotImplementedException();
+            _unitOfWork.AddressRepository.Delete(address);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

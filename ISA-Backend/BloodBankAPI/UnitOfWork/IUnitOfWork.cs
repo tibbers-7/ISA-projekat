@@ -14,6 +14,7 @@ namespace BloodBankAPI.UnitOfWork
         IGenericRepository<Appointment> AppointmentRepository { get; }
         IGenericRepository<Form> FormRepository { get; }
         IGenericRepository<Question> QuestionRepository { get; }
+        IGenericRepository<CancelledAppointment> CancelledAppointmentRepository { get; }
 
         Task SaveAsync();
 

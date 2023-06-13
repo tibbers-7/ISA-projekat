@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using BloodBankAPI.Materials.DTOs;
+using BloodBankAPI.Materials.Enums;
 using BloodBankAPI.Model;
 using BloodBankAPI.UnitOfWork;
-using System.Collections.Generic;
-using System.Text.Json;
 
 namespace BloodBankAPI.Services.BloodCenters
 {
@@ -20,47 +19,52 @@ namespace BloodBankAPI.Services.BloodCenters
 
         public async Task<IEnumerable<CenterDTO>> GetAll()
         {
-            List<CenterDTO> result = new List<CenterDTO>();
+           
             IEnumerable<BloodCenter> centers = await _unitOfWork.CenterRepository.GetAllAsync();
-            _mapper.Map(centers, result, typeof(IEnumerable<BloodCenter>), typeof(IEnumerable<CenterDTO>));
-            return result;
+            return _mapper.Map<IEnumerable<CenterDTO>>(centers);
         }
 
+        //svi koji su ikada zavrsili app u centru tj. dali krv
+        public async Task<IEnumerable<Donor>> GetDonorsByCenter(int centerId)
+        {
+            IEnumerable<Appointment> apps = await _unitOfWork.AppointmentRepository.GetByConditionWithIncludeAsync(app => app.CenterId == centerId &&
+            app.Status == AppointmentStatus.COMPLETED, "Donor", null);
+            List<Donor> donors = new List<Donor>();
+            foreach (Appointment app in apps)
+            {
+                donors.Add(app.Donor);
+            }
+            return donors;
+        }
 
         public async Task<BloodCenter> GetById(int id)
         {
-
-            return await _unitOfWork.CenterRepository.GetByIdAsync(id);
+           return await _unitOfWork.CenterRepository.GetByIdAsync(id);
         }
 
         public async Task Create(BloodCenter bloodCenter)
         {
            await _unitOfWork.CenterRepository.InsertAsync(bloodCenter);
+           await _unitOfWork.SaveAsync();
         }
 
-        public void Update(BloodCenter bloodCenter)
+        public async Task Update(BloodCenter bloodCenter)
         {
             _unitOfWork.CenterRepository.Update(bloodCenter);
+            await _unitOfWork.SaveAsync();
         }
 
-        public void Delete(BloodCenter bloodCenter)
+        public async Task Delete(BloodCenter bloodCenter)
         {
             _unitOfWork.CenterRepository.Delete(bloodCenter);
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task<IEnumerable<CenterDTO>> GetSearchResult(string content)
         {
-            List<CenterDTO> res = new List<CenterDTO>();
-
-            foreach (CenterDTO center in await GetAll())
-            {
-                if (center.Name.ToLower().Contains(content.ToLower()) || center.stringAddress.ToLower().Contains(content.ToLower()))
-                {
-                    res.Add(center);
-                }
-
-            }
-
+            IEnumerable< CenterDTO > all = await GetAll();
+            IEnumerable<CenterDTO> res = new List<CenterDTO>();
+            res = all.Where(center => center.Name.ToLower().Contains(content.ToLower()) || center.stringAddress.ToLower().Contains(content.ToLower())).ToList();
             return res;
         }
     }

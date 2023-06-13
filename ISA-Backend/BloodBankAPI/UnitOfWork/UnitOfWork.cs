@@ -15,13 +15,15 @@ namespace BloodBankAPI.UnitOfWork
         private readonly IGenericRepository<BloodCenter> _bloodCenterRepository;
         private readonly IGenericRepository<CenterAddress> _centerAddressRepository;
         private readonly IGenericRepository<Appointment> _appointmentRepository;
+        private readonly IGenericRepository<CancelledAppointment> _cancelledAppointmentRepository;
         private readonly BloodBankDbContext _context;
 
         public UnitOfWork(IGenericRepository<Account> accountRepository, IGenericRepository<Donor> donorRepository,
             IGenericRepository<Staff> staffRepository, IGenericRepository<Admin> adminRepository,
             IGenericRepository<Question> questionRepository, IGenericRepository<Form> formRepository,
             IGenericRepository<BloodCenter> bloodCenterRepository, IGenericRepository<CenterAddress> centerAddressRepository,
-            IGenericRepository<Appointment> appointmentRepository, BloodBankDbContext context) { 
+            IGenericRepository<Appointment> appointmentRepository, IGenericRepository<CancelledAppointment> cancelledAppointmentRepository,
+            BloodBankDbContext context) { 
             _accountRepository = accountRepository;
             _donorRepository = donorRepository;
             _staffRepository = staffRepository;
@@ -32,6 +34,7 @@ namespace BloodBankAPI.UnitOfWork
             _context = context;
             _bloodCenterRepository= bloodCenterRepository;
             _centerAddressRepository= centerAddressRepository;
+            _cancelledAppointmentRepository= cancelledAppointmentRepository;
         }
 
         public IGenericRepository<CenterAddress> AddressRepository { get { return _centerAddressRepository; } }
@@ -41,6 +44,7 @@ namespace BloodBankAPI.UnitOfWork
         public IGenericRepository<Staff> StaffRepository { get { return _staffRepository; } }
         public IGenericRepository<Admin> AdminRepository { get { return _adminRepository; } }
         public IGenericRepository<Appointment> AppointmentRepository { get { return _appointmentRepository; } }
+        public IGenericRepository<CancelledAppointment> CancelledAppointmentRepository { get { return _cancelledAppointmentRepository; } }
         public IGenericRepository<Form> FormRepository { get { return _formRepository; } }
         public IGenericRepository<Question> QuestionRepository { get { return _questionRepository; } }
 

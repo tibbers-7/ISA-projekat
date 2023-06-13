@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-//import { NgToastService } from 'ng-angular-popup';
-import { User } from 'app/model/user.model';
 import { AuthService } from 'app/services/auth.service';
 import { Router } from '@angular/router';
-import { RegDTO } from 'app/model/regDTO.model';
 import { NgToastService } from 'ng-angular-popup';
+import { LoginDTO } from 'app/model/loginDTO';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +11,7 @@ import { NgToastService } from 'ng-angular-popup';
 })
 export class LoginComponent implements OnInit {
 
-  public user=new RegDTO();
+  public user=new LoginDTO();
   public variable='';
 
   constructor(private router: Router,private authService:AuthService, private toast:NgToastService) { }

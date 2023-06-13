@@ -15,6 +15,7 @@ namespace BloodBankAPI.Services.Forms
         public async Task Create(Form form)
         {
            await _unitOfWork.FormRepository.InsertAsync(form);
+           await _unitOfWork.SaveAsync();
         }
 
         public async Task<IEnumerable<Form>> GetAll()
@@ -38,9 +39,10 @@ namespace BloodBankAPI.Services.Forms
             return !form.Answers[0];
         }
 
-        public void Update(Form form)
+        public async Task Update(Form form)
         {
             _unitOfWork.FormRepository.Update(form);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

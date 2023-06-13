@@ -30,7 +30,7 @@ export class ChangePasswordComponent {
   }
 
   changePassword(){
-    if(!this.checkValidity()) return;
+  ///  if(!this.checkValidity()) return;
 
     var uId=Number(this.authService.getUserId());
     console.log(uId);
@@ -38,7 +38,7 @@ export class ChangePasswordComponent {
     this.userService.getUser(uId).subscribe(res=>{
       this.email=res.email;
     })
-
+/*
     this.authService.authenticate(this.email,this.oldPassword).subscribe(res=>{
       this.authService.changePass(this.email,this.newPassword).subscribe(res=>{
         this.toast.success({detail:'Password changed!',duration:3000});
@@ -50,6 +50,7 @@ export class ChangePasswordComponent {
     },error=>{
       this.toast.error({detail:'Incorrect password!',summary:"Something went wrong.",duration:3000});
     })
+    */
   }
 
   checkValidity(){

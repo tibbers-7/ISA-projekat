@@ -26,21 +26,16 @@ export class AuthService {
     }
 
     registerDonor(donor: DonorRegistrationDTO): Observable<any> {
-      return this.http.post<any>(this.apiHost + 'api/Credentials/register/donor', donor, { headers: this.headers });
+      return this.http.post<any>(this.apiHost + '/Register/Donor', donor, { headers: this.headers });
   }
 
     registerAdmin(admin: AdminRegistrationDTO): Observable<any> {
-      return this.http.post<any>(this.apiHost + 'api/Credentials/register/admin', admin, { headers: this.headers });
+      return this.http.post<any>(this.apiHost + '/Register/Admin', admin, { headers: this.headers });
     }
 
     changePass(email:string,newPass:string):Observable<any>{
-      return this.http.put<any>(this.apiHost + 'api/Credentials/changePassword?email=' + email+'&newPass='+newPass, { headers: this.headers });
+      return this.http.put<any>(this.apiHost + '/ChangePassword?email=' + email+'&newPass='+newPass, { headers: this.headers });
     }
-
-    authenticate(email:string,password:string){
-      return this.http.put<any>(this.apiHost + 'api/Credentials/authenticate?email=' + email+'&password='+password, { headers: this.headers });
-    }
-
 
   public setSession(token:any) {
     //localStorage.setItem('currentUser', JSON.stringify(token));
