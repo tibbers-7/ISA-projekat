@@ -43,5 +43,11 @@ namespace BloodBankAPI.Model
         {
             return (Location)locs.Dequeue();
         }
+
+        public bool IsEmpty()
+        {
+            if (locs.Count == 0) return true;
+            return false;
+        }
     }
 }

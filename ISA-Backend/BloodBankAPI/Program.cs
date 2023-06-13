@@ -1,3 +1,4 @@
+using BloodBankAPI.Materials.Consumer;
 using BloodBankAPI.Materials.EmailSender;
 using BloodBankAPI.Materials.PasswordHasher;
 using BloodBankAPI.Materials.QRGenerator;
@@ -44,25 +45,11 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped( typeof(IGenericRepository<>),typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-    
-    var emailConfig = builder.Configuration.GetSection("EmailConfiguration")
+
+var emailConfig = builder.Configuration.GetSection("EmailConfiguration")
     .Get<EmailConfiguration>();
     builder.Services.AddSingleton(emailConfig);
 
-    builder.Services.AddMassTransit(config =>
-    {
-        config.AddConsumer<LocationConsumer>();
-        config.UsingRabbitMq((ctx, cfg) =>
-        {
-            // za publisher je samo host msm da ako je oba da je na jednom mestu
-            cfg.Host("amqp://guest:guest@localhost:5672");
-
-            cfg.ReceiveEndpoint("location-queue", c =>
-            {
-                c.ConfigureConsumer<LocationConsumer>(ctx);  //napravi klasu koja impl IConsumer<Order>
-            });
-        });
-    });
 
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -109,10 +96,20 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
              });
     });
 
-    var app = builder.Build();
+builder.Configuration.AddJsonFile("appsettings.json");
 
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
+// Create the RabbitMQ consumer
+var config = builder.Configuration;
+var consumer = new ConsumerService(config);
+
+
+var app = builder.Build();
+
+// Start the RabbitMQ consumer
+consumer.ConsumeMessages();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
         app.UseSwaggerUI(options =>

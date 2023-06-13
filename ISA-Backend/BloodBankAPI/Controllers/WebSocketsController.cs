@@ -51,43 +51,19 @@ namespace BloodBankAPI.Controllers
             //Wait until client initiates a request.
             _logger.Log(LogLevel.Information, "Message received from Client");
 
-            var factory = new ConnectionFactory()
-            {
-                HostName = "localhost",
-                UserName = "user",
-                Password = "password",
-                VirtualHost = "/"
-            };
-
-            var connection = factory.CreateConnection();
-            using var channel = connection.CreateModel();
-            channel.QueueDeclare("locations", durable: true, exclusive: false, autoDelete:false);
+            
 
 
             //Going into a loop until the client closes the connection
             while (!result.CloseStatus.HasValue)
             {
-                var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (model, eventArgs) =>
+
+                if (!storage.IsEmpty())
                 {
-                    var body = eventArgs.Body.ToArray();
-                    var message = Encoding.UTF8.GetString(body);
-                    Location loc=JsonSerializer.Deserialize<Location>(message);
-                    //await webSocket.SendAsync(new ArraySegment<byte>(serverMsg, 0, serverMsg.Length), result.MessageType, result.EndOfMessage, CancellationToken.None);
-                    //_logger.Log(LogLevel.Information, "Message sent to Client");
-                    storage.Store(loc);
-                };
-
-                channel.BasicConsume(queue: "locations", autoAck: true, consumer: consumer);
-                Console.ReadKey();
-                //ako je nova posalji je na front
-
-                var serverMsg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(storage.Retrieve()));
-                await webSocket.SendAsync(new ArraySegment<byte>(serverMsg, 0, serverMsg.Length), result.MessageType, result.EndOfMessage, CancellationToken.None);
-                _logger.Log(LogLevel.Information, "Message sent to Client");
-
-
-
+                    var serverMsg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(storage.Retrieve()));
+                    await webSocket.SendAsync(new ArraySegment<byte>(serverMsg, 0, serverMsg.Length), result.MessageType, result.EndOfMessage, CancellationToken.None);
+                    _logger.Log(LogLevel.Information, "Message sent to Client");
+                }            
 
                 //Wait until the client send another request.
                 result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
