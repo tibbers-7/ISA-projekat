@@ -105,8 +105,7 @@ var consumer = new ConsumerService(config);
 
 var app = builder.Build();
 
-// Start the RabbitMQ consumer
-consumer.ConsumeMessages();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -129,3 +128,6 @@ if (app.Environment.IsDevelopment())
     app.Run();
 
 
+
+// Start the RabbitMQ consumer
+consumer.ConsumeMessages();
