@@ -4,6 +4,8 @@ using System.Text;
 using System.Text.Json;
 using BloodBankAPI.Model;
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 namespace BloodBankAPI.Controllers
 {
@@ -13,7 +15,6 @@ namespace BloodBankAPI.Controllers
     {
         private readonly ILogger<WebSocketsController> _logger;
         private readonly HttpClient client;
-
 
         public WebSocketsController(ILogger<WebSocketsController> logger)
         {
@@ -50,35 +51,42 @@ namespace BloodBankAPI.Controllers
             //Wait until client initiates a request.
             _logger.Log(LogLevel.Information, "Message received from Client");
 
-            string url = "https://localhost:44371/Location";
-            //posalji sledecu lokaciju
-            await client.GetStringAsync(url);
+            var factory = new ConnectionFactory()
+            {
+                HostName = "localhost",
+                UserName = "user",
+                Password = "password",
+                VirtualHost = "/"
+            };
+
+            var connection = factory.CreateConnection();
+            using var channel = connection.CreateModel();
+            channel.QueueDeclare("locations", durable: true, exclusive: true);
 
 
             //Going into a loop until the client closes the connection
             while (!result.CloseStatus.HasValue)
             {
-                for (int i = 1; i <= 14; i++)
+                var consumer = new EventingBasicConsumer(channel);
+                consumer.Received += (model, eventArgs) =>
                 {
-                    
-                   
+                    var body = eventArgs.Body.ToArray();
+                    var message = Encoding.UTF8.GetString(body);
 
-                    Thread.Sleep(1000);
+                    var serverMsg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
+                    //await webSocket.SendAsync(new ArraySegment<byte>(serverMsg, 0, serverMsg.Length), result.MessageType, result.EndOfMessage, CancellationToken.None);
+                    //_logger.Log(LogLevel.Information, "Message sent to Client");
+                    storage.isNew = false;
+                    _logger.Log(LogLevel.Information,message);
+                };
 
-                    // await LocationConsumer.Consume();
-                    //dobavi lokaciju koja je primljena
-                    //meni ovde stalno null iako kad proverim vidim da je zabelezena
-                    if (storage.locs.Count!=0)
-                    {
-                        var loc = storage.locs.Dequeue();
-                        //ako je nova posalji je na front
-                        var serverMsg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(loc));
-                        await webSocket.SendAsync(new ArraySegment<byte>(serverMsg, 0, serverMsg.Length), result.MessageType, result.EndOfMessage, CancellationToken.None);
-                        _logger.Log(LogLevel.Information, "Message sent to Client");
-                        storage.isNew = false;
+                channel.BasicConsume(queue: "orders", autoAck: true, consumer: consumer);
+                Console.ReadKey();
+                //ako je nova posalji je na front
+                
                         
-                    }
-                }                
+                    
+                                
                 //Wait until the client send another request.
                 result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                     _logger.Log(LogLevel.Information, "Message received from Client");
