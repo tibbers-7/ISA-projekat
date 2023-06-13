@@ -3,6 +3,7 @@ using Npgsql;
 
 using BloodBankAPI.Model;
 using BloodBankAPI.Materials.Enums;
+using BloodBankLibrary.Core.BloodSubscription;
 
 namespace BloodBankAPI.Settings
 {
@@ -18,6 +19,7 @@ namespace BloodBankAPI.Settings
         public DbSet<Staff> Staff { get; set; }
         public DbSet<Admin> Admins { set; get; }
         public DbSet<CenterAddress> CenterAddresses { get; set; }
+        public DbSet<BloodSubscription> BloodSubscriptions { get; set; }
 
         public BloodBankDbContext(DbContextOptions<BloodBankDbContext> options) : base(options) {
 

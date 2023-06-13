@@ -1,5 +1,6 @@
 ﻿using BloodBankAPI.Model;
 using BloodBankAPI.Repository;
+using BloodBankLibrary.Core.BloodSubscription;
 
 namespace BloodBankAPI.UnitOfWork
 {
@@ -15,6 +16,7 @@ namespace BloodBankAPI.UnitOfWork
         IGenericRepository<Form> FormRepository { get; }
         IGenericRepository<Question> QuestionRepository { get; }
         IGenericRepository<CancelledAppointment> CancelledAppointmentRepository { get; }
+        IGenericRepository<BloodSubscription> BloodSubscriptionRepository { get; }
 
         Task SaveAsync();
 

@@ -1,6 +1,7 @@
 ﻿using BloodBankAPI.Model;
 using BloodBankAPI.Repository;
 using BloodBankAPI.Settings;
+using BloodBankLibrary.Core.BloodSubscription;
 
 namespace BloodBankAPI.UnitOfWork
 {
@@ -16,6 +17,7 @@ namespace BloodBankAPI.UnitOfWork
         private readonly IGenericRepository<CenterAddress> _centerAddressRepository;
         private readonly IGenericRepository<Appointment> _appointmentRepository;
         private readonly IGenericRepository<CancelledAppointment> _cancelledAppointmentRepository;
+        private readonly IGenericRepository<BloodSubscription> _bloodSubscriptionRepository;
         private readonly BloodBankDbContext _context;
 
         public UnitOfWork(IGenericRepository<Account> accountRepository, IGenericRepository<Donor> donorRepository,
@@ -23,7 +25,7 @@ namespace BloodBankAPI.UnitOfWork
             IGenericRepository<Question> questionRepository, IGenericRepository<Form> formRepository,
             IGenericRepository<BloodCenter> bloodCenterRepository, IGenericRepository<CenterAddress> centerAddressRepository,
             IGenericRepository<Appointment> appointmentRepository, IGenericRepository<CancelledAppointment> cancelledAppointmentRepository,
-            BloodBankDbContext context) { 
+            IGenericRepository<BloodSubscription> bloodSubscriptionRepository, BloodBankDbContext context) { 
             _accountRepository = accountRepository;
             _donorRepository = donorRepository;
             _staffRepository = staffRepository;
@@ -35,6 +37,7 @@ namespace BloodBankAPI.UnitOfWork
             _bloodCenterRepository= bloodCenterRepository;
             _centerAddressRepository= centerAddressRepository;
             _cancelledAppointmentRepository= cancelledAppointmentRepository;
+            _bloodSubscriptionRepository= bloodSubscriptionRepository;
         }
 
         public IGenericRepository<CenterAddress> AddressRepository { get { return _centerAddressRepository; } }
