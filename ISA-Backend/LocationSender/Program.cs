@@ -16,15 +16,15 @@ var factory = new ConnectionFactory()
 var connection = factory.CreateConnection();
 
 // create new channel if one doesnt alr exist
-using var channel = connection.CreateModel();
+var channel = connection.CreateModel();
 
 //create queue
-channel.QueueDeclare("locations", durable: true, exclusive: true);
+channel.QueueDeclare("locations", durable: true, exclusive: false, autoDelete: false) ;
 
 IDictionary<int, Location> locations;
 
 locations = new Dictionary<int, Location>();
-IEnumerable<string> lines = File.ReadLines("locations.txt");
+IEnumerable<string> lines = File.ReadLines(Directory.GetCurrentDirectory() + "/locations.txt");
 
 
 foreach (string line in lines)
@@ -36,6 +36,9 @@ foreach (string line in lines)
     var jsonString = JsonSerializer.Serialize(location);
     var body = Encoding.UTF8.GetBytes(jsonString);
     channel.BasicPublish("", "locations", body: body);
+    Console.WriteLine("Published " + location);
+
+    Thread.Sleep(1000);
 }
 
 

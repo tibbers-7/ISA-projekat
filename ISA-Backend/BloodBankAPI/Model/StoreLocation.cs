@@ -38,5 +38,10 @@ namespace BloodBankAPI.Model
             locs.Enqueue(loc);
             isNew = true;
         }
+
+        public Location Retrieve()
+        {
+            return (Location)locs.Dequeue();
+        }
     }
 }
