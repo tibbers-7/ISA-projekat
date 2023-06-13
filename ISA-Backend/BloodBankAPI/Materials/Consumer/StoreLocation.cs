@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using BloodBankAPI.Materials.Consumer;
+using System.Collections;
 
 namespace BloodBankAPI.Model
 {
-    public class StoreLocation
+    public class StoreLocation : IStoreLocation
     {
 
         public Location storedLoc { get; set; }
@@ -37,6 +38,17 @@ namespace BloodBankAPI.Model
             storedLoc = loc;
             locs.Enqueue(loc);
             isNew = true;
+        }
+
+        public Location Retrieve()
+        {
+            return (Location)locs.Dequeue();
+        }
+
+        public bool IsEmpty()
+        {
+            if (locs.Count == 0) return true;
+            return false;
         }
     }
 }
