@@ -8,9 +8,13 @@ namespace BloodBankAPI.Materials.Consumer
 {
 
 
-    public class ConsumerService 
+    public class ConsumerService : BackgroundService
     {
         private readonly IConfiguration _configuration;
+        private readonly IServiceProvider serviceProvider;
+
+        IConnection connection;
+        RabbitMQ.Client.IModel channel;
 
         public ConsumerService(IConfiguration configuration)
         {
@@ -19,22 +23,24 @@ namespace BloodBankAPI.Materials.Consumer
 
         public async Task ConsumeMessages()
         {
+            
+
+        }
+
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
             StoreLocation storage = StoreLocation.Instance;
 
-            var factory = new ConnectionFactory
+            var factory = new ConnectionFactory { HostName = "localhost", Port = 5672, UserName = "guest", Password = "guest" };
+            try
             {
-                Uri = new Uri(_configuration["RabbitMQ:ConnectionString"])
-            };
-
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                channel.QueueDeclare(
-                    queue: _configuration["RabbitMQ:QueueName"],
-                    durable: true, 
-                    exclusive: false, 
-                    autoDelete: false
-                );
+                connection = factory.CreateConnection();
+                channel = connection.CreateModel();
+                channel.QueueDeclare(queue: "locations",
+                                      durable: true,
+                                      exclusive: false,
+                                      autoDelete: false,
+                                      arguments: null);
 
                 var consumer = new EventingBasicConsumer(channel);
                 consumer.Received += (sender, ea) =>
@@ -48,16 +54,17 @@ namespace BloodBankAPI.Materials.Consumer
                     storage.Store(loc);
                 };
 
-                channel.BasicConsume(
-                    queue: _configuration["RabbitMQ:QueueName"],
-                    autoAck: true,
-                    consumer: consumer
-                );
+                channel.BasicConsume(queue: "locations",
+                                       autoAck: true,
+                                       consumer: consumer);
 
-                Console.WriteLine("Consumer started. Press any key to exit.");
-                await Task.Run(() => Console.ReadKey());
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            };
 
+            return Task.CompletedTask;
         }
     }
 }

@@ -47,9 +47,12 @@ export class DeliveryMapComponent {
        const marker = new mapboxgl.Marker()
       .setLngLat([this.location.Longitude,this.location.Latitude]);
       
+      //this.removeMarkers();
       this.currentMarker=marker;
       this.currentMarker.addTo(this.map);
     
+    },error=>{
+      console.log(error);
     }); 
   }
 
@@ -70,6 +73,7 @@ export class DeliveryMapComponent {
 
   // zapocinjanje streaminga lokacija
   sendMsg() {
+
     let message = {
       source: '',
       content: ''

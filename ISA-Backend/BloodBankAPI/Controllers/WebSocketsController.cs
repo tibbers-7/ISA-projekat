@@ -16,15 +16,13 @@ namespace BloodBankAPI.Controllers
     {
         private readonly ILogger<WebSocketsController> _logger;
         private readonly HttpClient client;
-        private readonly IStoreLocation storage;
-        private readonly IConsumerService consumerService;
+        private readonly StoreLocation storage;
 
-        public WebSocketsController(ILogger<WebSocketsController> logger, IStoreLocation storage, IConsumerService consumerService)
+        public WebSocketsController(ILogger<WebSocketsController> logger)
         {
             _logger = logger;
             client = new HttpClient();
-            this.storage = storage;
-            this.consumerService = consumerService;
+            this.storage = StoreLocation.Instance;
 
         }
 
@@ -55,7 +53,6 @@ namespace BloodBankAPI.Controllers
             //Wait until client initiates a request.
             _logger.Log(LogLevel.Information, "Message received from Client");
 
-            consumerService.ConsumeMessages();
             
 
 

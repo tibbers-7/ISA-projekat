@@ -59,7 +59,9 @@ export class WebsocketService {
             complete: ()=>{},
             next: (data: Object) => {
                 console.log('Message sent to websocket: ', data);
+                console.log(ws)
                 if (ws.readyState === WebSocket.OPEN) {
+                    console.log("OPENED")
                     ws.send(JSON.stringify(data));
                 }
             }

@@ -51,6 +51,8 @@ namespace BloodBankAPI.UnitOfWork
         public IGenericRepository<Form> FormRepository { get { return _formRepository; } }
         public IGenericRepository<Question> QuestionRepository { get { return _questionRepository; } }
 
+        public IGenericRepository<BloodSubscription> BloodSubscriptionRepository => throw new NotImplementedException();
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();

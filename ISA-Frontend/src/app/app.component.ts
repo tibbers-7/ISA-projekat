@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'BloodBankFront';
+  map: mapboxgl.Map;
+  style = '';
+  lat = 13.0569951;
+  lng = 80.20929129999999;
+  message = 'Hello World!';
 }

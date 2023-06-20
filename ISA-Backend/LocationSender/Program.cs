@@ -8,8 +8,8 @@ using System.Text.Json;
 var factory = new ConnectionFactory()
             {
                 HostName = "localhost",
-                UserName ="user",
-                Password = "password",
+                UserName ="guest",
+                Password = "guest",
                 VirtualHost ="/"
             };
 

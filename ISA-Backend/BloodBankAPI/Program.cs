@@ -49,7 +49,7 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped( typeof(IGenericRepository<>),typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IStoreLocation,StoreLocation>();
-
+builder.Services.AddHostedService<ConsumerService>();
 
 var emailConfig = builder.Configuration.GetSection("EmailConfiguration")
     .Get<EmailConfiguration>();
@@ -111,6 +111,14 @@ var consumer = new ConsumerService(config);
 
 var app = builder.Build();
 
+/*app.Use(async (context, next) =>
+{
+    // Run the RabbitMQ consumer asynchronously
+    await consumer.ConsumeMessages();
+
+    // Call the next middleware in the pipeline
+    await next();
+});*/
 
 
 // Configure the HTTP request pipeline.
@@ -133,14 +141,7 @@ if (app.Environment.IsDevelopment())
 
 
 
-app.Use(async (context, next) =>
-{
-    // Run the RabbitMQ consumer asynchronously
-    await consumer.ConsumeMessages();
 
-    // Call the next middleware in the pipeline
-    await next();
-});
 
 
 app.Run();
