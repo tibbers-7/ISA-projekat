@@ -68,8 +68,8 @@ namespace BloodBankAPI.Controllers
                 }            
 
                 //Wait until the client send another request.
-               /* result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                    _logger.Log(LogLevel.Information, "Message received from Client");*/
+                //result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                  //_logger.Log(LogLevel.Information, "Message received from Client");
                 
 
             }

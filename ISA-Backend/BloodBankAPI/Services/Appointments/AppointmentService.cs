@@ -382,34 +382,23 @@ namespace BloodBankAPI.Services.Appointments
 
         }
 
+
         public async Task<bool> SchedulePredefinedAppointment(AppointmentRequestDTO dto)
         {
-            try
-            {
-                // Acquire a lock to ensure exclusive access to the critical section
-                lock (_appointmentLock)
-                {
-                    Appointment appointment = _mapper.Map<Appointment>(dto);
 
-                    if (appointment.Status == AppointmentStatus.SCHEDULED)
-                    {
-                        // If the appointment is already scheduled, send cancellation and return false
-                        SendQRCancelled(appointment, 1).GetAwaiter().GetResult();
-                        return false;
-                    }
-
-                    // If the appointment is not yet scheduled, proceed with scheduling
-                    SendQRScheduled(appointment).GetAwaiter().GetResult();
-                    return true;
-                }
-            }
-            catch (Exception ex)
+            Appointment appointment = _mapper.Map<Appointment>(dto);
+            if (appointment.Status == AppointmentStatus.SCHEDULED)
             {
-                // Handle any exceptions that occur during the scheduling process
-                throw new Exception("An error occurred while scheduling the appointment.", ex);
+                // If the appointment is already scheduled, send cancellation and return false
+                await SendQRCancelled(appointment, 1);
+                return false;
             }
 
+            // If the appointment is not yet scheduled, proceed with scheduling
+            await SendQRScheduled(appointment);
+            return true;
 
         }
+
     }
 }

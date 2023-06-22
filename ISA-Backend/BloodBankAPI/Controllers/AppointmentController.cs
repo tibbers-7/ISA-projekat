@@ -126,27 +126,7 @@ namespace BloodBankAPI.Controllers
 
         }
 
-        // Ovo je za zakazivanje postojecih od strane donora
-        [HttpPost("schedule/predefined")]
-        public async Task<ActionResult> SchedulePredefined(AppointmentRequestDTO dto)
-        {
-            if (!ModelState.IsValid)
-            {
-           
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-
-                if(await _appointmentService.SchedulePredefinedAppointment(dto))
-                    return BadRequest("Unavailable");
-                return Ok();
-            }catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+       
 
         //otkazivanje pregleda odradjeno
         [HttpPost("cancel")]
@@ -283,6 +263,35 @@ namespace BloodBankAPI.Controllers
             }
            
 
+        }
+
+        // Ovo je za zakazivanje postojecih od strane donora
+        [HttpPost("schedule/predefined")]
+        public async Task<ActionResult> SchedulePredefined(AppointmentRequestDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable
+                }))
+                {
+                    var success = await _appointmentService.SchedulePredefinedAppointment(dto);
+           scope.Complete(); // Commit the transaction
+                    if (success) return Ok();
+                    return BadRequest("Unavailable");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 

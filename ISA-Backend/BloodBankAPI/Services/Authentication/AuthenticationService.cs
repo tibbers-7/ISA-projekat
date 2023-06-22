@@ -60,7 +60,7 @@ namespace BloodBankAPI.Services.Authentication
             return accounts.FirstOrDefault();
         }
 
-        public async Task<AccessTokenDTO> LogInUserAsync(LoginDTO dto)
+        public async Task<string> LogInUserAsync(LoginDTO dto)
         {
             Account account = await GetUserByEmailAsync(dto.Email);
             var claims = new List<Claim>
@@ -74,7 +74,7 @@ namespace BloodBankAPI.Services.Authentication
             return GenerateToken(claims);
         }
 
-        private AccessTokenDTO GenerateToken(IEnumerable<Claim> claims)
+        private string GenerateToken(IEnumerable<Claim> claims)
         {
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -89,7 +89,7 @@ namespace BloodBankAPI.Services.Authentication
                     signingCredentials: credentials
                     ));
 
-            return new AccessTokenDTO() { AccessToken = token };
+            return token;
         }
 
 
